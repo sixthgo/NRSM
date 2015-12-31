@@ -1,0 +1,98 @@
+﻿controllerModule.controller('CEOReportCUCtrl', function ($scope,$state, $stateParams,$q,$timeout,$ionicLoading,CEOReportService) {
+
+    $scope.base.categoryId = 'managerReport'; // managerReport
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM003';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is ‘inline'
+
+
+    $scope.Init = function () {
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+        defer.resolve();
+    }
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+        $scope.base.swiper();
+    }
+    //$scope.swiper = new Swiper('.swiper-container', {
+    //    pagination: '.swiper-pagination',
+    //    paginationClickable: true
+    //});
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'CEOReportCUCtrl';
+    }
+    $scope.InitData = function () {
+
+        $q.all({
+            execA: $scope.GetCEOReportList('P'),
+            execB: $scope.GetCEOReportList('Q')
+        })
+            .then(
+            function (results) {
+                $scope.debug.Log('InitData()');
+            }
+            , function (error) {
+                $scope.debug.Log('$q error');
+                $ionicLoading.hide();
+            });
+    }
+
+    $scope.GetCEOReportList = function (PorQ) {
+        var defer = $q.defer();
+        CEOReportService.query({
+            gubun:PorQ,
+            group:'CU'
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            var tempTime=data[0].date;
+            $scope.currentTime=tempTime.substring(0,4)+"년"+tempTime.substring(4,6)+"월"+tempTime.substring(6,8)+"일";
+            for(var i=0 ;i<data.length;i++){
+                data[i].sW_SALE_A=parseFloat(data[i].sW_SALE_A);
+                data[i].sW_SALE_G=parseFloat(data[i].sW_SALE_G);
+            }
+            if(PorQ=="P"){
+                $scope.CEOReportPList=data;
+            }else{
+                $scope.CEOReportQList=data;
+                $ionicLoading.hide();
+            }
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+            $ionicLoading.hide();
+        });
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.Init();
+    }
+});

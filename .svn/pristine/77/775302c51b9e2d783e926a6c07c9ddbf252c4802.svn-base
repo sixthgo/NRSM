@@ -1,0 +1,68 @@
+﻿<ion-view view-title="{{word.CEOReportPlant}}">
+    <ion-content class="has-footer ">
+        <div id="container" class="blue" >
+
+            <ul class="tab swiper-pagination swiper-pagination-clickable">
+                <li class="swiper-pagination-bullet swiper-pagination-bullet-active">당일 실적</li>
+                <li class="swiper-pagination-bullet">당월 실적</li>
+            </ul>
+            <div id="date">
+                <p class="left">{{currentTime}} 마감기준</p>
+                <p class="right">단위 : 백만원</p>
+            </div>
+            <div id="table" class="swiper-container" >
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th  width="30%">구분</th>
+                                <th  width="15%">목표</th>
+                                <th  width="13%">실적</th>
+                                <th  width="13%">달성율</th>
+                                <th  width="15%">전년실적</th>
+                                <th  width="13%">성장률</th>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y">
+                            <table>
+                                <tr  ng-repeat="item in CEOReportPList" ng-style="item.flag==1&&{'background':'#ecf3fe'}">
+                                    <td  width="30%" style="white-space: normal;vertical-align:middle">{{item.name}}</td>
+                                    <td  width="15%" style="vertical-align:middle">{{item.plaN_SALES | number}}</td>
+                                    <td  width="13%" style="vertical-align:middle">{{item.reaL_SALES | number}}</td>
+                                    <td   width="13%" style="vertical-align:middle">{{item.sW_SALE_A}}%</td>
+                                    <td   width="15%" style="vertical-align:middle">{{item.sW_SALE | number}}</td>
+                                    <td   width="13%" style="vertical-align:middle">{{item.sW_SALE_G}}%</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th  width="30%">구분</th>
+                                <th  width="15%">목표</th>
+                                <th  width="13%">실적</th>
+                                <th  width="13%">달성율</th>
+                                <th  width="15%">전년실적</th>
+                                <th  width="13%">성장률</th>
+                            </tr>
+                            </table>
+                        <ion-scroll direction="y">
+                            <table>
+                                <tr  ng-repeat="item in CEOReportQList" ng-style="item.flag==1&&{'background':'#ecf3fe'}" >
+                                    <td width="30%" style="white-space: normal; vertical-align:middle">{{item.name}}</td>
+                                    <td width="15%" style="vertical-align:middle">{{item.plaN_SALES | number}}</td>
+                                    <td width="13%" style="vertical-align:middle">{{item.reaL_SALES | number}}</td>
+                                    <td width="13%" style="vertical-align:middle">{{item.sW_SALE_A}}%</td>
+                                    <td width="15%" style="vertical-align:middle">{{item.sW_SALE | number}}</td>
+                                    <td width="13%"style="vertical-align:middle">{{item.sW_SALE_G}}%</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

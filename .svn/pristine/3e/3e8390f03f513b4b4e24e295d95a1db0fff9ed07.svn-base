@@ -1,0 +1,89 @@
+﻿cortrollerModule.controller('BarcodeSendCtrl', function ($scope,
+                                                         $stateParams,
+                                                         $ionicListDelegate,
+                                                         SendBarcodeEmailService,
+                                                         $q,
+                                                         PopupService) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM016';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    //$scope.base.barCode016 = null;
+    
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+
+
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+
+
+    }
+
+    $scope.InitData = function () {
+
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'BarcodeSendCtrl';
+    }
+
+    $scope.Init();
+
+
+    $scope.SaveSalePriceSend = function (){
+        var list = $scope.base.barCodeList;
+        var barCodelist = new Array();
+
+        if (list != null && list != undefined) {
+
+            for (var item in list) {
+                barCodelist.push(list[item].code);
+            }
+            $ionicLoading.show({
+                noBackdrop: true
+            });
+
+            SendBarcodeEmailService.sendBarCodeEmail({
+                barcode: barCodelist.toString(),
+                strSubject: $scope.data.subject,
+                mLinkUserId: $scope.base.loginId
+            },function(data){
+                PopupService.OpenPopupAlert('Message', data.returnMessage, $scope.CleanBarCode(data));
+            }, function (error) {
+                //PopupService.OpenPopupAlert('Message', error);
+                $ionicLoading.hide();
+            });
+        }
+    }
+
+    $scope.CleanBarCode = function (data) {
+        if (data.flag == "SUCCESS"){
+            $scope.base.barCodeList = null;
+        }
+        $ionicLoading.hide();
+    }
+});

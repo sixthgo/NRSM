@@ -1,0 +1,417 @@
+﻿controllerModule.controller('StockRegisterCtrl', function ($scope, $stateParams,$state,$q,$ionicLoading,StockRegisterService,PopupService,UtilService,$cordovaDatePicker) {
+
+    $scope.base.categoryId = 'sc';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM019';
+    $scope.base.SetMenu($scope.base.menuId);
+    $scope.data={};
+    $scope.data.scPolItemList=new Array();
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'none'; // default value is ‘inline'
+
+    $scope.style.showSRCalendarButton='none';
+    $scope.style.showSRIPadCalendarButton='none';
+
+    $scope.data.tempDate = null;
+
+    $scope.tempItemList = [];
+    $scope.selectedItemList = [];
+
+
+    $(".po").css("display","none");
+    $(".pa").css("display","none");
+    $(".savePoabtn").css("display","none");
+
+    $scope.Init = function () {
+        var isIPad = ionic.Platform.isIPad();
+        //isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+            $scope.style.showSRCalendarButton='none';
+            $scope.style.showSRIPadCalendarButton='inline';
+        }
+        else {
+            $scope.style.showSRCalendarButton='inline';
+            $scope.style.showSRIPadCalendarButton='none';
+        }
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.$watch("base.barCode", function () {
+        if ($scope.base.barCode != null && $scope.base.barCode.toString().length > 0) {
+            $scope.AutoSearch();
+        }
+    });
+
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        var isIPad = ionic.Platform.isIPad();
+        if (isIPad == true) {
+            $scope.base.SetCalendarCallbackForIPad($scope.datePickerCallbackForIPad);
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+        $scope.InitData();
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData=function(){
+        var tempTime=new Date();
+        $scope.nowDate= UtilService.FormatDate(tempTime);
+        // $scope.nowDate= "2015-10-14"
+        $scope.data.BoxQty=0;
+        $scope.data.price=0;
+        $scope.data.place=null;
+        //$scope.base.barCode019=null;
+        $scope.data.checkAl=0;
+        $scope.data.shopCode= $scope.user.plantCode == "8000" ? "8206" : $scope.user.plantCode;
+    }
+
+    $scope.SetLocalWord = function () {
+        //$scope.word.title = 'StockRegisterCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.Init();
+    }
+
+    $scope.searchStockR=function(){
+
+        if($scope.data.shopCode==null||$scope.data.shopCode==""||$scope.base.barCode==null||$scope.base.barCode==""){
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            return;
+        }
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        var barCode019=$scope.base.barCode.toString();
+
+        if (barCode019.length == 10 && barCode019.substring(0, 2) == "45"){
+            $q.all({
+                execA: $scope.GetPoPalletItemList()
+            })
+                .then(
+                function (results) {
+                    $scope.debug.Log('InitData()');
+                }
+                , function (error) {
+                    $scope.debug.Log('$q error');
+                });
+        }else{
+            $q.all({
+                execA: $scope.GetPalletItemList()
+            })
+                .then(
+                function (results) {
+                    $scope.debug.Log('InitData()');
+                }
+                , function (error) {
+                    $scope.debug.Log('$q error');
+                });
+        }
+
+    }
+
+    $scope.AutoSearch = function () {
+        if($scope.base.canAutoSearch){
+            $scope.searchStockR();
+        }
+
+        $scope.base.canAutoSearch = false;
+    }
+
+    $scope.GetPoPalletItemList=function(){
+        var defer = $q.defer();
+        StockRegisterService.query({
+            EBELN:$scope.base.barCode,
+            WERKS:$scope.data.shopCode
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            if(data.length>0){
+                var price=0;
+                var list=new Array();
+                for(var i=0 ;i<data.length;i++){
+                    //  data[i].netpr=string.Format("{0:N2}", (Convert.ToDouble(data[i].netpr) * 100));
+                    // data[i].netpr = data[i].netpr * 100;
+                    // data[i].netwr = data[i].netwr * 100;
+                    $scope.data.place=data[i].lifnr.toString()+data[i].namE1;
+                    if(data[i].loevm!="L"){
+                        data[i].netpr = Math.round(data[i].netpr * 100);
+                        data[i].netwr = Math.round(data[i].netwr * 100);
+                        price+=data[i].netwr;
+                        list.push(data[i]);
+                    }
+                }
+                $scope.data.price=price;
+                $(".po").css("display","block");
+                $(".pa").css("display","none");
+                $scope.data.PoPalletItemList=list;
+                $scope.tempItemList = list;
+                $(".savePoabtn").css("display","block");
+            }else{
+                PopupService.OpenPopupAlert("데이터가 존재하지 않습니다.");
+            }
+            $ionicLoading.hide();
+            defer.resolve();
+        }, function (error) {
+            defer.reject(error);
+            $scope.debug.Log(error);
+            $ionicLoading.hide();
+        });
+        return defer.promise;
+    }
+
+    $scope.GetPalletItemList=function(){
+        var defer = $q.defer();
+        StockRegisterService.get(
+            {PALET:$scope.base.barCode,WERKS:$scope.data.shopCode,BUDAT: $scope.nowDate },
+            function(data){
+                if(data.length>0){
+                    var boxQty=0;
+                    for(var i=0 ;i<data.length;i++){
+                        boxQty+=parseFloat(data[i].boxqty);
+                    }
+                    $scope.data.BoxQty=boxQty;
+                    $(".po").css("display","none");
+                    $(".pa").css("display","block");
+                    $scope.data.PalletItemList=data;
+
+                    for(var i = 0; i < $scope.data.PalletItemList.length; i++) {
+                        $scope.data.PalletItemList[i].lfimgc = $scope.data.PalletItemList[i].lfimg;
+                    }
+
+                    $(".savePoabtn").css("display","block");
+
+                }else{
+                    PopupService.OpenPopupAlert("데이터가 존재하지 않습니다.");
+                    $ionicLoading.hide();
+                }
+                $ionicLoading.hide();
+                defer.resolve();
+
+            }, function (error) {
+                defer.reject(error);
+                $scope.debug.Log(error);
+                $ionicLoading.hide();
+            }
+        );
+        return defer.promise;
+    }
+
+    $scope.savePoPalletItemList=function(){
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+        var barCode019=$scope.base.barCode.toString();
+        if (barCode019.length == 10 && barCode019.substring(0, 2) == "45"){
+            var scPoItemList;
+            if($scope.data.checkAll==1){
+                scPoItemList=$scope.data.PoPalletItemList
+            }else if($scope.data.checkAll==2){
+                $ionicLoading.hide();
+                return;
+            }else if($scope.data.checkAll==0){
+                scPoItemList=$scope.selectedItemList;
+            }
+            if( scPoItemList!=undefined&&scPoItemList!=null){
+                var EBELN=$scope.base.barCode;
+                var WERKS=$scope.data.shopCode;
+                var BUDAT= $scope.nowDate;
+                var Params=EBELN+","+WERKS+","+BUDAT;
+                scPoItemList[0].Params=Params;
+            }else{
+                PopupService.OpenPopupAlert("데이터가 존재하지 않습니다.");
+                $ionicLoading.hide();
+                return;
+            }
+            StockRegisterService.save(scPoItemList,function(data){
+                $ionicLoading.hide();
+                PopupService.OpenPopupAlert(data.returnMessage);
+                $(".po").css("display","none");
+                $(".savePoabtn").css("display","none");
+                $scope.base.barCode="";
+                $.each($scope.selectedItemList, function (key, val) {
+                        $scope.selectedItemList.splice($.inArray(val, $scope.selectedItemList), 1);
+                });
+                if($scope.data.checkAll==1){
+                    $(".check_all").find("img").attr("src","img/nrsm/icon_check_gray.png");
+                }
+            },function(error){
+                $ionicLoading.hide();
+            });
+        }else{
+            if($scope.data.PalletItemList.length>0){
+                var EBELN=$scope.base.barCode;
+                var WERKS=$scope.data.shopCode;
+                var BUDAT=$scope.nowDate;
+                var Params=EBELN+","+WERKS+","+BUDAT;
+                $scope.data.PalletItemList[0].Params=Params;
+            }else{
+                $ionicLoading.hide();
+                PopupService.OpenPopupAlert("데이터가 존재하지 않습니다.");
+                return;
+            }
+            var ScPalletItemList=$scope.data.PalletItemList;
+            StockRegisterService.savePa(ScPalletItemList,function(data){
+                $ionicLoading.hide();
+                PopupService.OpenPopupAlert(data.returnMessage);
+                $(".pa").css("display","none");
+                $(".savePoabtn").css("display","none");
+                $scope.base.barCode="";
+                $.each($scope.selectedItemList, function (key, val) {
+                    $scope.selectedItemList.remove(val);
+                });
+            },function(error){
+                $ionicLoading.hide();
+            });
+        }
+    }
+
+    $scope.check=function(item,event) {
+        $scope.data.checkAll=0;
+        var currentItem = $(event.target);
+        var index = currentItem.attr("src").indexOf("icon_check_gray");
+        if (index >= 0) {
+            currentItem.attr("src", "img/nrsm/icon_check_yellow.png");
+            var temp=0;
+        if( $scope.selectedItemList.length>0){
+            for(var i=0;i<$scope.selectedItemList.length;i++){
+                if($scope.selectedItemList[i]==item){
+                 temp=1;
+                }
+            }
+        }
+            if(temp!=1){
+                $scope.selectedItemList.push(item);
+            }
+        } else {
+            currentItem.attr("src", "img/nrsm/icon_check_gray.png");
+            $.each($scope.selectedItemList, function (key, val) {
+                if (item == val) {
+                    $scope.selectedItemList.remove(item);
+                }
+                ;
+            });
+        }
+    }
+
+    $scope.checkAll=function(event){
+            var target=$(event.currentTarget).parent();
+            if(target.hasClass("scActive")){
+                target.removeClass("scActive");
+                $(".check").find("img").attr("src","img/nrsm/icon_check_gray.png");
+                $(event.target).attr("src","img/nrsm/icon_check_gray.png");
+                $scope.data.checkAll=2;
+                $scope.selectedItemList = [];
+            }else{
+                target.addClass("scActive");
+                $(event.target).attr("src","img/nrsm/icon_check_yellow.png");
+                $(".check").find("img").attr("src","img/nrsm/icon_check_yellow.png");
+                $scope.data.checkAll=1;
+                for(var i = 0; i < $scope.data.PoPalletItemList.length; i ++) {
+                    $scope.selectedItemList.push($scope.data.PoPalletItemList[i]);
+                }
+                // $scope.data.scPolItemList = $scope.data.PoPalletItemList;
+                // $scope.selectedItemList = $scope.data.PoPalletItemList;
+            }
+        }
+
+    $scope.OpenDatePick = function () {
+
+        var initDate = $scope.data.tempDate == null ? new Date() : $scope.data.tempDate;
+
+        var options = {
+            date: initDate,
+            mode: 'date', // or 'time'
+            minDate: new Date() -  10 * 365 * 24 * 60 * 60 * 1000,
+            //allowOldDates: true,
+            //allowFutureDates: true,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#000000',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var isIPad = ionic.Platform.isIPad();
+        if (isIPad == true) {
+        }
+        else {
+            $cordovaDatePicker.show(options).then(function(date){
+                var selectedDate;
+                if (date == undefined || date == null) {
+                    selectedDate = new Date();
+                }
+                else {
+                    selectedDate = new Date(date);
+                }
+                $scope.nowDate = UtilService.FormatDate(selectedDate);
+
+                $scope.data.tempDate = selectedDate;
+            });
+        }
+
+    }
+
+    $scope.datePickerCallbackForIPad = function (val) {
+
+        if (typeof (val) === 'undefined') {
+        }
+        else {
+            $scope.nowDate = UtilService.FormatDate(val);
+
+            SetDefaultCalendarDate($scope.nowDate);
+        }
+    }
+
+    $scope.changeWarehousing = function (item, totals, data) {
+        item.netwr = (item.menge * item.netpr);
+        var price = 0;
+        for(var i = 0; i < totals.length; i++) {
+            if(totals[i].loevm!="L"){
+                price += totals[i].netwr; 
+            }
+        }
+
+        console.log('totals : ' + price);
+
+        data.price = price;
+
+    }
+
+    Array.prototype.remove = function () {
+        var what, a = arguments, L = a.length, ax;
+        while (L && this.length) {
+            what = a[--L];
+            while ((ax = this.indexOf(what)) !== -1) {
+                this.splice(ax, 1);
+            }
+        }
+        return this;
+    };
+
+});

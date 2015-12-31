@@ -1,0 +1,156 @@
+#import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioQueue.h>
+#import <AudioToolbox/AudioFile.h>
+#include <AudioToolbox/AudioToolbox.h>
+#include <Foundation/Foundation.h>
+
+typedef enum _SWIPE_RESULT_ {
+    SRESULT_UNKNOWN =       0xFFFFFFFF,
+    SRESULT_ERROR_FRAME =   0x00000000,
+    SRESULT_ERROR_PARITY =  0x00000001,
+    SRESULT_OK  =           0x00000002,
+    SRESULT_EMPTY =         0x00000003,
+    SRESULT_ERROR_FORMAT =  0x00000004,
+    SRESULT_SCAN_FAIL =     0x00000006,
+    SRESULT_POWER_ON =      0x00000007,
+    SRESULT_POWER_OFF =     0x00000008,
+    SRESULT_ERROR_CARDNO =  0x00000009,
+    SRESULT_STATUS =        0x0000000A,
+    SRESULT_ERROR_LRC =     0x0000000B,
+    SRESULT_ICCARD_INSERT=  0x0000000C,
+    SRESULT_ICCARD_EJECT=   0x0000000D,
+} SWIPE_RESULT;
+
+typedef enum _SWIPE_EVENT_ {
+    SEVENT_UNKNOWN =        0xFFFFFFFF,
+    SEVENT_UNPLUG =         0x00000000,
+    SEVENT_PLUG =           0x00000001,
+    SEVENT_MSR =            0x00000002,
+    SEVENT_BARCODE =        0x00000005,
+    SEVENT_EMV_CONTROL =    0x00000006,
+    SEVENT_EMV_DATA =       0x00000007,
+    SEVENT_EMV_MSR =        0x00000008,
+    SEVENT_SWIPE_INFO=     0x00000009,
+    SEVENT_SECURE_MSR=      0x0000000A,
+    SEVENT_MCP_ICCARD=      0x0000000B,
+    SEVENT_MCP_MSR=         0x0000000C,
+    SEVENT_RSA_MSR=         0x0000000D,
+} SWIPE_EVENT;
+
+typedef enum _EMV_RESULT_ {
+    EMV_POWER_ON =      0x00000001,
+    EMV_POWER_OFF =     0x00000002,
+    EMV_IFM_ERROR =     0x00000004,
+    EMV_IFM_MESSAGE =   0x00000008,
+    EMV_CARD_INSERT =   0x00000010,
+    EMV_CARD_EJECT =    0x00000020,
+    EMV_ICCARD_DATA =   0x00000040,
+} EMV_RESULT;
+
+typedef enum __IFM_ERROR__ {
+    SWIFM_CMD_ABORTED       = 0xFF,
+    SWIFM_ICC_MUTE          = 0xFE,
+    SWIFM_XFR_PARITY_ERROR  = 0xFD,
+    SWIFM_HW_ERROR          = 0xFB,
+    SWIFM_BAD_ATR_TS        = 0xF8,
+    SWIFM_BAD_ATR_TCK       = 0xF7,
+    SWIFM_NOT_SUPPORTED     = 0xF6,
+    SWIFM_BYTE_CONFLICT     = 0xF4,
+    SWIFM_NO_AID            = 0x04,
+    SWIFM_CMD_FAILED        = 0x01,
+    SWIFM_CMD_SUCCESS       = 0x00,
+} IFM_ERROR;
+
+
+typedef enum _SWIPE_TYPE_ {
+    SWIPE_MSR =             0x00,
+    SWIPE_BARCODE =         0x01,
+    SWIPE_PAYBAR =          0x02,
+    SWIPE_CHIP =            0x03,
+    SWIPE_MCP =             0x04,
+    SWIPE_LINKPROCESS =     0x05,
+    SWIPE_TEST =            0xFF,
+} SWIPE_TYPE;
+
+
+#define SIZE_TRACK_II           40
+#define SIZE_CARD_HNAME         26
+#define SIZE_CARD_ANAME         17
+
+typedef struct __CARD_INFO__ {
+    unsigned short digits;
+    unsigned short serviceCode;
+    unsigned short showDigit;
+} CARD_INFO;
+#define CARD_INFO_SIZE  6
+
+typedef struct __CHIP_RESULT__ {
+    unsigned short  digits;
+    unsigned short  serviceCode;
+    unsigned short  showDigit;
+    unsigned char   Length;
+    unsigned char   Data[SIZE_TRACK_II];
+} CHIP_RESULT;
+
+typedef struct __EMV_INFO__ {
+    unsigned char   holderNameLen;
+    unsigned char   holderName[26];
+    unsigned char   applNameLen;
+    unsigned char   applName[17];
+    unsigned char   authCode[6];
+    unsigned char   cvmResult[3];
+    unsigned char   aidLen;
+    unsigned char   aid[16];
+    unsigned char   tsi[2];
+    unsigned char   tvr[5];
+    unsigned char   appCrypt[8];
+} EMV_INFO;
+
+@class Swipe;
+
+
+@interface Swipe : NSObject {
+    @public
+    id              notificationDelegate;    
+}
+
+
+@property (nonatomic, retain)	id	notificationDelegate;
+
+
+- (void)            startScan;
+- (void)            stopScan;
+- (void)            scanBeep;
+
+- (NSString *)      getPlatform;
+- (void)            setSwipeType:(SWIPE_TYPE)swipeType;
+- (void)            setValidCheck:(bool) validCheck;
+- (BOOL)            startWatching;
+- (void)            stopWatching:(bool)flag;
+- (void)            setNotificationDelegate: (id) inDelegate;
+- (int)             getTrack: (char *) strTrack;
+- (int)             getBarCode: (char *) strBarCode;
+- (int)             getSecuredTrackII: (UInt8 *)secured;
+- (int)             getRsaEncryptedTrack2 : (UInt8 *)EncTrack2;
+- (BOOL)            getState;
+- (SWIPE_EVENT)		getEvent;
+- (SWIPE_RESULT)	getResult;
+- (IFM_ERROR)       getIfmErrorCode;
+- (int)             getFwVer: (char *) strFwVer;
+- (int)             getLibVer: (char *) strLibVer;
+- (int)             getBatteryVolt;
+- (int)             getBatteryLife;
+- (int)             getCount;
+- (int)             getDeviceMode;
+- (int)             getSerialNo;
+- (char *)          getSerialString;
+- (int)             getCardInfo: (CARD_INFO *)cardInfo;
+- (int)             getChipResult: (CHIP_RESULT *)chipResult;
+- (int)             getEmvInfo: (EMV_INFO *)emvInfo;
+- (int)             getTrack1: (char *)track1Data;
+- (int)             getTrack3: (char *)track3Data;
+@end
+
+
+
+

@@ -1,0 +1,127 @@
+{
+    "cordova-plugin-device": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-device"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-console": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-console"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-whitelist": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-whitelist"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-splashscreen": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-splashscreen"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.ionic.keyboard": {
+        "source": {
+            "type": "registry",
+            "id": "com.ionic.keyboard"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "nl.x-services.plugins.actionsheet": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.phonegap.plugins.barcodescanner": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wildabeast/BarcodeScanner.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-datepicker": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-datepicker"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-dialogs"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-network-information": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-network-information"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.appgiraffe.plugins.applicationPreferences": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dferrell/plugins-application-preferences.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-sqlite-storage": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/litehelpers/Cordova-sqlite-storage.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "nl.x-services.plugins.toast": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.file": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.file"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.apache.cordova.file-transfer": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.file-transfer"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

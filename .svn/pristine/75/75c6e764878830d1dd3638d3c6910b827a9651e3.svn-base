@@ -1,0 +1,19 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('OrderProposalService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/OrderProposal?ekOrg=:ekOrg&ekGrp=:ekGrp&werks=:werks&buDat=:buDat&perNo=:perNo', {
+        ekOrg: '@ekOrg',
+        ekGrp: '@ekGrp',
+        werks: '@werks',
+        buDat: '@buDat',
+        perNo: '@perNo'
+    },
+    {
+        'query': { method: 'GET', isArray: true },
+        'get': { method: 'GET' }
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

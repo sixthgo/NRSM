@@ -1,0 +1,28 @@
+﻿cortrollerModule.controller('CEOReportPlantCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'managerReport'; // managerReport
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM001';
+    $scope.base.SetMenu($scope.base.menuId);
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('CEOReportPlantCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'CEOReportPlantCtrl';
+    }
+
+    $scope.Init();
+});

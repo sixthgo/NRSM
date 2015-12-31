@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/eland/css/eland.css" rel="stylesheet">
+    <link href="lib/eland/css/swiper.css" rel="stylesheet">
+    <link href="lib/eland/js/ngDialog/css/ngDialog.css" rel="stylesheet">
+    <link href="lib/eland/js/ngDialog/css/ngDialog-theme-default.min.css" rel="stylesheet">
+    <link href="lib/eland/js/ngDialog/css/ngDialog-theme-plain.css" rel="stylesheet">
+    <link href="lib/eland/js/ngDialog/css/ngDialog-custom-width.css" rel="stylesheet">
+    <link href="lib/eland/js/jqueryUI/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="lib/eland/js/ionSildeTabs/css/ionSlideTabs.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-nrsm.css" rel="stylesheet">
+    <link href="css/main_ionic_cover.css" rel="stylesheet">
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+    <!-- cordova-app-loader -->
+    <script type="text/javascript" timeout="5100" manifest="manifest.json" src="lib/cordova-app-loader/dist/bootstrap.min.js"></script>
+    <script src="lib/cordova-app-loader/dist/CordovaAppLoader.min.js"></script>
+    <script src="lib/cordova-app-loader/dist/CordovaPromiseFS.min.js"></script>
+  </head>
+  <body ng-app="starter" class="platform-ios platform-cordova platform-webview">
+    <ion-nav-view></ion-nav-view>
+  </body>
+</html>

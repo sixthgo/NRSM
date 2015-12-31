@@ -1,0 +1,62 @@
+﻿@model Formular.BaaS.Domain.Bucket
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Bucket</p>
+              <small>Bucket Manage</small>
+            </blockquote>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<div class="row-fluid">
+    <div class="span12" >
+        
+@using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), ViewContext.RouteData.GetRequiredString("controller"), FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <fieldset>
+        <legend>Bucket</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Id, new { @class = "control-label" })
+            <div class="controls">
+                 @Html.DisplayFor(model => model.Id)
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name, "", new { placeholder = "Name" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.CreateDate, new { @class = "control-label" })
+            <div class="controls">
+                @Html.DisplayFor(model => model.CreateDate)
+            </div>
+        </div>
+        <p>
+            <button type="submit" class="btn btn-success"><i class="icon-pencil"></i> Edit</button>
+        </p>
+    </fieldset>
+}
+    </div>
+</div>
+

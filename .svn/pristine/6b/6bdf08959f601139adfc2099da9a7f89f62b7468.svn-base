@@ -1,0 +1,24 @@
+﻿cortrollerModule.controller('ReportStoreCtrl', function ($scope, $stateParams) {
+
+    $scope.base.viewId = 'NRSM001';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;    // status save to Favorite 
+
+    $scope.Init = function () {
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+        }
+
+        // [scheduled] move to root controller
+        $scope.SetLocalWord();
+        $scope.base.snapshot = '';
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Report Store';
+    }
+
+    $scope.Init();
+});

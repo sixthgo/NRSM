@@ -1,0 +1,193 @@
+﻿using Eland.NRSM.Core.Services;
+using Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO;
+using Formular.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain = Eland.NRSM.Core.Domain;
+
+namespace Eland.NRSM.Template.Services
+{
+    public class QueryMaterialPriceInfoService : GenericService<Domain.MaterialPriceInfo>, IQueryMaterialPriceInfoService
+    {
+        public Domain.MaterialPriceInfo GetMaterialPriceInforList(string werks, string matnr)
+        {
+            Domain.MaterialPriceInfo dto = new Domain.MaterialPriceInfo();
+
+            QueryMaterialPriceInfoClient client = new QueryMaterialPriceInfoClient();
+            client.ClientCredentials.UserName.UserName = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_USERNAME"];
+            client.ClientCredentials.UserName.Password = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_PASSWORD"];
+
+            MaterialPriceInfoQuery_sync param = new MaterialPriceInfoQuery_sync();
+
+            param.WERKS = werks;
+            param.MATNR = matnr;
+
+            MaterialPriceInfoResponse_sync respone = client.MaterialPriceInfoQueryResponse_In(param);
+
+            if (respone != null)
+            {
+                foreach (MaterialPriceList item in respone.MaterialPriceList)
+                {
+                    dto.bISMT = item.BISMT;
+                    dto.dATAB = item.DATAB;
+                    dto.dPTPR = item.DPTPR;
+                    dto.eAN11 = item.EAN11;
+                    dto.eKGRP = item.EKGRP;
+                    dto.gESME = item.GESME;
+                    dto.gUBUN = item.GUBUN;
+                    dto.gUBUN_T = item.GUBUN_T;
+                    dto.kONWA = item.KONWA;
+                    dto.lABST = item.LABST;
+                    dto.lABST_1 = item.LABST_1;
+                    dto.mAKTX = item.MAKTX;
+                    dto.mATNR = item.MATNR;
+                    dto.mATNR1 = item.MATNR1;
+                    dto.mEINS = item.MEINS;
+                    dto.nOCTL = item.NOCTL;
+                    dto.pERNO = item.PERNO;
+                    dto.pRICE = item.PRICE;
+                    dto.sTPRC = item.STPRC;
+                    dto.tOQTY = item.TOQTY;
+                    dto.tOTAL = item.TOTAL;
+                    dto.wERKS = item.WERKS;
+                    dto.zCNT = item.ZCNT;
+                    dto.zFLAG = item.ZFLAG;
+                    dto.zFLAG_T = item.ZFLAG_T;
+                    dto.zRSUM = item.ZRSUM;
+                    dto.Flag = respone.Flag;
+                    dto.ReturnMessage = respone.ReturnMessage;
+                }
+
+            }
+
+
+            return dto;
+        }
+
+        public List<Domain.MaterialPriceInfo> GetMaterialPriceInforListAll(string burks, string matnr)
+        {
+            List<Domain.MaterialPriceInfo> list = new List<Domain.MaterialPriceInfo>();
+            Domain.MaterialPriceInfo dto = null;
+
+            QueryMaterialPriceInfoClient client = new QueryMaterialPriceInfoClient();
+            client.ClientCredentials.UserName.UserName = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_USERNAME"];
+            client.ClientCredentials.UserName.Password = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_PASSWORD"];
+
+            MaterialPriceInfoAllQuery_sync param = new MaterialPriceInfoAllQuery_sync();
+
+            param.BUKRS = burks;
+            param.MATNR = matnr;
+
+            MaterialPriceInfoResponse_sync respone = client.MaterialPriceInfoAllQueryResponse_In(param);
+
+            if (respone != null)
+            {
+                foreach (MaterialPriceList item in respone.MaterialPriceList)
+                {
+                    dto = new Domain.MaterialPriceInfo();
+                    dto.bISMT = item.BISMT;
+                    dto.dATAB = item.DATAB;
+                    dto.dPTPR = item.DPTPR;
+                    dto.eAN11 = item.EAN11;
+                    dto.eKGRP = item.EKGRP;
+                    dto.gESME = item.GESME;
+                    dto.gUBUN = item.GUBUN;
+                    dto.gUBUN_T = item.GUBUN_T;
+                    dto.kONWA = item.KONWA;
+                    dto.lABST = item.LABST;
+                    dto.lABST_1 = item.LABST_1;
+                    dto.mAKTX = item.MAKTX;
+                    dto.mATNR = item.MATNR;
+                    dto.mATNR1 = item.MATNR1;
+                    dto.mEINS = item.MEINS;
+                    dto.nOCTL = item.NOCTL;
+                    dto.pERNO = item.PERNO;
+                    dto.pRICE = item.PRICE;
+                    dto.sTPRC = item.STPRC;
+                    dto.tOQTY = item.TOQTY;
+                    dto.tOTAL = item.TOTAL;
+                    dto.wERKS = item.WERKS;
+                    dto.zCNT = item.ZCNT;
+                    dto.zFLAG = item.ZFLAG;
+                    dto.zFLAG_T = item.ZFLAG_T;
+                    dto.zRSUM = item.ZRSUM;
+                    dto.Flag = respone.Flag;
+                    dto.ReturnMessage = respone.ReturnMessage;
+
+                    list.Add(dto);
+                }
+
+            }
+
+
+            return list;
+
+        }
+
+        public Domain.MaterialInforDetail GetMaterialInforDetail(Domain.MaterialPriceInfo materialPrice)
+        {
+            Domain.MaterialInforDetail returnDto = null;//new Domain.MaterialInforDetail();
+
+            List<Domain.MaterialInforDetail> list = new List<Domain.MaterialInforDetail>();
+
+            QueryMaterialPriceInfoClient client = new QueryMaterialPriceInfoClient();
+            client.ClientCredentials.UserName.UserName = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_USERNAME"];
+            client.ClientCredentials.UserName.Password = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_PASSWORD"];
+
+            MaterialInformationQuery_sync param = new MaterialInformationQuery_sync();
+
+            MaterialPriceList dto = new MaterialPriceList();
+
+            dto.BISMT = materialPrice.bISMT;
+            dto.DATAB = materialPrice.dATAB;
+            dto.DATABSpecified = true;
+            dto.DPTPR = materialPrice.dPTPR;
+            dto.DPTPRSpecified = true;
+            dto.EAN11 = materialPrice.eAN11;
+            dto.EKGRP = materialPrice.eKGRP;
+            dto.MATNR = materialPrice.mATNR;
+            dto.WERKS = materialPrice.wERKS;
+            dto.GESMESpecified = true;
+            dto.LABST_1Specified = true;
+            dto.LABSTSpecified = true;
+            dto.STPRCSpecified = true;
+            dto.TOQTYSpecified = true;
+            dto.TOTALSpecified = true;
+            dto.ZCNTSpecified = true;
+            
+            
+            param.MaterialPriceList = dto;
+
+            MaterialInformationResponse_sync respone = client.MaterialInformationQueryResponse_In(param);
+
+            if (respone != null)
+            {
+                foreach (MaterialInformationList item in respone.MaterialInformationList)
+                {
+                    returnDto = new Domain.MaterialInforDetail()
+                    {
+                        bEHVO = item.BEHVO,
+                        bEHVO_T = item.BEHVO_T,
+                        lIFNR = item.LIFNR,
+                        lIFNR_TX = item.LIFNR,
+                        mAKTX = item.MAKTX,
+                        mATNR = item.MATNR,
+                        mEINH = item.MEINH,
+                        tAKLV = item.TAKLV,
+                        tAKLV_TX = item.TAKLV_TX,
+                        vERPR = item.VERPR,
+                        wAERS = item.WAERS,
+                        zSTD = item.ZSTD
+                    };
+
+                    list.Add(returnDto);
+                }
+            }
+
+            return list.FirstOrDefault();
+        }
+    }
+}

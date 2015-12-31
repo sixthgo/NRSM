@@ -1,0 +1,157 @@
+﻿controllerModule.controller('RealStockControlCtrl', function ($scope,
+                                                              $stateParams,
+                                                              ManageRealInventoryInService,
+                                                              PopupService,
+                                                              $ionicLoading, $q) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM015';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        //$scope.data.barCode015 = $scope.base.barCode015 == null ? null: $scope.base.barCode015.replace("S","");
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+        $scope.data.uname = "MOBILEUSER";
+        $scope.data.isRealShow = false;
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'RealStockControlCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.SearchRealStock = function () {
+        var barCode = $scope.base.barCode015;
+
+        if(barCode == null || barCode.length == 0) {
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            return;
+        }
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        ManageRealInventoryInService.searchRealStockInfo({
+            lbst: $scope.data.nowStock == undefined ? "0" : $scope.data.nowStock,
+            matrn: $scope.base.barCode015,
+            mode: "R",
+            rlabst: $scope.data.realStock == undefined ? "0" : parseInt($scope.data.realStock),
+            uname: $scope.data.uname,
+            werks: $scope.user.plantCode
+        }, function (data){
+
+            if (data.flag = "S" && data.msg == null) {
+                $scope.data.nowStock = data.labst;
+                $scope.base.barCode015 = data.matnr;
+                $scope.data.realStock = data.rlabst;
+                $scope.data.plantCode = data.werks;
+                $scope.data.salePriceInfor = data.maktx;
+
+                $scope.data.realStock = null;
+
+                $scope.data.isRealShow = true;
+            }
+            else {
+
+                $scope.data.nowStock = null;
+                $scope.data.realStock = null;
+                PopupService.OpenPopupAlert(data.msg);
+                $scope.data.isRealShow = false;
+            }
+
+            $ionicLoading.hide();
+        }, function (error){
+            $ionicLoading.hide();
+        });
+    }
+
+    $scope.AutoSearchRealStock = function () {
+        if($scope.base.barCode015 != null && $scope.base.barCode015.length > 12 ){
+            $scope.SearchRealStock();
+        }
+    }
+
+    $scope.UpdateRealStock = function () {
+
+        var barCode = $scope.base.barCode015;
+
+        if(barCode == null || barCode.length == 0) {
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            return;
+        }
+
+        if($scope.data.realStock == null || $scope.data.realStock == undefined) {
+            return;
+        }
+        else if (parseInt($scope.data.realStock) < 0 ) {
+            return;
+        }
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        ManageRealInventoryInService.updateRealStock({
+            lbst: $scope.data.nowStock == undefined ? "0" : $scope.data.nowStock,
+            matrn: $scope.base.barCode015,
+            mode: "U",
+            rlabst: parseInt($scope.data.realStock),
+            uname: $scope.data.uname,
+            werks: $scope.user.plantCode
+        }, function (data){
+            $scope.debug.Log('GetUserFavorite.query().success');
+
+            if(data.flag == "S") {
+                PopupService.OpenPopupAlert("실재고 조정 완료.");
+            }
+            else {
+                PopupService.OpenPopupAlert("실재고 조정 완료 실패.");
+            }
+
+            $ionicLoading.hide();
+        }, function (error){
+            $ionicLoading.hide();
+        });
+    }
+});

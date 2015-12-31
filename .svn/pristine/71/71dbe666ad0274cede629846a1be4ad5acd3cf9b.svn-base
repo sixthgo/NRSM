@@ -1,0 +1,23 @@
+﻿<!--<ion-nav-bar class="{{setting.header.class}}">
+</ion-nav-bar>-->
+<ion-view view-title="Home" class="main">
+    <ion-content>
+        <!--TEST <div>
+            <a ui-sref="app.sales.ProfitToPlan">GO ProfitToPlan</a>
+            <a><div ng-click="GoTest('app.sales.ProfitToPlan')">GO ProfitToPlan</div></a>
+            <a href="#none"><img src="./img/nrsm/menu_02.png" style="width: 100%" ng-click="GoTest('app.sales.ProfitToPlan')"><h2>목표,전년 대비</h2></a>
+            <a href="#none"><img src="./img/nrsm/menu_02.png" style="width: 100%" ng-click="base.GoView('app.sales.ProfitToPlan')"><h2>목표,전년 대비</h2></a>
+        </div>-->
+        <div class="list">
+            <div class="item">
+                <!--<p compile="GetFavoriteHtml()"></p>-->
+                <div class="menuContainer" compile="favoriteHtml"></div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="item" ng-repeat="m in menuHtml">
+                <div class="menuContainer" compile="m"></div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

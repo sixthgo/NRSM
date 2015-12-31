@@ -1,0 +1,25 @@
+﻿using Formular.Core.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Eland.NRSM.Core.Domain
+{
+    [Serializable]
+    public class CEOReport : BaseDomain
+    {
+        public string CALDAY { get; set; }
+        public string Name { get; set; }
+        public int PLAN_SALES { get; set; }
+        public int REAL_SALES { get; set; }
+        public string SW_SALE_A { get; set; }
+        public int SW_SALE { get; set; }
+        public string SW_SALE_G { get; set; }
+        public string D_PLAN_SALES { get; set; }
+        public string M_PLAN_SALES { get; set; }
+        public string D_SW_SALE_A { get; set; }
+        public string M_SW_SALE_A { get; set; }
+    }
+}

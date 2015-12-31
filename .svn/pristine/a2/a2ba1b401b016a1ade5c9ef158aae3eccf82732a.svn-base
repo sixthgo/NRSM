@@ -1,0 +1,45 @@
+var getBarcodebySwipe = function (barcode) {
+     //var scope = angular.element($('#barCode')).scope();
+	angular.element($('#barCode')).html(barcode);
+    //alert(barcode);
+	//return barcode;
+     //scope.$apply(function () {
+     //    scope.CreateOrChangeBoard();
+     //});
+}
+
+
+cortrollerModule.controller('ProductInformationCtrl', function ($scope, $stateParams) {
+
+	$scope.base.menuId = 'NRSMM06';
+	$scope.base.SetMenu($scope.base.menuId);
+
+	$scope.base.viewId = 'NRSM001';
+	$scope.base.SetView($scope.base.viewId);
+	$scope.base.snapshot = null;    // status save to Favorite
+
+	$scope.data = {};
+
+	$scope.Init = function () {
+
+		$scope.debug.Log('ProductInformationCtrl.Init();');
+
+		if ($scope.base.HasAuthentication() == false) {
+			// [ing] alert message and move home
+			$state.go('app.home');
+			return;
+		}
+
+		// set local word
+		$scope.SetLocalWord();
+		$scope.base.snapshot = '';
+
+		$scope.data.barCode = "";
+	}
+
+	$scope.SetLocalWord = function () {
+		$scope.word.title = 'Product Information';
+	}
+
+	$scope.Init();
+});

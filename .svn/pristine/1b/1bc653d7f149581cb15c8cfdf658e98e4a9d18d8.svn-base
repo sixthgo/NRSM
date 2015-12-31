@@ -1,0 +1,111 @@
+﻿controllerModule.controller('FloorplanSalesSearchCtrl', function ($scope, $state, $stateParams, $q, $timeout) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSMM05';
+    $scope.base.SetMenu($scope.base.menuId);
+    ////$scope.base.stateId = $state.current.name;
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('FloorplanSalesSearchCtrl.Init().START;');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        // [SAMPLE] concurrent execution 
+        $scope.ExecuteConcurrent();
+
+        $scope.debug.Log('FloorplanSalesSearchCtrl.Init().END;');
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Floorplan Sales';
+    }
+
+    $scope.CatchException = function (error) {
+        $scope.debug.Log('ExecuteConcurrent.error = ' + error);
+        //debugger
+    }
+
+    $scope.ExecuteConcurrent = function () {
+        //// CASE 1.
+        ////$q
+        ////    .all({
+        ////        execA: $scope.FunctionA().catch($scope.CatchException),
+        ////        execB: $scope.FunctionB().catch($scope.CatchException),
+        ////        execC: $scope.FunctionC().catch($scope.CatchException)
+        ////    })
+        ////    .then(
+        ////        function (results) {
+        ////            $scope.debug.Log('ExecuteConcurrent()'); 
+        ////        },
+        ////        function (error) {
+        ////            $scope.debug.Log('ExecuteConcurrent()' + error);
+        ////        }
+        ////    );
+
+        //// CASE 2.
+        $q
+            .all({
+                execA: $scope.FunctionA(),
+                execB: $scope.FunctionB(),
+                execC: $scope.FunctionC()
+            })
+            .then(
+                function (results) {
+                    $scope.debug.Log('ExecuteConcurrent()');
+                },
+                function (error) {
+                    $scope.debug.Log('ExecuteConcurrent()' + error);
+                }
+            );
+    }
+
+    $scope.FunctionA = function () {
+
+        var defer = $q.defer();
+
+        $timeout(function () {
+            $scope.debug.Log('$scope.FunctionA');
+            //defer.resolve();
+            defer.reject('error in FunctionA');
+        }, 6000);
+
+        return defer.promise;
+    }
+
+    $scope.FunctionB = function () {
+        var defer = $q.defer();
+
+        $timeout(function () {
+            $scope.debug.Log('$scope.FunctionB');
+            //defer.resolve();
+            // if raise exception, then call reject() 
+            defer.reject('error in FunctionB');
+        }, 4000);
+
+        return defer.promise;
+    }
+
+    $scope.FunctionC = function () {
+        var defer = $q.defer();
+
+        $timeout(function () {
+            $scope.debug.Log('$scope.FunctionC');
+            defer.resolve();
+            //defer.reject('error in FunctionC');
+        }, 2000);
+
+        return defer.promise;
+    }
+
+    $scope.Init();
+});

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.Role>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            
+        });
+    </script>
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+                <p>Role</p>
+                <small>Role list</small>
+            </blockquote>
+
+            <p>
+            <a href="@Url.Action("Create")" class="btn btn-small" ><i class="icon-plus"></i> Create</a>
+            </p>
+            
+            @using(Html.BeginForm()) {
+            @Html.DropDownList("id",
+                           new SelectList(ViewBag.AppDivisions,
+                                             "id",
+                                             "Name"
+                                            ),
+                           "-- Select State --", new { @class="btn-block" })
+                <button type="submit" class="btn btn-small pull-right" ><i class="icon-search"></i> Search</button>
+            }
+            @if ( ViewBag.AppDivision != null )
+            {
+                @Html.Partial("../BaaSApplication/_LeftInfo", ViewBag.AppDivision as AppDivision)
+            }
+
+        </div>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12"> 
+
+       @Html.Partial("../BaaSRole/_Table" , Model )
+</div>
+</div>

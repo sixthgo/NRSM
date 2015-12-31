@@ -1,0 +1,103 @@
+﻿cortrollerModule.controller('FloorplanRecordSearchCtrl', function (
+    $scope,
+    $state,
+    $stateParams,
+    $q,
+    $timeout,
+    UtilService
+    ) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSMM05';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.favorite.support = true;
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('FloorplanRecordSearchCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        // for test
+        $scope.testValue = {};
+        $scope.testValue.testId = "2";
+        $scope.testValue.testVal = "1";
+
+        // [SAMPLE] in order execution ///////////////
+        var defer = $q.defer();
+
+        // if specific function raise error, move to catch logic ( no execute rest functions)
+        defer.promise
+            .then($scope.FunctionA)
+            .then($scope.FunctionB)
+            .then($scope.FunctionC)
+            .catch(function (error) {
+                debugger
+                $scope.debug.Log('Raise exception ' + error);
+            });
+
+        defer.resolve();
+        // //////////////// in order execution [SAMPLE]
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Floorplan Record';
+        $scope.word.test = $scope.word.testSentence;
+    }
+
+    $scope.FunctionA = function () {
+
+        var defer = $q.defer();
+
+        $timeout(function () {
+            $scope.debug.Log('$scope.FunctionA');
+            defer.resolve();
+        }, 6000);
+
+        return defer.promise;
+    }
+
+    $scope.FunctionB = function () {
+        var defer = $q.defer();
+
+        $timeout(function () {
+            $scope.debug.Log('$scope.FunctionB');
+            //defer.resolve();
+            // if raise exception, then call reject() 
+            defer.reject('FunctionB error');
+        }, 4000);
+
+        return defer.promise;
+    }
+
+    $scope.FunctionC = function () {
+        var defer = $q.defer();
+
+        $timeout(function () {
+            $scope.debug.Log('$scope.FunctionC');
+            defer.resolve();
+        }, 2000);
+
+        return defer.promise;
+    }
+    
+    $scope.ClickSearch = function () {
+
+        // call service
+
+        // last step - clear favorite
+        $scope.base.ClearFavorite();
+    }
+
+    $scope.Init();
+});

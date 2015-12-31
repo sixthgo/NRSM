@@ -1,0 +1,52 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-dark">
+            <h1 class="title">지점 선택</h1>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list class="listCheck" >
+            <ion-item class="eland-item item-button-right item-borderless">
+                현재 선택한 지점
+                <a class="eland-badge" id="checkshowtext">강남점</a>
+            </ion-item>
+
+            <ion-item class="eland-item item-icon-right" ng-click="changeCheckShow($event)">
+                <span>강남점</span>
+                <a class="activeCheck icon ion-android-done" style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>나점</span>
+                <a class="hideCheck icon ion-android-done"  style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>다점</span>
+                <a class="hideCheck icon  ion-android-done"  style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>라점</span>
+                <a class="hideCheck icon  ion-android-done"  style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>마점</span>
+                <a class="hideCheck icon  ion-android-done"  style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>바점</span>
+                <a class="hideCheck icon  ion-android-done"  style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>사점</span>
+                <a class="hideCheck icon  ion-android-done"  style="margin-top:9px;" ></a>
+            </ion-item>
+            <ion-item class="eland-item item-icon-right"  ng-click="changeCheckShow($event)">
+                <span>아점</span>
+            <a class="hideCheck icon  ion-android-done"  style="margin-top:9px;" ></a>
+    </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar >
+        <div class="button-bar">
+            <a class="button button-clear"  ng-click="closeModal('close')"><i class="icon ion-ios-close-empty"></i>취소</a></a>
+            <a  class="button button-clear" style="color:#666666;"  ng-click="closeModal('cancel')"><i class="icon ion-ios-checkmark-empty" ></i>확인</a></a>
+        </div>
+    </ion-footer-bar>
+</ion-modal-view>

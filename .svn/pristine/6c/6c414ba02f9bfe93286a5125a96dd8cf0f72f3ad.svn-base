@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<bindings>
+  <basicHttpBinding>
+    <binding name="SapBppServiceBinding" openTimeout="00:02:00" closeTimeout="00:02:00" sendTimeout="00:02:00" receiveTimeout="00:02:00"
+             hostNameComparisonMode="StrongWildcard" bypassProxyOnLocal="false" maxBufferSize="2147483647"
+             maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647" textEncoding="utf-8"
+             useDefaultWebProxy="true">
+      <readerQuotas maxDepth="10000000" maxStringContentLength="2147483647"
+          maxArrayLength="67108864" maxBytesPerRead="2147483647" maxNameTableCharCount="100000" />
+      <security mode="TransportCredentialOnly">
+        <transport clientCredentialType="Basic" proxyCredentialType="Basic" realm="XISOAPApps" />
+        <message clientCredentialType="UserName" algorithmSuite="Default"/>
+      </security>
+    </binding>
+  </basicHttpBinding>
+  <customBinding>
+  </customBinding>
+</bindings>

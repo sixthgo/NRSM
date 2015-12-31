@@ -1,0 +1,713 @@
+﻿var getBarcodebySwipe = function (barcode) {
+    var scope = angular.element($('#home')).scope();
+    // alert(barcode);
+    scope.$apply(function () {
+        scope.GetBarCode(barcode);
+    });
+}
+
+var defaultCalendarDate = new Date();
+function SetDefaultCalendarDate(date) {
+    try {
+        var temp = date.split('-');
+        defaultCalendarDate = new Date(parseInt(temp[0]), parseInt(temp[1], 10) - 1, parseInt(temp[2], 10));
+    }
+    catch (e) {
+    }
+}
+
+function GetNowEventSalesCalendar() {
+    return defaultCalendarDate;
+}
+
+function GetCalendarStack() {
+    return defaultCalendarDate;
+}
+
+/**
+ * Created by june on 15. 6. 11..
+ */
+controllerModule.controller('AppCtrl', ['$scope', '$ionicModal', '$timeout', '$sessionStorage', 'CordovaService', '$state', '$translate', 'PopupService', 'FavoriteService', '$q', 'MenuApiService', '$sce', '$ionicScrollDelegate', '$ionicHistory', '$cordovaBarcodeScanner',
+
+    function ($scope, $ionicModal, $timeout, $sessionStorage,
+              CordovaService, $state, $translate, PopupService, FavoriteService,
+              $q, MenuApiService, $sce, $ionicScrollDelegate, $ionicHistory, $cordovaBarcodeScanner) {
+
+        CordovaService.ready.then(function () {
+            // Using MDMPlugin for MDM Check
+        });
+
+        // for child controller
+        $scope.base = {};
+        $scope.base.menuId = '';
+        $scope.base.viewId = '';
+        $scope.base.stateId = '';
+        ////$scope.base.snapshot = null;
+        $scope.base.currentStateParams = null;
+
+        $scope.base.barCodeList = [];
+        $scope.base.barCode = null;
+        $scope.base.canAutoSearch = false;
+
+        $scope.style = {};
+        $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+        $scope.style.showIPadCalendarButton = 'none'; // default valus is 'none'
+        $scope.style.showReloadButton = 'inline'; // default value is 'inline'
+
+        $scope.word = {};
+
+        // global setting
+        $scope.setting = {};
+        $scope.setting.header = {};
+        $scope.setting.footer = {};
+        $scope.setting.header.prevClass = '';
+        $scope.setting.homeMenuId = 'NRSMM00';
+
+        // system
+        $scope.system = {};
+        $scope.system.appId = 'com.eland.ios.NRSM'; // com.eland.nrs
+        $scope.system.currentMenuVersion = '0';
+        $scope.system.locale = 'ko';
+
+        // user
+        $scope.user = {};
+
+        // $scope.user.loginId = 'ju_minho';
+        // alert($sessionStorage.loginId);
+        $scope.user.loginId = $sessionStorage.loginId;
+        //$scope.user.loginId = 'ju_minho';
+        $scope.user.plantCode = '8206'; //if plantcode=null default: 8206
+        $scope.user.cu = "";
+        $scope.user.empNo = "";
+
+        $scope.debug = {};
+        $scope.debug.logging = true;
+
+        $scope.favorite = {};
+        $scope.favorite.items = [];
+        $scope.favorite.support = true;
+        $scope.favorite.selected = null;    // selected favorite
+        $scope.favorite.collected = [];   // collect data with favorite directive in each view
+
+        $scope.calendar = {};
+        $scope.calendar.offset = null;
+
+        MAX_FAVORITE_COUNT = 6;
+
+        ////$scope.base.headerDate = '';
+
+        $scope.debug.Log = function (val) {
+            if ($scope.debug.logging == true)
+                console.log(val);
+        }
+
+        $scope.Init = function (translate) {
+            $scope.debug.Log('AppCtrl.Init();');
+
+            var headerFooterClass = 'bar-energized';
+            $scope.setting.header.class = headerFooterClass;
+            $scope.setting.footer.class = headerFooterClass;
+
+            // set multi language
+            translate.use($scope.system.locale).then(function () {
+                $scope.GetWord(translate);
+            });
+        }
+
+        $scope.GetWord = function (translate) {
+
+            //// USE JQUERY
+            ////var result = [];
+            ////var firstArray = $.map(words, function (val, idx) { return [val]; });
+            ////var temp = null;
+            ////temp = $.map(firstArray[0], function (val, idx) { return [idx]; });
+            ////result = $.merge(result, temp)
+
+            //////// NO USE JQUERY ////////
+            var secondArray = new Array(3);
+            secondArray[0] = '';
+            secondArray[1] = ''
+            secondArray[2] = ''
+
+            var secondResult = new Array();
+            for (item in words.en) {
+                var tempObject = {};
+                tempObject[item]= words.en[item];
+                secondArray[0]+= JSON.stringify(tempObject) + ', ';
+                
+                var test = item;
+                secondResult.push(test);
+            }
+            
+            var tempJson = secondArray[0].substring(0, secondArray[0].length -2);
+            tempJson = '[' + tempJson + ']';
+            secondArray[0]= JSON.parse(tempJson);
+            ////////////////////////////////
+
+            //
+            $scope.wordParam = { name: 'tester' };
+
+            translate(secondResult).then(function (words) { // result => secondResult
+                $scope.word.common = words.common;
+                $scope.word.manager = words.manager;
+                $scope.word.title = words.title;
+                $scope.word.task = words.task;
+                $scope.word.hyper = words.hyper;
+                $scope.word.productInfo = words.productInfo;
+                $scope.word.productDetail= words.productDetail;
+                $scope.word.msgTips = words.msgTips;
+                $scope.word.normalPrice = words.normalPrice;
+                $scope.word.activiting = words.activiting;
+                $scope.word.terminalt = words.terminalt;
+                $scope.word.eimsInformation = words.eimsInformation;
+                $scope.word.realStockControl = words.realStockControl;
+                $scope.word.saleProjections = words.saleProjections;
+                $scope.word.manualOrder = words.manualOrder;
+                $scope.word.barcodeCreateSend = words.barcodeCreateSend;
+                $scope.word.CEOReportPlant = words.CEOReportPlant;
+                $scope.word.CEOReportCU = words.CEOReportCU;
+                $scope.word.DailyStock = words.DailyStock;
+                $scope.word.StockRegister = words.StockRegister;
+                $scope.word.InventoryCounting = words.InventoryCounting;
+            });
+
+            translate('testSentence', { name: 'tester' }).then(function (word) {
+                $scope.word.testSentence = word;
+            });
+
+            translate('noDailyStockSave').then(function (word) {
+                $scope.word.noDailyStockSave = word;
+            });
+
+            translate('noAccessSan').then(function (word) {
+                $scope.word.noAccessSan = word;
+            });
+        }
+
+        $scope.Init($translate);
+
+        // called sub system main controller
+        $scope.base.HasAuthentication = function () {
+
+        }
+
+        $scope.base.GetUserMenu = function () {
+            console.log('menuCtrl::base.GetUerMenu()::base.menuId=' + $scope.base.menuId);
+            
+            console.log('$sessionStorage.deviceModelName=' + $sessionStorage.deviceModelName);
+            var defer = $q.defer();
+
+            MenuApiService.get({
+                appId: $scope.system.appId,
+                loginId: $scope.user.loginId,
+                currentMenuVersion: $scope.system.currentMenuVersion,
+                locale: $scope.system.locale,
+                deviceModelName: $sessionStorage.deviceModelName
+            }, function (data) {
+                defer.resolve(data.data.sections);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        $scope.base.HasMenu = function (sections) {
+
+            var defer = $q.defer();
+
+            var hasMenu = false;
+            var currentStateName = $state.$current.name;
+            //var currentStateName = $scope.base.stateId; //$state.$current.name;
+
+            try {
+                console.log('currentStateName' + currentStateName);
+                for (var i = 0; i < sections.length; i++) {
+                    for (var j = 0; j < sections[i].menus.length; j++) {
+                        if (sections[i].menus[j].url == currentStateName) {
+
+                            $scope.word.title = sections[i].menus[j].name;
+
+                            hasMenu = true;
+                            break;
+                        }
+                    }
+                }
+                //defer.resolve(false); // for test !!
+                defer.resolve(hasMenu);
+            }
+            catch (err) {
+                defer.reject(false);
+            }
+
+            return defer.promise;
+        }
+
+        $scope.base.SetCategory = function (categoryId) {
+
+            $scope.base.categoryId = categoryId;
+
+            var headerClass = $scope.setting.header.class;
+            var footerClass = $scope.setting.footer.class;
+
+            $scope.setting.header.prevClass = headerClass;////
+
+            if (categoryId == 'home') {
+                headerClass = 'bar-light';  //when back to home page,the header should be change
+            }
+            else if (categoryId == 'managerReport') {
+                headerClass = 'bar-positive';
+                footerClass = 'bar-positive';
+            }
+            else if (categoryId == 'sales') {
+                headerClass = 'bar-assertive'; // alter 'red'
+                footerClass = 'bar-assertive'; // alter 'red'
+            }
+            else if (categoryId == 'common') {
+                headerClass = 'bar-eland-balanced';
+                footerClass = 'bar-balanced';
+            }
+            else if (categoryId == 'hyper') {
+                headerClass = 'bar-eland-orange';
+                footerClass = 'bar-energized';
+            }
+            else if (categoryId == 'sc') {
+                headerClass = 'bar-eland-yellow';
+                footerClass = 'bar-assertive';
+            }
+            else {
+                headerClass = "bar-energized";
+                footerClass = "bar-energized";
+            }
+
+            $scope.setting.header.class = headerClass;
+            $scope.setting.footer.class = 'bar-light';
+
+            UpdateHeaderClass();
+        }
+
+        function UpdateHeaderClass() {
+            var headerElements = document.getElementsByTagName('ion-header-bar');
+
+            var headerOldClass = $scope.setting.header.prevClass;
+            var headerNewClass = $scope.setting.header.class;
+
+            for (var i = 0; i < headerElements.length; i++) {
+                var el = angular.element(headerElements[i]);
+                if (el.hasClass(headerOldClass)) {
+                    el.removeClass(headerOldClass);
+                    el.addClass(headerNewClass);
+                }
+            }
+
+            $scope.setting.header.prevClass = headerNewClass;
+        }
+
+        $scope.base.SetMenu = function (menuId) {
+
+            $scope.base.menuId = menuId;
+
+            if (menuId == 'NRSM001') {
+                $scope.debug.Log('AppCtrl.base.SetMenu()');
+            }
+        }
+
+        $scope.base.SaveSnapshot = function () {
+
+        }
+
+        $scope.Reload = function () {
+            $scope.debug.Log('AppCtrl.base.Reload()');
+
+            //$state.transitionTo($state.current, $scope.base.currentStateParams, {
+            //    reload: true, inherite: false, notify: true
+            //});
+        }
+
+        // favorite click event handler in footer.html
+        $scope.base.ClickStar = function () {
+            $scope.debug.Log('AppCtrl.ClickStar()');
+
+            var favoriteCounter = $scope.favorite.items.length;
+
+            if (favoriteCounter >= MAX_FAVORITE_COUNT) {
+                PopupService.OpenPopupAlert('', '즐겨찾기는 최대 ' + MAX_FAVORITE_COUNT + '개 까지 저장할 수 있습니다.');
+                return;
+            }
+
+            if ($scope.favorite.support == false) {
+                PopupService.OpenPopupAlert('', '이 화면에서는 즐겨찾기를 제공하지 않습니다.');
+                return;
+            }
+            else {
+                PopupService.OpenPopupConfirm('즐겨찾기 추가', '즐겨찾기에 추가하시겠습니까?', $scope.base.AddFavorite, null);
+            }
+        }
+
+        $scope.base.AddFavorite = function () {
+
+            $scope.newFavorite = new FavoriteService();
+            $scope.newFavorite.ProgramCode = $scope.base.menuId;
+            $scope.newFavorite.Url = $state.current.name;
+
+            var key = 'Key';
+            var value = 'Value';
+            for (var i = 0; i < $scope.favorite.collected.length; i++) {
+                $scope.newFavorite[key + parseInt(i + 1)] = $scope.favorite.collected[i].key;
+                $scope.newFavorite[value + parseInt(i + 1)] = $scope.favorite.collected[i].value;
+            }
+
+            $scope.newFavorite.$save({
+                    loginId: $scope.user.loginId
+                },
+                function (response) {
+                    ////$scope.base.ClearCurrentFavorite();
+                }
+            );
+        }
+
+        $scope.base.ClickGear = function () {
+            PopupService.OpenPopupAlert('', '준비중입니다.');
+        }
+
+        $scope.base.ClickAdd = function () {
+            $scope.debug.Log('AppCtrl.ClickAdd()');
+        }
+
+        $scope.base.Scan = function () {
+            var menu = $scope.base.menuId;
+
+            if (menu != "NRSM007" && menu != "NRSM014"
+                && menu != "NRSM015" && menu != "NRSM016"
+                && menu != "NRSM018" && menu != "NRSM019" && menu != "NRSM020") {
+                PopupService.OpenPopupAlert($scope.word.noAccessSan);
+                return;
+            }
+
+            $cordovaBarcodeScanner
+                .scan()
+                .then(function(barcodeData) {
+                    var barcode = barcodeData.text;
+
+                    if(menu == "NRSM016") {
+                        var code = barcode;
+
+                        $scope.$watch('code', function(){
+
+                            //console.log('text changeed' + barcode);
+                            if(barcode != null){
+
+                                var seq = $scope.base.barCodeList == null? 0: $scope.base.barCodeList.length;
+                                var item = {'seq': seq + 1, 'code': barcode }
+
+                                for(var c in $scope.base.barCodeList) {
+                                    if($scope.base.barCodeList[c].code == barcode){
+                                        return;
+                                    }
+                                }
+
+                                $scope.base.barCodeList.push(item);
+                            }
+                        });
+
+                    }
+                    else {
+                        $scope.base.barCode = barcode;
+                    }
+
+                    $scope.base.canAutoSearch = true;
+
+                }, function(error) {
+                    // An error occurred
+                });
+        }
+
+        $scope.GetBarCode = function(barcode) {
+
+            var menu = $scope.base.menuId;
+
+            if(menu == "NRSM016") {
+                var code = barcode;
+
+                $scope.$watch('code', function(){
+
+                    //console.log('text changeed' + barcode);
+                    if(barcode != null){
+
+                        var seq = $scope.base.barCodeList == null? 0: $scope.base.barCodeList.length;
+                        var item = {'seq': seq + 1, 'code': barcode }
+
+                        for(var c in $scope.base.barCodeList) {
+                            if($scope.base.barCodeList[c].code == barcode){
+                                return;
+                            }
+                        }
+
+                        $scope.base.barCodeList.push(item);
+                    }
+                });
+
+            }
+            else {
+                $scope.base.barCode = barcode;
+            }
+
+            $scope.base.canAutoSearch = true;
+
+            //if(menu == "NRSM007") {
+            //    $scope.base.barCode007 = barcode;
+            //}
+            //else if(menu == "NRSM014") {
+            //    $scope.base.barCode014 = barcode;
+            //}
+            //else if(menu == "NRSM015") {
+            //    $scope.base.barCode015 = barcode;
+            //}
+            //else if(menu == "NRSM016") {
+            //    var code = barcode;
+            //
+            //    $scope.$watch('code', function(){
+            //
+            //        //console.log('text changeed' + barcode);
+            //        if(barcode != null){
+            //
+            //            var seq = $scope.base.barCodeList == null? 0: $scope.base.barCodeList.length;
+            //            var item = {'seq': seq + 1, 'code': barcode }
+            //
+            //            for(var c in $scope.base.barCodeList) {
+            //                if($scope.base.barCodeList[c].code == barcode){
+            //                    return;
+            //                }
+            //            }
+            //
+            //            $scope.base.barCodeList.push(item);
+            //        }
+            //    });
+            //
+            //}
+            //else if(menu == "NRSM019") {
+            //    $scope.base.barCode019 = barcode;
+            //}
+            //else if(menu == "NRSM018") {
+            //    $scope.base.barCode018 = barcode;
+            //}else if(menu == "NRSM020"){
+            //    $scope.base.barCode020=barcode;
+            //}
+        }
+
+        $scope.base.GetFavoriteValue = function (key) {
+
+            var temp = $scope.favorite.selected;
+            var result = '';
+            if (temp.key1 == key) {
+                result = temp.value1;
+            }
+            else if (temp.key2 == key) {
+                result = temp.value2;
+            }
+            else if (temp.key3 == key) {
+                result = temp.value3;
+            }
+            else if (temp.key4 == key) {
+                result = temp.value4;
+            }
+            else if (temp.key5 == key) {
+                result = temp.value5;
+            }
+
+            return result;
+        }
+
+        $scope.base.ClearCurrentFavorite = function () {
+            $scope.favorite.selected = null;
+            $scope.favorite.collected = [];
+        }
+
+        $scope.base.GoView = function (state, selectedFavorite) {
+
+            $scope.word.title = ''; //
+
+            if (selectedFavorite != null) {
+                $scope.favorite.selected = selectedFavorite;
+            }
+
+            $state.go(state);
+        }
+
+        $scope.base.CollectFavorites = function (currentKey, currentValue) {
+            $scope.debug.Log('base.CollectFavorites()');
+
+            var o = { key: currentKey, value: currentValue };
+
+            if ($scope.favorite.collected.length == 0) {
+                $scope.favorite.collected.push(o);
+            }
+            else {
+                var isProcessing = false;
+                for (var i = 0; i < $scope.favorite.collected.length; i++) {
+                    if ($scope.favorite.collected[i].key == currentKey) {
+                        $scope.favorite.collected[i].value = currentValue;
+                        isProcessing = true;
+                        break;
+                    }
+                }
+                if (isProcessing == false) {
+                    $scope.favorite.collected.push(o);
+                }
+            }
+        }
+
+        //左右滑动
+        $scope.base.swiper = function () {
+            new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                paginationClickable: true
+            })
+        };
+
+        // don't remove this method !!!
+        $scope.base.GetDate = function () {
+            // marker method
+        }
+
+        $scope.base.GoHome = function () {
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+
+            $state.go('app.home');
+        }
+
+        //var disabledDates = [
+        //    new Date(1437719836326),
+        //    new Date(),
+        //    new Date(2015, 7, 10), //months are 0-based, this is August, 10th!
+        //    new Date('Wednesday, August 12, 2015'), //Works with any valid Date formats like long format
+        //    new Date("08-14-2015"), //Short format
+        //    new Date(1439676000000) //UNIX format
+        //];
+
+        var weekDaysList = ["일", "월", "화", "수", "목", "금", "토"];
+        var monthList = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+
+        $scope.base.datepickerObject = {
+            titleLabel: '일자 선택',  //Optional
+            todayLabel: '오늘',  //Optional
+            closeLabel: '닫기',  //Optional
+            setLabel: '선택',  //Optional
+            //errorMsgLabel: 'Please select time.',    //Optional
+            setButtonType: 'button-calendar',  //Optional
+            todayButtonType: 'button-calendar',  //Optional
+            closeButtonType: 'button-calendar',  //Optional
+            ////inputDate: new Date(),    //Optional
+            mondayFirst: false,    //Optional
+            //disabledDates: disabledDates, //Optional
+            weekDaysList: weekDaysList,   //Optional
+            monthList: monthList, //Optional
+            templateType: 'popup', //Optional
+            modalHeaderColor: 'bar-positive', //Optional
+            modalFooterColor: 'bar-positive', //Optional
+            from: new Date(2012, 8, 2),   //Optional
+            to: new Date(),    //Optional
+            callback: function (val) {    //Mandatory
+                callbackFunc(val);
+            }
+        };
+
+        $scope.base.SetCalendarCallbackForIPad = function (cbFunc) {
+            $scope.base.datepickerObject.inputDate = GetNowEventSalesCalendar();
+            $scope.base.datepickerObject.callback = cbFunc;
+        }
+
+        $scope.base.ClickIPadCalendar = function (type) {
+            ////var temp = $scope.base.headerDate.split('-');
+            ////SetIPadCalendarDate(parseInt(temp[0]), parseInt(temp[1], 10) - 1, parseInt(temp[2], 10));
+        }
+
+        $scope.base.SetDateLocalCaledar = function (date) {
+            SetDefaultCalendarDate(date);
+        }
+    }])
+
+    .directive('footer', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl : 'templates/footer.html'   //update by liu.wenbin
+        }
+    })
+
+    .directive('favorite', function ($parse) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attributes) {
+                scope.$watch(attributes.favorite, function (val) {
+                    scope.base.CollectFavorites(attributes.favoriteKey, val);
+                })
+            }
+        };
+    })
+
+    ////.directive('compile', ['$compile', function ($compile) {
+    ////    return function (scope, element, attrs) {
+    ////        scope.$watch(
+    ////          function (scope) {
+    ////              return scope.$eval(attrs.compile);
+    ////          },
+    ////          function (value) {
+    ////              element.html(value);
+    ////              $compile(element.contents())(scope);
+    ////          }
+    ////       )
+    ////    };
+    ////}])
+    .directive('compile', function ($parse, $sce, $compile, $ionicScrollDelegate) {
+        return {
+            restrict: "A",
+            link: function (scope, element, attributes) {
+
+                var expression = $sce.parseAsHtml(attributes.compile);
+
+                var getResult = function () {
+                    return expression(scope);
+                };
+
+                scope.$watch(getResult, function (newValue) {
+                    
+                    if (newValue == '') {
+                        return;
+                    }
+
+                    var linker = $compile(newValue);
+                    element.empty(); //
+                    element.append(linker(scope));
+
+                    //$ionicScrollDelegate.$getByHandle('homeScroll')._instances[0].resize();
+                    ////$ionicScrollDelegate._instances[0].resize();
+                });
+            }
+        }
+    })
+
+    //.directive('header', function () {
+    //    return {
+    //        restrict: 'E',
+    //        replace: true,
+    //        templateUrl: '/templates/header.html'
+    //    }
+    //})
+
+    //.directive('header', function () {
+    //    return {
+    //        restrict: 'E',
+    //        replace: true,
+    //        templateUrl: '/templates/header.html',
+    //        //link: function (scope, element, attrs) {
+    //        //    //temp = scope.setting.header.class;
+    //        //    element.addClass(scope.setting.header.class);
+    //        //}
+    //        scope: {
+    //            temp: '=csstype'
+    //        }
+    //    }
+    //})

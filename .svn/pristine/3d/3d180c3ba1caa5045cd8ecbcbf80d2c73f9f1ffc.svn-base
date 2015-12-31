@@ -1,0 +1,13 @@
+'use strict';
+
+angular.module('starter.services')
+
+.factory('ManageRealInventoryInService', function ($resource, webServerUrl) {
+	return $resource(webServerUrl + '/api/ManageRealInventoryApi', {},
+		{
+			searchRealStockInfo: { method: 'Get', params: {lbst:'@lbst',matrn:'@matrn',mode:'@mode', rlabst:'@rlabst', uname:'@uname', werks:'@werks'} },
+			updateRealStock: { method: 'Get', params: { lbst:'@lbst',matrn:'@matrn',mode:'@mode', rlabst:'@rlabst', uname:'@uname', werks:'@werks'} }
+		});
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

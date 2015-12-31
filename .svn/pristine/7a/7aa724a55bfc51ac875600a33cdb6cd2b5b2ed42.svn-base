@@ -1,0 +1,882 @@
+﻿controllerModule.controller('FloorPlanSalesCtrl', function ($scope, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, $window, $sce, $filter, $location, $timeout, $ionicScrollDelegate, $sessionStorage,
+    MenuApiService, FavoriteService, PopupService, FloorplanService, FloorAreaService, UtilService, SpaceProfitService, StoreFloorService) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM010'; // updated
+    $scope.base.SetMenu($scope.base.menuId);
+    
+    $scope.favorite.support = true; // support favorite feature in this view
+    $scope.favoriteKeyA = "KeyA";
+    $scope.favoriteKeyB = "KeyB";
+    $scope.favoriteKeyC = "KeyC";
+    $scope.favoriteKeyD = "KeyD";
+
+    $scope.windowSize = {};
+    $scope.windowSize.width = $window.innerWidth;
+    $scope.windowSize.height = $window.innerHeight;
+
+    $scope.viewSize = {};
+    $scope.viewSize.height = $scope.windowSize.height - 200;
+
+    $scope.popup = {};
+    $scope.popup.werks = {};
+    $scope.popup.floor = {};
+    $scope.popup.area = null;
+    $scope.popup.standard = null;
+    $scope.popup.selectedRequest = {};
+
+    $scope.showGuide = false;
+
+    $scope.popupTemp = {};
+
+    $scope.searchCondition = {};
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is 'inline'
+    $scope.isPopupOpened = false;
+
+    $scope.GetStyleWidthHeight = function (onlyHeight) {
+        var result = '';
+
+        if (onlyHeight == true)
+            result = 'height: ' + $scope.viewSize.height + 'px !important';
+        else
+            result = 'width: ' + $scope.windowSize.width + 'px !important; height: ' + $scope.viewSize.height + 'px !important';
+
+        ////console.log('GetStyleWidthHeight() : ' + result);
+        return result;
+    }
+
+    $scope.Init = function () {
+        $scope.debug.Log('FloorPlanSalesCtrl.Init();');
+
+        ////$ionicScrollDelegate.$getByHandle('floorPlanSalesHandle').scrollTop(true);
+        $scope.SetLocalWord();
+        
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        
+        $scope.styleHeight = $window.innerHeight;
+        console.log('$scope.styleHeight = ' + $scope.styleHeight);
+                
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.headerText = "검색 조건";
+        $scope.word.title = '도면기준 매출조회';
+        $scope.subText = '';
+    }
+
+    $scope.searchArea = function () {
+
+        var defer = $q.defer();
+
+        FloorAreaService.query({
+            werks: $scope.popup.werks.sectionCode,
+            floor: $scope.popup.floor.code
+        }, function (data) {
+            $scope.debug.Log('GetGarbageData.get().success');
+            $scope.areas = data[0].area;
+
+            setTitle();
+
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.InitData = function () {
+
+        $scope.popup.area = 'G';
+        $scope.popup.standard = '01';
+
+        ////$scope.SetWindowSize();
+
+        // if exists favorite key, set each value by key         
+        if ($scope.favorite.support == true && $scope.favorite.selected != null)
+            $scope.SetControlsByFavorite();
+        else {
+            if ($sessionStorage.floorPlanSalesCtrl == null) {
+                PopupService.OpenPopupAlert('', '검색 조건을 선택해주세요.');
+                return;
+            }
+            else {
+                $scope.favoriteA = $sessionStorage.floorPlanSalesCtrl.KeyA;
+                $scope.favoriteB = $sessionStorage.floorPlanSalesCtrl.KeyB;
+                $scope.favoriteC = $sessionStorage.floorPlanSalesCtrl.KeyC;
+                $scope.favoriteD = $sessionStorage.floorPlanSalesCtrl.KeyD;
+
+                $scope.SetControlsBySessionStorage();
+            }
+        }
+    }
+
+    $scope.SetWindowSize = function () {
+        $scope.windowSize.width = $window.innerWidth;
+        $scope.windowSize.height = $window.innerHeight;
+        $scope.viewSize.height = $scope.windowSize.height - 200;
+    }
+
+    $scope.GetStoreNFloor = function () {
+
+    }
+
+    $scope.SetFavoriteAB = function (favoriteA, favoriteB) {
+        var defer = $q.defer();
+
+        StoreFloorService.query({
+            menu: '도면기준 매출조회',
+            werks: '-',
+            floor: '-',
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.storeNfloors = data;
+
+            for (var i = 0; i < $scope.storeNfloors.length; i++) {
+                if (favoriteA == $scope.storeNfloors[i].sectionCode) {
+                    $scope.popup.selectedRequest.storeNfloor = $scope.storeNfloors[i];
+                    
+                    $scope.popup.werks.sectionCode = favoriteA;
+                    $scope.popup.werks.sectionName = $scope.storeNfloors[i].sectionName;
+                    
+                    for (var j = 0; j < $scope.popup.selectedRequest.storeNfloor.floors.length; j++) {
+                        if (favoriteB == $scope.popup.selectedRequest.storeNfloor.floors[j].code) {
+                            $scope.popup.selectedRequest.floor = $scope.popup.selectedRequest.storeNfloor.floors[j];
+                            
+                            $scope.popup.floor.code = favoriteB;
+                            $scope.popup.floor.name = $scope.popup.selectedRequest.storeNfloor.floors[j].name;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            defer.resolve(data);
+        },
+        function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.SetControlsByFavorite = function () {
+        
+        // add code each view
+        var favoriteA = $scope.base.GetFavoriteValue($scope.favoriteKeyA); // 
+        var favoriteB = $scope.base.GetFavoriteValue($scope.favoriteKeyB); // 
+        var favoriteC = $scope.base.GetFavoriteValue($scope.favoriteKeyC); // 
+        var favoriteD = $scope.base.GetFavoriteValue($scope.favoriteKeyD); // 
+        
+        $q.all({
+            A: $scope.SetFavoriteAB(favoriteA, favoriteB).catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                
+                //$scope.popup.werks.sectionCode = favoriteA;
+                //$scope.popup.floor.code = favoriteB;
+                $scope.popup.area = favoriteC;
+                $scope.popup.standard = favoriteD;
+
+                $scope.floorplanFile();
+                $scope.searchArea();
+            },
+            function (error) {
+                
+            }
+        );
+
+        // mandatory function call, clear current favorite data
+        //$scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.SetControlsBySessionStorage = function () {
+
+        // add code each view
+        $q.all({
+            A: $scope.SetFavoriteAB($scope.favoriteA, $scope.favoriteB).catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+
+                //$scope.popup.werks.sectionCode = favoriteA;
+                //$scope.popup.floor.code = favoriteB;
+                $scope.popup.area = $scope.favoriteC;
+                $scope.popup.standard = $scope.favoriteD;
+
+                $scope.floorplanFile();
+                $scope.searchArea();
+            },
+            function (error) {
+
+            }
+        );
+
+        // mandatory function call, clear current favorite data
+        //$scope.base.ClearCurrentFavorite();
+    }
+    
+    $scope.OpenFloorPlanSalesPopup = function () {
+
+        $scope.popupTemp = angular.copy($scope.popup);
+
+        var url = 'templates/common/floorPlanSalesPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '조건 선택',
+            cssClass: 'storeFloorPopupNew',
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                //$scope.popupTemp = angular.copy($scope.popup);
+                ////$scope.RemoveSvg();
+                $scope.floorplanFile();
+                $scope.searchArea();
+            }
+            else {
+                $scope.popup = angular.copy($scope.popupTemp);
+            }
+        });
+    }
+    
+    var setTitle = function () {
+        
+        if (UtilService.IsUndefinedOrNull( $scope.popup.werks.sectionName )) {
+            $scope.headerText = '조회조건';
+            $scope.subText = '';
+        }
+        else {
+            var selectedWerksName = $scope.popup.werks.sectionName;
+            var selectedFloorName = $scope.popup.floor.name;
+            $scope.headerText = selectedWerksName + " / " + selectedFloorName + " - " + $scope.areas + "평";
+            $scope.subText = getAreaName($scope.popup.area) + " | " + getStandardName($scope.popup.standard);
+        }
+
+    }
+
+    var getAreaName = function (area) {
+        var areaName;
+        if (area == 'G') {
+            areaName = '영업면적';
+        } else {
+            areaName = '전용면적';
+        }
+        return areaName;
+    };
+
+    var getStandardName = function (standard) {
+        var standardName;
+        if (standard == '01') {
+            standardName = '매출';
+        } else if (standard == '02') {
+            standardName = '평당매출';
+        }
+        return standardName;
+    };
+
+    $scope.setStyle = function () {
+        if ($scope.shopStyleList) {
+            for (var i = 0; i < $scope.shopStyleList.id.length; i++) {
+                var shopStyle = document.getElementById($scope.shopStyleList.id[i]);
+                if (shopStyle) {
+                    //shopStyle.setAttribute("fill", "rgb(" + parseInt($scope.red) + "," + parseInt($scope.green) + "," + parseInt($scope.blue) + ")");
+                    shopStyle.style.fill = "rgb(" + parseInt($scope.shopStyleList.red[i]) + "," + parseInt($scope.shopStyleList.green[i]) + "," + parseInt($scope.shopStyleList.blue[i]) + ")";
+                    shopStyle.style.fillOpacity = 0.5;
+                }
+            }
+            //uicontrol.dismissProgressHUD();
+        }
+    }
+
+    $scope.$watch("combineTextHtml", function () {
+        if ($scope.combineTextHtml != undefined) {
+            setTimeout(function () { InitFloorPlan(); }, 100);
+            setTimeout(function () { $scope.setStyle(); }, 500);
+        }
+    });
+
+    //
+    $scope.floorplanFile = function () {
+        
+        ////$ionicLoading.show({ noBackdrop: true, template: '<img src="img/nrsm/loading.gif" class="lodaing_bg">', hideOnStateChange: true });
+        $ionicLoading.show({ noBackdrop: true });
+
+        FloorplanService
+            .query({
+                werks: $scope.popup.werks.sectionCode,
+                floor: $scope.popup.floor.code,
+                height: $scope.styleHeight
+            }, function (data) {
+                
+                ////$scope.originalSvgFile = $sce.trustAsHtml(data[0].floorplanFileData); // alter 
+                ////$scope.combineTextHtml = $scope.originalSvgFile;
+
+                //$scope.originalSvgFile = data[0].floorplanFileData; // previous replace
+                $scope.originalSvgFile = data[0].floorplanFileData.replace(/on-touch="selectStore/gi, 'touchend="selectStore');
+
+                $scope.combineTextHtml = $sce.trustAsHtml($scope.originalSvgFile);
+
+                $scope.floorSumCurrentTime();
+            }, function (error) {
+                $ionicLoading.hide();
+                console.log(error);
+            });
+    }
+
+    $scope.floorSumCurrentTime = function () {
+        
+        FloorAreaService.query({
+            werks: $scope.popup.werks.sectionCode,
+            floor: $scope.popup.floor.code,
+            date: ''
+        }, function (data) {
+            $ionicLoading.hide();
+            if (data.length == 1) {
+                $scope.combineTextHtml = "<table width='100%' height='" + $scope.styleHeight + "' border='0'><tr><td align='center'><h1>Error</h1></td></tr></table>";
+            }
+            else {
+                var svgFileList = [];
+                ////svgFileList = $scope.originalSvgFile.toString().split("</g>");
+                svgFileList = $scope.originalSvgFile.split("</g>");
+
+                var dispalyTextHtml = "";
+                $scope.textHtmlArray = { textHtml: [] };
+                $scope.currentList = [];
+                $scope.storeInfoList = [];
+                $scope.ifList = [];
+                $scope.shopStyleList = { id: [], red: [], green: [], blue: [] };
+                var yCoordinate2;
+                
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].currentList) {
+                        //console.log("1");
+                        $scope.currentList.push(data[i].currentList);
+                        $scope.shopID = data[i].currentList.layoutCode;
+                        $scope.shopName = data[i].currentList.layoutModuleName;
+                        if ($scope.popup.area == 'G') {
+                            $scope.spaceSize = data[i].currentList.gSpaceSize;
+                        } else {
+                            $scope.spaceSize = data[i].currentList.nSpaceSize;
+                        }
+                        var coordinateName = $scope.shopID + "_coordinate";
+                        if (document.getElementById(coordinateName)) {
+                            //var xCoordinate = document.getElementById(coordinateName).x.animVal[0].valueAsString;
+                            //var yCoordinate = document.getElementById(coordinateName).y.animVal[0].valueAsString;
+                            var xCoordinate = document.getElementById(coordinateName).getAttribute("x");
+                            var yCoordinate = document.getElementById(coordinateName).getAttribute("y");
+                            yCoordinate2 = parseFloat(yCoordinate) + parseFloat("13");
+                            
+                            dispalyTextHtml += "<text id=\"" + $scope.shopID + "\" fill=\"Black\" stroke-width=\"0.2\" font-family=\"Gulim\" font-size=\"12\">";
+                            dispalyTextHtml += "<tspan x=\"" + xCoordinate + "\" y=\"" + yCoordinate + "\">" + $scope.shopName + "</tspan>";
+                            dispalyTextHtml += "<tspan x=\"" + xCoordinate + "\" y=\"" + yCoordinate2 + "\">" + $scope.spaceSize + "평</tspan></text>";
+                        }
+                    }
+                    else if (data[i].storeInfoList) {
+                        // console.log("2");
+                        $scope.storeInfoList.push(data[i].storeInfoList);
+
+                        $scope.storeInfoListID = data[i].storeInfoList.layoutCode;
+
+                        if (data[i].storeInfoList.areaType == $scope.popup.area &&
+                            data[i].storeInfoList.calcType == "R" &&
+                            data[i].storeInfoList.reportCode == $scope.popup.standard) {
+                            $scope.storeInfoID = data[i].storeInfoList.layoutCode;
+                            $scope.displaySales = data[i].storeInfoList.value;
+                            $scope.displayColor = data[i].storeInfoList.color;
+
+                            $scope.red = $scope.displayColor.substring(0, 3);
+                            $scope.green = $scope.displayColor.substring(3, 6);
+                            $scope.blue = $scope.displayColor.substring(6, 9);
+
+                            $scope.shopStyleList.id.push($scope.storeInfoID);
+
+                            if ($scope.red == '000') {
+                                $scope.red = '0';
+                            }
+                            if ($scope.green == '000') {
+                                $scope.green = '0';
+                            }
+                            if ($scope.blue == '000') {
+                                $scope.blue = '0';
+                            }
+                            $scope.shopStyleList.red.push($scope.red);
+                            $scope.shopStyleList.green.push($scope.green);
+                            $scope.shopStyleList.blue.push($scope.blue);
+
+                            var fractionSize = 0;
+                            //if ($scope.standard == '02') {
+                            //    fractionSize = 2;
+                            //}
+                            var coordinateName = $scope.storeInfoID + "_coordinate";
+                            if (document.getElementById(coordinateName)) {
+                                var xCoordinate = document.getElementById(coordinateName).getAttribute("x");
+                                var yCoordinate = document.getElementById(coordinateName).getAttribute("y");
+                                yCoordinate2 = parseFloat(yCoordinate) + parseFloat("26");
+                                dispalyTextHtml += "<text id=\"" + $scope.storeInfoID + "\" fill=\"Black\" stroke-width=\"0.2\" font-family=\"Gulim\" font-size=\"12\">";
+                                dispalyTextHtml += "<tspan x=\"" + xCoordinate + "\" y=\"" + yCoordinate2 + "\">" + $filter('number')($scope.displaySales, fractionSize) + "원</tspan></text>";
+                            }
+                        }
+                    }
+                    else if (data[i].ifList) {
+                        $scope.ifList.push(data[i].ifList);
+                    }
+                }
+                $scope.textHtmlArray.textHtml.push(dispalyTextHtml);
+
+                ////$scope.combineTextHtml = svgFileList[0] + $scope.textHtmlArray.textHtml[0] + "</g>" + svgFileList[1] + "<script>SetLayout('" + $scope.orientations + "');</script>"; 
+                ////console.log($scope.combineTextHtml);
+                $scope.combineTextHtml = $sce.trustAsHtml(svgFileList[0] + $scope.textHtmlArray.textHtml[0] + "</g>" + svgFileList[1]);
+                //console.log($scope.combineTextHtml.toString());
+                
+                $scope.Guide();
+            }
+        }, function (error) {
+            $ionicLoading.hide();
+            console.log(error);
+        });
+    }
+    
+    $scope.Guide = function () {
+        $scope.guideElements = { grade: [], color: [], from: [], to: [], text: [] };
+
+        for (var i = 0; i < $scope.ifList.length; i++) {
+            if ($scope.ifList[i].calcType == "R" &&
+                $scope.ifList[i].reportCode == $scope.popup.standard) {
+
+                if ($scope.ifList[i].valueFrom <= 0) {
+                    $scope.ifList[i].valueFrom = '~';
+                }
+                if ($scope.ifList[i].valueTo > 100000000) {
+                    $scope.ifList[i].valueTo = '~';
+                }
+
+                $scope.guideElements.grade.push($scope.ifList[i].grade);
+                $scope.guideElements.color.push($scope.ifList[i].color);
+                $scope.guideElements.from.push($scope.ifList[i].valueFrom);
+                $scope.guideElements.to.push($scope.ifList[i].valueTo);
+                $scope.guideElements.text.push($scope.ifList[i].visioText);
+            }
+        }
+
+        var guideHeight = $scope.guideElements.grade.length * 30;
+        ////setHeight(320, guideHeight);
+
+        var guideHtml = "<div class='row' ng-click='ClickCaption()'>범례</div>";
+        guideHtml += "<a id='captionFirstPosition' href='#captionFirstPosition'></a>";
+        guideHtml += "<table cellpadding='0' cellspacing='0' border='0' width='100%' ng-if='showGuide'>";
+
+        for (var i = 0; i < $scope.guideElements.grade.length; i++) {
+
+            var red = $scope.guideElements.color[i].substring(0, 3);
+            var green = $scope.guideElements.color[i].substring(3, 6);
+            var blue = $scope.guideElements.color[i].substring(6, 9);
+
+            var to;
+            var from;
+            var toValue = $scope.guideElements.to[i];
+            var fromValue = $scope.guideElements.from[i];
+
+            if (toValue == '~') {
+                to = '';
+            } 
+            else {
+                if (toValue > 99) {
+                    to = $filter('number')($scope.guideElements.to[i], 0) + ' 원';
+                } 
+                else {
+                    to = $filter('number')($scope.guideElements.to[i], 0) + ' %';
+                }
+            }
+
+            if (fromValue == '~') {
+                from = '';
+            } 
+            else {
+                if (fromValue == 90 || fromValue == 80 || fromValue == 70 || fromValue == 60 || fromValue == 50 || fromValue == 40 || fromValue == 30 || fromValue == 20 || fromValue == 10) {
+                    from = $filter('number')($scope.guideElements.from[i], 0) + ' %';
+                } 
+                else {
+                    from = $filter('number')($scope.guideElements.from[i], 0) + ' 원';
+                }
+            }
+
+            if (red == '000') {
+                red = '0';
+            }
+            if (green == '000') {
+                green = '0';
+            }
+            if (blue == '000') {
+                blue = '0';
+            }
+            
+            guideHtml += "<tr><td width='30%'></td><td align='right' valign='middle' width='10%'><svg width='25px' height='25px'><rect y='18%' width='18px' height='18px' style='fill:rgb(" + parseInt(red) + "," + parseInt(green) + "," + parseInt(blue) + ");fill-opacity:0.5;storke:rgb(0,0,0);' /></svg></td><td widht='5%'>&nbsp;</td><td align='left'><b>" + $scope.guideElements.text[i] + "</b></td></tr>";
+        }
+        //if ($scope.guideElements.grade.length != 5) {
+        //    guideHtml += "<tr><td width='20%'></td><td align='right' valign='middle' width='10%' height='31px'></td><td align='right' widht='25%'></td><td width='5%' align='center'></td><td align='left'></td><td width='20%'></td></tr>\n";
+        //}
+        guideHtml += "</table>";
+        guideHtml += "<a id='captionEndPosition' href='#captionEndPosition'></a>";
+        guideHtml += "</div>";
+        //console.log(guideHtml);
+
+        $scope.showGuideHtml = $sce.trustAsHtml(guideHtml);
+
+    }
+
+    $scope.RemoveSvg = function () {
+        var myEl = angular.element(document.querySelector('#mainCanvas'));        
+        myEl.empty();
+    }
+
+    $scope.spaceProfit = function (storeId) {
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        SpaceProfitService.query({
+            werks: $scope.popup.werks.sectionCode,
+            layoutCode: storeId,
+            gubun: $scope.popup.area
+        }, function (data) {
+            $ionicLoading.hide();
+
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].result == 'S') {
+                    $scope.popupProfit = $filter('number')(data[i].profit, 0) + "원";
+                } else {
+                    $scope.popupProfit = '-';
+                }
+            }
+
+            $scope.selectedLayoutCode = storeId;
+            
+            for (var i = 0; i < $scope.currentList.length; i++) {
+                if ($scope.currentList[i].layoutCode == storeId) {
+                    $scope.selectedShopName = $scope.currentList[i].layoutModuleName;
+                    if ($scope.popup.area == 'G') {
+                        $scope.pyeong = $scope.currentList[i].gSpaceSize;
+                    }
+                    else {
+                        $scope.pyeong = $scope.currentList[i].nSpaceSize;
+                    }
+                    $scope.selectedSales = $scope.currentList[i].salesSum;
+                }
+            }
+
+            for (var i = 0; $scope.storeInfoList.length; i++) {
+                if ($scope.storeInfoList[i].layoutCode == storeId &&
+                    $scope.storeInfoList[i].areaType == $scope.popup.area &&
+                    $scope.storeInfoList[i].calcType == "R" &&
+                    $scope.storeInfoList[i].reportCode == '02') {
+
+                    $scope.pyeongSales = $scope.storeInfoList[i].value;
+                    break;
+                }
+            }
+
+            $scope.OpenFloorPlanSalesStorePopup();
+
+        }, function (error) {
+            $ionicLoading.hide();
+            console.log(error);
+        });
+    }
+
+    $scope.selectStore = function (storeId, pyeong, xPoin, yPoint) {
+
+        //if (state != Modes.none)
+        //    return;
+        //$scope.popupProfit = "--";
+        //$scope.selectedLayoutCode = storeId;
+        //$scope.spaceProfit(storeId);
+        console.log('selectStore()');
+        if (isMulti == true) return;
+        if (state != 0) return;
+
+        if (eventState == 'end' && $scope.isPopupOpened == false) {
+            $scope.popupProfit = "--";
+            $scope.selectedLayoutCode = storeId;
+
+            $scope.isPopupOpened = true;
+            $scope.spaceProfit(storeId);
+        }
+    }
+
+    $scope.OpenFloorPlanSalesStorePopup = function () {
+
+        var url = 'templates/common/floorPlanSalesStorePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '선택한 지점',
+                cssClass: 'storeFloorPopup',
+            scope: $scope,
+                buttons: [{
+                text: '닫기',
+                    onTap: function (e) {
+                        return false;
+            }
+            }, {
+                text: '상세정보',
+                    type: 'button-positive',
+                    onTap: function (e) {
+                        return true;
+            }
+        }]
+        }).then(function (result) {
+            $scope.isPopupOpened = false;
+            if (result == true) {
+                $scope.OpenFloorPlanStoreDetailPopup();
+            }
+            else {
+            }
+        });
+    }
+
+    $scope.OpenFloorPlanStoreDetailPopup = function () {
+
+        var url = 'templates/common/floorPlanStoreDetailPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '매장 정보',
+                cssClass: 'floorPlanSalesStoreDetailPopup',
+            scope: $scope,
+                buttons: [{
+                text: '닫기',
+                    onTap: function (e) {
+                        return false;
+            }
+        }]
+        }).then(function (result) {
+            if (result == true) {
+        }
+        else {
+    }
+    });
+    }
+
+    var orientationChangeEventHandler = function () {
+        console.log('floorPlanSalesCtrl.orientationchange()');
+        $scope.SetWindowSize();
+
+        if (window.orientation == 90 || window.orientation == -90) {
+            $scope.floorplanHeight = $scope.windowSize.height; //localStorage.getItem('mobileWidth');
+            $scope.orientations = "horizental";
+            $scope.changeHeight();
+            $scope.ZoomFit();
+        }
+        else {
+            $scope.floorplanHeight = $scope.windowSize.height; //localStorage.getItem('mobileHeight');
+            $scope.orientations = "vertical";
+            $scope.changeHeight();
+            $scope.ZoomFit();
+        }
+        $scope.$apply();
+    }
+
+    ionic.on('orientationchange', orientationChangeEventHandler, window);
+
+    ////var onDragUpHandler = function (e) {
+    ////    console.log('event test::onDragUpHandler()');
+    ////    $scope.nowPinch = true;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onDragDownHandler = function (e) {
+    ////    console.log('event test::onDragDownHandler()');
+    ////    $scope.nowPinch = true;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onDragLeftHandler = function (e) {
+    ////    console.log('event test::onDragLeftHandler()');
+    ////    $scope.nowPinch = true;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onDragRightHandler = function (e) {
+    ////    console.log('event test::onDragRightHandler()');
+    ////    $scope.nowPinch = true;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onDragHandler = function (e) {
+    ////    console.log('event test::onDragHandler()');
+    ////    $scope.nowPinch = true;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onMouseUpHandler = function (e) {
+    ////    console.log('event test::onMouseUpHandler()');
+    ////    $scope.nowPinch = false;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onTouchEndHandler = function (e) {
+    ////    console.log('event test::onTouchEndHandler()');
+    ////    $scope.nowPinch = false;
+    ////    e.stopPropagation();
+    ////    }
+    ////var onReleaseHandler = function (e) {
+    ////    console.log('event test::onMouseUpHandler()');
+    ////    $scope.nowPinch = false;
+    ////    e.stopPropagation();
+    ////}
+
+    //var canvas = angular.element(document.querySelector('#mainCanvas'));
+    //ionic.on('dragup', onDragUpHandler, canvas);
+    //ionic.on('dragdown', onDragDownHandler, canvas);
+    //ionic.on('dragleft', onDragLeftHandler, canvas);
+    //ionic.on('dragright', onDragRightHandler, canvas);
+    //ionic.on('mouseup', onMouseUpHandler, canvas);
+    //ionic.on('touchend', onTouchEndHandler, canvas);
+    //ionic.on('drag', onDragHandler, canvas);
+    //ionic.on('release', onReleaseHandler, canvas);
+    //ionic.on('mouseup', onMouseUpHandler, canvas);
+
+    $scope.$on('$ionicView.beforeLeave', function () {
+        console.log('$ionicView.beforeLeave()');
+        ionic.off('orientationchange', orientationChangeEventHandler, window);
+
+        $sessionStorage.floorPlanSalesCtrl = {};
+        $sessionStorage.floorPlanSalesCtrl.KeyA = $scope.popup.selectedRequest.storeNfloor.sectionCode;
+        $sessionStorage.floorPlanSalesCtrl.KeyB = $scope.popup.selectedRequest.floor.code;
+        $sessionStorage.floorPlanSalesCtrl.KeyC = $scope.popup.area;
+        $sessionStorage.floorPlanSalesCtrl.KeyD = $scope.popup.standard;
+
+        var canvas = angular.element(document.querySelector('#mainCanvas'));
+
+        //ionic.off('dragup', onDragUpHandler, canvas);
+        //ionic.off('dragdown', onDragDownHandler, canvas);
+        //ionic.off('dragleft', onDragLeftHandler, canvas);
+        //ionic.off('dragright', onDragRightHandler, canvas);
+        //ionic.off('mouseup', onMouseUpHandler, canvas);
+        //ionic.off('touchend', onTouchEndHandler, canvas);
+        //ionic.off('drag', onDragHandler, canvas);
+        //ionic.off('release', onReleaseHandler, canvas);
+        //ionic.off('mouseup', onMouseUpHandler, canvas);
+    });
+
+    $scope.changeHeight = function () {
+        if ($scope.orientations == 'vertical') {
+            var mHeight = $scope.floorplanHeight -60;
+            $scope.styleHeight = mHeight + 'px';
+            return { 'height': $scope.styleHeight
+    }
+    } else {
+        var mHeight = $scope.floorplanHeight -100;
+        $scope.styleHeight = mHeight + 'px';
+            return { 'height': $scope.styleHeight
+    }
+    }
+    }
+
+    $scope.ZoomFit = function () {
+        refreshData();
+    }
+
+    var refreshData = function () {
+
+        if ($scope.popup.werks) {
+            $scope.searchArea();
+            $scope.floorplanFile();
+
+        //var resultWerks = $.grep($scope.storeNfloors, function (e) { return e.sectionCode == $scope.werks; });
+        //var selectedWerksName = resultWerks[0].sectionName;
+        //var resultFloor = $.grep($scope.selectedRequest.storeNfloor.floors, function (e) { return e.code == $scope.floor; });
+        //var selectedFloorName = resultFloor[0].name;
+    } else {
+        }
+        setTitle();
+    }
+
+    $scope.ClickCaption = function () {
+        //console.log('aaa');
+        //$scope.showGuide = !$scope.showGuide;        
+        if ($scope.showGuide == true)
+            $scope.slideTo('captionEndPosition');
+        else
+            $scope.slideTo('captionFirstPosition');
+    }
+
+    $scope.slideTo = function (location) {
+
+        $timeout(function () {
+            var obj = document.getElementById(location);
+            ////var handle = $ionicScrollDelegate.$getByHandle('floorPlanSalesHandle');
+            ////handle.scrollTo(0, obj.offsetTop, true);
+            var handle = $ionicScrollDelegate.$getByHandle();
+
+            for (var i = 0; i < handle._instances.length; i++) {
+                if (handle._instances[i].$$delegateHandle == 'floorPlanSalesHandle') {
+                    handle._instances[i].scrollTo(0, obj.offsetTop, true);
+                    break;
+}
+        }
+
+            $scope.showGuide = !$scope.showGuide;
+    }, 500);
+    };
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('FloorPlanSalesCtrl.base.Reload()');
+
+        $scope.combineTextHtml = '';
+        $scope.showGuideHtml = '';
+
+        $scope.Init();
+    }
+
+
+    $scope.$on('$ionicView.afterEnter', function() {
+        console.log('$ionicView.afterEnter');
+    })
+
+    $scope.$on('$ionicView.loaded', function () {
+        console.log('$ionicView.loaded');
+
+        $ionicScrollDelegate.$getByHandle('floorPlanSalesHandle').scrollTop(true);
+
+        $scope.SetWindowSize();
+    })
+});

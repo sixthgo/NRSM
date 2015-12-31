@@ -1,0 +1,44 @@
+﻿<div ng-controller="POGPopupCtrl">
+
+    <div class="layer pog">
+        <div class="header">
+            <p>POG 진열 정보</p>
+            <a class="btn_close" href="javascript:"><img src="../images/btn_close.png" /></a>
+        </div>
+        <div class="body">
+            <div>
+                <p class="left">현재 선택</p>
+                <p class="right">조미료 / 1열</p>
+            </div>
+            <ul>
+                <li class="active">
+                    <p class="left">조미료 / 1열</p>
+                    <p class="right"><img src="../images/icon_check.png" alt="체크" /></p>
+                </li>
+                <li>
+                    <p class="left">조미료 / 2열</p>
+                    <p class="right"><img src="../images/icon_check.png" alt="체크" /></p>
+                </li>
+                <li>
+                    <p class="left">소스류 / 1열</p>
+                    <p class="right"><img src="../images/icon_check.png" alt="체크" /></p>
+                </li>
+                <li>
+                    <p class="left">소스류 / 2열</p>
+                    <p class="right"><img src="../images/icon_check.png" alt="체크" /></p>
+                </li>
+                <li>
+                    <p class="left">소스류 / 3열</p>
+                    <p class="right"><img src="../images/icon_check.png" alt="체크" /></p>
+                </li>
+            </ul>
+        </div>
+        <div class="footer">
+            <ul>
+                <li class="btn_cancel"><a href="javascript:"><img src="../images/btn_cancel.png" alt="취소" />&nbsp;&nbsp;취소</a></li>
+                <li class="btn_save"><a href="javascript:"><img src="../images/btn_save.png" alt="확인" />&nbsp;&nbsp;확인</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>

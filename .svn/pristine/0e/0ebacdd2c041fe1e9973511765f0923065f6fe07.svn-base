@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.Role>
+
+<script type="text/javascript">
+    
+    @*$('#MiniRoleTable').dataTable({
+        "bProcessing": true,
+        "sAjaxSource": '@Url.Action("" , "BaaSRole")'
+    });*@
+
+</script>
+
+<table id="MiniRoleTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+    <thead>
+        <tr role="row">
+            <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 106px;"></th>
+            <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor(model => model.First().Name)</th>
+            <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor(model => model.First().Desc)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null)
+        {
+            <tr><td colspan="4"><p>데이터가 없습니다.</p></td></tr>
+        }
+        else
+        {
+            foreach (Formular.BaaS.Domain.Role item in Model)
+            {
+            <tr>
+                <td><input type="checkbox" /></td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Desc)</td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>

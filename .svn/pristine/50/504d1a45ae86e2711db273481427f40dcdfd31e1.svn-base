@@ -1,0 +1,15 @@
+﻿using Eland.NRSM.Core.Services;
+using Formular.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain = Eland.NRSM.Core.Domain;
+
+namespace Eland.NRSM.Template.Services
+{
+    public class TemplateService : GenericService<Domain.Template>, ITemplateService
+    {
+    }
+}

@@ -1,0 +1,28 @@
+﻿cortrollerModule.controller('NowSalesStockInwerksCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM004';
+    $scope.base.SetMenu($scope.base.menuId);
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('NowSalesStockInwerksCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'NowSalesStockInwerksCtrl';
+    }
+
+    $scope.Init();
+});

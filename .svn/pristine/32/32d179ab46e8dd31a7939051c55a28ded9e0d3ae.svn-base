@@ -1,0 +1,7 @@
+/* Empty. Add your own CSS if you like */
+#radius { border-radius: 50%; border: 1px solid #890707; height: 45px; width: 45px;
+	line-height: 45px; text-align: center; position: absolute; z-index: 9999999; bottom: 5px; right: 5px;}
+
+[nav-view-transition="ios"][nav-view-direction="forward"], [nav-view-transition="ios"][nav-view-direction="back"] {
+  background-color: transparent;
+}

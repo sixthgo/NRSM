@@ -1,0 +1,46 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-dark">
+            <h1 class="title">지점 선택</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="eland-radio-list">
+            <div class="item">
+                예측유형
+                <a class="eland-badge">{{data.selected}}</a>
+            </div>
+
+            <ion-radio ng-repeat="item in data.clientSideList"
+                       ng-value="item.value"
+                       ng-model="data.selected"
+                       ng-change="changeCheckStatu()">
+                {{ item.value }}
+            </ion-radio>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="raio-footer" style="height: 59px;">
+        <!--<div class="row">-->
+            <!--<div class="col col-50" style="text-align: center;">-->
+                <!--<a class="button button-clear"-->
+                   <!--ng-click="closeModal('cancel')">-->
+                    <!--<i class="icon ion-ios-close-empty"></i>취소</a>-->
+            <!--</div>-->
+            <!--<div class="col col-50" style="text-align: center;">-->
+                <!--<a class="button button-clear" style="color:#666666;"-->
+                   <!--ng-click="closeModal('close')">-->
+                    <!--<i class="icon ion-ios-checkmark-empty" ></i>확인</a></a>-->
+            <!--</div>-->
+        <!--</div>-->
+        <ul id="layer">
+            <li class="btn_cancel">
+                <a class="button button-clear"
+                   ng-click="closeModal('cancel')">
+                    <i class="icon ion-ios-close-empty"></i>취소</a>
+            </li>
+            <li class="btn_confirm">
+                <a class="button button-clear"
+                     ng-click="closeModal('close')">
+                <i class="icon ion-ios-checkmark-empty" ></i>확인</a>
+            </li>
+        </ul>
+    </ion-footer-bar>
+</ion-modal-view>

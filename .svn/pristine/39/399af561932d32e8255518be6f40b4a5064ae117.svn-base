@@ -1,0 +1,33 @@
+{
+  "files": {
+    "cordova-app-loader-complete": {
+      "filename": "lib/cordova-app-loader/dist/cordova-app-loader-complete.js",
+      "version": "726b6e72c37e053b022adda6a7aa273d4ef24f2f"
+    },
+    "autoupdate": {
+      "filename": "lib/cordova-app-loader/dist/autoupdate.js",
+      "version": "5947a1bef97e77dee077d12e627c2468e4188690"
+    },
+    "app": {
+      "version": "956871b99e3b4548991aaa89871fba8e902b6cb6",
+      "filename": "js/app.js"
+    },
+    "check.html": {
+      "filename": "templates/check.html",
+      "version": "d164ca4818c9a33d189329c26148e76c48e37373"
+    },
+    "checkCtrl.js": {
+      "filename": "js/controllers/checkCtrl.js",
+      "version": "c13660348d2081eee793361eb51fc14dd44ebccd"
+    }
+  },
+  "load": [
+    "lib/cordova-app-loader/dist/cordova-app-loader-complete.js",
+    "lib/cordova-app-loader/dist/autoupdate.js",
+    "app.js",
+    "templates/check.html",
+    "js/controllers/checkCtrl.js"
+  ],
+  "root": "",
+  "version": "3cab4ec6d57156570b4b23a606e2bc1889a6bf18"
+}

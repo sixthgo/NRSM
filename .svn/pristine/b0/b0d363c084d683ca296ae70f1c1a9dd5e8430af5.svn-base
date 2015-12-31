@@ -1,0 +1,108 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('UtilService', function () {
+
+        return {
+
+          IsUndefinedOrNull: function (val) {
+              return angular.isUndefined(val) || val == null;
+          },
+
+          IsNullOrEmpty: function (val) {
+              return angular.isUndefined(val) || val == null || val.trim().length == 0;
+          },
+
+          FormatDate: function(date) {
+              var year = date.getFullYear();
+              var moth = date.getMonth() + 1;
+              var day = date.getDate();
+
+              if(parseInt(moth) < 10) {
+                  moth = "0" + moth;
+              }
+
+              if(parseInt(day) < 10) {
+                  day = "0" + day;
+              }
+
+              return year + "-" + moth + "-" + day;
+              ////[2015-10-01 change format string]
+              // return year.toString().substring(2, 4) + "-" + moth + "-" + day;
+          },
+
+          FormatDayDate: function (date) {
+              var result = '';
+
+              var weekday = new Array();
+              weekday[0] = "일";
+              weekday[1] = "월";
+              weekday[2] = "화";
+              weekday[3] = "수";
+              weekday[4] = "목";
+              weekday[5] = "금";
+              weekday[6] = "토";
+              result = weekday[date.getDay()];
+
+              return this.FormatDate(date) + ' (' + result + ')';
+          },
+
+            FormatYesToday: function(date) {
+                var year = date.getFullYear();
+                var moth = date.getMonth() + 1;
+                var day = date.getDate();
+
+                if (moth == 1 && day == 1) {
+                    year = year - 1;
+                    moth = 12;
+                    day = 31;
+                }
+
+                if (day == 1 || day == "1") {
+                    if (moth == 1 || moth == 3 || moth == 5 || moth ==7 || moth == 8
+                    || moth == 10 || moth == 12) {
+                        moth = moth - 1;
+                        day = 31;
+                    }
+                    else {
+                        day = 30;
+                    }
+                }
+                else {
+                    day = day - 1;
+                }
+
+                if(parseInt(moth) < 10) {
+                    moth = "0" + moth;
+                }
+
+                if(parseInt(day) < 10) {
+                    day = "0" + day;
+                }
+
+                return year + "-" + moth + "-" + day;
+            },
+
+            FormatWeekDate: function (date) {
+
+                var day = new Date(date.substring(0,4) + "-" + date.substring(4,6) + "-" + date.substring(6,8));
+
+                var result = '';
+
+                var weekday = new Array();
+                weekday[0] = "일";
+                weekday[1] = "월";
+                weekday[2] = "화";
+                weekday[3] = "수";
+                weekday[4] = "목";
+                weekday[5] = "금";
+                weekday[6] = "토";
+                result = weekday[day.getDay()];
+
+                return date.substring(0,4) + "년"+ date.substring(4,6) + "월"+ date.substring(6,8) + "일" + ' (' + result + ')';
+                ////[2015-10-01 change format string]
+                //return date.substring(2, 4) + "년" + date.substring(4, 6) + "월" + date.substring(6, 8) + "일" + '(' + result + ')';
+            },
+      }
+    })

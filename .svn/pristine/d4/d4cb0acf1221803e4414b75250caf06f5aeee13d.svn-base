@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/build/intermediates/exploded-aar/android/CordovaLib/unspecified/debug/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4d4d9be0ebb059698b64c369374dbbf62972c86f">
+        <dex dex="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/build/intermediates/pre-dexed/debug/classes-e9e1f0a29cfbadc43e8599dc34b9306f542242b4.jar" />
+    </item>
+    <item
+        jar="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/libs/com.google.zxing.client.android.captureactivity.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="92d1409f739c4ebcfbab79b2a11ec63d1bf668f5">
+        <dex dex="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/build/intermediates/pre-dexed/debug/com.google.zxing.client.android.captureactivity-00d95fbbb4bf858e285bac8dd9e7ae8dc4347a7a.jar" />
+    </item>
+    <item
+        jar="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/libs/sqlite4java.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d6234e08ff4e1607ff5321da2579571f05ff778d">
+        <dex dex="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/build/intermediates/pre-dexed/debug/sqlite4java-79bde6a60b87c3c4817315164f4259afffa663e1.jar" />
+    </item>
+    <item
+        jar="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/libs/MDMLib_2_50_02_17.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f25790ab5e09d5ff448b79871353987f0101ae9e">
+        <dex dex="/Users/june/Documents/Projects/mobile/Retail/NRSM/Base/platforms/android/build/intermediates/pre-dexed/debug/MDMLib_2_50_02_17-e16b70bbcbba44bd3a8e169cb726dc86b4baf04b.jar" />
+    </item>
+
+</items>

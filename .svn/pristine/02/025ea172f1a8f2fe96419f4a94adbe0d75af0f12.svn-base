@@ -1,0 +1,45 @@
+﻿
+var words = {
+    'en': {
+        common: 'Common',
+        manager: 'Manager',
+        title: 'Title',
+        task: 'Task',
+        hyper: 'Hyper',
+        product: 'Product',
+        productInfo: 'Product Information',
+        productDetail:'Product Detail'
+    },
+    'ko': {
+        common: '공통',
+        manager: '관리자',
+        title: '제목',
+        task: '작업',
+        hyper: '하이퍼',
+        product: '商品',
+        productInfo: '상품 정보 조회',
+        productDetail:'상품 상세 조회'
+    },
+    'cn': {
+        common: 'CN.Common',
+        manager: 'CN.Manager',
+        title: 'CN.Title',
+        task: 'CN.TASK',
+        hyper: 'CN.Hyper',
+        product: '商品',
+        productInfo: '商品信息',
+        productDetail:'商品详细信息'
+    }
+}
+
+var variableWords = {
+    'en': {
+        testSentence: 'Thank you {{name}}'
+    },
+    'ko': {        
+        testSentence: '{{name}} 님 감사합니다'
+    },
+    'cn': {        
+        testSentence: 'CN.Thank you {{name}}'
+    }
+}

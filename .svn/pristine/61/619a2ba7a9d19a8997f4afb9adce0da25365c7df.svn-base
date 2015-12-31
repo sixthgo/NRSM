@@ -1,0 +1,30 @@
+﻿cortrollerModule.controller('ReportStoreCtrl', function ($scope, $stateParams) {
+
+    $scope.base.menuId = 'NRSMM02';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.base.viewId = 'NRSM001';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;    // status save to Favorite 
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('ReportStoreCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+        $scope.base.snapshot = '';
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Report Store';
+    }
+
+    $scope.Init();
+});

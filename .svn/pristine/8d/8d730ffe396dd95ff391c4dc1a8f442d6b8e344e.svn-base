@@ -1,0 +1,143 @@
+controllerModule.controller('CheckCtrl', function($scope, $state, $sessionStorage, $ionicPlatform, $ionicHistory, CordovaService, PopupService, $cordovaSplashscreen, $timeout, $q){
+
+    $ionicPlatform.ready(function() {
+    // CordovaService.ready.then(function () {
+        console.log('   CordovaService   ');
+        console.log('isWebView : ' + ionic.Platform.isWebView());
+
+        //device에서 호출한 경우
+        if(ionic.Platform.isWebView()){
+          cordova.exec(function(winParam){
+            var message = winParam.message;
+            var codeKey = winParam.codeKey;
+            var locale = winParam.locale;
+
+            console.log('message : ' + message);
+            console.log('codeKey : ' + codeKey);
+            console.log('locale : ' + locale);
+
+            //alert(locale);
+            // alert(codeKey);
+
+            //디바이스 언어를 세션에 저장
+            $sessionStorage.deviceLocale = locale;
+
+            // var errorType = codeKey.substr(6,4);
+            // PopupService.OpenPopupAlert('Warning', errorType);
+            // alert(errorType);
+
+            // var nextAction = codeKey.substr(4,2);
+            // alert(nextAction);
+
+            //인증 성공ß
+            if(codeKey == '0x00000000' || codeKey == '0x50000000'){
+              //call cordova app loader
+              // $scope.checkUpdate();
+
+              console.log('success MDM certification : ' + message);
+              $sessionStorage.loginId = message;
+
+              if(ionic.Platform.isAndroid()) {
+                cordova.exec(function(winParam){
+                  var version = winParam.version;
+                  $sessionStorage.androidVersion = version;
+                  console.log('android : ' + $sessionStorage.androidVersion);
+
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+
+                  $state.go('app.home');
+                }, function(error){
+                  console.log('error : ' + error);
+                }, 'OSCODE', 'get_version', []);
+              }else{
+
+                $ionicHistory.nextViewOptions({
+                  disableBack: true
+                });
+
+                $state.go('app.home');
+              }
+            }
+            //인증 실패
+            else{
+              $cordovaSplashscreen.hide();
+              console.log('Error : ' + message);
+              if(codeKey == '0xDB310023'){
+
+              }else{
+                PopupService.OpenPopupAlert('Warning', message, $scope.closeApp);
+              }
+
+            }
+          },function(error){
+            // alert(error);
+              console.log('error : ' + error);
+          }, 'MDM', 'check_app', []);
+        }
+        //web에서 호출한 경우
+        else{
+          $sessionStorage.loginId = 'ju_minho';
+
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+
+          $state.go('app.home');
+        }
+    });
+
+    //인증 실패했을 경우, 후속 처리
+    $scope.closeApp = function () {
+      ionic.Platform.exitApp();
+    }
+
+    $scope.checkUpdate = function () {
+      // var CordovaPromiseFS = require('cordova-promise-fs');
+      // var CordovaAppLoader = require('cordova-app-loader');
+
+      console.log('cordova check update');
+        var fs = new CordovaPromiseFS({ persistent: typeof cordova !== 'undefined' });
+
+      console.log('CordovaPromiseFS init');
+
+        // Initialize a CordovaAppLoader
+        var loader = new CordovaAppLoader({
+            fs: fs,
+            serverRoot: 'http://121.190.88.31:8020/Updater/',
+            // serverRoot: 'http://data.madebymark.nl/cordova-app-loader/',
+            localRoot: 'RBMSApp',
+            mode: 'mirror',
+            cacheBuster: true,
+            checkTimeout: 10000 // timeout for the "check" function - when you loose internet connection
+        });
+
+        console.log('CordovaAppLoader init');
+
+        loader.check().then(function (updateAvailable) {
+            console.log('loader.check() : ' + updateAvailable);
+            if (updateAvailable)
+            {
+                loader.download(onprogress)
+                        .then(
+                                function (manifest)
+                                {
+                                    console.log("finish updatinng");
+                                    console.log(manifest);
+                                    loader.update();
+                                },
+                                function (failedDownloadUrlArray)
+                                {
+                                    console.log(failedDownloadUrlArray);
+                                }
+                        )
+            }
+        }, function(error){
+            console.log('loader.check() error');
+            console.log(error);
+        }
+      );
+    }
+
+});

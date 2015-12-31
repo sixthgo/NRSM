@@ -1,0 +1,32 @@
+﻿cortrollerModule.controller('SampleCtrl', function ($scope, $state, $stateParams) {
+
+    $scope.base.menuId = 'NRSMM04';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.base.viewId = 'NRSM009';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;    // status save to Favorite 
+    ////$scope.base.stateId = $state.current.name;
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('SampleCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+        $scope.base.snapshot = '';
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Sample';
+        $scope.test = $scope.word.testSentence;
+    }
+
+    $scope.Init();
+});

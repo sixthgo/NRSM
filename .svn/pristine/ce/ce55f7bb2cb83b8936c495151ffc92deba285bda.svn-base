@@ -1,0 +1,16 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('FavoriteService', function ($resource) {
+    return $resource('/api/favorite?loginId=:loginId', {
+        loginId: '@loginId'
+    },
+    {
+        'query': { method: 'GET', isArray: true },
+        'save': { method: 'POST' },
+        'put': { method: 'put' }
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

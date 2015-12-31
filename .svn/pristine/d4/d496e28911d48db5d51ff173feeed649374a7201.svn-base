@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Eland.NRSL.Core" namespace="Eland.NRSL.CUSMng.Domain">
+
+    <sql-query name="NRSM_FavoriteMenu_R01">
+        <![CDATA[
+            exec NRSM_FavoriteMenu_R01 @LoginId=:LoginId
+        ]]>
+    </sql-query>
+
+  <!--exec NRSM_FavoriteMenu_R01 @LoginId=:LoginId
+  <sql-query name="NRSL_CUS_CustMst_R01">
+      <![CDATA[
+              exec up_NRSL_CUS_CustMst_R01
+                  @ShopCode=:ShopCode,
+                  @UserID=:UserID,
+                  @SearchText=:SearchText
+          ]]>
+    </sql-query>
+  -->
+</hibernate-mapping>

@@ -1,0 +1,67 @@
+﻿cortrollerModule.controller('InventoryCountingCtrl', function ($scope, $stateParams,$state,$q,$timeout,$ionicLoading,InventoryCountingService,PopupService) {
+
+    $scope.base.categoryId = 'sc';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM020';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+        defer.resolve();
+    }
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        $scope.InitData();
+    }
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'InventoryCountingCtrl';
+    }
+    $scope.InitData=function(){
+        var currentTime=new Date();
+        $scope.data.DZLDAT=currentTime.getFullYear()+"-"+(currentTime.getMonth()+1)+"-"+currentTime.getDate();
+        $scope.data.ERFNM="CSO";
+    }
+    $scope.Init();
+
+    $scope.inventorySearch=function(){
+        var WERKS=$scope.data.WERKS;
+        var MATNR=$scope.data.MATNR;
+        InventoryCountingService.query({MATNR:MATNR,WERKS:WERKS},function(data){
+            $scope.data.returnMessage=data.returnMessage;
+        });
+    }
+    $scope.inventorySace=function(){
+        var param={
+           "DZLDAT":$scope.data.DZLDAT,
+       "WERKS":$scope.data.WERKS,
+        "MATNR":$scope.data.MATNR,
+        "FIXID":$scope.data.FIXID,
+        "ERFNM":$scope.data.ERFNM,
+        "DISQTY":$scope.data.DISQTY
+        };
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        InventoryCountingService.save(param,function(data){
+            $ionicLoading.hide();
+            if(data.returnMessage=="Success"){
+                PopupService.OpenPopupAlert("保存成功.");
+            }
+        });
+    }
+});

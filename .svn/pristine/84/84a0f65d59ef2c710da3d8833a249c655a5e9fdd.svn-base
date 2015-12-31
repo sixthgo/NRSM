@@ -1,0 +1,98 @@
+﻿<ion-view view-title="{{word.StockRegister}}">
+    <ion-content class="has-footer">
+            <div id="container" class="yellow">
+                <form>
+                    <ul class="list">
+                        <li>
+                            <p class="left">구매오더 / 팔레트코드</p>
+                            <p class="right">{{data.barCode019}}</p>
+                        </li>
+                        <li>
+                            <p class="left">점포</p>
+                            <p class="right">{{data.werks}}</p>
+                        </li>
+                        <li>
+                            <p class="left">전기 일자</p>
+                            <p class="right">{{data.currentTime}}</p>
+                        </li>
+                    </ul>
+                    <p class="btn_border btn_search btn_gray">
+                        <a ng-click="searchStockR($event)"><img src="../../img/nrsm/icon_search_gray.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                    </p>
+                </form>
+                <form>
+                    <ul class="list bdt no_margin po">
+                        <li>
+                            <p class="left">구매오더</p>
+                            <p class="right">{{data.barCode019}}</p>
+                        </li>
+                        <li>
+                            <p class="left">구매처</p>
+                            <p class="right"></p>
+                        </li>
+                        <li>
+                            <p class="left">공급가액</p>
+                            <p class="right">{{data.price}}</p>
+                        </li>
+                    </ul>
+                    <ul class="list bdt no_margin pa">
+                        <li>
+                            <p class="left">팔레트코드</p>
+                            <p class="right">{{data.barCode019}}</p>
+                        </li>
+                        <li>
+                            <p class="left">총박스수(박스)</p>
+                            <p class="right">{{data.BoxQty}}</p>
+                        </li>
+                    </ul>
+                </form>
+                <div id="table" class="po">
+                    <table>
+                        <tr>
+                            <th>상품코드 (상품명)</th>
+                            <th>수량</th>
+                            <th>단위</th>
+                            <th>단가 (원)</th>
+                            <th>입고금액 (원)</th>
+                            <th class="check_all" ><a ng-click="checkAll($event)"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></a></th>
+                        </tr>
+
+                        <tr  ng-repeat="item in data.PoPalletItemList" ng-style="item.loevm==L&&{'display':'none'}" >
+                            <td>{{item.txZ01}}</td>
+                            <td>{{item.menge}}</td>
+                            <td>{{item.meins}}</td>
+                            <td>{{item.netpr}}</td>
+                            <td>{{item.netwr}}</td>
+                            <td class="check">
+                                <a  ng-click="check(item,$event)"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="table1" class="pa">
+                    <table>
+                        <tr>
+                            <th>상품코드(상품명)</th>
+                            <th>입수수량</th>
+                            <th>박스수량</th>
+                            <th>출고수량</th>
+                            <th>검수수량</th>
+                            <th>오차수량</th>
+                        </tr>
+                        <tr  ng-repeat="item in data.PalletItemList" >
+                            <td>{{item.matnr}}<br/>{{item.arktx}}</td>
+                            <td>{{item.umrez}}</td>
+                            <td>{{item.boxqty}}</td>
+                            <td>{{item.lfimg}}</td>
+                            <td>{{item.lfimgcSpecified}}</td>
+                            <td>{{item.lfimgdSpecified}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <p class="btn_border btn_download btn_color mt_12 savePoabtn">
+                    <a ng-click="savePoPalletItemList()"><img src="../../img/nrsm/icon_download_yellow.png" alt="저장" />&nbsp;&nbsp;저장</a>
+                </p>
+            </div>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,24 @@
+﻿/* ionic */
+
+.bar { padding:0; }
+.main .scroll { background:#eee; padding:0 2.5%; margin:0 auto; overflow-x:hidden; }
+.scroll > .list { width:100%; margin:4px 0 0; padding:4px 0 0; border-top:1px solid #ddd; overflow:hidden; }
+.scroll > .list:first-child { padding-top:8px; margin-top:0; border-top:0; }
+.scroll > .list:last-child { padding-bottom:8px; }
+.scroll > .list > .item { margin:0; padding:0; border:0; background:transparent; }
+/*.scroll > .list > .item > p { display:none; } */
+.scroll > .list > .item > .menuContainer > .row { margin:0; padding:0; }
+.scroll > .list > .item > .menuContainer > .row > .col { width:31.8%; margin-right:2.3%; margin-bottom:1.2%; margin-top:1.2%; float:left; background:#fff; padding:0; flex:initial; }
+.scroll > .list > .item > .menuContainer > .row > .col:nth-child(3n) { margin-right:0; }
+.scroll > .list > .item > .menuContainer > .row > .col > a { display:block; border:1px solid #ddd; position:relative; text-align:center; }
+.scroll > .list > .item > .menuContainer > .row > .col > a > img { max-width:100%; height:auto; vertical-align:top; }
+.scroll > .list > .item > .menuContainer > .row > .col > a > h2 { width:100%; position:absolute; bottom:14px; left:0; text-align:center; font-size:10px; font-weight:400; line-height:130%; }
+.scroll > .list > .item > .menuContainer > .row > .col > a > h2.lines { bottom:6px; }
+    
+@media screen and (min-width:799px) {
+	.scroll > .list > .item > .menuContainer > .row > .col > a > h2 { bottom:33px; font-size:20px; line-height:130%; }
+}
+
+@media screen and (min-width:700px) and (max-width:799px) {
+	.scroll > .list > .item > .menuContainer > .row > .col > a > h2 { bottom:32px; font-size:20px; line-height:130%; }
+}

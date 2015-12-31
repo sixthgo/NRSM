@@ -1,0 +1,12 @@
+'use strict';
+
+angular.module('starter.services')
+
+.factory('MaterialSaveLabelService', function ($resource, webServerUrl) {
+	return $resource(webServerUrl + '/api/MaterialSaveLabelApi', {},
+		{
+			saveMaterialLabel: { method: 'POST', params: { dto:'@dto'} }
+		});
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,449 @@
+﻿controllerModule.controller('ProductInformationCtrl', function ($scope,
+                                                                $stateParams,
+                                                                PopupService,
+                                                                $q,
+                                                                $ionicLoading,
+                                                                MaterialPriceInforService,
+                                                                UtilService,
+                                                                MaterialSaveLabelService,
+                                                                $state,
+                                                                $sessionStorage,
+                                                                $timeout, $ionicPosition,
+                                                                PlantService, UserLinkButtonService, $window,$ionicScrollDelegate) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM007';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'none'; // default value is ‘inline'
+
+    $scope.data.isGridShow = false;
+
+    $scope.data.IsInventoryCounting = false;
+    $scope.data.IsManualOrder = false;
+    $scope.data.IsPOGManagement = false;
+
+    $scope.data.productDetail=0;
+
+    $scope.data.canSave = false;
+    $scope.isReload = false;
+
+    $scope.widthFlag = 320;
+    $scope.currentWidth;
+    $scope.standardViewSize = 'S'; // Small or Big
+
+    //$ionicHistory.clearCache();
+    //$ionicHistory.clearHistory();
+    $scope.Init = function () {
+
+        $scope.currentWidth = $window.innerWidth;
+        if ($scope.currentWidth > $scope.widthFlag)
+            $scope.standardViewSize = 'B';
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.$watch("base.barCode", function () {
+        if ($scope.base.barCode != null && $scope.base.barCode.toString().length > 0) {
+            $scope.SearchAuto();
+        }
+    });
+
+    $scope.GetUuserButtonRole = function () {
+        $ionicLoading.show({ noBackdrop: true});
+
+        UserLinkButtonService.query({
+            loginId: $scope.user.loginId,
+            x: 'xyz',
+            y: 'zyx'
+        }, function (data) {
+            if (!UtilService.IsUndefinedOrNull(data)) {
+
+                for(var i in data) {
+                    if (data[i].name == "InventoryCounting") {
+                        $scope.data.IsInventoryCounting = true;
+                    }
+                    else if (data[i].name == "ManualOrder") {
+                        $scope.data.IsManualOrder = true;
+                    }
+                    else if (data[i].name == "POGManagement") {
+                        $scope.data.IsPOGManagement = true;
+                    }
+                }
+            }
+        }, function (error) {
+            //
+        });
+
+        $ionicLoading.hide();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        // set link button can display or hide
+        $scope.GetUuserButtonRole();
+        //
+
+        $scope.InitData();
+    }
+
+    $scope.SetLocalWord = function () {
+        //$scope.word.title = 'ProductInformationCtrl';
+    }
+
+    $scope.InitData = function () {
+        $scope.data.isSow = null;
+        $scope.data.isGridShow = false;
+
+        $scope.user.plantCode = $scope.user.plantCode == "8000" ? "8206" : $scope.user.plantCode;
+        if (!UtilService.IsUndefinedOrNull($sessionStorage.matnr) && $scope.base.barCode != $sessionStorage.matnr) {
+
+            $scope.base.barCode = $sessionStorage.matnr;
+        }
+        if (!UtilService.IsUndefinedOrNull($sessionStorage.werks) && $scope.user.plantCode != $sessionStorage.werks) {
+            $scope.user.plantCode = $sessionStorage.werks;
+        }
+        if(!UtilService.IsUndefinedOrNull($sessionStorage.matnr)){
+            $scope.SearchProductInform();
+        }
+    }
+
+    $scope.SetControlsByFavorite = function () {
+        // add code each view
+        $scope.data.plantId = $scope.base.GetFavoriteValue('Plant');
+        $scope.data.PC = $scope.base.GetFavoriteValue('PC');
+
+        // mandatory function call, clear current favorite data
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.isReload = true;
+        $scope.Init();
+    }
+
+    $scope.Search = function () {
+
+        $ionicLoading.show({ noBackdrop: true });
+        $scope.SetDataHeight();
+        $q.all({
+            A: $scope.SearchAll().catch($scope.CatchException),
+            B: $scope.SearhcPlantName().catch($scope.CatchException),
+        })
+            .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                if (results.A != null && results.A.length > 0) {
+                    if (results.A[0].flag == "S") {
+
+                        for(var i in results.A) {
+                            for(var x in results.B) {
+                                if (results.B[x].plantCode == results.A[i].wERKS) {
+                                    results.A[i].mATNR1 = results.B[x].plantName;
+                                }
+                            }
+                        }
+
+                        $scope.data.allList = results.A;
+
+                        $scope.data.isGridShow = true;
+                    }
+                }
+            }
+            , function (error) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+            }
+        );
+    }
+
+    $scope.SearchProductInform = function() {
+
+        var barCode = $scope.base.barCode;
+
+        if(barCode == null || barCode.toString().length == 0) {
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            return;
+        }
+
+        $scope.data.allList = null;
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        MaterialPriceInforService.searchMaterialPriceInfo({
+            werks: $scope.user.plantCode,
+            matnr: $scope.base.barCode
+        }, function (data) {
+
+            if (data.flag == "S") {
+                $scope.data.ProductInformation = data;
+                $scope.data.price = data.pRICE * 100;
+                $scope.data.canSave = true;
+                if (data.nOCTL == "중단") {
+                    $scope.data.isSow = true;
+
+                    if (!UtilService.IsNullOrEmpty(data.nOCTL)) {
+                        $scope.data.boxClass = "box_red";
+                        $scope.data.tips = data.nOCTL;
+                    }
+                }
+                else if (UtilService.IsNullOrEmpty(data.gUBUN)) {
+                    $scope.data.isSow = true;
+
+                    if (!UtilService.IsNullOrEmpty(data.nOCTL)) {
+                        $scope.data.boxClass = "box_blue";
+                        $scope.data.tips = data.gUBUN_T;
+                    }
+                }
+                else if (data.gUBUN == "X") {
+                    $scope.data.isSow = true;
+
+                    if (!UtilService.IsNullOrEmpty(data.nOCTL)) {
+                        $scope.data.boxClass = "box_yellow";
+                        $scope.data.tips = data.gUBUN_T;
+                    }
+                }
+            }
+            else {
+                PopupService.OpenPopupAlert("조회 결과가 없습니다.");
+            }
+
+            $ionicLoading.hide();
+        }, function (error) {
+            $scope.data.isSow = false;
+            $scope.data.isGridShow = false;
+            $scope.data.ProductInformation = null;
+            PopupService.OpenPopupAlert("조회 결과가 없습니다.");
+            $ionicLoading.hide();
+        })
+    }
+
+    $scope.SearhcPlantName = function () {
+        var defer = $q.defer();
+
+        PlantService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            defer.resolve(data);
+        }, function (error) {
+            defer.reject(error);
+        })
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.SearchAuto = function () {
+        if ($scope.base.canAutoSearch) {
+            $scope.SearchProductInform();
+        }
+
+        $scope.base.canAutoSearch = false;
+    }
+
+    $scope.SaveMaterialLabel = function () {
+
+        if (!$scope.data.canSave) {
+            return;
+        }
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        var param={
+            //bISMT: $scope.data.ProductInformation.bISMT,
+            //dATAB: $scope.data.ProductInformation.dATAB,
+            //dPTPR: $scope.data.ProductInformation.dPTPR,
+            //eAN11: $scope.data.ProductInformation.eAN11,
+            //eKGRP: $scope.data.ProductInformation.eKGRP,
+            //flag: $scope.data.ProductInformation.flag,
+            //gESME: $scope.data.ProductInformation.gESME,
+            //gUBUN: $scope.data.ProductInformation.gUBUN,
+            //gUBUN_T: $scope.data.ProductInformation.gUBUN_T,
+            //kONWA: $scope.data.ProductInformation.kONWA,
+            //lABST: $scope.data.ProductInformation.lABST,
+            //lABST_1: $scope.data.ProductInformation.lABST_1,
+            //mAKTX: $scope.data.ProductInformation.mAKTX,
+            mATNR: $scope.base.barCode,
+            //mATNR1: $scope.data.ProductInformation.mATNR1,
+            //mEINS: $scope.data.ProductInformation.mEINS,
+            //nOCTL: $scope.data.ProductInformation.nOCTL,
+            pERNO: $scope.user.empNo,
+            //pRICE: $scope.data.ProductInformation.pRICE,
+            //returnMessage: $scope.data.ProductInformation.returnMessage,
+            //sTPRC: $scope.data.ProductInformation.sTPRC,
+            //status: $scope.data.ProductInformation.status,
+            //tOQTY: $scope.data.ProductInformation.tOQTY,
+            //tOTAL: $scope.data.ProductInformation.tOTAL,
+            wERKS: $scope.user.plantCode
+            //zCNT: $scope.data.ProductInformation.zCNT,
+            //zFLAG: $scope.data.ProductInformation.zFLAG,
+            //zFLAG_T: $scope.data.ProductInformation.zFLAG_T,
+            //zRSUM: $scope.data.ProductInformation.zRSUM,
+        };
+
+        MaterialSaveLabelService.saveMaterialLabel(param, function (data){
+
+            if (data.flag == "S") {
+                PopupService.OpenPopupAlert("저장이 되었습니다.");
+            }
+            else {
+                PopupService.OpenPopupAlert(data.returnMessage);
+            }
+
+            $ionicLoading.hide();
+        }, function (error){
+            console.log(error);
+            $ionicLoading.hide();
+        })
+    }
+
+    $scope.SearchAll = function () {
+        var defer = $q.defer();
+
+        var barCode = $scope.base.barCode;
+
+        if(barCode == null || barCode.toString().length == 0) {
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            defer.reject("error");
+            $ionicLoading.hide();
+            return;
+        }
+
+        MaterialPriceInforService.searchMaterialPriceInfoAll({
+            matnr: $scope.base.barCode
+        }, function (data) {
+            defer.resolve(data);
+        }, function (error) {
+            defer.reject(error);
+        })
+
+        return defer.promise;
+    }
+
+    $scope.GoDetail = function () {
+
+        $sessionStorage.werks = $scope.user.plantCode;
+        $sessionStorage.matnr = $scope.base.barCode;
+
+        $state.go('app.common.ProductDetail');
+    }
+
+    $scope.GoInventoryCounting = function () {
+
+        $sessionStorage.werks = $scope.user.plantCode;
+        $sessionStorage.matnr = $scope.base.barCode;
+
+        $state.go('app.sc.InventoryCounting');
+    }
+
+    $scope.GoManualOrder = function () {
+
+        $sessionStorage.werks = $scope.user.plantCode;
+        $sessionStorage.matnr = $scope.base.barCode;
+
+        $state.go('app.hyper.ManualOrder');
+    }
+
+    $scope.GoPOGManagement = function () {
+        $state.go('app.hyper.POGManagement');
+    }
+
+    var SetSwiper = function () {
+
+        //var interpolateHeight = 190; // default for iOS
+        //var isAndroid = ionic.Platform.isAndroid();
+        //if (isAndroid)
+        //    interpolateHeight = 178; // for android
+        //
+        //var obj = angular.element('#scrollA'); // ion-scroll id
+        //var position = $ionicPosition.position(obj);
+        //$scope.newHeightA = position.height - position.top - interpolateHeight;
+        $scope.base.swiper();
+
+        if ($scope.requireScrollHeight == true) {
+            $scope.SetDataHeight();
+            $scope.requireScrollHeight = false;
+        }
+        $scope.isReload = false;
+
+        var scrolls = $ionicScrollDelegate.$getByHandle()._instances;
+        for (var i = 0; i < scrolls.length; i++) {
+            scrolls[i].scrollTop(true);
+        }
+    }
+
+    $scope.SetDataHeight = function () {
+        var totalHeight = $window.innerHeight;
+
+        var headerBarHeight = 45;
+
+        var headlineAHeight = $ionicPosition.offset(angular.element(document.querySelector('#productInformationForm'))).height;
+        var headlineBHeight = $ionicPosition.offset(angular.element(document.querySelector('#productInfList'))).height;
+        var boxHeight = $ionicPosition.offset(angular.element(document.querySelector('#productInfBox'))).height;
+        var tableHeaderHeight = $ionicPosition.offset(angular.element(document.querySelector('.productInfTableHeader'))).height;
+
+        var footerHeight = 51;//angular.element(document.querySelector('#footer'))[0].offsetHeight;
+
+        var dataHeight = totalHeight - headerBarHeight - (headlineAHeight + headlineBHeight + boxHeight + tableHeaderHeight) - footerHeight;
+
+        var documentHeight=headerBarHeight+headlineAHeight + headlineBHeight + boxHeight + tableHeaderHeight+300+footerHeight;
+        var isAndroid = ionic.Platform.isAndroid();
+        var isIPad = ionic.Platform.isIPad();
+        var isIOS = ionic.Platform.isIOS();
+
+        console.log('isAndroid=' + isAndroid);
+        console.log('isIPad=' + isIPad);
+        console.log('isIOS=' + isIOS);
+
+        var interpolateHeight = 0;
+        if (isAndroid)
+            interpolateHeight = 0; // for android
+        if (isIPad || isIOS)
+            interpolateHeight = -20; // for iOS
+
+        dataHeight += interpolateHeight;
+        documentHeight+=interpolateHeight;
+        if (isAndroid) {
+            if ($sessionStorage.androidVersion < 19) {
+                ////dataHeight = dataHeight - 88;
+            }
+        }
+        $scope.documentHeight=documentHeight+'px';
+        $scope.scrollHeight = dataHeight + 'px';
+
+        console.log('$scope.scrollHeight=' + $scope.scrollHeight);
+    }
+});

@@ -1,0 +1,30 @@
+﻿cortrollerModule.controller('ReportCuCtrl', function ($scope, $stateParams) {
+
+    $scope.base.menuId = 'NRSMM02';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.base.viewId = 'NRSM002';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('ReportCuCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+        $scope.base.snapshot = '';
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Report CU';
+    }
+
+    $scope.Init();
+});

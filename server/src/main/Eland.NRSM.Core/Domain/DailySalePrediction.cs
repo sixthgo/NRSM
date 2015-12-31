@@ -1,0 +1,50 @@
+﻿using Formular.Core.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Eland.NRSM.Core.Domain
+{
+
+    public class DailySalePredition : BaseDomain
+    { 
+        public List<Domain.DailySalePredictionFloor> DailySalePreditionFloor { get; set;}
+
+        public List<Domain.DailySalePredictionTime> DailySalePreditionTime { get; set; }
+
+        public string Flag { get; set; }
+
+        public string ReturnMessage { get; set; }
+    }
+
+
+    [Serializable]
+    public class DailySalePredictionFloor : BaseDomain
+    {
+        public string WERK { get; set; }
+        public decimal ZAMT { get; set; }
+        public decimal ZAMT2 { get; set; }
+        public decimal ZAMT3 { get; set; }
+        public decimal ZAMT4 { get; set; }
+        public string ZFL { get; set; }
+        public decimal ZYUL { get; set; }
+        public decimal ZYUL2 { get; set; }
+
+    }
+
+    [Serializable]
+    public class DailySalePredictionTime : BaseDomain
+    {
+        public string NAME1 { get; set; }
+        public string WERK { get; set; }
+        public decimal ZAMT { get; set; }
+        public decimal ZAMT2 { get; set; }
+        public decimal ZAMT3 { get; set; }
+        public decimal ZAMT4 { get; set; }
+        public decimal ZYUL { get; set; }
+        public decimal ZYUL2 { get; set; }
+
+    }
+}

@@ -1,0 +1,198 @@
+﻿<ion-view view-title="{{word.eimsInformation}}">
+    <ion-content class="has-footer">
+        <div class="list select">
+            <div class="item">
+                <div class="row list">
+                    <div class="col col-50">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark"
+                           ng-click="showShopPop()">{{data.shop}}</a>
+                    </div>
+                    <div class="col col-50">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark">2015년 06월 30일</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ion-list>
+            <ion-item class="eland-table-header">
+                <div class="row list">
+                    <div class="col col-10" style="line-height: 50px;">
+                        <a class="eland-font-color-green">항목</a>
+                    </div>
+                    <div class="col col-10 eland-col-offset-7" style="line-height: 50px;">
+                        <a class="eland-font-color-green">실적</a>
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        <a class="eland-font-color-green">전년</a>
+                        <a class="eland-font-color-green">(2014년)</a>
+                    </div>
+                    <div class="col col-10 eland-col-offset-7" style="line-height: 50px;">
+                        <a class="eland-font-color-green">성장율</a>
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        <a class="eland-font-color-green">2년전</a>
+                        <a class="eland-font-color-green">(2013년)</a>
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        <a class="eland-font-color-green">3년전</a>
+                        <a class="eland-font-color-green">(2012년)</a>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="eland-table-body">
+                <div class="row list">
+                    <div class="col col-10">
+                        고객수
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,601
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        1,750
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        -8.5%
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,236
+                    </div>
+                    <div class="col col-10 eland-col-offset-7">
+                        2,324
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

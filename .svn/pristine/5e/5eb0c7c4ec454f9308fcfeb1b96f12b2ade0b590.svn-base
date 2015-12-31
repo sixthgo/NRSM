@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <object type="Eland.NRSM.Ap.Controllers.HomeController , Eland.NRSM.Ap" singleton="false">
+    <property name="templateService" ref="TemplateService" />
+  </object>
+
+  <object name="FavoriteService" type="Eland.NRSM.Template.Services.FavoriteService, Eland.NRSM.Template"></object>
+
+  <object name="PlantService" type="Eland.NRSM.Template.Services.PlantService, Eland.NRSM.Template"></object>
+  
+  
+</objects>

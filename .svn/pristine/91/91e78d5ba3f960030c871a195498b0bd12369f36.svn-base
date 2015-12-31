@@ -1,0 +1,14 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('AdminApiService', function ($resource, webServerUrl) {
+    return $resource( webServerUrl + '/api/adminApi?loginId=:loginId', {
+        loginId: '@loginId'
+    },
+    {
+        'query': { method: 'GET', isArray: false },
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

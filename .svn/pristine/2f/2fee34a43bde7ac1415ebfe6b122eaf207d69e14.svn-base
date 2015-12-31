@@ -1,0 +1,240 @@
+﻿<ion-nav-bar class="{{setting.header.class}}">
+</ion-nav-bar>
+<ion-view view-title="Home" > <!--class="main"-->
+    <ion-content>
+        <!--<div id="wrapper">
+
+            <div id="container">
+
+                <ul class="menu">
+                    <li>
+                        <a href="../html/02.html">
+                            <img src="./img/nrsm/menu_01.png" />
+                            <h2>경영자 레포트 [지점]</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_01.png" />
+                            <h2>경영자 레포트 [CU]</h2>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu">
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_02.png" />
+                            <h2>목표, 전년 대비</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_02.png" />
+                            <h2 class="lines">목표, 전년 대비<br />월 누적 실적</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/06.html">
+                            <img src="./img/nrsm/menu_02.png" />
+                            <h2>현재 기준 매출 조회</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_02.png" />
+                            <h2>현재 기준 행사 매출 조회</h2>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu">
+                    <li>
+                        <a href="../html/23.html">
+                            <img src="./img/nrsm/menu_03.png" />
+                            <h2>상품 정보 조회</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/25.html">
+                            <img src="./img/nrsm/menu_03.png" />
+                            <h2 class="lines">EIMS 고객 정보,<br />영수증 정보 조회</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/26.html">
+                            <img src="./img/nrsm/menu_03.png" />
+                            <h2>일 마감 예측 실적 조회</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_03.png" />
+                            <h2>도면 기준 매출 조회</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/28.html">
+                            <img src="./img/nrsm/menu_03.png" />
+                            <h2>도면 기준 실적 조회</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_03.png" />
+                            <h2>도면 이력 조회</h2>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu">
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_04.png" />
+                            <h2>신선 재고 관리</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_04.png" />
+                            <h2>수동 발주</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/32.html">
+                            <img src="./img/nrsm/menu_04.png" />
+                            <h2>실 재고 조정</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/33.html">
+                            <img src="./img/nrsm/menu_04.png" />
+                            <h2>바코드 목록 생성 및 전송</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../html/34.html">
+                            <img src="./img/nrsm/menu_04.png" />
+                            <h2>POG 진열 관리 [조회]</h2>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu">
+                    <li>
+                        <a href="../html/39.html">
+                            <img src="./img/nrsm/menu_05.png" />
+                            <h2>일배 입고</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_05.png" />
+                            <h2>입고 등록</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#none">
+                            <img src="./img/nrsm/menu_05.png" />
+                            <h2>재고 실사</h2>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>-->
+        <div class="list">
+            <div class="item">
+                <p compile="GetFavoriteHtml()" >
+                </p>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="item" ng-repeat="section in menu.sections">
+                <p compile="GetSectionHtml(section)" >
+                </p>
+            </div>
+        </div>
+            <!-- code rendering sample
+        <div class="list">
+            <div class="item">
+                <p>
+                    <div class="row" >
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_02.png" style="width: 100%" ><br />Menu
+                        </div>
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_02.png" style="width: 100%" ><br />Menu
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="item">
+                <p>
+                    <div class="row">
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_01.png" style="width: 100%" ><br />Menu
+                        </div>
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_01.png" style="width: 100%" ><br />Menu
+                        </div>
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_01.png" style="width: 100%" ><br />Menu
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_01.png" style="width: 100%" ><br />Menu
+                        </div>
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_01.png" style="width: 100%" ><br />Menu
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="item">
+                <p>
+                    <div class="row">
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_03.png" style="width: 100%" ><br />Menu
+                        </div>
+                        <div class="col col-33 text-center item-image">
+                            <img src="./img/nrsm/menu_03.png" style="width: 100%" ><br />Menu
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+        -->
+            <!--<h3>STATIC (TEST)</h3>
+
+        <h3>{{word.product}}</h3>
+        <div>
+            <a ui-sref="app.common.ProductInformation">GO Product Information</a>
+        </div>
+        <div>
+            <a ui-sref="app.common.SalesProjections">GO Sale projections</a>
+        </div>
+
+        <h4>{{word.manager}}</h4>
+        <a ui-sref="app.managerReport.reportStore">GO reportStore</a>
+
+        <h4>{{word.sale}}</h4>
+        <a ui-sref="app.sales.NowSalesStockInwerks">GO NowSalesStockInwerks</a>
+
+
+        <h2>{{word.eimsInformation}}</h2>
+        <div>
+            <a ui-sref="app.common.EIMSInformation">GO EIMS</a>
+        </div>
+        <h2>Hyper</h2>
+        <div>
+            <a ui-sref="app.hyper.RealStockControl">GO Change Product Stock</a>
+        </div>-->
+            <!--<h3>IonicModal (TEST)</h3>
+        <button ng-click="TestModal('A')">IonicModal A</button>
+        <button ng-click="TestModal('B')">IonicModal B</button>-->
+
+
+    </ion-content>
+</ion-view>

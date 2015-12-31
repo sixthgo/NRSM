@@ -1,0 +1,13 @@
+﻿<ion-footer-bar id="footer" ng-class="setting.footer.class" ng-hide="base.menuId=='NRSMM00'">
+    <!--<button class="button" ng-click="base.ClickStar()"></button>-->
+    <!--<a class="title" ui-sref="app.home">HOME</a>-->
+    <!--<button class="button" ng-click="base.ClickGear()"></button>-->
+    <!--<button class="button" ng-if="base.viewId == 'NRSM011'" ng-click="base.ClickAdd()">ADD</button>-->
+    <ul>
+        <li><a href="#"><img src="img/nrsm/footer_01.png" alt="즐겨찾기"></a></li>
+        <li><a href="#" ng-click="base.ClickStar()"><img src="img/nrsm/footer_02.png" alt="즐겨찾기 추가"></a></li>
+        <li><a href="#"><img src="img/nrsm/footer_03.png" alt="홈으로"></a></li>
+        <li><a href="#"><img src="img/nrsm/footer_04.png" alt="카메라 스캔"></a></li>
+        <li><a href="#"><img src="img/nrsm/footer_05.png" alt="설정"></a></li>
+    </ul>
+</ion-footer-bar>

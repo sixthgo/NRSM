@@ -1,0 +1,115 @@
+﻿@model Formular.BaaS.Domain.ProgramMenu
+@using Formular.BaaS.Domain
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Program Menu</p>
+              <small>Program Menu Create</small>
+            </blockquote>
+            @if (ViewBag.AppDivision != null)
+            {
+                @Html.Partial("../BaaSApplication/_LeftInfo", ViewBag.AppDivision as AppDivision)
+            }
+        </div>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12"> 
+
+@using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), ViewContext.RouteData.GetRequiredString("controller"), FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <fieldset>
+        <legend>Program Menu</legend>
+
+        @if (ViewBag.AppDivisions != null)
+        {
+        <div class="control-group">
+            @Html.LabelFor(model => model.AppDivision.Name, new { @class = "control-label" })
+            <div class="controls">
+               @Html.DropDownListFor(model => model.AppDivision.Id,
+                           new SelectList(ViewBag.AppDivisions,
+                                             "id",
+                                             "Name"
+                                            ),
+                           "-- Select State --")
+            </div>
+        </div>
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.AppDivision.Id)
+        }
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.DisplaySeq, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.DisplaySeq, "", new { placeholder = "DisplaySeq" })
+                @Html.ValidationMessageFor(model => model.DisplaySeq)
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ParentId, "", new { placeholder = "ParentId" })
+                @Html.ValidationMessageFor(model => model.ParentId)
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name, "", new { placeholder = "Name" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Desc, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Desc, "", new { placeholder = "Desc" })
+                @Html.ValidationMessageFor(model => model.Desc)
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Parameter, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Parameter, "", new { placeholder = "Parameter" })
+                @Html.ValidationMessageFor(model => model.Parameter)
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+        </div>
+    </div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(function(){
+        $("#ParentId").val("@ViewBag.ParentId");
+        @if ( ViewBag.AppDivision != null ){
+                <text>
+        $("#AppDivision_Id").val("@ViewBag.AppDivision.Id");
+                </text>
+            }
+    });
+    </script>
+
+}

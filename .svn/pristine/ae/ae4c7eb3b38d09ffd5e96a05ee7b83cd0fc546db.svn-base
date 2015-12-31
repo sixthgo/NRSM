@@ -1,0 +1,73 @@
+controllerModule.controller('ProductDetailCtrl',function($scope, $stateParams,
+                                                         MaterialPriceInforService,
+                                                         $ionicLoading, $q, PopupService,$sessionStorage){
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSMM';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+
+
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        //if (isAuthenticate == false) {
+        //    PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+        //    return;
+        //}
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+    }
+
+    $scope.InitData = function () {
+        $scope.data.plantCode = $sessionStorage.matnr;
+        $scope.data.werks = $sessionStorage.werks;
+
+        $scope.SearchDetail();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Product Detail';
+    }
+    $scope.Init();
+
+    $scope.SearchDetail = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        MaterialPriceInforService.searchProductDetail({
+            werks: $scope.data.werks,
+            matnr: $scope.data.plantCode,
+            x: '123'
+        }, function (data) {
+
+            if (data != null) {
+                $scope.data.MaterialDetail = data;
+                $scope.data.lIFNR = parseInt(data.lIFNR).toString();
+            }
+            $ionicLoading.hide();
+        }, function (error) {
+            $ionicLoading.hide();
+        })
+
+    }
+});

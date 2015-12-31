@@ -1,0 +1,11 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('AccumulateSalesService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/accumulatesales/:id', {
+        id: '@id'
+    }, {
+        'query': { isArray: false }
+    })
+})

@@ -1,0 +1,51 @@
+﻿using Eland.NRSM.Core.Services;
+using Eland.NRSM.Template.Dao;
+using Formular.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain = Eland.NRSM.Core.Domain;
+
+namespace Eland.NRSM.Template.Services
+{
+    public class POGFirstCategoryService : GenericService<Domain.POGFirstCategory>, IPOGFirstCategoryService
+    {
+        IPOGFirstCategoryDao pogDao { get { return genericDao as IPOGFirstCategoryDao; } }
+
+        public List<Domain.POGFirstCategory> GetFirstCategory(string plantCode)
+        {
+            List<Domain.POGFirstCategory> result = new List<Domain.POGFirstCategory>();
+            result = pogDao.GetFirstCategory(plantCode);
+
+            return result;
+        }
+    }
+
+    public class POGThirdCategoryService : GenericService<Domain.POGThirdCategory>, IPOGThirdCategoryService
+    {
+        IPOGThirdCategoryDao pogDao { get { return genericDao as IPOGThirdCategoryDao; } }
+
+        public List<Domain.POGThirdCategory> GetThirdCategory(string plantCode, string firstCategory)
+        {
+            List<Domain.POGThirdCategory> result = new List<Domain.POGThirdCategory>();
+            result = pogDao.GetThirdCategory(plantCode, firstCategory);
+
+            return result;
+        }
+    }
+
+    public class POGColumnService : GenericService<Domain.POGColumn>, IPOGColumnService
+    {
+        IPOGColumnDao pogDao { get { return genericDao as IPOGColumnDao; } }
+
+        public List<Domain.POGColumn> GetColumn(string plantCode, string firstCategory, string thirdCategory)
+        {
+            List<Domain.POGColumn> result = new List<Domain.POGColumn>();
+            result = pogDao.GetColumn(plantCode, firstCategory, thirdCategory);
+
+            return result;
+        }
+    }
+}

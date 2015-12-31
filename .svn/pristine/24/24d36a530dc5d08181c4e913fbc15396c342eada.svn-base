@@ -1,0 +1,12 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('FloorHistoryRecordDetailService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/floorhistoryrecorddetail?werks=:werks&floor=:floor&layoutCode=:layoutCode&selectDate=:selectDate', {
+        werks: '@werks',
+        floor: '@floor',
+        layoutCode: '@layoutCode',
+        selectDate: '@selectDate'
+    });
+})

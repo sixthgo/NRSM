@@ -1,0 +1,25 @@
+﻿<!--<ion-nav-bar class="{{setting.header.class}}">
+</ion-nav-bar>-->
+<ion-view view-title="Home" class="main">
+    <ion-content>
+        <div class="list">
+            <div class="item">
+                <div class="menuContainer" compile="favoriteHtml"></div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="item" ng-repeat="m in menuHtml track by $index">
+                <div class="menuContainer" compile="m"></div>
+            </div>
+        </div>
+        <!--<div>
+            <a ng-click="GOTEMP('app.hyper.POGManagement', true)">GO NO PARAM</a>
+        </div>
+        <div>
+            <a ng-click="GOTEMP('app.hyper.POGManagement')">GO Floorplan Record</a>
+        </div>
+        <div>
+            <a ng-click="GOTEMP('app.hyper.OrderProposal')">GO Order Proposal</a>
+        </div>-->
+    </ion-content>
+</ion-view>

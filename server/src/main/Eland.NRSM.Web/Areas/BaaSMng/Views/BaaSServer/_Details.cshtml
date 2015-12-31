@@ -1,0 +1,44 @@
+﻿<script type="text/javascript">
+    var serverDetail = {};
+    $(function () {
+        $(".serverinfo").on("click", function () {
+            var serverId = $(this).parents("div").data("id");
+            $.wf.post("@Url.Action("Details","BaaSServer")", { id: serverId }, function (data) {
+                serverDetail = data;
+                //ServerStateDetailBody
+                $("#ServerStateDetailModal>.modal-body").html();
+                $("#ServerStateDetailModal").modal("show");
+            }, "json");
+        });
+    });
+
+</script>
+
+<div id="ServerStateDetailModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ServerStateDetailLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="ServerStateDetailLabel">Server Info</h3>
+  </div>
+  <div class="modal-body">
+      
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+<script type="text/template" id="ServerStateDetailBody">
+    <dl class="dl-horizontal">
+          <dt>CPU</dt>
+          <dd></dd>
+          <dt>HDD</dt>
+          <dd>
+              <div class="progress progress-info progress-striped">
+                  <div class="bar" style="width: 20%">c:</div>
+              </div>
+          </dd>
+          <dt>Memory</dt>
+          <dd>
+          </dd>
+      </dl>
+</script>

@@ -1,0 +1,60 @@
+﻿<ion-view view-title="{{word.InventoryCounting}}">
+    <ion-content class="has-footer">
+        <div id="container" class="yellow">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">실사일자</p>
+                        <p class="right" >{{data.DZLDAT}}</p>
+                    </li>
+                    <li>
+                        <p class="left">지점코드</p>
+                        <p class="right">
+                            <input type="tel" placeholder="입력"
+                                   ng-disabled="data.WERKSClass"
+                                   ng-model="data.WERKS"
+                                   onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                                   maxlength="6" style="background-color:white; "/>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="left">사용자</p>
+                        <p class="right" >{{data.ERFNM}}</p>
+                    </li>
+                    <li>
+                        <p class="left">진열대</p>
+                        <p class="right"><input type="text" placeholder="입력" ng-model="data.FIXID"/></p>
+                    </li>
+                    <li>
+                        <p class="left">상품코드</p>
+                        <p class="right"><input type="text" placeholder="입력" ng-model="base.barCode" maxlength="13" /></p>
+                    </li>
+                    <li>
+                        <p class="left">상품명</p>
+                        <p class="right">{{data.returnMessage}}</p>
+                    </li>
+                    <li>
+                        <p class="left">실사수량</p>
+                        <p class="right"><input type="tel" placeholder="입력"
+                                                ng-model="data.DISQTY"
+                                                numbers-only="numbers-only"
+                                                ng-required="required" /></p>
+                    </li>
+                </ul>
+            </form>
+
+
+            <div class="row"  style="padding:0px;">
+                <p class="btn_border btn_download  mt_12"  style="width:49%; margin-right:2%;border:2px solid #ccc;">
+                    <a ng-click="inventorySearch()" style="color:#ccc;"><img src="img/nrsm/icon_search_gray.png" alt="실사조회" />&nbsp;&nbsp;실사조회</a>
+                </p>
+                <p class="btn_border btn_download btn_color mt_12" style="width:49%">
+                    <a ng-click="inventorySave()"><img src="img/nrsm/icon_download_yellow.png" alt="저장" />&nbsp;&nbsp;저장</a>
+                </p>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-view>

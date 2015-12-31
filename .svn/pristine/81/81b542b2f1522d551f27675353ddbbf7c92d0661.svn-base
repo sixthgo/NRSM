@@ -1,0 +1,14 @@
+'use strict';
+
+angular.module('starter.services')
+
+.factory('MaterialPriceInforService', function ($resource, webServerUrl) {
+	return $resource(webServerUrl + '/api/MaterialPriceInforApi', {},
+		{
+			searchMaterialPriceInfo: { method: 'Get', isArray: false, params: {werks:'@werks',matnr:'@matnr'} },
+			searchMaterialPriceInfoAll: { method: 'Get', isArray: true, params: {matnr:'@matnr'} },
+			searchProductDetail: { method: 'Get', isArray: false, params: {werks:'@werks',matnr:'@matnr',x:'@x'} }
+		});
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

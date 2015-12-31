@@ -1,0 +1,14 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('PlantService', function ($resource) {
+    return $resource('/api/plant?loginId=:loginId', {
+        loginId: '@loginId'
+    },
+    {
+        'query': { method: 'GET', isArray: true }
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

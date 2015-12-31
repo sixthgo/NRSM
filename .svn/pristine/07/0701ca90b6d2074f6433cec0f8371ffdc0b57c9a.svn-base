@@ -1,0 +1,206 @@
+﻿cortrollerModule.controller('ProfitToPlanCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, MenuApiService, FavoriteService, PopupService) {
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM004';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.favorite.support = true; // support favorite feature in this view
+    $scope.favoriteKeyA = "PlantA";
+    $scope.favoriteKeyB = "PCA";
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = null;
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.cuPopup = {};
+    $scope.cuPopup.selectedCu = null;
+    $scope.cuPopup.selectedCuTemp = null;
+    $scope.cuPopup.selectedPc = null;
+    $scope.cuPopup.selectedPcTemp = null;
+
+    $scope.data = {};
+
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = '목표 전년 대비 실적';
+    }
+
+    // sample for initialize
+    $scope.GetGarbageData = function () {
+
+        var defer = $q.defer();
+
+        MenuApiService.get({
+            appId: $scope.system.appId,
+            loginId: $scope.user.loginId,
+            currentMenuVersion: $scope.system.currentMenuVersion,
+            locale: $scope.system.locale
+        }, function (data) {
+            $scope.debug.Log('GetGarbageData.get().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    // sample for initialize
+    $scope.GetGarbageData2 = function () {
+        var defer = $q.defer();
+
+        FavoriteService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+
+        // show loading image
+        $ionicLoading.show({
+            noBackdrop: true
+        }); // nobackdrop: true
+
+        $q.all({
+            A: $scope.GetGarbageData().catch($scope.CatchException),
+            B: $scope.GetGarbageData2().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('InitData()');
+
+                // if exists favorite key, set each value by key 
+                $scope.SetControlsByFavorite();
+                
+            }
+            , function (error) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+                
+            });
+    }
+
+    $scope.SetControlsByFavorite = function () {
+        // add code each view
+        $scope.data.plantId = $scope.base.GetFavoriteValue($scope.favoriteKeyA); // PlantA
+        $scope.data.PC = $scope.base.GetFavoriteValue($scope.favoriteKeyB); // PCA
+
+        // mandatory function call, clear current favorite data
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.Init();
+
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore==null) ? '': ' : ' + $scope.storePopup.selectedStore.plantName;
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '지점 선택',
+            subTitle: '현재 선택한 지점 ' + name,
+            cssClass: 'storePopup',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {                
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);                
+            }
+            else {                
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+        });
+    }
+
+    $scope.OpenCuPopup = function () {
+        var url = 'templates/cuPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: 'CU/PC 선택',
+            subTitle: '현재 선택한 CU ',
+            cssClass: 'storePopup',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                //$scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+            }
+            else {
+                //$scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+        });
+    }
+});

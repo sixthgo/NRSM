@@ -1,0 +1,16 @@
+'use strict';
+
+angular.module('starter.services')
+
+    .factory('QueryDailySalePredictionInService', function ($resource) {
+        return $resource('/api/QuerySaleApi?day1=:day1&day2=:day2&dmchk=:dmchk&sabun=:sabun&werks=:werks', {
+                day1: '@day1',
+                day2: '@day2',
+                dmchk: '@dmchk',
+                sabun: '@werks',
+                werks: '@werks'
+            },
+            { 'query': { method: 'GET' } });
+    })
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

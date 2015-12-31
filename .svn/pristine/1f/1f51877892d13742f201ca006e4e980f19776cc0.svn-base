@@ -1,0 +1,37 @@
+﻿<ion-view view-title="{{word.barcodeCreateSend}}">
+    <ion-content class="has-footer green">
+        <ion-list>
+            <ion-item style="padding-right: 49px;">
+                <div class="item-content ng-binding">
+                    순번
+                <span class="item-note" style="color: #000;">
+                  바코드
+                </span>
+                </div>
+            </ion-item>
+            <ion-item ng-repeat="item in base.barCodeList">
+                {{item.seq}}
+                <span class="item-note" style="color: #000;">
+                  {{item.code}}
+                </span>
+                <ion-option-button class="button-assertive"
+                        ng-click="base.barCodeList.splice($index, 1)">&nbsp;&nbsp;&nbsp;삭제</ion-option-button>
+                </ion-delete-button>
+            </ion-item>
+        </ion-list>
+
+
+        <!--<button type="button" class="button button-assertive" ng-click="Change()">Change Base</button>-->
+
+
+        <div class="item item-input-inset" style="padding-right: 0; padding-left: 0;">
+            <label class="item-input-wrapper">
+                <input type="text" style="width: 100%;" placeholder="메일 내용" ng-model="data.subject">
+            </label>
+        </div>
+
+        <p class="btn_border btn_confirm btn_color" style="margin-top: 3px;" ng-click="SaveSalePriceSend()">
+            <a>전송</a>
+        </p>
+    </ion-content>
+</ion-view>

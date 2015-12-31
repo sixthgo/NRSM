@@ -1,0 +1,35 @@
+﻿cortrollerModule.controller('RealStockControlCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM015';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('RealStockControlCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        $scope.data.shopCode = null;
+        $scope.data.salePriceInfor = "원물 산들애 쇠고기 8g*10입";
+        $scope.data.nowStock = null;
+        $scope.data.realStock = null;
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'RealStockControlCtrl';
+    }
+
+    $scope.Init();
+});

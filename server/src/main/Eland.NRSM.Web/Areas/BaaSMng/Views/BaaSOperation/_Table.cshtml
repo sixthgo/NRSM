@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.Operation>
+<table id="OperationTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+    <thead>
+        <tr role="row">
+             @if (!ViewData.ContainsKey("AppDivision")){
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor( model => model.First().AppDivision.Name ) </td>
+             }
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor( model => model.First().Name ) </td>
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor( model => model.First().ControlName)</td>
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor( model => model.First().Type)</td>
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor( model => model.First().IsUsed)</td>
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor( model => model.First().Desc)</td>
+            <td class="header" role="columnheader" tabindex="0" aria-controls="OperationTable" rowspan="1" colspan="1" style="width: 106px;">Program</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach( Formular.BaaS.Domain.Operation operation in Model )
+        {
+        <tr>
+             @if (!ViewData.ContainsKey("AppDivision"))
+             {
+                 <td>@Html.DisplayFor(item => operation.AppDivision.Name)</td>
+             }
+            <td>@Html.DisplayFor(item => operation.Name)</td>
+            <td>@Html.DisplayFor(item => operation.ControlName)</td>
+            <td>@Html.DisplayFor(item => operation.Type)</td>
+            <td>@Html.DisplayFor(item => operation.IsUsed)</td>
+            <td>@Html.DisplayFor(item => operation.Desc)</td>
+            <td><a href="@Url.Action("Details", "BaaSOperation", new { id=operation.Id , view="tab1" })" class="btn btn-small btn-block"><i class='icon-list-alt'></i> @operation.Programs.Count()</a></td>
+            <td><div class="btn-group">
+            <a href="@Url.Action("Edit", "BaaSOperation", new { id = operation.Id })" class="btn btn-small" title="Edit" ><i class='icon-edit'></i></a>
+            <a href="@Url.Action("Details", "BaaSOperation", new { id = operation.Id })" class="btn btn-small" title="Detail" ><i class='icon-info-sign'></i></a>
+            <a href="@Url.Action("Delete", "BaaSOperation", new { id = operation.Id })" class="btn btn-small" title="Delete"><i class='icon-trash'></i></a>
+        </div></td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,43 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="mainScroll" has-bouncing="false" scroll="false">
+        <div id="container" class="red">
+            <ul id="headlineA" class="select left">
+                <li class="drawing" ng-click="OpenNowEventSalesTimePopup()"><span>{{headerText}}</span></li>
+            </ul>
+            <div id="date">
+                <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                <p class="right">단위 : 천원</p>
+            </div>
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table id="tableHeader">
+                            <tr>
+                                <th class="width40p" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                <th class="width20p" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액<br />(비율)</span></th>
+                                <th class="width20p" ng-click="sorting('perSum')" ng-class="{'sort down': (sort.column == 'perSum' && sort.isDescending), 'sort up': (sort.column == 'perSum' && !sort.isDescending)}"><span>건단가<br />(건수)</span></th>
+                                <th class="width20p" ng-click="sorting('spaceSum')" ng-class="{'sort down': (sort.column == 'spaceSum' && sort.isDescending), 'sort up': (sort.column == 'spaceSum' && !sort.isDescending)}"><span>평당매출</span></th>
+                            </tr>
+                            <tr class="highlight">
+                                <td class="width40p">매출합계</td>
+                                <td class="width20p" ng-bind="tblData[0].total | thousandBaseFilter"></td>
+                                <td class="width20p">-</td>
+                                <td class="width20p">-</td>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollA_nowEventSalesTime" delegate-handle="nowEventSalesTimeHandleA" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="row in tblData | orderBy:sort.column:sort.isDescending" ng-click="ClickRow(row)">
+                                    <td class="width40p">{{row.name}}</td>
+                                    <td class="width20p">{{row.amount | thousandBaseFilter}}<br />({{row.rate | number}} %)</td>
+                                    <td class="width20p">{{row.perSum | thousandBaseFilter}}<br />({{row.count | number}})</td>
+                                    <td class="width20p">{{row.spaceSum | thousandBaseFilter}}</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

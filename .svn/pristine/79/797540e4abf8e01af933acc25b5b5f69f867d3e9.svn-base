@@ -1,0 +1,13 @@
+'use strict';
+
+angular.module('starter.services')
+    .factory('StockRegisterService', function ($resource, webServerUrl) {
+        return $resource(webServerUrl + '/api/ManageScPoPalletItemInApi', { },
+            {
+                'query': { method: 'GET', isArray: true ,params:{ EBELN:"@EBELN",WERKS:"@WERKS"}},
+                'get':{ method:'GET',isArray:true,params:{PALET:"@PALET",WERKS:"@WERKS",BUDAT:"@BUDAT"}},
+                'save': {method: 'POST',params:{scPoItemList:"@scPoItemList"}},
+                'savePa': {method: 'POST',params:{ScPalletItemList:"@ScPalletItemList",temp:1}}
+            });
+    })
+

@@ -1,0 +1,33 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('UtilService', function () {
+
+        return {
+
+          IsUndefinedOrNull: function (val) {
+              return angular.isUndefined(val) || val == null;
+          },
+
+          IsNullOrEmpty: function (val) {
+              return angular.isUndefined(val) || val == null || val.trim().length == 0;
+          },
+
+          FormatDate: function(date) {
+              var year = date.getFullYear();
+              var moth = date.getMonth() + 1;
+              var day = date.getDate();
+
+              if(parseInt(moth) < 10) {
+                  moth = "0" + moth;
+              }
+
+              if(parseInt(day) < 10) {
+                  day = "0" + day;
+              }
+
+              return year + "-" + moth + "-" + day;
+          }
+      }
+    })

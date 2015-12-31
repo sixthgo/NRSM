@@ -1,0 +1,853 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="my-handle">
+        <div id="container" class="red">
+
+            <ul class="select">
+                <li class="p20" ng-click="ToggleMonthly()">
+                    <span ng-if="search.isMonthly==true">월별</span>
+                    <span ng-if="search.isMonthly==false">일별</span>
+                </li>
+                <li class="p30" ng-click="OpenStorePopup()" favorite-key="{{favoriteKeyA}}" favorite="storePopup.selectedStore.plantCode"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="p50" ng-click="OpenCuPopup()" favorite-key="{{favoriteKeyB}}" favorite="cuPopup.selectedCu.cuCode"><span>{{cuPopup.selectedCu.cuName}} / {{cuPopup.selectedPc.pcName}}</span></li>
+            </ul>
+
+            <!-- specific all all all-->
+            <div ng-if="search.type=='-1-1-1'">
+                <ul class="tab quad swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">총매출</li>
+                    <li class="swiper-pagination-bullet">실매출</li>
+                    <li class="swiper-pagination-bullet">매총익</li>
+                    <li class="swiper-pagination-bullet">매총율..</li>
+                </ul>
+
+                <div id="date">
+                    <p class="left">2015년 6월 7일 (월요일)</p>
+                    <p class="right">단위 : 원</p>
+                </div>
+
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>목표</span></th>
+                                    <th class="sort"><span>실적</span></th>
+                                    <th class="sort"><span>달상율</span></th>
+                                    <th class="sort"><span>전년</span></th>
+                                    <th class="sort"><span>성장율</span></th>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- specific specific all all-->
+            <div ng-if="search.type=='0-1-1'">
+                <ul class="tab triple swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">총매출</li>
+                    <li class="swiper-pagination-bullet">실매출</li>
+                    <li class="swiper-pagination-bullet">매총익</li>
+                    <li class="swiper-pagination-bullet">매총율</li>
+                </ul>
+
+                <div id="date">
+                    <p class="left">2015년 6월 7일 (월요일)</p>
+                    <p class="right">단위 : 원</p>
+                </div>
+
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>목표</span></th>
+                                    <th class="sort"><span>실적</span></th>
+                                    <th class="sort"><span>달상율</span></th>
+                                    <th class="sort"><span>전년</span></th>
+                                    <th class="sort"><span>성장율</span></th>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- specific all specific specific-->
+            <div ng-if="search.type=='-100'">
+                <ul class="tab triple swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">총매출</li>
+                    <li class="swiper-pagination-bullet">실매출</li>
+                    <li class="swiper-pagination-bullet">매총익</li>
+                    <li class="swiper-pagination-bullet">매총율</li>
+                </ul>
+
+                <div id="date">
+                    <p class="left">2015년 6월 7일 (월요일)</p>
+                    <p class="right">단위 : 원</p>
+                </div>
+
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>항목</span></th>
+                                    <th class="sort"><span>목표</span></th>
+                                    <th class="sort"><span>실적</span></th>
+                                    <th class="sort"><span>달상율</span></th>
+                                    <th class="sort"><span>전년</span></th>
+                                    <th class="sort"><span>성장율</span></th>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- specific all specific all-->
+            <div ng-if="search.type=='-10-1'">
+                <ul class="tab triple swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">총매출</li>
+                    <li class="swiper-pagination-bullet">실매출</li>
+                    <li class="swiper-pagination-bullet">매총익</li>
+                    <li class="swiper-pagination-bullet">매총율</li>
+                </ul>
+
+                <div id="date">
+                    <p class="left">2015년 6월 7일 (월요일)</p>
+                    <p class="right">단위 : 원</p>
+                </div>
+
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>항목</span></th>
+                                    <th class="sort"><span>목표</span></th>
+                                    <th class="sort"><span>실적</span></th>
+                                    <th class="sort"><span>달상율</span></th>
+                                    <th class="sort"><span>전년</span></th>
+                                    <th class="sort"><span>성장율</span></th>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                                <tr>
+                                    <td>김해점</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>999</td>
+                                    <td>91%</td>
+                                    <td>999</td>
+                                    <td>54%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort"><span>구분</span></th>
+                                    <th class="sort"><span>매출액 (비율)</span></th>
+                                    <th class="sort"><span>건단가 (건수)</span></th>
+                                    <th class="sort"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>합계</td>
+                                    <td>999,999,999,999</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                                <tr>
+                                    <td>이랜드 리테일<br />복합관 김해점</td>
+                                    <td>999,999,999,999<br />(10.2%)</td>
+                                    <td>999,999<br />(999,999)</td>
+                                    <td>999,999</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

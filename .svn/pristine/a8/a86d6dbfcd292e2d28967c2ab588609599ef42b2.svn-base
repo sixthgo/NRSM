@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <object id="ValuesController" type="Eland.NRSM.Web.Controllers.ValuesController,Eland.NRSM.Web" singleton="false">
+    <property name="TemplateService" ref="TemplateService" />
+  </object>
+
+  <object name="MenuApiController" type="Eland.NRSM.Web.Controllers.MenuApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="MembershipService" ref="MembershipService" />
+    <property name="MessageSource" ref="MessageSource"/>
+  </object>
+
+  <object name="FavoriteController" type="Eland.NRSM.Web.Controllers.FavoriteController,Eland.NRSM.Web"  singleton="false">
+    <property name="FavoriteService" ref="FavoriteService" />
+  </object>
+
+  <object name="PlantController" type="Eland.NRSM.Web.Controllers.PlantController,Eland.NRSM.Web"  singleton="false">
+    <property name="PlantService" ref="PlantService" />
+    <property name="MembershipService" ref="MembershipService" />
+  </object>
+
+  <object name="CEOReportController" type="Eland.NRSM.Web.Controllers.CEOReportController,Eland.NRSM.Web"  singleton="false">
+    <property name="CEOReportService" ref="CEOReportService" />
+  </object>
+  
+
+  <object id="MessageSource" type="Spring.Context.Support.ResourceSetMessageSource, Spring.Core">
+    <property name="ResourceManagers">
+      <list>
+        <value>Eland.NRSM.Core.NRSMResource, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+  
+</objects>

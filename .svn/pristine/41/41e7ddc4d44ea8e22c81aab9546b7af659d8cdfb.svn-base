@@ -1,0 +1,44 @@
+controllerModule.controller('ProfitToPlanPopCtrl', function ($scope, $state, $stateParams, UtilService) {
+
+	//$scope.search = {};
+	//$scope.search.isMonthly = "M";
+	$scope.years = "2015";
+	$scope.month = '12';
+	$scope.date = new Date();
+	$scope.monthList = [{'month': '12'},{'month': '11'},
+		{'month': '10'},{'month': '09'},
+		{'month': '08'},{'month': '07'},
+		{'month': '06'},{'month': '05'},
+		{'month': '04'},{'month': '03'},
+		{'month': '02'},{'month': '01'}];
+
+	$scope.init = function () {
+		$scope.setYear();
+		$scope.setMonth();
+		$scope.updateYearMonth();
+	}
+
+	$scope.setYear = function () {
+		if(!UtilService.IsNullOrEmpty($scope.yearMoth)) {
+			$scope.years = $scope.yearMoth.substring(0,4);
+		}
+		else {
+			$scope.years = $scope.date.getFullYear();
+		}
+	}
+
+	$scope.setMonth = function () {
+		if(!UtilService.IsNullOrEmpty($scope.yearMoth)) {
+			$scope.month = $scope.yearMoth.substring(4,6);
+		}
+		else {
+			$scope.month = $scope.date.getMonth() - 2;
+		}
+	}
+
+	$scope.updateYearMonth = function () {
+		$scope.yearMoth = $scope.years + $scope.month;
+	}
+
+	$scope.init();
+})

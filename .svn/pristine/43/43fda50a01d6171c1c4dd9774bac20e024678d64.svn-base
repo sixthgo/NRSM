@@ -1,0 +1,111 @@
+﻿<ion-view view-title="{{word.saleProjections}}">
+    <ion-content class="has-footer">
+        <div class="list select">
+            <div class="item">
+                <div class="row list">
+                    <div class="col col-50">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark"
+                           >지점선택</a>
+                    </div>
+                    <div class="col col-50">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark">
+                            예측유형</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row list">
+                    <div class="col col-50">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark"
+                                >조회일자</a>
+                    </div>
+                    <div class="col col-50">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark">
+                            비교일자</a>
+                    </div>
+                </div>
+            </div>
+            <div class="saleProjections-padding">
+                <a class="button button-outline ion-search button-eland-balanced button-boder"
+                   ng-click="SearchProductInform()">&nbsp;&nbsp;조회</a>
+            </div>
+            <div class="item eland-tab-hover">
+                <div class="row list" style="bottom: 0; padding-bottom: 0;">
+                    <div class="col col-50" ng-class="{'active': data.isActive=='leftA'}" ng-click="setActive('leftA')">
+                        <a>시간대 실적</a>
+                    </div>
+                    <div class="col col-50" ng-class="{'active': data.isActive=='leftB'}" ng-click="setActive('leftB')">
+                        <a>마감실적 예상</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ion-scroll id="scroll-table" direction="xy" delegate-handle="saleScroll">
+            <div id="scroll-div" resize ng-view>
+                <div class="saleNewlist  list">
+                    <div class="row">
+                        <div class="col table-header eland-table-header-item">
+                            <div class="">
+                                <a class="eland-font-color-green">구분</a>
+                            </div>
+                            <div class="">
+                                <a class="eland-font-color-green">조회일 누적 매출</a>
+                            </div>
+                            <div class="">
+                                <a class="eland-font-color-green">비교일 누적 실적</a>
+                            </div>
+                            <div class="">
+                                <a class="eland-font-color-green">성장율</a>
+                            </div>
+                        </div>
+                        <div class="col table-header eland-table-header-item">
+                            <div class="">
+                                <a class="eland-font-color-green">구분</a>
+                            </div>
+                            <div class="">
+                                <a class="eland-font-color-green">조회일 누적 매출</a>
+                            </div>
+                            <div class="">
+                                <a class="eland-font-color-green">비교일 누적 실적</a>
+                            </div>
+                            <div class="">
+                                <a class="eland-font-color-green">성장율</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col table-body eland-table-body-item">
+                            <div class="">
+                                고객수
+                            </div>
+                            <div class="">
+                                1,601
+                            </div>
+                            <div class="">
+                                1,750
+                            </div>
+                            <div class="">
+                                -8.5%
+                            </div>
+                        </div>
+                        <div class="col table-body eland-table-body-item">
+                            <div class="">
+                                고객수
+                            </div>
+                            <div class="">
+                                1,601
+                            </div>
+                            <div class="">
+                                1,750
+                            </div>
+                            <div class="">
+                                -8.5%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,16 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('CUService', function ($resource) {
+    return $resource('/api/cu?loginId=:loginId&type=:type&cuCode=:cuCode', {
+        loginId: '@loginId',
+        type: '@type',
+        cuCode: '@cuCode'
+    },
+    {
+        'query': { method: 'GET', isArray: true }
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.Role>
+
+<table id="RoleTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+            <thead>
+                <tr role="row">
+                    @if (!ViewData.ContainsKey("AppDivision")){
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor(model => model.First().AppDivision.Name)</th>
+                    }
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor(model => model.First().Name)</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 30px;">@Html.DisplayNameFor(model => model.First().IsUsed)</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 106px;">@Html.DisplayNameFor(model => model.First().Desc)</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 30px;">User</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 30px;">Program</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="RoleTable" rowspan="1" colspan="1" style="width: 30px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null)
+                {
+                    <tr><td colspan="4"><p>데이터가 없습니다.</p></td></tr>
+                }
+                else
+                {
+                    foreach (Formular.BaaS.Domain.Role item in Model)
+                    {
+                    <tr>
+                        @if (!ViewData.ContainsKey("AppDivision")){
+                        <td>@Html.DisplayFor(modelItem => item.AppDivision.Name)</td>
+                        }
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsUsed)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Desc)</td>
+                        <td><a href="@Url.Action("Details", "BaaSRole", new { id = item.Id ,view="tab1" })" class="btn btn-small btn-block" title="Users" ><i class="icon-user"></i> @item.Users.Count() </a></td>
+                        <td><a href="@Url.Action("Details", "BaaSRole", new { id = item.Id ,view="tab2" })" class="btn btn-small btn-block" title="Program" ><i class="icon-list-alt"></i> @item.Programs.Count()</a> </td>
+                        <td><div class="btn-group">@* btn-primary btn-info btn-danger *@
+                            <a href="@Url.Action("Edit" , "BaaSRole", new { id = item.Id })" class="btn btn-small" title="Edit" ><i class='icon-edit'></i></a>
+                            <a href="@Url.Action("Details" , "BaaSRole", new { id = item.Id })" class="btn btn-small" title="Detail" ><i class='icon-info-sign'></i></a>
+                            <a href="@Url.Action("Delete" , "BaaSRole", new { id = item.Id })" class="btn btn-small" title="Delete"><i class='icon-trash'></i></a>
+                            </div></td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>

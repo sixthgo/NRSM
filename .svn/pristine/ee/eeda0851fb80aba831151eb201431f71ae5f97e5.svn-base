@@ -1,0 +1,143 @@
+﻿using Eland.NRSM.Core.Services;
+using Eland.NRSM.Template.Dao;
+using Formular.Data;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using Domain = Eland.NRSM.Core.Domain;
+using Eland.NRSM.Core.Domain;
+using System.Web.Script.Serialization;
+using Eland.NRSM.Template.MANAGEORDEROFFERPROGRAMIN;
+using Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO;
+
+namespace Eland.NRSM.Template.Services
+{
+    public class FreshFoodOrderService : IFreshFoodOrderService
+    {
+        public List<OrderGoods> GetFreshFoods(string ekOrg, string ekGrp, string werks, string buDat, string perNo)
+        {
+            ManageOrderOfferProgramInClient soapClient = new ManageOrderOfferProgramInClient();
+
+            soapClient.ClientCredentials.UserName.UserName = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_USERNAME"];
+            soapClient.ClientCredentials.UserName.Password = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_PASSWORD"];
+
+            int year;
+            int month;
+            int day;
+
+            int.TryParse(buDat.Substring(0, 4), out year);
+            int.TryParse(buDat.Substring(4, 2), out month);
+            int.TryParse(buDat.Substring(6, 2), out day);
+
+            DateTime dt = new DateTime(year, month, day);
+
+            FreshFoodOrderQuery_sync typeMParam = new FreshFoodOrderQuery_sync()
+            {
+                EKGRP = ekGrp,
+                WERKS = werks,
+                BUDAT = dt,
+                BUDATSpecified = true,
+                PERNO = perNo,
+                ZTYPE = "M"
+            };
+
+            FreshFoodOrderResponse_sync typeMResult = soapClient.FreshFoodOrderQueryResponse_In(typeMParam);
+            ////FreshFoodOrder typeMFreshFoodOrder = new FreshFoodOrder();
+            ////typeMFreshFoodOrder.E_SUBRC = typeMResult.Flag; // 0 정상, 4 에러
+            ////typeMFreshFoodOrder.E_ZTEXT = typeMResult.ReturnMessage;
+            if (typeMResult.Flag == "E" || typeMResult.Flag == "4")
+            {
+                throw new Exception(typeMResult.ReturnMessage);
+            }
+            //// second call
+            FreshFoodOrderQuery_sync typeAParam = new FreshFoodOrderQuery_sync()
+            {
+                EKGRP = ekGrp,
+                WERKS = werks,
+                BUDAT = dt,
+                BUDATSpecified = true,
+                PERNO = perNo,
+                ZTYPE = "A",
+                MATNRFreshFoodOrderList = typeMResult.MATNRFreshFoodOrderList
+            };
+
+            FreshFoodOrderResponse_sync typeAResult = soapClient.FreshFoodOrderQueryResponse_In(typeAParam);
+
+            if (typeAResult.Flag == "E" || typeAResult.Flag == "4")
+            {
+                throw new Exception(typeAResult.ReturnMessage);
+            }
+
+            QueryMaterialPriceInfoClient client = new QueryMaterialPriceInfoClient();
+            client.ClientCredentials.UserName.UserName = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_USERNAME"];
+            client.ClientCredentials.UserName.Password = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_PASSWORD"];
+                        
+            List<Matnr> matnrList = new List<Matnr>();
+            MaterialVendorInfoQuery_sync mParam = null;
+            List<OrderGoods> orderGoodsList = new List<OrderGoods>();
+            OrderGoods goods = null;
+            MaterialVendorInfoResponse_sync q = null;
+            ////int i = 0;
+            foreach (var item in typeAResult.FreshFoodOrderList)            
+            {
+                goods = new OrderGoods();
+
+                goods.LIFNR = item.LIFNR;
+                goods.MATNR = item.MATNR;
+                goods.MAKTX = item.MAKTX;
+                goods.MENGE = item.MENGE;
+                goods.UMREZ = item.UMREZ;
+                goods.LFDAT = item.LFDAT.ToString("MMdd");
+                goods.NETPR = item.NETPR;
+                goods.LABST = item.LABST;
+
+                
+                foreach (var matnr in typeAResult.MATNRFreshFoodOrderList)
+                {
+                    
+                    if (item.MATNR == matnr.MATNR)
+                    {
+                        mParam = new MaterialVendorInfoQuery_sync();
+                        mParam.EKORG = ekOrg;
+                        mParam.MATNR = matnr.MATNR;
+
+                        matnrList = new List<Matnr>();
+                        q = client.MaterialVendorInfoQueryResponse_In(mParam);
+
+                        foreach (var innerItem in q.MaterialVendorList)
+                        {
+                            matnrList.Add(new Matnr()
+                            {
+                                MATNR = innerItem.MATNR,
+                                LIFNR_N = string.Format("{0}-{1}", innerItem.LIFNR_N, innerItem.LIFNR),
+                                LIFNR = innerItem.LIFNR
+                            });
+                            ////if (i == 0)
+                            ////{
+                            ////    i++;
+                            ////    matnrList.Add(new Matnr()
+                            ////    {
+                            ////        MATNR = "test",
+                            ////        LIFNR_N = string.Format("{0}-{1}", "test", "test"),
+                            ////        LIFNR = "test"
+                            ////    });
+                            ////}
+                        }
+
+                        break;
+                    }
+                }
+
+                goods.MATNRLIST = matnrList;
+
+                orderGoodsList.Add(goods);
+            }
+
+            return orderGoodsList;
+        }
+    }
+}

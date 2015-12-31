@@ -1,0 +1,89 @@
+﻿controllerModule.controller('AdminCtrl', function ($scope,
+                                                  $state,
+                                                  $stateParams,
+                                                  $q,
+                                                  $ionicLoading,
+                                                  $cordovaSplashscreen,
+                                                  $ionicScrollDelegate,
+                                                  $ionicHistory,
+                                                  $timeout, $sce,
+                                                  AdminApiService,
+                                                  PopupService,
+                                                  $sessionStorage) {
+
+    $scope.base.categoryId = 'admin';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM999';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.favorite.support = false;
+
+    $scope.admin = {};
+    $scope.admin.targetUserId = 'hjcho'; // [TEST]
+
+    $scope.Init = function () {
+        $scope.debug.Log('AdminCtrl.Init()');
+
+        var defer = $q.defer();
+        defer.promise
+                .then($scope.CheckIsAdmin)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.CheckIsAdmin = function () {
+
+        var defer = $q.defer();
+
+        AdminApiService.get({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            defer.resolve(data[0]);
+        }, function (error) {
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate != 'T') {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+
+        $scope.InitData();
+    }
+
+    $scope.CatchException = function (error) {
+        $scope.debug.Log( error);
+    }
+
+    $scope.InitData = function () {
+        $scope.tempLoginId = $sessionStorage.loginId;
+    }
+
+    $scope.GoHome = function () {
+
+        $ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
+
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+
+        $state.go('app.home');
+    }
+
+    $scope.Init();
+
+    $scope.ChangeUser = function () {
+        $sessionStorage.loginId = $scope.admin.targetUserId;
+
+        $scope.tempLoginId = $sessionStorage.loginId;
+        $scope.user.loginId = $sessionStorage.loginId;
+    }
+});

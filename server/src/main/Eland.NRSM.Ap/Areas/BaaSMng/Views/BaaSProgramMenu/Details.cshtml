@@ -1,0 +1,249 @@
+﻿@model Formular.BaaS.Domain.ProgramMenu
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript">
+        var isProgramFirst = true;
+        var selectProgramId;
+        $(function () {
+            $('#LinkProgramModal').on('show', function () {
+                if (isProgramFirst) isProgramFirst = false;
+                else return;
+                $('#AddProgramTable').dataTable({
+                    "bProcessing": true,
+                    "sAjaxSource": '@Url.Action("ProgramListByAppdivision", "BaaSProgram", new { id=Model.Id })',
+                    "fnDrawCallback": function () {
+                        @*$("#AddProgramTable>tbody").find(":checkbox").on("change", function () {
+
+                            var isFind = false;
+                            var FindItem;
+                            for (var i = 0; i < modifyProgramList.length; i++) {
+                                if (modifyProgramList[i].id == $(this).val()) {
+                                    isFind = true;
+                                    FindItem = item;
+                                    break;
+                                }
+                            }
+                            if (isFind == false) modifyProgramList.push({ id: $(this).val(), Status: $(this).is(":checked") ? 1 : 2 })
+                            else FindItem.Status = $(this).is(":checked") ? 1 : 2;
+
+                        });*@
+
+                        $("input:radio[name=Programs]").on("click", function () {
+                            selectProgramId = $(this).val();
+                        });
+                    },
+                    "aoColumns": [
+                        { "mData": "check" },
+                        { "mData": "Code" },
+                        { "mData": "Name" },
+                        { "mData": "Desc" },
+                    ]
+                });
+
+                $("#btnAddProgram").on("click", function () {
+                    var url = "@Url.Action("LinkProgram" , "BaaSProgramMenu" , new {id = Model.Id})";
+
+                    $.post(url, { data:selectProgramId }, function () {
+                        $('#AddUserModal').modal('hide');
+                        window.location.href = "@Url.Action("Details")";
+                    }, "json");
+                });
+                $("#btnRemoveProgram").on("click", function () {
+                    var url = "@Url.Action("RemoveLinkProgram" , "BaaSProgramMenu" , new {id = Model.Id})";
+
+                    $.post(url, { data: selectProgramId }, function () {
+                        $('#AddUserModal').modal('hide');
+                        window.location.href = "@Url.Action("Details")";
+                    }, "json");
+                });
+
+            })
+            $('#LinkProgramModal').on('shown', function () {
+
+            })
+            $('#LinkProgramModal').on('hide', function () {
+
+            })
+            $('#LinkProgramModal').on('hidden', function () {
+
+            })
+
+            @if(!String.IsNullOrEmpty(Request["view"]) ) {
+                if ( Request["view"].Equals("LinkProgram"))
+                {
+                    <text>
+            $('#LinkProgramModal').modal('show');
+                    </text>
+                }
+                else
+                {
+                <text>
+            $(".nav-tabs a[href=#@Request["view"]]").tab('show');
+                </text>
+                }
+            }
+
+        });
+    </script>
+}
+
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Program Menu</p>
+              <small>Program Menu Details</small>
+            </blockquote>
+            @Html.Partial("../BaaSApplication/_LeftInfo" , Model.AppDivision )
+            <h4 class="text-info">Program Menu</h4>
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.Id)</dt>
+                <dd>@Html.DisplayFor(model => model.Id)</dd>
+                <dt>@Html.DisplayNameFor(model => model.DisplaySeq)</dt>
+                <dd>@Html.DisplayFor(model => model.DisplaySeq)</dd>
+                <dt>@Html.DisplayNameFor(model => model.ParentId)</dt>
+                <dd>@Html.DisplayFor(model => model.ParentId)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Name)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Desc)</dt>
+                <dd>@Html.DisplayFor(model => model.Desc)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Parameter)</dt>
+                <dd>@Html.DisplayFor(model => model.Parameter)</dd>
+            </dl>
+            <p>
+                <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-small" ><i class="icon-pencil"></i> Edit</a>
+                <a href="#LinkProgramModal" class="btn btn-small" role="button" data-toggle="modal"><i class="icon-plus"></i> Link Program</a>
+            </p>
+        </div>
+    </div>
+}
+
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            @if (Model.program != null)
+            {
+                <li><a href="#tab0" data-toggle="tab">Program</a></li>
+                if ( Model.program.HasWebProgram() ) {
+                    <li><a href="#tab1" data-toggle="tab">Web Program</a></li>
+                }
+                if ( Model.program.HasWinProgram() ) {
+                    <li><a href="#tab2" data-toggle="tab">Windows Program</a></li>
+                }
+                if ( Model.program.HasMobileProgram() ) {
+                    <li><a href="#tab3" data-toggle="tab">Mobile Program</a></li>
+                }
+            }
+              <li class="active"><a href="#tab4" data-toggle="tab">Child ProgramMenu</a></li>
+          </ul>
+          <div class="tab-content">
+               @if (Model.program != null)
+               {
+              <div class="tab-pane" id="tab0">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.program.Code)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.Code)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.Name)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.Name)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.IsUsed)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.IsUsed)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.Desc)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.Desc)</dd>
+                </dl>
+            </div>
+                   if ( Model.program.HasWebProgram() ) {
+            <div class="tab-pane" id="tab1">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.program.WebProgram.Action)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WebProgram.Action)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WebProgram.Controller)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WebProgram.Controller)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WebProgram.IconName)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WebProgram.IconName)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WebProgram.Area)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WebProgram.Area)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WebProgram.Parameter)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WebProgram.Parameter)</dd>
+                </dl>
+            </div>
+               }
+               if ( Model.program.HasWinProgram() ) {
+            <div class="tab-pane" id="tab2">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.program.WinProgram.AssemblyName)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WinProgram.AssemblyName)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WinProgram.ClassName)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WinProgram.ClassName)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WinProgram.IconName)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WinProgram.IconName)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.WinProgram.Parameter)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.WinProgram.Parameter)</dd>
+                </dl>
+            </div>
+               }
+               if ( Model.program.HasMobileProgram() ) {
+            <div class="tab-pane" id="tab3">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.program.MobileProgram.Url)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.MobileProgram.Url)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.MobileProgram.ViewType)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.MobileProgram.ViewType)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.program.MobileProgram.IconName)</dt>
+                    <dd>@Html.DisplayFor(model => model.program.MobileProgram.IconName)</dd>
+                </dl>
+            </div>
+               }
+               }
+              <div class="tab-pane active" id="tab4">
+                  <p>
+                    <a href="@Url.Action("Create" , "BaaSProgramMenu")" class="btn btn-small" ><i class="icon-plus"></i> Program Menu</a>
+                </p>
+                @Html.Partial("../BaaSProgramMenu/_Table" , Model.SubMenu )
+              </div>
+            </div>
+        </div>
+</div>
+</div>
+
+
+<div id="LinkProgramModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="AddProgramLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="AddProgramLabel">Add User</h3>
+  </div>
+  <div class="modal-body">
+      <table id="AddProgramTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+          <thead>
+              <tr>
+                  <th style="width: 10px;">Select</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 30px;">Code</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 30px;">Name</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 60px;">Desc</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="btnAddProgram" type="button" class="btn btn-primary">Save changes</button>
+    <button id="btnRemoveProgram" type="button" class="btn btn-warning">Remove Program Link</button>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+﻿using Formular.Core.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Eland.NRSM.Core.Domain
+{
+    [Serializable]
+    public class OrderGoods : BaseDomain
+    {
+        //public string LIFNR_N { get; set; }
+        public List<Matnr> MATNRLIST { get; set; }
+        public string LIFNR { get; set; }
+        public string MATNR { get; set; }
+        public string MAKTX { get; set; }
+        public decimal MENGE { get; set; }
+        public decimal UMREZ { get; set; }
+        public string LFDAT { get; set; }
+        public decimal NETPR { get; set; }
+        public decimal LABST { get; set; }
+    }
+
+    [Serializable]
+    public class Matnr : IEquatable<Matnr>
+    {
+        public string MATNR { get; set; }
+        public string LIFNR_N { get; set; }
+        public string LIFNR { get; set; }
+
+        public bool Equals(Matnr p)
+        {
+            // Check whether the compared object is null. 
+            if (Object.ReferenceEquals(p, null)) return false;
+
+            // Check whether the compared object references the same data. 
+            if (Object.ReferenceEquals(this, p)) return true;
+
+            // Check whether the products' properties are equal. 
+            return MATNR.Equals(p.MATNR)
+                && LIFNR_N.Equals(p.LIFNR_N)
+                && LIFNR.Equals(p.LIFNR);
+        }
+
+        public override int GetHashCode()
+        {
+
+            // Get the hash code for the Name field if it is not null. 
+            int hashProductName = LIFNR == null ? 0 : LIFNR.GetHashCode();
+
+            // Get the hash code for the Code field. 
+            int hashProductCode = MATNR.GetHashCode();
+
+            // Calculate the hash code for the product. 
+            return hashProductName ^ hashProductCode;
+        }
+    }
+}

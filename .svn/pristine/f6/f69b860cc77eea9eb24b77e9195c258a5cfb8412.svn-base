@@ -1,0 +1,16 @@
+'use strict';
+
+angular.module('starter.services')
+    .factory('InventoryCountingService', function ($resource, webServerUrl) {
+        return $resource(webServerUrl + '/api/ManageStockInspectionCreateApi?MATNR=:MATNR&WERKS=:WERKS', {
+            MATNR:'@MATNR',
+            WERKS:'@WERKS'
+            },
+            {
+                'query': { method: 'GET', isArray: false },
+                'save': {method: 'POST'}
+            });
+    })
+
+
+

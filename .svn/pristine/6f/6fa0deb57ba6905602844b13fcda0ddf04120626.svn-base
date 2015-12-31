@@ -1,0 +1,29 @@
+﻿<div class="row">
+    <div class="newLayer">
+        <div class="header">
+            <p>조건 선택</p>
+        </div>
+        <div class="body">
+            <div class="double">
+                <p class="left" style="width: 100%">기준 데이터</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesStandardRadioGroup" ng-model="popup.standard" value="pda" />
+            <div class="item-content" style="padding-left:5px;padding-right:5px">행사장판매기준</div>
+            <i class="radio-icon ion-checkmark"></i>
+        </label>
+    </div>
+    <div class="col">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesStandardTypeRadioGroup" ng-model="popup.standard" value="key" />
+            <div class="item-content" style="padding-left:5px;padding-right:5px">행사Key판매기준</div>
+            <i class="radio-icon ion-checkmark"></i>
+        </label>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿<div ng-controller="CuPopupCtrl">
+    <div class="row">
+        <div class="newLayer">
+            <div class="header">
+                <p>CU / PC 선택</p>
+            </div>
+            <div class="body">
+                <div class="double">
+                    <p class="left">현재 선택</p>
+                    <p class="right">{{param.subTitle}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ion-content onscroll="false">
+        <div style="padding-top:25px">
+            <div class="row" style="width:98%">
+                <div class="col col50" style="padding-left:11px;">
+                    <ion-scroll direction="y" style="height: 350px; margin-top:20px;">
+                        <div class="list">
+                            <ion-radio ng-repeat="cu in data.cues"
+                                       ng-value="cu"
+                                       ng-change="OnCuChange(cu)"
+                                       ng-model="cuPopup.selectedCuTemp"
+                                       name="cuRadio">
+                                {{ cu.cuName }}
+                            </ion-radio>
+                        </div>
+                    </ion-scroll>
+                </div>
+                <div class="col col50" style="padding-right:1px;">
+                    <ion-scroll direction="y" style="height: 350px; margin-top:20px;">
+                        <div class="list">
+                            <ion-radio ng-repeat="pc in data.pcs"
+                                       ng-value="pc"
+                                       ng-change="OnPcChange(pc)"
+                                       ng-model="cuPopup.selectedPcTemp"
+                                       name="pcRadio">
+                                {{ pc.pcName }}
+                            </ion-radio>
+                        </div>
+                    </ion-scroll>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>

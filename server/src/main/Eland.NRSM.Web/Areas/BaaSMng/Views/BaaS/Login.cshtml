@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    @Styles.Render("~/Content/public/bootstrap/bundle")
+</head>
+<body>
+    <div class="hero-unit">
+        <h1>BaaS Manager</h1>
+        <div class="row-fluid">
+            <div class="span6">
+                <blockquote>
+                <p>Using the BaaS Manager</p>
+                <small>default ID : admin , PW : 1234</small>
+                </blockquote>
+            </div>
+            <div class="span6">
+                @using (Html.BeginForm("login", "BaaS", new { }, FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Email</label>
+                        <div class="controls">
+                            @Html.TextBox("inputEmail", null, new { @class = "span12", placeholder = "BaaS ID" })
+                        </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword">Password</label>
+                        <div class="controls">
+                            @Html.Password("inputPassword", null, new { @class = "span12", placeholder = "BaaS Password" })
+                        </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls">
+                            <label class="checkbox">
+                            <input type="checkbox"> Remember me
+                            </label>
+                            <button type="submit" class="btn">Sign in</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/public")
+</body>
+</html>

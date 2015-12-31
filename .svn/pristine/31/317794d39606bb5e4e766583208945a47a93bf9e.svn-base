@@ -1,0 +1,242 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer">
+        <!--<h1>nowSalesStockInwerks</h1>-->
+
+        <div id="wrapper" class="red">
+            <header id="header">
+                <a id="btn_prev" href="../main/main.html"><img src="./img/nrsm/btn_prev.png" alt="이전으로" /></a>
+                <h1>현시각 매출 및 재고 조회</h1>
+            </header>
+
+            <div id="container">
+                <ul class="select">
+                    <li class="store"><span>전지점</span></li>
+                    <li class="cu_pc"><span>모든 CU / 모든 PC</span></li>
+                </ul>
+
+                <ul class="tab triple">
+                    <li class="active">지점별</li>
+                    <li>CU별</li>
+                    <li>시간대별</li>
+                </ul>
+
+                <div id="date">
+                    <p class="left">2015년 6월 7일 (월요일)</p>
+                    <p class="right">단위 : 원</p>
+                </div>
+
+                <div id="table">
+                    <div class="highlight"></div>
+                    <table>
+                        <tr>
+                            <th><span>구분</span></th>
+                            <th><span>매출액 (비율)</span></th>
+                            <th><span>건단가 (건수)</span></th>
+                            <th><span>평당매출</span></th>
+                        </tr>
+                        <tr>
+                            <td>합계</td>
+                            <td>999,999,999,999</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>이랜드 리테일<br />복합관 김해점</td>
+                            <td>999,999,999,999<br />(10.2%)</td>
+                            <td>999,999<br />(999,999)</td>
+                            <td>999,999</td>
+                        </tr>
+                        <tr>
+                            <td>이랜드 리테일<br />복합관 김해점</td>
+                            <td>999,999,999,999<br />(10.2%)</td>
+                            <td>999,999<br />(999,999)</td>
+                            <td>999,999</td>
+                        </tr>
+                        <tr>
+                            <td>이랜드 리테일<br />복합관 김해점</td>
+                            <td>999,999,999,999<br />(10.2%)</td>
+                            <td>999,999<br />(999,999)</td>
+                            <td>999,999</td>
+                        </tr>
+                        <tr>
+                            <td>이랜드 리테일<br />복합관 김해점</td>
+                            <td>999,999,999,999<br />(10.2%)</td>
+                            <td>999,999<br />(999,999)</td>
+                            <td>999,999</td>
+                        </tr>
+                        <tr>
+                            <td>이랜드 리테일<br />복합관 김해점</td>
+                            <td>999,999,999,999<br />(10.2%)</td>
+                            <td>999,999<br />(999,999)</td>
+                            <td>999,999</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <nav id="footer">
+                <ul>
+                    <li><a href="#none"><img src="./img/nrsm/footer_01.png" alt="즐겨찾기" /></a></li>
+                    <li><a href="#none"><img src="./img/nrsm/footer_02.png" alt="즐겨찾기 추가" /></a></li>
+                    <li><a href="../main/main.html"><img src="./img/nrsm/footer_03.png" alt="홈으로" /></a></li>
+                    <li><a href="#none"><img src="./img/nrsm/footer_04.png" alt="카메라 스캔" /></a></li>
+                    <li><a href="#none"><img src="./img/nrsm/footer_05.png" alt="설정" /></a></li>
+                </ul>
+            </nav>
+        </div>
+
+
+        <div id="black"></div>
+        <div class="layer store">
+            <div class="header">
+                <p>지점 선택</p>
+                <a class="btn_close" href="javascript:"><img src="./img/nrsm/btn_close.png" /></a>
+            </div>
+            <div class="body">
+                <div>
+                    <p class="left">현재 선택한 지점</p>
+                    <p class="right">강남점</p>
+                </div>
+                <ul>
+                    <li class="active">
+                        <p class="left">강남점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">나점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">다점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">라점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">마점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">바점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">사점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">아점</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <ul>
+                    <li class="btn_cancel"><a href="javascript:"><img src="./img/nrsm/btn_cancel.png" alt="취소" />&nbsp;&nbsp;취소</a></li>
+                    <li class="btn_confirm"><a href="javascript:"><img src="./img/nrsm/btn_confirm.png" alt="확인" />&nbsp;&nbsp;확인</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layer cu_pc">
+            <div class="header">
+                <p>지점 선택</p>
+                <a class="btn_close" href="javascript:"><img src="./img/nrsm/btn_close.png" /></a>
+            </div>
+            <div class="body double">
+                <div>
+                    <p class="left">현재 선택</p>
+                    <p class="right">하이퍼 CU / 전체</p>
+                </div>
+                <ul>
+                    <li class="active">
+                        <p class="left">전체</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">가 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">나 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">다 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">라 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">마 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">바 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">사 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">아 CU</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="active">
+                        <p class="left">전체</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">가 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">나 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">다 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">라 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">마 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">바 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">사 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                    <li>
+                        <p class="left">아 PC</p>
+                        <p class="right"><img src="./img/nrsm/icon_check.png" alt="체크" /></p>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <ul>
+                    <li class="btn_cancel"><a href="javascript:"><img src="./img/nrsm/btn_cancel.png" alt="취소" />&nbsp;&nbsp;취소</a></li>
+                    <li class="btn_confirm"><a href="javascript:"><img src="./img/nrsm/btn_confirm.png" alt="확인" />&nbsp;&nbsp;확인</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+    </ion-content>
+
+</ion-view>

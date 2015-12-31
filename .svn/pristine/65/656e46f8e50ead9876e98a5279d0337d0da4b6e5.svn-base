@@ -1,0 +1,120 @@
+﻿controllerModule.controller('ProductInformationCtrl', function ($scope, $stateParams, PopupService, $q, $ionicLoading) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM007';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+            //.then($scope.base.GetUserMenu)
+            //.then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'ProductInformationCtrl';
+    }
+
+    $scope.InitData = function () {
+        // show loading image
+        $ionicLoading.show();
+
+        $scope.base.barCode007 = 8802989301;
+
+        $scope.data.shopCode = 7201;
+        $scope.data.saleType = "";
+        $scope.data.flag = 0;
+
+        //$q.all({
+        //    A: $scope.GetGarbageData().catch($scope.CatchException),
+        //    B: $scope.GetGarbageData2().catch($scope.CatchException)
+        //})
+        //    .then(
+        //    function (results) {
+        //        // hide loading image
+        //        $ionicLoading.hide();
+        //
+        //        $scope.debug.Log('InitData()');
+        //
+        //        // if exists favorite key, set each value by key
+        //        $scope.SetControlsByFavorite();
+        //
+        //    }
+        //    , function (error) {
+        //        // hide loading image
+        //        $ionicLoading.hide();
+        //
+        //        $scope.debug.Log('$q error');
+        //
+        //    });
+
+        $ionicLoading.hide();
+
+        switch ($scope.data.flag) {
+            case 0:
+                $scope.data.saleTypeClass = { background: 'blue'};
+                console.log($scope.word.normalPrice);
+                $scope.data.saleType = $scope.word.normalPrice;
+                break;
+            case 1:
+                $scope.data.saleTypeClass = { background: '#158f54'};
+                $scope.data.saleType = $scope.word.activiting;
+                break;
+            case 2:
+                $scope.data.saleTypeClass = { background: 'red'};
+                $scope.data.saleType = $scope.word.terminalt;
+                break;
+            default :
+                $scope.data.saleTypeClass = { background: 'blue'};
+                $scope.data.saleType = $scope.word.normalPrice;
+                break;
+        }
+    }
+
+    $scope.SetControlsByFavorite = function () {
+        // add code each view
+        $scope.data.plantId = $scope.base.GetFavoriteValue('Plant');
+        $scope.data.PC = $scope.base.GetFavoriteValue('PC');
+
+        // mandatory function call, clear current favorite data
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.Init();
+
+    $scope.SearchProductInform = function() {
+        var barCode = $scope.base.barCode007;
+        var shopCode =  $scope.data.shopCode;
+
+        if(shopCode == null || shopCode.length == 0) {
+            PopupService.OpenPopupAlert("分店Code不能为空.");
+            return;
+        }
+
+        if(barCode == null || barCode.length == 0) {
+            PopupService.OpenPopupAlert("商品Code不能为空.");
+            return;
+        }
+    }
+});

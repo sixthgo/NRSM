@@ -1,0 +1,31 @@
+﻿controllerModule.controller('ManagerReportCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'managerReport';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSMM02';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.Init = function () {
+        if ($scope.base.HasAuthentication() == false) {
+
+            // [ing] alert message and move home
+            $state.go('app.home');
+        }
+    }    
+
+    $scope.ClickStar = function () {
+        $scope.debug.Log('ManagerReportCtrl.ClickStar()');
+    }
+
+    $scope.ClickGear = function () {
+        $scope.debug.Log('ManagerReportCtrl.ClickGear()');
+    }
+
+    $scope.ClickAdd = function () {
+        $scope.debug.Log('ManagerReportCtrl.ClickAdd()');
+    }
+
+    $scope.Init();
+
+});

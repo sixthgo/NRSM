@@ -1,0 +1,13 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('PurchaseGroupService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/purchaseGroup', {
+    },
+    {
+        'query': { method: 'GET', isArray: true }
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Eland.NRSL.Core" namespace="Eland.NRSL.CUSMng.Domain">
+
+    <sql-query name="NRSM_FavoriteMenu_R01">
+        <![CDATA[
+            exec NRSM_FavoriteMenu_R01 
+                @LoginId=:LoginId
+        ]]>
+    </sql-query>
+
+  <sql-query name="NRSM_FavoriteMenu_C01">
+    <![CDATA[
+            exec NRSM_FavoriteMenu_C01
+                @Loginid=:Loginid,
+                @ProgramCode=:ProgramCode,                
+                @Key1=:Key1, @Value1=:Value1,                
+                @Key2=:Key2, @Value2=:Value2,                
+                @Key3=:Key3, @Value3=:Value3,                
+                @Key4=:Key4, @Value4=:Value4,                
+                @Key5=:Key5, @Value5=:Value5
+          ]]>
+  </sql-query>
+
+  <sql-query name="NRSM_CEOReport_R01">
+    <![CDATA[
+            exec NRSM_CEOReport_R01
+              @GROUP_CD=:GROUP,
+              @GUBUN=:GUBUN           
+          ]]>
+  </sql-query>
+
+  <sql-query name="NRSM_PlantMst_R01">
+    <!--<return class="Store">
+      <return-property name="Code" column="PlantCode" />
+      <return-property name="Name" column="PlantName" />
+    </return>-->
+    <![CDATA[
+            exec NRSM_PlantMst_R01 
+        ]]>
+  </sql-query>
+
+  <sql-query name="NRSM_CUMst_R01">
+    <![CDATA[
+            exec NRSM_CUMst_R01 
+        ]]>
+  </sql-query>
+
+  <sql-query name="NRSM_CUPCMst_R01">
+    <![CDATA[
+            exec NRSM_CUPCMst_R01 
+                @CUCode=:CUCode
+        ]]>
+  </sql-query>
+
+
+  <sql-query name="NRSM_FavoriteMenu_D01">
+  <![CDATA[
+            exec NRSM_FavoriteMenu_D01 
+                @Loginid=:Loginid,
+                @ProgramCode=:ProgramCode
+        ]]>
+</sql-query>
+  <!--exec NRSM_FavoriteMenu_R01 @LoginId=:LoginId
+  <sql-query name="NRSL_CUS_CustMst_R01">
+      <![CDATA[
+              exec up_NRSL_CUS_CustMst_R01
+                  @ShopCode=:ShopCode,
+                  @UserID=:UserID,
+                  @SearchText=:SearchText
+          ]]>
+    </sql-query>
+  -->
+</hibernate-mapping>

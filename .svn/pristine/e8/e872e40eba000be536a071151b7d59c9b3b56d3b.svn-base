@@ -1,0 +1,253 @@
+﻿var getBarcodebySwipe = function (barcode) {
+    var scope = angular.element($('#home')).scope();
+    // alert(barcode);
+    scope.$apply(function () {
+        scope.GetBarCode(barcode);
+    });
+}
+
+/**
+ * Created by june on 15. 6. 11..
+ */
+cortrollerModule.controller('AppCtrl',
+    ['$scope',
+    '$ionicModal',
+    '$timeout',
+    'CordovaService',
+    '$state',
+    '$translate',
+    function ($scope,
+              $ionicModal,
+              $timeout,
+              CordovaService,
+              $state,
+              $translate) {
+
+    CordovaService.ready.then(function () {
+        // Using MDMPlugin for MDM Check
+    });
+    
+    // for child controller 
+    $scope.base = {};
+    $scope.base.menuId = '';
+    $scope.base.viewId = '';
+    ////$scope.base.stateId = '';
+    $scope.base.snapshot = null;
+    $scope.base.currentStateParams = null;
+
+    $scope.base.barCode006 = null;
+    $scope.base.barCode007 = null;
+
+
+    $scope.word = {};
+
+    // global setting
+    $scope.setting = {};
+    $scope.setting.header = {};
+    $scope.setting.footer = {};
+    $scope.setting.header.prevClass = '';
+    $scope.setting.homeMenuId = 'NRSMM00';
+
+    $scope.debug = {};
+    $scope.debug.logging = true;
+
+    $scope.favorite = {};
+    $scope.favorite.items = [];
+    $scope.favorite.id = '';
+    $scope.favorite.support = true;
+
+    $scope.debug.Log = function (val) {
+        if ($scope.debug.logging == true)
+            console.log(val);
+    }
+
+    $scope.Init = function (translate) {
+        $scope.debug.Log('AppCtrl.Init();');
+
+        var headerFooterClass = 'bar-energized';
+        $scope.setting.header.class = headerFooterClass;
+        $scope.setting.footer.class = headerFooterClass;
+
+        // set multi language
+        translate.use('ko').then(function () {
+            $scope.GetWord(translate);
+        });
+    }
+    
+    $scope.GetWord = function (translate) {
+
+        var result = [];
+        var firstArray = $.map(words, function (val, idx) { return [val]; });
+        var temp = null;
+        temp = $.map(firstArray[0], function (val, idx) { return [idx]; });
+        result = $.merge( result, temp)
+
+        //
+        $scope.wordParam = { name: 'tester' };
+
+        translate(result).then(function (words) {
+            $scope.word.common = words.common;
+            $scope.word.manager = words.manager;
+            $scope.word.title = words.title;
+            $scope.word.task = words.task;
+            $scope.word.hyper = words.hyper;
+            $scope.word.productInfo = words.productInfo;
+            $scope.word.productDetail= words.productDetail;
+            $scope.word.msgTips = words.msgTips;
+            $scope.word.normalPrice = words.normalPrice;
+            $scope.word.activiting = words.activiting;
+            $scope.word.terminalt = words.terminalt;
+            $scope.word.eimsInformation = words.eimsInformation;
+        });
+
+        translate('testSentence', { name: 'tester' }).then(function (word) {
+            $scope.word.testSentence = word;
+        });
+    }
+
+    $scope.Init($translate);
+
+    // called sub system main controller
+    $scope.base.HasAuthentication = function () {
+
+        // [ing]
+        // call service 
+        // return result 
+        return true;
+    }
+
+    $scope.base.SetCategory = function (categoryId) {
+        
+        $scope.base.categoryId = categoryId;
+
+        var headerClass = $scope.setting.header.class;
+        var footerClass = $scope.setting.footer.class;
+
+        $scope.setting.header.prevClass = headerClass;////
+
+        if (categoryId == 'managerReport') {
+            headerClass = 'bar-positive';
+            footerClass = 'bar-positive';
+        }
+        else if (categoryId == 'sales') {
+            headerClass = 'bar-calm';
+            footerClass = 'bar-calm';
+        }
+        else if (categoryId == 'common') {
+            headerClass = 'bar-balanced';
+            footerClass = 'bar-balanced';
+        }
+        else if (categoryId == 'hyper') {
+            headerClass = 'bar-energized';
+            footerClass = 'bar-energized';
+        }
+        else if (categoryId == 'sc') {
+            headerClass = 'bar-assertive';
+            footerClass = 'bar-assertive';
+        }
+        else if(menuId == 'NRSMM08'){
+            headerClass = 'bar-eland-balanced';
+            footerClass = 'bar-eland-balanced';
+        }
+
+        $scope.setting.header.class = headerClass;
+        $scope.setting.footer.class = 'bar-light';//footerClass;
+
+        UpdateHeaderClass();
+    }
+
+    function UpdateHeaderClass() {
+        var headerElements = document.getElementsByTagName('ion-header-bar');
+
+        var headerOldClass = $scope.setting.header.prevClass;
+        var headerNewClass = $scope.setting.header.class;
+
+        for (var i = 0; i < headerElements.length; i++) {
+            var el = angular.element(headerElements[i]);
+            if (el.hasClass(headerOldClass)) {
+                el.removeClass(headerOldClass);
+                el.addClass(headerNewClass);
+            }
+        }
+
+        $scope.setting.header.prevClass = headerNewClass;
+    }
+
+    $scope.base.SetMenu = function (menuId) {
+
+        $scope.base.menuId = menuId;
+        
+        if (menuId == 'NRSM001') {
+            $scope.debug.Log('AppCtrl.base.SetMenu()');
+        } 
+    }
+
+    $scope.base.SaveSnapshot = function () {
+        
+    }
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('AppCtrl.base.Reload()');
+        ////debugger
+        $state.transitionTo($state.current, $scope.base.currentStateParams, {
+            reload: true, inherite: false, notify: true
+        });
+    }
+    
+    $scope.base.ClickStar = function () {
+        $scope.debug.Log('AppCtrl.ClickStar()');
+    }
+
+    $scope.base.ClickGear = function () {
+        $scope.debug.Log('AppCtrl.ClickGear()');
+    }
+
+    $scope.base.ClickAdd = function () {
+        $scope.debug.Log('AppCtrl.ClickAdd()');
+    }
+
+    $scope.GetBarCode = function(barcode) {
+
+        var menu = $scope.base.menuId;
+
+        if(menu == "NRSMM06") {
+            $scope.base.barCode006 = parseInt(barcode);
+        }
+        //else if(menu == "NRSMM07") {
+        //    $scope.base.barCode007 = parseInt(barcode);
+        //}
+
+
+    }
+}])
+
+.directive('footer', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl : 'templates/footer.html'   //update by liu.wenbin
+    }
+})
+
+//.directive('header', function () {
+//    return {
+//        restrict: 'E',
+//        replace: true,
+//        templateUrl: '/templates/header.html'
+//    }
+//})
+
+//.directive('header', function () {
+//    return {
+//        restrict: 'E',
+//        replace: true,
+//        templateUrl: '/templates/header.html',
+//        //link: function (scope, element, attrs) {
+//        //    //temp = scope.setting.header.class;
+//        //    element.addClass(scope.setting.header.class);
+//        //}
+//        scope: {
+//            temp: '=csstype'
+//        }
+//    }
+//})

@@ -1,0 +1,105 @@
+﻿controllerModule.controller('InventoryCountingCtrl', function ($scope, $stateParams,$state,$q,$timeout,$ionicLoading,InventoryCountingService,PopupService,UtilService) {
+
+    $scope.base.categoryId = 'sc';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM020';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+        defer.resolve();
+    }
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        $scope.InitData();
+    }
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'InventoryCountingCtrl';
+    }
+    $scope.InitData=function(){
+        var currentTime=new Date();
+        $scope.data.DZLDAT=$scope.nowDate=UtilService.FormatDate(currentTime);
+        $scope.data.ERFNM="CSO";
+        $scope.data.MATNR=$scope.base.barCode020;
+    }
+    $scope.Init();
+
+    $scope.inventorySearch=function(){
+
+        if($scope.data.WERKS==null||$scope.data.WERKS==""){
+            PopupService.OpenPopupAlert("分店代码不能为空.");
+            return;
+        }
+        if($scope.data.MATNR==null||$scope.data.MATNR==""){
+            PopupService.OpenPopupAlert("条形码不能为空.");
+            return;
+        }
+        $scope.data.returnMessage="";
+        var WERKS=$scope.data.WERKS;
+        var MATNR=$scope.data.MATNR;
+        InventoryCountingService.query({MATNR:MATNR,WERKS:WERKS},function(data){
+            $scope.data.returnMessage=data.returnMessage;
+        });
+    }
+    $scope.inventorySave=function(){
+
+        if($scope.data.WERKS==null||$scope.data.WERKS==""){
+            PopupService.OpenPopupAlert("分店代码不能为空.");
+            return;
+        }
+        if($scope.data.MATNR==null||$scope.data.MATNR==""){
+            PopupService.OpenPopupAlert("条形码不能为空.");
+            return;
+        }
+        if($scope.data.FIXID==null||$scope.data.FIXID==""){
+            PopupService.OpenPopupAlert("陈列台不能为空.");
+            return;
+        }
+        if($scope.data.DISQTY==null||$scope.data.DISQTY==""){
+            PopupService.OpenPopupAlert("盘点数量不能为空.");
+            return;
+        }
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+        var param={
+            "DZLDAT":$scope.data.DZLDAT,
+            "WERKS":$scope.data.WERKS,
+            "MATNR":$scope.data.MATNR,
+            "FIXID":$scope.data.FIXID,
+            "ERFNM":$scope.data.ERFNM,
+            "DISQTY":$scope.data.DISQTY
+        };
+        InventoryCountingService.save(param,function(data){
+            $ionicLoading.hide();
+            if(data.flag=="S"){
+                if(data.returnMessage=="Success"){
+                    PopupService.OpenPopupAlert("保存成功.");
+                }
+            }else {
+                if(data.returnMessage=="Success"){
+                    PopupService.OpenPopupAlert("新商品，保存成功.");
+                }
+            }
+
+        },function(error){
+            $ionicLoading.hide();
+            PopupService.OpenPopupAlert("保存失败.");
+        });
+    }
+});

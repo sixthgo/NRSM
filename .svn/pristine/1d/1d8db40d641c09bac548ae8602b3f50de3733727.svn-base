@@ -1,0 +1,68 @@
+﻿<ion-view >
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer">
+        <div id="container" class="yellow">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">지점코드</p>
+                        <p class="right"><input type="tel" ng-model="user.plantCode" maxlength="6"
+                                                onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="입력" ng-model="data.werks"/></p>
+                    </li>
+                    <li>
+                        <p class="left">상품코드</p>
+                        <p class="right"><input type="text" placeholder="입력"
+                                                ng-model="base.barCode"/></p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_gray" >
+                    <a ng-click="SearchDailyStock()"><img src="img/nrsm/icon_search_gray.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <form>
+                <ul class="list bdt no_margin">
+                    <li>
+                        <p class="left">입고일자</p>
+                        <p class="right">{{data.Time}}</p>
+                    </li>
+                    <li>
+                        <p class="left">벤더</p>
+                        <p class="right">{{data.dailyHead.lifnr}}</p>
+                    </li>
+                    <li>
+                        <p class="left">상품명</p>
+                        <p class="right">{{data.maktx}}</p>
+                    </li>
+                    <li>
+                        <p class="left">상품가격</p>
+                        <p class="right">{{data.price | number}}</p>
+                    </li>
+                    <li style="padding-right: 0; width: 100%;">
+                        <p class="left">입력수량</p>
+                        <p class="right"><input type="tel"
+                                                placeholder="입력"
+                                                numbers-only="numbers-only"
+                                                ng-required="required"
+                                                ng-model="data.input" style="margin-right:10px;"/>
+                            <a style="display:inline-block; padding:10px 20px; border:2px solid #ccc; color:#ccc; " ng-click="TempSave()">
+                                <img src="img/nrsm/icon_download_gray.png" alt="저장"  style="height:12px;width:auto;margin-top:5px;"/>&nbsp;&nbsp;상품누적
+                            </a>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="left">누적수량</p>
+                        <p class="right">{{data.total}}</p>
+                    </li>
+                </ul>
+            </form>
+            <p class="btn_border btn_download btn_color mt_12" >
+                <a ng-click="GotoSaveDailyStock()">&nbsp;&nbsp;스캔조회</a>
+            </p>
+        </div>
+
+    </ion-content>
+
+</ion-view>

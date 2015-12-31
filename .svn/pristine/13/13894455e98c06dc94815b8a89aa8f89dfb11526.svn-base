@@ -1,0 +1,37 @@
+﻿cortrollerModule.controller('CEOReportPlantCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'managerReport'; // managerReport
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM002';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.reportList=[{a:'유통 BG',b:'12,278',c:'9,030',d:'74',e:'11,046',f:'-18',g:'single'},
+                        {a:'강남점',b:'981',c:'730',d:'74',e:'463',f:'58',g:'group'},
+                        {a:'서면점',b:'349',c:'324',d:'93',e:'-',f:'-',g:'single'},
+                        {a:'1그룹',b:'2,028',c:'1,342',d:'66',e:'1,820',f:'26',g:'group'},
+                        {a:'불광점',b:'12,278',c:'9,030',d:'74',e:'11,046',f:'-18',g:'single'},
+                        {a:'불광점',b:'-',c:'-',d:'-',e:'-',f:'18%',g:'single'},
+                        {a:'중계점',b:'-',c:'9,030',d:'-',e:'-',f:'-',g:'group'},
+                        {a:'천호2점',b:'981',c:'730',d:'74',e:'463',f:'58',g:'single'},
+                        {a:'야탑점',b:'2,028',c:'1,342',d:'66',e:'1,820',f:'26',g:'single'}];
+    $scope.Init = function () {
+
+        $scope.debug.Log('CEOReportPlantCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'CEOReportPlantCtrl';
+    }
+
+    $scope.Init();
+});

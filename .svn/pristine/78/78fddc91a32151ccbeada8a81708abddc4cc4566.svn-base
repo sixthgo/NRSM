@@ -1,0 +1,234 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer" delegate-handle="profitToPlanHandle" has-bouncing="false" scroll="false">
+        <div id="container" class="red">
+            <span style="display:none" favorite-key="{{favoriteKeyA}}" favorite="search.isMonthly"></span>
+            <span style="display:none" favorite-key="{{favoriteKeyD}}" favorite="cuPopup.selectedPc.pcCode"></span>
+            <ul id="headlineA" class="select">
+                <li class="p20" ng-click="ToggleMonthly()">
+                    <div ng-if="search.isMonthly==true">월별</div>
+                    <div ng-if="search.isMonthly==false">일별</div>
+                </li>
+                <li class="p30" ng-click="OpenStorePopup()" favorite-key="{{favoriteKeyB}}" favorite="storePopup.selectedStore.plantCode"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="p50" ng-click="OpenCuPopup()" favorite-key="{{favoriteKeyC}}" favorite="cuPopup.selectedCu.cuCode"><span>{{cuPopup.selectedCu.cuName}} / {{cuPopup.selectedPc.pcName}}</span></li>
+            </ul>
+            <ul id="headlineB" class="tab quad swiper-pagination swiper-pagination-clickable">
+                <li class="swiper-pagination-bullet" ng-class="{'swiper-pagination-bullet-active': search.subType==1}" ng-click="ClickSubType(1)">총매출</li>
+                <li class="swiper-pagination-bullet" ng-class="{'swiper-pagination-bullet-active': search.subType==2}" ng-click="ClickSubType(2)">실매출</li>
+                <li class="swiper-pagination-bullet" ng-class="{'swiper-pagination-bullet-active': search.subType==3}" ng-click="ClickSubType(3)">매총익</li>
+                <li class="swiper-pagination-bullet" ng-class="{'swiper-pagination-bullet-active': search.subType==4}" ng-click="ClickSubType(4)">매총율</li>
+            </ul>
+            <div id="date">
+                <p class="left" ng-bind="headerDate"></p>
+                <p class="right">단위 : 백만원</p>
+            </div>
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table id="profitToPlanTableHeader">
+                            <tr>
+                                <th class="sort width30P" ng-click="sorting('name')" on-hold="ShowPopover($event, '구분')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}">
+                                    <span class="th70" ng-if="standardViewSize == 'S'">구분</span>
+                                    <span class="th70" ng-if="standardViewSize != 'S'">구분</span>
+                                </th>
+                                <th class="sort width15P" ng-click="sorting('goalAmount')" on-hold="ShowPopover($event, '목표')" ng-class="{'sort down': (sort.column == 'goalAmount' && sort.isDescending), 'sort up': (sort.column == 'goalAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">목표</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">목표</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('amount')" on-hold="ShowPopover($event, '실적')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">실적</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">실적</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('rate')" on-hold="ShowPopover($event, '달성율')" ng-class="{'sort down': (sort.column == 'rate' && sort.isDescending), 'sort up': (sort.column == 'rate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">달성율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">달성율</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('pastAmount')" on-hold="ShowPopover($event, '전년')" ng-class="{'sort down': (sort.column == 'pastAmount' && sort.isDescending), 'sort up': (sort.column == 'pastAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">전년</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">전년</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('growthRate')" on-hold="ShowPopover($event, '성장율')" ng-class="{'sort down': (sort.column == 'growthRate' && sort.isDescending), 'sort up': (sort.column == 'growthRate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">성장율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">성장율</span>
+                                </th>
+                            </tr>
+                            <tr class="highlight">
+                                <td class="width30P">합계</td>
+                                <td class="width15P">{{result.ListA.sum.goalAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListA.sum.amount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListA.sum.rate | number}} %</td>
+                                <td class="width13P">{{result.ListA.sum.pastAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListA.sum.growthRate | number}} %</td>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollA_profitToPlan" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="item in result.ListA | orderBy:sort.column:sort.isDescending">
+                                    <td class="width30P maxWidth8em">{{item.name}}</td>
+                                    <td class="width15P">{{item.goalAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.amount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.rate | number}} %</td>
+                                    <td class="width13P">{{item.pastAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.growthRate | number}} %</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th class="sort width30P" ng-click="sorting('name')" on-hold="ShowPopover($event, '구분')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}">
+                                    <span class="th70" ng-if="standardViewSize == 'S'">구분</span>
+                                    <span class="th70" ng-if="standardViewSize != 'S'">구분</span>
+                                </th>
+                                <th class="sort width15P" ng-click="sorting('goalAmount')" on-hold="ShowPopover($event, '목표')" ng-class="{'sort down': (sort.column == 'goalAmount' && sort.isDescending), 'sort up': (sort.column == 'goalAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">목표</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">목표</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('amount')" on-hold="ShowPopover($event, '실적')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">실적</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">실적</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('rate')" on-hold="ShowPopover($event, '달성율')" ng-class="{'sort down': (sort.column == 'rate' && sort.isDescending), 'sort up': (sort.column == 'rate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">달성율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">달성율</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('pastAmount')" on-hold="ShowPopover($event, '전년')" ng-class="{'sort down': (sort.column == 'pastAmount' && sort.isDescending), 'sort up': (sort.column == 'pastAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">전년</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">전년</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('growthRate')" on-hold="ShowPopover($event, '성장율')" ng-class="{'sort down': (sort.column == 'growthRate' && sort.isDescending), 'sort up': (sort.column == 'growthRate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">성장율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">성장율</span>
+                                </th>
+
+                            </tr>
+                            <tr class="highlight">
+                                <td class="width30P">합계</td>
+                                <td class="width15P">{{result.ListB.sum.goalAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListB.sum.amount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListB.sum.rate | number}} %</td>
+                                <td class="width13P">{{result.ListB.sum.pastAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListB.sum.growthRate | number}} %</td>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollB_profitToPlan" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="item in result.ListB | orderBy:sort.column:sort.isDescending">
+                                    <td class="width30P maxWidth8em">{{item.name}}</td>
+                                    <td class="width15P">{{item.goalAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.amount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.rate | number}} %</td>
+                                    <td class="width13P">{{item.pastAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.growthRate | number}} %</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th class="sort width30P" ng-click="sorting('name')" on-hold="ShowPopover($event, '구분')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}">
+                                    <span class="th70" ng-if="standardViewSize == 'S'">구분</span>
+                                    <span class="th70" ng-if="standardViewSize != 'S'">구분</span>
+                                </th>
+                                <th class="sort width15P" ng-click="sorting('goalAmount')" on-hold="ShowPopover($event, '목표')" ng-class="{'sort down': (sort.column == 'goalAmount' && sort.isDescending), 'sort up': (sort.column == 'goalAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">목표</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">목표</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('amount')" on-hold="ShowPopover($event, '실적')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">실적</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">실적</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('rate')" on-hold="ShowPopover($event, '달성율')" ng-class="{'sort down': (sort.column == 'rate' && sort.isDescending), 'sort up': (sort.column == 'rate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">달성율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">달성율</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('pastAmount')" on-hold="ShowPopover($event, '전년')" ng-class="{'sort down': (sort.column == 'pastAmount' && sort.isDescending), 'sort up': (sort.column == 'pastAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">전년</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">전년</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('growthRate')" on-hold="ShowPopover($event, '성장율')" ng-class="{'sort down': (sort.column == 'growthRate' && sort.isDescending), 'sort up': (sort.column == 'growthRate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">성장율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">성장율</span>
+                                </th>
+                            </tr>
+                            <tr class="highlight">
+                                <td class="width30P">합계</td>
+                                <td class="width15P">{{result.ListC.sum.goalAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListC.sum.amount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListC.sum.rate | number}} %</td>
+                                <td class="width13P">{{result.ListC.sum.pastAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListC.sum.growthRate | number}} %</td>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollC_profitToPlan" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="item in result.ListC | orderBy:sort.column:sort.isDescending">
+                                    <td class="width30P maxWidth8em">{{item.name}}</td>
+                                    <td class="width15P">{{item.goalAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.amount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.rate | number}} %</td>
+                                    <td class="width13P">{{item.pastAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.growthRate | number}} %</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th class="sort width30P" ng-click="sorting('name')" on-hold="ShowPopover($event, '구분')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}">
+                                    <span class="th70" ng-if="standardViewSize == 'S'">구분</span>
+                                    <span class="th70" ng-if="standardViewSize != 'S'">구분</span>
+                                </th>
+                                <th class="sort width15P" ng-click="sorting('goalAmount')" on-hold="ShowPopover($event, '목표')" ng-class="{'sort down': (sort.column == 'goalAmount' && sort.isDescending), 'sort up': (sort.column == 'goalAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">목표</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">목표</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('amount')" on-hold="ShowPopover($event, '실적')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">실적</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">실적</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('rate')" on-hold="ShowPopover($event, '달성율')" ng-class="{'sort down': (sort.column == 'rate' && sort.isDescending), 'sort up': (sort.column == 'rate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">달성율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">달성율</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('pastAmount')" on-hold="ShowPopover($event, '전년')" ng-class="{'sort down': (sort.column == 'pastAmount' && sort.isDescending), 'sort up': (sort.column == 'pastAmount' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">전년</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">전년</span>
+                                </th>
+                                <th class="sort width13P" ng-click="sorting('growthRate')" on-hold="ShowPopover($event, '성장율')" ng-class="{'sort down': (sort.column == 'growthRate' && sort.isDescending), 'sort up': (sort.column == 'growthRate' && !sort.isDescending)}">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">성장율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">성장율</span>
+                                </th>
+                            </tr>
+                            <tr class="highlight">
+                                <td class="width30P">합계</td>
+                                <td class="width15P">{{result.ListD.sum.goalAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListD.sum.amount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListD.sum.rate | number}} %</td>
+                                <td class="width13P">{{result.ListD.sum.pastAmount | thousandBaseFilter}}</td>
+                                <td class="width13P">{{result.ListD.sum.growthRate | number}} %</td>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollD_profitToPlan" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="item in result.ListD | orderBy:sort.column:sort.isDescending">
+                                    <td class="width30P maxWidth8em">{{item.name}}</td>
+                                    <td class="width15P">{{item.goalAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.amount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.rate | number}} %</td>
+                                    <td class="width13P">{{item.pastAmount | thousandBaseFilter}}</td>
+                                    <td class="width13P">{{item.growthRate | number}} %</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

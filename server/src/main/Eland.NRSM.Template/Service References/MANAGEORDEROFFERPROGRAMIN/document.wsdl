@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://eland.co.kr/KRERP/MOB" xmlns:n2="http://eland.co.kr/KRERP/SD" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:n1="http://sap.com/xi/SAPGlobal/Global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" targetNamespace="http://eland.co.kr/KRERP/MOB" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsp:UsingPolicy wsdl:required="true" />
+  <wsp:Policy wsu:Id="BN_ZMANAGEORDEROFFERPROGRAMIN_BINDING">
+    <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing" />
+    <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/" wsp:Optional="true" />
+    <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility">
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sp:HttpBasicAuthentication />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sapsp:HTTPSSO2 />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="IF_ManageOrderOfferProgramIn">
+    <sapsession:Session xmlns:sapsession="http://www.sap.com/webas/630/soap/features/session/">
+      <sapsession:enableSession>false</sapsession:enableSession>
+    </sapsession:Session>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" />
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_FreshFoodOrderCrQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_RfOperationOrderQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_FreshFoodOrderQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema xmlns:xi2="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/MOB" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns="http://eland.co.kr/KRERP/MOB" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://eland.co.kr/KRERP/MOB">
+      <xsd:simpleType name="APLFZ">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="3" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BANFN">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BEDAT">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BISMT">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BUDAT">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BWSCL">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="DDATE">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="DISMM">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="DLVTY">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="D_01">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="9" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="D_02">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="9" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EAN11">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EBELN">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EBELN1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EEIND">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EEIND_PP">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EISBE">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="16" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EKGRP">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EKORG">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ERSDA">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="FDAYW">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="FPRFM_DC">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Flag">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="FreshFoodOrderCrQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="BUDAT" type="xi0:BUDAT" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="FreshFoodOrderList" type="xi0:FreshFoodOrderList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FreshFoodOrderCrResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="FreshFoodOrderList" type="xi0:FreshFoodOrderList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FreshFoodOrderList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="ICON" type="xi0:ICON" />
+          <xsd:element minOccurs="0" name="ICON1" type="xi0:ICON1" />
+          <xsd:element minOccurs="0" name="MATNR" type="xi0:MATNR" />
+          <xsd:element minOccurs="0" name="MAKTX" type="xi0:MAKTX" />
+          <xsd:element minOccurs="0" name="LIFNR" type="xi0:LIFNR" />
+          <xsd:element minOccurs="0" name="NAME1" type="xi0:NAME1" />
+          <xsd:element minOccurs="0" name="NETPR" type="xi0:NETPR" />
+          <xsd:element minOccurs="0" name="UMREZ" type="xi0:UMREZ" />
+          <xsd:element minOccurs="0" name="MEINS" type="xi0:MEINS" />
+          <xsd:element minOccurs="0" name="WAKFG" type="xi0:WAKFG" />
+          <xsd:element minOccurs="0" name="MSTAE" type="xi0:MSTAE" />
+          <xsd:element minOccurs="0" name="TDYMG" type="xi0:TDYMG" />
+          <xsd:element minOccurs="0" name="MENG1" type="xi0:MENG1" />
+          <xsd:element minOccurs="0" name="MENG2" type="xi0:MENG2" />
+          <xsd:element minOccurs="0" name="MENG3" type="xi0:MENG3" />
+          <xsd:element minOccurs="0" name="MENG0" type="xi0:MENG0" />
+          <xsd:element minOccurs="0" name="MENGE" type="xi0:MENGE" />
+          <xsd:element minOccurs="0" name="LFDAT" type="xi0:LFDAT" />
+          <xsd:element minOccurs="0" name="TNETPR" type="xi0:TNETPR" />
+          <xsd:element minOccurs="0" name="BANFN" type="xi0:BANFN" />
+          <xsd:element minOccurs="0" name="EBELN1" type="xi0:EBELN1" />
+          <xsd:element minOccurs="0" name="REMARK" type="xi0:REMARK" />
+          <xsd:element minOccurs="0" name="LQTY7" type="xi0:LQTY7" />
+          <xsd:element minOccurs="0" name="LQTY6" type="xi0:LQTY6" />
+          <xsd:element minOccurs="0" name="LQTY5" type="xi0:LQTY5" />
+          <xsd:element minOccurs="0" name="LQTY4" type="xi0:LQTY4" />
+          <xsd:element minOccurs="0" name="LQTY3" type="xi0:LQTY3" />
+          <xsd:element minOccurs="0" name="WEQTY" type="xi0:WEQTY" />
+          <xsd:element minOccurs="0" name="YEQTY" type="xi0:YEQTY" />
+          <xsd:element minOccurs="0" name="TOQTY" type="xi0:TOQTY" />
+          <xsd:element minOccurs="0" name="LABST" type="xi0:LABST" />
+          <xsd:element minOccurs="0" name="TOTAL" type="xi0:TOTAL" />
+          <xsd:element minOccurs="0" name="EISBE" type="xi0:EISBE" />
+          <xsd:element minOccurs="0" name="DDATE" type="xi0:DDATE" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="EKGRP" type="xi0:EKGRP" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FreshFoodOrderQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EKGRP" type="xi0:EKGRP" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="BUDAT" type="xi0:BUDAT" />
+          <xsd:element minOccurs="0" name="LFDAT" type="xi0:LFDAT" />
+          <xsd:element minOccurs="0" name="PERNO" type="xi0:PERNO" />
+          <xsd:element minOccurs="0" name="ZTYPE" type="xi0:ZTYPE" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="MATNRFreshFoodOrderList" type="xi0:MATNRFreshFoodOrderList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FreshFoodOrderResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="MATNRFreshFoodOrderList" type="xi0:MATNRFreshFoodOrderList" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="FreshFoodOrderList" type="xi0:FreshFoodOrderList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ICON">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ICON1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="INFOPLT">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="KBETR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="KUNNR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LABST">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LFDAT">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LIFNR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LIFNR_T">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="30" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LIMIT">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="11" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LQTY3">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LQTY4">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LQTY5">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LQTY6">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LQTY7">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MAKTX">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MATKL">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="9" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MATNR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="MATNRFreshFoodOrderList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="LIFNR" type="xi0:LIFNR" />
+          <xsd:element minOccurs="0" name="NAME1" type="xi0:NAME1" />
+          <xsd:element minOccurs="0" name="MATNR" type="xi0:MATNR" />
+          <xsd:element minOccurs="0" name="MAKTX" type="xi0:MAKTX" />
+          <xsd:element minOccurs="0" name="MENGE" type="xi0:MENGE" />
+          <xsd:element minOccurs="0" name="MEINS" type="xi0:MEINS" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="MATNR_T">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MEINS">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MENG0">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MENG1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MENG2">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MENG3">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MENGE">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MEPRF">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MMSTA">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MMSTA_DC">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MMSTD">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MSTAE">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MSTDE">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MWSKZ">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="NAME1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="35" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="NETPR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="OPENPO">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PERNO">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="8" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PLIFZ">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="3" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PRCTR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PRCTR_DC">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PROMOTION">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RAUBE">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RDPRF">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RDPRF_DC">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RELIF">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="REMARK">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="100" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ReturnMessage">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="255" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="RfOperationOrderList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="ICON" type="xi0:ICON" />
+          <xsd:element minOccurs="0" name="LIFNR" type="xi0:LIFNR" />
+          <xsd:element minOccurs="0" name="MATNR" type="xi0:MATNR" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="INFOPLT" type="xi0:INFOPLT" />
+          <xsd:element minOccurs="0" name="MATKL" type="xi0:MATKL" />
+          <xsd:element minOccurs="0" name="UMREZ" type="xi0:UMREZ" />
+          <xsd:element minOccurs="0" name="DLVTY" type="xi0:DLVTY" />
+          <xsd:element minOccurs="0" name="PROMOTION" type="xi0:PROMOTION" />
+          <xsd:element minOccurs="0" name="KBETR" type="xi0:KBETR" />
+          <xsd:element minOccurs="0" name="FDAYW" type="xi0:FDAYW" />
+          <xsd:element minOccurs="0" name="MENGE" type="xi0:MENGE" />
+          <xsd:element minOccurs="0" name="OPENPO" type="xi0:OPENPO" />
+          <xsd:element minOccurs="0" name="MATNR_T" type="xi0:MATNR_T" />
+          <xsd:element minOccurs="0" name="LIFNR_T" type="xi0:LIFNR_T" />
+          <xsd:element minOccurs="0" name="EEIND" type="xi0:EEIND" />
+          <xsd:element minOccurs="0" name="EEIND_PP" type="xi0:EEIND_PP" />
+          <xsd:element minOccurs="0" name="SDATS" type="xi0:SDATS" />
+          <xsd:element minOccurs="0" name="EBELN" type="xi0:EBELN" />
+          <xsd:element minOccurs="0" name="EAN11" type="xi0:EAN11" />
+          <xsd:element minOccurs="0" name="RAUBE" type="xi0:RAUBE" />
+          <xsd:element minOccurs="0" name="STOFF" type="xi0:STOFF" />
+          <xsd:element minOccurs="0" name="WEKGR" type="xi0:WEKGR" />
+          <xsd:element minOccurs="0" name="MSTAE" type="xi0:MSTAE" />
+          <xsd:element minOccurs="0" name="MSTDE" type="xi0:MSTDE" />
+          <xsd:element minOccurs="0" name="BISMT" type="xi0:BISMT" />
+          <xsd:element minOccurs="0" name="MEINS" type="xi0:MEINS" />
+          <xsd:element minOccurs="0" name="VERPR" type="xi0:VERPR" />
+          <xsd:element minOccurs="0" name="LIMIT" type="xi0:LIMIT" />
+          <xsd:element minOccurs="0" name="LABST" type="xi0:LABST" />
+          <xsd:element minOccurs="0" name="UMSMNG" type="xi0:UMSMNG" />
+          <xsd:element minOccurs="0" name="UMSMNG7" type="xi0:UMSMNG7" />
+          <xsd:element minOccurs="0" name="D_01" type="xi0:D_01" />
+          <xsd:element minOccurs="0" name="D_02" type="xi0:D_02" />
+          <xsd:element minOccurs="0" name="ERSDA" type="xi0:ERSDA" />
+          <xsd:element minOccurs="0" name="FPRFM_DC" type="xi0:FPRFM_DC" />
+          <xsd:element minOccurs="0" name="PRCTR_DC" type="xi0:PRCTR_DC" />
+          <xsd:element minOccurs="0" name="RDPRF_DC" type="xi0:RDPRF_DC" />
+          <xsd:element minOccurs="0" name="MMSTA_DC" type="xi0:MMSTA_DC" />
+          <xsd:element minOccurs="0" name="KUNNR" type="xi0:KUNNR" />
+          <xsd:element minOccurs="0" name="DISMM" type="xi0:DISMM" />
+          <xsd:element minOccurs="0" name="RDPRF" type="xi0:RDPRF" />
+          <xsd:element minOccurs="0" name="BWSCL" type="xi0:BWSCL" />
+          <xsd:element minOccurs="0" name="MMSTA" type="xi0:MMSTA" />
+          <xsd:element minOccurs="0" name="MMSTD" type="xi0:MMSTD" />
+          <xsd:element minOccurs="0" name="PRCTR" type="xi0:PRCTR" />
+          <xsd:element minOccurs="0" name="PLIFZ" type="xi0:PLIFZ" />
+          <xsd:element minOccurs="0" name="NAME1" type="xi0:NAME1" />
+          <xsd:element minOccurs="0" name="RELIF" type="xi0:RELIF" />
+          <xsd:element minOccurs="0" name="MWSKZ" type="xi0:MWSKZ" />
+          <xsd:element minOccurs="0" name="APLFZ" type="xi0:APLFZ" />
+          <xsd:element minOccurs="0" name="MEPRF" type="xi0:MEPRF" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RfOperationOrderQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EKORG" type="xi0:EKORG" />
+          <xsd:element minOccurs="0" name="EKGRP" type="xi0:EKGRP" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="BEDAT" type="xi0:BEDAT" />
+          <xsd:element minOccurs="0" name="PERNO" type="xi0:PERNO" />
+          <xsd:element minOccurs="0" name="ZTYPE" type="xi0:ZTYPE" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="RfOperationOrderList" type="xi0:RfOperationOrderList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RfOperationOrderResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="RfOperationOrderList" type="xi0:RfOperationOrderList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="SDATS">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="9" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="STOFF">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="TDYMG">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="TNETPR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="11" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="TOQTY">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="TOTAL">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="UMREZ">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="5" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="UMSMNG">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="11" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="UMSMNG7">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="11" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="VERPR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="11" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="WAKFG">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="WEKGR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="WEQTY">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="WERKS">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="YEQTY">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ZTYPE">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="FreshFoodOrderCrQuery_sync" type="xi0:FreshFoodOrderCrQuery_sync" />
+      <xsd:element name="FreshFoodOrderCrResponse_sync" type="xi0:FreshFoodOrderCrResponse_sync" />
+      <xsd:element name="FreshFoodOrderQuery_sync" type="xi0:FreshFoodOrderQuery_sync" />
+      <xsd:element name="FreshFoodOrderResponse_sync" type="xi0:FreshFoodOrderResponse_sync" />
+      <xsd:element name="RfOperationOrderQuery_sync" type="xi0:RfOperationOrderQuery_sync" />
+      <xsd:element name="RfOperationOrderResponse_sync" type="xi0:RfOperationOrderResponse_sync" />
+    </xsd:schema>
+    <xsd:schema xmlns:xi2="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/MOB" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns="http://sap.com/xi/SAPGlobal/Global" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://sap.com/xi/SAPGlobal/Global">
+      <xsd:import namespace="http://eland.co.kr/KRERP/SD" />
+      <xsd:element name="StandardMessageFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="standard" type="xi2:ExchangeFaultData" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:xi2="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/MOB" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns="http://eland.co.kr/KRERP/SD" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://eland.co.kr/KRERP/SD">
+      <xsd:complexType name="ExchangeFaultData">
+        <xsd:sequence>
+          <xsd:element name="faultText" type="xsd:string" />
+          <xsd:element minOccurs="0" name="faultUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="faultDetail" type="xi2:ExchangeLogData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ExchangeLogData">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="severity" type="xsd:string" />
+          <xsd:element name="text" type="xsd:string" />
+          <xsd:element minOccurs="0" name="url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="FreshFoodOrderQuery_sync">
+    <wsdl:part name="FreshFoodOrderQuery_sync" element="tns:FreshFoodOrderQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="FreshFoodOrderResponse_sync">
+    <wsdl:part name="FreshFoodOrderResponse_sync" element="tns:FreshFoodOrderResponse_sync" />
+  </wsdl:message>
+  <wsdl:message name="StandardMessageFault">
+    <wsdl:part name="StandardMessageFault" element="n1:StandardMessageFault" />
+  </wsdl:message>
+  <wsdl:message name="FreshFoodOrderCrQuery_sync">
+    <wsdl:part name="FreshFoodOrderCrQuery_sync" element="tns:FreshFoodOrderCrQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="FreshFoodOrderCrResponse_sync">
+    <wsdl:part name="FreshFoodOrderCrResponse_sync" element="tns:FreshFoodOrderCrResponse_sync" />
+  </wsdl:message>
+  <wsdl:message name="RfOperationOrderQuery_sync">
+    <wsdl:part name="RfOperationOrderQuery_sync" element="tns:RfOperationOrderQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="RfOperationOrderResponse_sync">
+    <wsdl:part name="RfOperationOrderResponse_sync" element="tns:RfOperationOrderResponse_sync" />
+  </wsdl:message>
+  <wsdl:portType name="ManageOrderOfferProgramIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#IF_ManageOrderOfferProgramIn" />
+    </wsp:Policy>
+    <wsdl:operation name="FreshFoodOrderQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_FreshFoodOrderQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:FreshFoodOrderQuery_sync" />
+      <wsdl:output message="tns:FreshFoodOrderResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+    <wsdl:operation name="FreshFoodOrderCrQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_FreshFoodOrderCrQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:FreshFoodOrderCrQuery_sync" />
+      <wsdl:output message="tns:FreshFoodOrderCrResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+    <wsdl:operation name="RfOperationOrderQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_RfOperationOrderQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:RfOperationOrderQuery_sync" />
+      <wsdl:output message="tns:RfOperationOrderResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZMANAGEORDEROFFERPROGRAMIN_BINDING" type="tns:ManageOrderOfferProgramIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN_ZMANAGEORDEROFFERPROGRAMIN_BINDING" />
+    </wsp:Policy>
+    <wsa:EndpointReference xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+      <wsa:ReferenceParameters />
+    </wsa:EndpointReference>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FreshFoodOrderQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="FreshFoodOrderCrQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RfOperationOrderQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZMANAGEORDEROFFERPROGRAMIN">
+    <wsdl:port name="ZMANAGEORDEROFFERPROGRAMIN_BINDING" binding="tns:ZMANAGEORDEROFFERPROGRAMIN_BINDING">
+      <soap:address location="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanageorderofferprogramin/100/zmanageorderofferprogramin/zmanageorderofferprogramin_binding" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,65 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer">
+
+        <div class="list select">
+            <div class="item">
+                <div class="row list">
+                    <div class="col col-20">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark">월별</a>
+                    </div>
+                    <div class="col col-40" ng-click="OpenStorePopup()">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark" ng-if="popup.selectedStore == null">지점선택</a>
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark" ng-if="popup.selectedStore != null">{{popup.selectedStore.name}}</a>
+                    </div>
+                    <div class="col col-40">
+                        <a class="button icon-right ion-ios-arrow-down button-clear button-dark">CU/PC선택</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item eland-tab-hover">
+                <div class="row list" style="bottom: 0; padding-bottom: 0;">
+                    <div class="col col-25" ng-class="{'active': data.isActive=='leftA'}" ng-click="setActive('leftA')">
+                        <a>총매출</a>
+                    </div>
+                    <div class="col col-25" ng-class="{'active': data.isActive=='leftB'}" ng-click="setActive('leftB')">
+                        <a>실매출</a>
+                    </div>
+                    <div class="col col-25" ng-class="{'active': data.isActive=='leftA'}" ng-click="setActive('leftA')">
+                        <a>매총익</a>
+                    </div>
+                    <div class="col col-25" ng-class="{'active': data.isActive=='leftA'}" ng-click="setActive('leftA')">
+                        <a>매총율</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!--<div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Plant
+                </div>
+                <select ng-model="data.plantId" favorite="data.plantId" favorite-key="Plant">
+                    <option value="8202">Blue</option>
+                    <option value="8204">Green</option>
+                    <option value="8206">Red</option>
+                </select>
+            </label>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    PC
+                </div>
+                <select ng-model="data.PC" favorite="data.PC" favorite-key="PC">
+                    <option value="AAA">AAA</option>
+                    <option value="ABA">ABA</option>
+                    <option value="ABB">ABB</option>
+                    <option value="ABC">ABC</option>
+                </select>
+            </label>
+        </div>-->
+
+
+    </ion-content>
+
+</ion-view>

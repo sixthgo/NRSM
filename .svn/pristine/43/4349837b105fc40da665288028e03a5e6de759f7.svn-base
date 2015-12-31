@@ -1,0 +1,286 @@
+﻿cortrollerModule.controller('ProfitToPlanCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, MenuApiService, FavoriteService, PopupService, PlantService, CUService) {
+    console.log('ProfitToPlanCtrl');
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM004'; // updated 
+    $scope.base.SetMenu($scope.base.menuId);
+    //$scope.base.stateId = $state.$current.name;
+
+    $scope.favorite.support = true; // support favorite feature in this view
+    $scope.favoriteKeyA = "PlantA";
+    $scope.favoriteKeyB = "PCA";
+    
+    $scope.search = {};
+    $scope.search.isMonthly = true;
+    $scope.search.type = '-1-1-1';
+
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.cuPopup = {};
+    $scope.cuPopup.selectedCu = { cuCode: '-1', cuName: '모든CU' };
+    $scope.cuPopup.selectedCuTemp = null;
+    $scope.cuPopup.selectedPc = { pcCode: '-1', pcName: '모든PC' };
+    $scope.cuPopup.selectedPcTemp = null;
+    
+    $scope.data = {};
+
+    $scope.Init = function () {
+        console.log('ProfitToPlanCtrl.Init()');
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+
+        $scope.base.swiper();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = '목표 전년 대비 실적';
+    }
+
+    // sample for initialize
+    $scope.GetGarbageData = function () {
+
+        var defer = $q.defer();
+
+        MenuApiService.get({
+            appId: $scope.system.appId,
+            loginId: $scope.user.loginId,
+            currentMenuVersion: $scope.system.currentMenuVersion,
+            locale: $scope.system.locale
+        }, function (data) {
+            $scope.debug.Log('GetGarbageData.get().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    // sample for initialize
+    $scope.GetGarbageData2 = function () {
+        var defer = $q.defer();
+
+        FavoriteService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+
+        // show loading image
+        $ionicLoading.show({
+            noBackdrop: true
+        }); // nobackdrop: true
+
+        $q.all({
+            A: $scope.GetGarbageData().catch($scope.CatchException),
+            B: $scope.GetGarbageData2().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('InitData()');
+
+                // if exists favorite key, set each value by key 
+                if ($scope.favorite.support == true && $scope.favorite.selected != null)
+                    $scope.SetControlsByFavorite();
+            }
+            , function (error) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+                
+            });
+    }
+
+    $scope.SetControlsByFavorite = function () {
+        
+        // add code each view
+        ////$scope.data.plantId = $scope.base.GetFavoriteValue($scope.favoriteKeyA); // PlantA
+        ////$scope.data.PC = $scope.base.GetFavoriteValue($scope.favoriteKeyB); // PCA
+        var favoriteA = $scope.base.GetFavoriteValue($scope.favoriteKeyA); // PlantA
+        var favoriteB = $scope.base.GetFavoriteValue($scope.favoriteKeyB); // PCA
+
+        PlantService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $ionicLoading.hide();
+            //$scope.debug.Log('GetStore.get().success');
+            $scope.data.stores = data;
+
+            for (var i = 0; i < $scope.data.stores.length; i++) {
+                if (favoriteA == $scope.data.stores[i].plantCode) {
+                    $scope.storePopup.selectedStoreTemp = $scope.data.stores[i];
+                    $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+                    break;
+                }
+            }
+            
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+        });
+
+        CUService.query({
+            loginId: $scope.user.loginId,
+            type: 'cu',
+            cuCode: ''
+        }, function (data) {
+            $ionicLoading.hide();
+            //$scope.debug.Log('GetCu.get().success');
+            $scope.data.cues = data;
+            
+            for (var i = 0; i < $scope.data.cues.length; i++) {
+                if (favoriteB == $scope.data.cues[i].cuCode) {
+                    $scope.cuPopup.selectedCuTemp = $scope.data.cues[i];
+                    $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                    ////$scope.OnCuChange();
+                    return;
+                }
+            }
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+
+        });
+
+        // mandatory function call, clear current favorite data
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.Init();
+
+    $scope.ToggleMonthly = function () {
+        $scope.search.isMonthly = !$scope.search.isMonthly;
+    }
+
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : ' : ' + $scope.storePopup.selectedStore.plantName;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '지점 선택',
+            subTitle: '현재 선택한 지점 ' + name,
+            cssClass: 'storePopup',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {                
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);                
+            }
+            else {                
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+
+            $timeout(SetSwiper, 1000);
+        });
+    }
+
+    $scope.OpenCuPopup = function () {
+        var name = ($scope.cuPopup.selectedCu == null) ? '' : ' : ' + $scope.cuPopup.selectedCu.cuName;
+        name += ($scope.cuPopup.selectedPc == null) ? '' : $scope.cuPopup.selectedPc.pcName;
+
+        var url = 'templates/cuPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: 'CU/PC 선택',
+            subTitle: '현재 선택한 CU/PC ' + name,
+            cssClass: 'storePopup', // common use - storePopup, cuPopup
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    
+                    if ($scope.cuPopup.selectedCuTemp != null
+                        && $scope.cuPopup.selectedPcTemp != null) {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                $scope.cuPopup.selectedPc = angular.copy($scope.cuPopup.selectedPcTemp);
+            }
+            else {
+                $scope.cuPopup.selectedCuTemp = angular.copy($scope.cuPopup.selectedCu);
+                $scope.cuPopup.selectedPcTemp = angular.copy($scope.cuPopup.selectedPc);
+            }
+
+            $timeout(SetSwiper, 1000);
+        });
+    }
+
+    var SetSwiper = function () {
+        //$scope.debug.Log('in  $scope.SetSwipe()');
+        $scope.base.swiper();
+    }
+});

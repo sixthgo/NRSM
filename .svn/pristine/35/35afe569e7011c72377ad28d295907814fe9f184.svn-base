@@ -1,0 +1,6 @@
+﻿<ion-footer-bar ng-class="setting.footer.class">
+    <button class="button icon ion-android-star-outline" ng-click="ClickStar()"></button>
+    <a class="title" ui-sref="app.home">HOME</a>
+    <button class="button icon ion-gear-a" ng-click="ClickGear()"></button>
+    <button class="button icon ion-star" ng-if="base.viewId == 'NRSM011'" ng-click="ClickAdd()">ADD</button>
+</ion-footer-bar>

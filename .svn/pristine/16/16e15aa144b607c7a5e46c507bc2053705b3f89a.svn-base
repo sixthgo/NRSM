@@ -1,0 +1,64 @@
+﻿<ion-view view-title="{{word.manualOrder}}">
+    <ion-content class="has-footer">
+        <div id="container" class="green">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">지점 코드</p>
+                        <p class="right"><input type="number" ng-model="data.storeCode"
+                                                onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></p>
+                    </li>
+                    <li>
+                        <p class="left">分店名</p>
+                        <p class="right"><input type="text" />大悦城</p>
+                    </li>
+                    <li>
+                        <p class="left">점포 코드</p>
+                        <p class="right"><input type="number" ng-model="base.barCode014" ng-change="AutoSearchManualOrderInfo()"
+                                                onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></p>
+                    </li>
+                    <li>
+                        <p class="left">상품 코드</p>
+                        <p class="right"><input type="text" />黄瓜</p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_gray">
+                    <a href="#" ng-click="SearchManualOrderInfo()"><img src="img/nrsm/icon_search_gray.png" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">박스 입수</p>
+                        <p class="right">{{data.ManualOrderInfo.LABST}}</p>
+                    </li>
+                    <li>
+                        <p class="left">현재재고</p>
+                        <p class="right">{{data.ManualOrderInfo.MTART}}</p>
+                    </li>
+                    <li>
+                        <p class="left">입고일</p>
+                        <p class="right">{{data.ManualOrderInfo.BEDAT}}</p>
+                    </li>
+                    <li>
+                        <p class="left">입고예정</p>
+                        <p class="right">{{data.ManualOrderInfo.MENGE}}</p>
+                    </li>
+                    <li>
+                        <p class="left">오더형태</p>
+                        <p class="right">{{data.ManualOrderInfo.PERNO}}</p>
+                    </li>
+                    <li>
+                        <p class="left">오더수량</p>
+                        <p class="right"><input type="text" />{{data.ManualOrderInfo.YEQTY}}</p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_confirm btn_color">
+                    <a href="#"><img src="img/nrsm/btn_save.png" ng-click="SaveManualOrderInfo()"/>&nbsp;&nbsp;오더 저장</a>
+                </p>
+            </form>
+        </div>
+    </ion-content>
+
+</ion-view>

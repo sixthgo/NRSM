@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <object id="TemplateDao" type="Eland.NRSM.Template.Dao.TemplateDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="FavoriteDao" type="Eland.NRSM.Template.Dao.FavoriteDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="PlantDao" type="Eland.NRSM.Template.Dao.PlantDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="CEOReportDao" type="Eland.NRSM.Template.Dao.CEOReportDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="CUDao" type="Eland.NRSM.Template.Dao.CUDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="EIMSInformationDao" type="Eland.NRSM.Template.Dao.EIMSInformationDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="AdminDao" type="Eland.NRSM.Template.Dao.AdminDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="POGFirstCategoryDao" type="Eland.NRSM.Template.Dao.POGFirstCategoryDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="POGThirdCategoryDao" type="Eland.NRSM.Template.Dao.POGThirdCategoryDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="POGColumnDao" type="Eland.NRSM.Template.Dao.POGColumnDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+
+</objects>

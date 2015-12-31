@@ -1,0 +1,48 @@
+﻿cortrollerModule.controller('SampleCtrl', function ($scope, $state, $stateParams, $timeout) {
+
+    $scope.base.menuId = 'NRSMM04';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.base.viewId = 'NRSM009';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;    // status save to Favorite 
+    ////$scope.base.stateId = $state.current.name;
+
+    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('SampleCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+        $scope.base.snapshot = '';
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Sample';
+        $scope.test = $scope.word.testSentence;
+    }
+
+    $scope.Init();
+
+    $scope.doRefresh = function() {
+        console.log('Refreshing!');
+        $timeout( function() {
+            //simulate async response
+            $scope.items.push('New Item ' + Math.floor(Math.random() * 1000) + 4);
+
+            //Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+
+        }, 1000);
+
+    };
+
+});

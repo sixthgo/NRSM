@@ -1,0 +1,115 @@
+﻿cortrollerModule.controller('ProfitToPlanCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, MenuApiService, FavoriteService) {
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM004';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.favorite.support = true; // support favorite feature in this view
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+        $scope.debug.Log('ProfitToPlanCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        //
+        $scope.InitData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'ProfitToPlanCtrl';
+    }
+
+    $scope.GetGarbageData = function () {
+
+        var defer = $q.defer();
+
+        MenuApiService.get({
+            appId: $scope.system.appId,
+            loginId: $scope.user.loginId,
+            currentMenuVersion: $scope.system.currentMenuVersion,
+            locale: $scope.system.locale
+        }, function (data) {
+            $scope.debug.Log('GetGarbageData.get().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.GetGarbageData2 = function () {
+        var defer = $q.defer();
+
+        FavoriteService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+
+        // show loading image
+        $ionicLoading.show();
+
+        $q.all({
+            A: $scope.GetGarbageData().catch($scope.CatchException),
+            B: $scope.GetGarbageData2().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('InitData()');
+
+                // if exists favorite key, set each value by key 
+                $scope.SetControlsByFavorite();
+                
+            }
+            , function (error) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+                
+            });
+    }
+
+    $scope.SetControlsByFavorite = function () {
+        // add code each view
+        $scope.data.plantId = $scope.base.GetFavoriteValue('Plant');
+        $scope.data.PC = $scope.base.GetFavoriteValue('PC');
+
+        // mandatory function call, clear current favorite data
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.Init();
+});

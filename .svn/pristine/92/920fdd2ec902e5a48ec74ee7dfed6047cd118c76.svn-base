@@ -1,0 +1,12 @@
+﻿<ion-view view-title="Common">
+
+    <ion-nav-bar class="{{setting.header.class}}">
+        <ion-nav-back-button class="button-clear">
+            <i class="icon ion-ios-arrow-left"></i>BACK..
+        </ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-nav-view name="subContent" animation="slide-left-right"></ion-nav-view>
+
+    <footer></footer>
+</ion-view>

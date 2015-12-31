@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.serviceModel>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="WS_MailSoap" />
+      </basicHttpBinding>
+      <customBinding>
+        <binding name="ZQUERYMATERIALPRICEINFO_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYUSERAUTHIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGEREALINVENTORYIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGEMANUALORDERIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYDAILYSALEPREDICTIONIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGESALEPRICESENDIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGEDAILYGRIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGESTOCKINSPECTIONCREATEIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGESCPOPALLETITEMIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYSTOREFLOORCODEIN_V1000_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYHISTORYIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGEFLOORCODEIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYREVENUEIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGESPACEPROFITIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYSTOREDETAILINFOIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYFLOORREVENUEIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYMONTHRESULTIN_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZMANAGESAVEMATERIALLABEL_BINDING">
+          <!--    WsdlImporter encountered unrecognized policy assertions in ServiceDescription 'http://eland.co.kr/KRERP/MOB':    -->
+          <!--    <wsdl:binding name='ZMANAGESAVEMATERIALLABEL_BINDING'>    -->
+          <!--        <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing">..</wsaw:UsingAddressing>    -->
+          <!--        <saptrnbnd:OptimizedXMLTransfer xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/">..</saptrnbnd:OptimizedXMLTransfer>    -->
+          <!--        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">..</sapattahnd:Enabled>    -->
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYEVENTREVENUEIN_V1100_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+      </customBinding>
+    </bindings>
+    <client>
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymaterialpriceinfo/100/zquerymaterialpriceinfo/zquerymaterialpriceinfo_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYMATERIALPRICEINFO_BINDING"
+        contract="ZQUERYMATERIALPRICEINFO.QueryMaterialPriceInfo" name="ZQUERYMATERIALPRICEINFO_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryuserauthin/100/zqueryuserauthin/zqueryuserauthin_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYUSERAUTHIN_BINDING"
+        contract="ZQUERYUSERAUTHIN.QueryUserAuthIn" name="ZQUERYUSERAUTHIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagerealinventoryin/100/zmanagerealinventoryin/zmanagerealinventoryin_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGEREALINVENTORYIN_BINDING"
+        contract="MANAGEREALINVENTORYIN.ManageRealInventoryIn" name="ZMANAGEREALINVENTORYIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagemanualorderin/100/zmanagemanualorderin/zmanagemanualorderin_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGEMANUALORDERIN_BINDING"
+        contract="MANAGEMANUALORDERIN.ManageManualOrderIn" name="ZMANAGEMANUALORDERIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerydailysalepredictionin/100/zquerydailysalepredictionin/zquerydailysalepredictionin_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYDAILYSALEPREDICTIONIN_BINDING"
+        contract="QUERYDAILYSALEPREDICTIONIN.QueryDailySalePredictionIn"
+        name="ZQUERYDAILYSALEPREDICTIONIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagesalepricesendin/100/zmanagesalepricesendin/zmanagesalepricesendin_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGESALEPRICESENDIN_BINDING"
+        contract="MANAGESALEPRICESENDIN.ManageSalePriceSendIn" name="ZMANAGESALEPRICESENDIN_BINDING" />
+      <endpoint address="http://mobile.eland.co.kr/webservice/ws_mail.asmx"
+        binding="basicHttpBinding" bindingConfiguration="WS_MailSoap"
+        contract="MailWebService.WS_MailSoap" name="WS_MailSoap" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagedailygrin/100/zmanagedailygrin/zmanagedailygrin_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGEDAILYGRIN_BINDING"
+        contract="MANAGEDAILYGIN.ManageDailyGrIn" name="ZMANAGEDAILYGRIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagestockinspectioncreatein/100/zmanagestockinspectioncreatein/zmanagestockinspectioncreatein_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGESTOCKINSPECTIONCREATEIN_BINDING"
+        contract="MANAGESTOCKINSPECTIONCREATEIN.ManageStockInspectionCreateIn"
+        name="ZMANAGESTOCKINSPECTIONCREATEIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagescpopalletitemin/100/zmanagescpopalletitemin/zmanagescpopalletitemin_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGESCPOPALLETITEMIN_BINDING"
+        contract="MANAGESCPOPALLETITEMIN.ManageScPoPalletItemIn" name="ZMANAGESCPOPALLETITEMIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP02.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerystorefloorcodein_v1000/100/zquerystorefloorcodein_v1000/zquerystorefloorcodein_v1000_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYSTOREFLOORCODEIN_V1000_BINDING"
+        contract="ZQUERYSTOREFLOORCODEIN_V1000.QueryStoreFloorCodeIn_V1000"
+        name="ZQUERYSTOREFLOORCODEIN_V1000_BINDING" />
+      <endpoint address="http://KRSRPRDAP02.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryhistoryin/100/zqueryhistoryin/zqueryhistoryin_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYHISTORYIN_BINDING"
+        contract="ZQUERYHISTORYIN.QueryHistoryIn" name="ZQUERYHISTORYIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP02.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagefloorcodein/100/zmanagefloorcodein/zmanagefloorcodein_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGEFLOORCODEIN_BINDING"
+        contract="ZMANAGEFLOORCODEIN.ManageFloorCodeIn" name="ZMANAGEFLOORCODEIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP02.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryrevenuein/100/zqueryrevenuein/zqueryrevenuein_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYREVENUEIN_BINDING"
+        contract="ZQUERYREVENUEIN.QueryRevenueIn" name="ZQUERYREVENUEIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP02.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagespaceprofitin/100/zmanagespaceprofitin/zmanagespaceprofitin_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGESPACEPROFITIN_BINDING"
+        contract="ZMANAGESPACEPROFITIN.ManageSpaceProfitIn" name="ZMANAGESPACEPROFITIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerystoredetailinfoin/100/zquerystoredetailinfoin/zquerystoredetailinfoin_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYSTOREDETAILINFOIN_BINDING"
+        contract="ZQUERYSTOREDETAILINFOIN.QueryStoreDetailInfoIn" name="ZQUERYSTOREDETAILINFOIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP04.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryfloorrevenuein/100/zqueryfloorrevenuein/zqueryfloorrevenuein_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYFLOORREVENUEIN_BINDING"
+        contract="ZQUERYFLOORREVENUEIN.QueryFloorRevenueIn" name="ZQUERYFLOORREVENUEIN_BINDING" />
+      <endpoint address="http://KRSRPRDAP03.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymonthresultin/100/zquerymonthresultin/zquerymonthresultin_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYMONTHRESULTIN_BINDING"
+        contract="ZQUERYMONTHRESULTIN.QueryMonthResultIn" name="ZQUERYMONTHRESULTIN_BINDING" />
+      <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagesavemateriallabel/100/zmanagesavemateriallabel/zmanagesavemateriallabel_binding"
+        binding="customBinding" bindingConfiguration="ZMANAGESAVEMATERIALLABEL_BINDING"
+        contract="MANAGESAVEMATERIALLABEL.ManageSaveMaterialLabel" name="ZMANAGESAVEMATERIALLABEL_BINDING" />
+      <endpoint address="http://KRSRPRDAP05.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryeventrevenuein_v1100/100/zqueryeventrevenuein_v1100/zqueryeventrevenuein_v1100_binding"
+        binding="customBinding" bindingConfiguration="ZQUERYEVENTREVENUEIN_V1100_BINDING"
+        contract="ZQUERYEVENTREVENUEIN_V1100.QueryEventRevenueIn_V1100"
+        name="ZQUERYEVENTREVENUEIN_V1100_BINDING" />
+    </client>
+  </system.serviceModel>
+</configuration>

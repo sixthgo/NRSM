@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" >
+  <object id="requestQueue" type="Spring.Messaging.Support.MessageQueueFactoryObject, Spring.Messaging">
+    <property name="Path" value=".\Private$\nrsmlog.queue" />
+    <property name="MessageReadPropertyFilterSetAll" value="true" />
+  </object>
+  <object id="messageQueueTemplate" type="Spring.Messaging.Core.MessageQueueTemplate, Spring.Messaging">
+    <property name="DefaultMessageQueueObjectName" value="requestQueue" />
+  </object>
+  <object id="MsmqGateway" type="Eland.NRSM.Web.Logging.MsmqGateway, Eland.NRSM.Web">
+    <property name="MessageQueueTemplate" ref="messageQueueTemplate" />
+    <property name="Logged" value="true" />
+  </object>
+</objects>

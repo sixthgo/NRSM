@@ -1,0 +1,105 @@
+﻿using Eland.NRSM.Core.Services;
+using Eland.NRSM.Template.Dao;
+using Formular.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain = Eland.NRSM.Core.Domain;
+using Eland.NRSM.Template.ZQUERYPOGDISPLAYIN;
+
+namespace Eland.NRSM.Template.Services
+{
+    public class POGFirstCategoryService : GenericService<Domain.POGFirstCategory>, IPOGFirstCategoryService
+    {
+        IPOGFirstCategoryDao pogDao { get { return genericDao as IPOGFirstCategoryDao; } }
+
+        public List<Domain.POGFirstCategory> GetFirstCategory(string plantCode)
+        {
+            List<Domain.POGFirstCategory> result = new List<Domain.POGFirstCategory>();
+            result = pogDao.GetFirstCategory(plantCode);
+
+            return result;
+        }
+    }
+
+    public class POGThirdCategoryService : GenericService<Domain.POGThirdCategory>, IPOGThirdCategoryService
+    {
+        IPOGThirdCategoryDao pogDao { get { return genericDao as IPOGThirdCategoryDao; } }
+
+        public List<Domain.POGThirdCategory> GetThirdCategory(string plantCode, string firstCategory)
+        {
+            List<Domain.POGThirdCategory> result = new List<Domain.POGThirdCategory>();
+            result = pogDao.GetThirdCategory(plantCode, firstCategory);
+
+            return result;
+        }
+    }
+
+    public class POGColumnService : GenericService<Domain.POGColumn>, IPOGColumnService
+    {
+        IPOGColumnDao pogDao { get { return genericDao as IPOGColumnDao; } }
+
+        public List<Domain.POGColumn> GetColumn(string plantCode, string firstCategory, string thirdCategory)
+        {
+            List<Domain.POGColumn> result = new List<Domain.POGColumn>();
+            result = pogDao.GetColumn(plantCode, firstCategory, thirdCategory);
+
+            return result;
+        }
+    }
+
+    public class POGGoodsService : GenericService<Domain.POGGoods>, IPOGGoodsService
+    {
+
+        public Domain.POGGoods GetGoods(string werks, string matnr, string fircg, string thicg, string zcol, string uname)
+        {
+            QueryPOGDisplayInClient soapClient = new QueryPOGDisplayInClient();
+
+            soapClient.ClientCredentials.UserName.UserName = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_USERNAME"];
+            soapClient.ClientCredentials.UserName.Password = System.Configuration.ConfigurationManager.AppSettings["SAP_WEBSERVICE_PASSWORD"];
+            
+            POGDisplayQuery_sync param = new POGDisplayQuery_sync()
+            {
+                WERKS = werks,
+                MATNR = matnr,
+                FIRCG = fircg,
+                THICG = thicg,
+                ZCOL =  zcol,
+                UNAME = uname
+            };
+
+            POGDisplayResponse_sync result = soapClient.POGDisplayQueryResponse_In( param);
+
+            Domain.POGGoods goods = new Domain.POGGoods();
+            goods.MSG = result.ReturnMessage;
+            goods.XSTAT = result.Flag;
+
+            List<Domain.POGGoodsData> goodsList = new List<Domain.POGGoodsData>();
+
+            if (goods.XSTAT != "E") // not error
+            {
+                foreach (POGDisplayList item in result.POGDisplayList)
+                {
+                    goodsList.Add(new Domain.POGGoodsData()
+                    {
+                        MATNR = item.MATNR,
+                        MAKTX = item.MAKTX,
+                        FIRCG = item.FIRCG,
+                        THICG = item.THICG,
+                        ZCOL = item.ZCOL,
+
+                        ZROW = item.ZROW,
+                        ZSEQ = item.ZSEQ,
+                        HORIZ = item.HORIZ
+                    });
+                }
+            }
+
+            goods.POGGoodsData = goodsList;
+
+            return goods;
+        }
+    }
+}

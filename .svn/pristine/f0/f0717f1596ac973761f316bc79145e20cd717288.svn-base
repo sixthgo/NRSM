@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configurationSnapshot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:schemas-microsoft-com:xml-wcfconfigurationsnapshot">
+  <behaviors />
+  <bindings>
+    <binding digest="System.ServiceModel.Configuration.CustomBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;ZQUERYMATERIALPRICEINFOV1IN_BINDING&quot;&gt;&lt;httpsTransport authenticationScheme=&quot;Basic&quot; /&gt;&lt;textMessageEncoding messageVersion=&quot;Soap11&quot; /&gt;&lt;/Data&gt;" bindingType="customBinding" name="ZQUERYMATERIALPRICEINFOV1IN_BINDING" />
+  </bindings>
+  <endpoints>
+    <endpoint normalizedDigest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymaterialpriceinfov1in/100/zquerymaterialpriceinfov1in/zquerymaterialpriceinfov1in_binding&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;ZQUERYMATERIALPRICEINFOV1IN_BINDING&quot; contract=&quot;QUERYMATERIALPRICEINFOV1IN.QueryMaterialPriceInfoV1In&quot; name=&quot;ZQUERYMATERIALPRICEINFOV1IN_BINDING&quot; /&gt;" digest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymaterialpriceinfov1in/100/zquerymaterialpriceinfov1in/zquerymaterialpriceinfov1in_binding&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;ZQUERYMATERIALPRICEINFOV1IN_BINDING&quot; contract=&quot;QUERYMATERIALPRICEINFOV1IN.QueryMaterialPriceInfoV1In&quot; name=&quot;ZQUERYMATERIALPRICEINFOV1IN_BINDING&quot; /&gt;" contractName="QUERYMATERIALPRICEINFOV1IN.QueryMaterialPriceInfoV1In" name="ZQUERYMATERIALPRICEINFOV1IN_BINDING" />
+  </endpoints>
+</configurationSnapshot>

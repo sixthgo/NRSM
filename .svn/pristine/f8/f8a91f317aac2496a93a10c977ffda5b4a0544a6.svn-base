@@ -1,0 +1,40 @@
+﻿<ion-view view-title="{{word.eimsInformation}}">
+    <ion-content class="has-footer productInforClass" scroll="false">
+        <div id="container" class="green">
+            <ul class="select">
+                <li class="store" ng-click="showShopPop()"
+                    favorite-key="{{favoriteKeyA}}"
+                    favorite="storePopup.selectedStore.plantCode">
+                    <span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="date" ng-click="OpenDatePick()"><span>{{data.date}}</span></li>
+            </ul>
+
+            <div id="date">
+                <p class="right">단위 : 천원</p>
+            </div>
+
+            <table>
+                <tr>
+                    <th width="16%" style="vertical-align:middle;">항목</th>
+                    <th width="16%" style="vertical-align:middle;">실적</th>
+                    <th width="16%">전년<br />(2014년)</th>
+                    <th width="16%" style="vertical-align:middle;">성장율</th>
+                    <th width="16%">2년전<br />(2013년)</th>
+                    <th width="16%">3년전<br />(2012년)</th>
+                </tr>
+            </table>
+            <ion-scroll direction="y" id="scrollA" ng-style="{'height':newHeightA}">
+                <table>
+                    <tr ng-repeat="item in EIMSInformationList">
+                        <td width="16%">{{item.type}}</td>
+                        <td width="16%">{{item.thisYear | thousandBaseFilter}}</td>
+                        <td width="16%">{{item.previousYear | thousandBaseFilter}}</td>
+                        <td width="16%">{{item.growthRate}}%</td>
+                        <td width="16%">{{item.pPreviousYear | thousandBaseFilter}}</td>
+                        <td width="16%">{{item.ppPreviousYear | thousandBaseFilter}}</td>
+                    </tr>
+                </table>
+            </ion-scroll>
+        </div>
+    </ion-content>
+</ion-view>

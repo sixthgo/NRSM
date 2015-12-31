@@ -1,0 +1,171 @@
+﻿cortrollerModule.controller('FloorPlanSalesStoreDetailPopupCtrl', function ($scope, $stateParams, $filter, StoreDetailService, StoreDetail2Service) {
+    
+    $scope.isHide = true;
+    $scope.isNoData = true;
+
+    $scope.Init = function () {        
+        $scope.selectedStore = $scope.popup.werks.sectionCode;
+        $scope.selectedFloor = $scope.popup.floor.code;
+        //$scope.selectedLayoutCode = $scope.selectedLayoutCode;
+        $scope.selectedDate = $scope.selectDate;
+
+        if ($scope.selectedLayoutCode.length > 6) {
+            $scope.isHide = false;
+            $scope.isNoData = true;
+            if ($scope.selectedDate) {
+                $scope.getStoreDetail2();
+            } else {
+                $scope.getStoreDetail();
+            }
+        } else {
+            $scope.isHide = true;
+            $scope.isNoData = false;
+        }
+    }
+
+    $scope.infoList = [];
+    $scope.itemList = [];
+    $scope.eventList = [];
+
+    $scope.showHtml = [];
+
+    $scope.getStoreDetail = function () {
+        StoreDetailService.query({
+            werks: $scope.selectedStore,
+            floor: $scope.selectedFloor,
+            layoutCode: $scope.selectedLayoutCode
+        }, function (data) {            
+            //console.log(data);
+            $scope.showHtml.push(data);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].infoList) {
+                    $scope.infoList.push(data[i].infoList);
+                }
+                if (data[i].itemList) {
+                    $scope.itemList.push(data[i].itemList);
+                }
+                if (data[i].eventList) {
+                    $scope.eventList.push(data[i].eventList);
+                }
+            }
+            $scope.setStoreInfo();
+        });
+    }
+
+    $scope.getStoreDetail2 = function () {
+        StoreDetail2Service.query({
+            werks: $scope.selectedStore,
+            floor: $scope.selectedFloor,
+            layoutCode: $scope.selectedLayoutCode,
+            selectDate: $scope.selectedDate
+        }, function (data) {            
+            //console.log(data);
+            $scope.showHtml.push(data);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].infoList) {
+                    $scope.infoList.push(data[i].infoList);
+                }
+                if (data[i].itemList) {
+                    $scope.itemList.push(data[i].itemList);
+                }
+                if (data[i].eventList) {
+                    $scope.eventList.push(data[i].eventList);
+                }
+            }
+            $scope.setStoreInfo();
+        });
+    }
+
+    $scope.setStoreInfo = function () {
+        for (var i = 0; i < $scope.infoList.length; i++) {
+            $scope.vendorCode = $scope.infoList[i].vendorCode;
+            $scope.vendorName = $scope.infoList[i].vendorName;
+            $scope.merchandiser = $scope.infoList[i].merchandiser;
+            $scope.lgrade = $scope.infoList[i].lgrade;
+            $scope.profitCenter = $scope.infoList[i].profitCenter;
+            $scope.profitCenterText = $scope.infoList[i].profitCenterText;
+            $scope.salesType = $scope.infoList[i].salesType;
+            $scope.salesTypeText = $scope.infoList[i].salesTypeText;
+        }
+        
+        $scope.setStoreItem();
+    }
+
+    $scope.setStoreItem = function () {
+        var count = 0;
+        $scope.storeItemHtml = "<table cellpadding='0' cellspacing='0' border='1' width='100%' height='100%'>\n";
+        $scope.storeItemHtml += "<tr bgcolor='#ededed' style='font-weight:bold;'><td align='center' width='45%' height='35px'>[상품코드]</br>상품명</td><td align='center' width='13%'>수수료</td><td align='center'>유효기간</td></tr>\n";
+        if ($scope.itemList.length > 0) {
+            for (var i = 0; i < $scope.itemList.length; i++) {
+                $scope.materialName = $scope.itemList[i].materialName;
+
+                //$scope.startDate = $scope.itemList[i].startDate;
+                if ($scope.materialName != '-') {
+                    $scope.material = $scope.itemList[i].material;
+                    $scope.percent = $scope.itemList[i].percent;
+                    var splitStartDateTime = $scope.itemList[i].startDate.split('T');
+                    var splitStartDate = splitStartDateTime[0].split('-');
+                    $scope.startDate = splitStartDate[0] + '.' + splitStartDate[1] + '.' + splitStartDate[2];
+                    var splitEndDateTime = $scope.itemList[i].endDate.split('T');
+                    var splitEndDate = splitEndDateTime[0].split('-');
+                    $scope.endDate = splitEndDate[0] + '.' + splitEndDate[1] + '.' + splitEndDate[2];
+
+                } else {
+                    $scope.percent = "-";
+                    $scope.startDate = "-";
+                    $scope.endDate = "";
+                    $scope.material = ""
+                }
+
+
+                //$scope.endDate = $scope.itemList[i].endDate;
+                if ($scope.materialName != '-') {
+                    if (count % 2 > 0) {
+                        $scope.storeItemHtml += "<tr bgcolor='#ededed'><td align='center'>[" + $scope.material + "]</br>" + $scope.materialName + "</td><td align='center'>" + $scope.percent + "</td><td align='center'>" + $scope.startDate + "<br /> ~ " + $scope.endDate + "</td></tr>\n";
+                    } else {
+                        $scope.storeItemHtml += "<tr><td align='center'>[" + $scope.material + "]</br>" + $scope.materialName + "</td><td align='center'>" + $scope.percent + "</td><td align='center'>" + $scope.startDate + "<br /> ~ " + $scope.endDate + "</td></tr>\n";
+                    }
+                    count++;
+                } else {
+                    $scope.storeItemHtml += "<tr><td align='center' height='35px'>[" + $scope.material + "]</br>" + $scope.materialName + "</td><td align='center'>" + $scope.percent + "</td><td align='center'>" + $scope.startDate + "</td></tr>\n";
+                }
+
+
+            }
+            $scope.storeItemHtml += "</table>";
+        } else {
+            $scope.storeItemHtml += "<tr><td align='center'height='35px'>-</td><td align='center'>-</td><td align='center'>-</td></tr>\n";
+        }
+        $scope.setStoreEvent();
+    }
+
+    $scope.setStoreEvent = function () {
+        var count = 0;
+        $scope.storeEventHtml = "<table cellpadding='0' cellspacing='0' border='1' width='100%' height='100%'>\n";
+        $scope.storeEventHtml += "<tr bgcolor='#ededed' style='font-weight:bold;'><td align='center' width='20%' height='35px'>행사장ID</td><td align='center'>행사장명</td><td align='center'>매출액</td></tr>\n";
+        if ($scope.eventList.length > 0) {
+            for (var i = 0; i < $scope.eventList.length; i++) {
+                $scope.eventLayoutCode = $scope.eventList[i].layoutCode;
+                $scope.eventLayoutName = $scope.eventList[i].layoutName;
+                $scope.eventRevenue = $scope.eventList[i].revenue;
+                if ($scope.eventRevenue == 0) {
+                    $scope.convertRevenue = "-";
+                } else {
+                    $scope.convertRevenue = $filter('number')($scope.eventRevenue, 0) + "원";
+                }
+            }
+            if (count % 2 > 0) {
+                $scope.storeEventHtml += "<tr bgcolor='#ededed'><td align='center' height='35px'>" + $scope.eventLayoutCode + "</td><td align='center'>" + $scope.eventLayoutName + "</td><td align='center'>" + $scope.convertRevenue + "</td></tr>\n";
+            } else {
+                $scope.storeEventHtml += "<tr><td align='center' height='35px'>" + $scope.eventLayoutCode + "</td><td align='center'>" + $scope.eventLayoutName + "</td><td align='center'>" + $scope.convertRevenue + "</td></tr>\n";
+            }
+            count++;
+            $scope.storeEventHtml += "</table>"
+        } else {
+            $scope.storeEventHtml += "<tr><td align='center'height='35px'>-</td><td align='center'>-</td><td align='center'>-</td></tr>\n";
+            $scope.storeEventHtml += "</table>"
+        }
+    }
+
+    $scope.Init();
+});

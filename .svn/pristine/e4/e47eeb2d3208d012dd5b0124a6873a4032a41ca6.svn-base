@@ -1,0 +1,21 @@
+﻿
+var getBarcodebySwipe = function (barcode) {
+    // var scope = angular.element($('#home')).scope();
+    alert(barcode);
+    // scope.$apply(function () {
+        // scope.CreateOrChangeBoard();
+
+    // });
+}
+
+cortrollerModule.controller('HomeCtrl', function ($scope, $stateParams) {
+
+    $scope.base.menuId = $scope.setting.homeMenuId;
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.Init = function () {
+        $scope.debug.Log('base.menuId=' + $scope.base.menuId);
+    }
+
+    $scope.Init();
+});

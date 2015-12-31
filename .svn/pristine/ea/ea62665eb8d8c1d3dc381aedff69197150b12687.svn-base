@@ -1,0 +1,69 @@
+﻿
+var words = {
+    'en': {
+        common: 'Common',
+        manager: 'Manager',
+        title: 'Title',
+        task: 'Task',
+        hyper: 'Hyper',
+        product: 'Product',
+        productInfo: 'Product Information',
+        productDetail:'Product Detail',
+        msgTips: 'Message Tips',
+        normalPrice: 'Normal Price Saling',
+        activiting: 'Activities',
+        terminalt: 'Terminal',
+        eimsInformation: 'EIMS Information',
+        realStockControl: 'Change Real Stock',
+        saleProjections: 'Sale Projections'
+    },
+    'ko': {
+        common: '공통',
+        manager: '관리자',
+        title: '제목',
+        task: '작업',
+        hyper: '하이퍼',
+        product: '商品',
+        productInfo: '상품 정보 조회',
+        productDetail:'상품 상세 조회',
+        msgTips: 'Message Tips',
+        normalPrice: '정상가 판매중',
+        activiting: '행사중',
+        terminalt: '취급 중단',
+        eimsInformation: 'EIMS 고객정보 조회',
+        realStockControl: '실재고조정',
+        saleProjections: '일마감 예측실적 조회'
+    },
+    'cn': {
+        common: 'CN.Common',
+        manager: 'CN.Manager',
+        title: 'CN.Title',
+        task: 'CN.TASK',
+        hyper: 'CN.Hyper',
+        product: '商品',
+        productInfo: '商品信息',
+        productDetail:'商品详细信息',
+        msgTips: '消息提示',
+        normalPrice: '正常价格销售中',
+        activiting: '活动中',
+        terminalt: '操作终端',
+        eimsInformation: 'EIMS信息',
+        realStockControl: '实际库存调整',
+        saleProjections: '日预测业绩查询'
+    }
+}
+
+var variableWords = {
+    'en': {
+        testSentence: 'Thank you {{name}}',
+        shopNotEmpty: '{{name}} can not be null.'
+    },
+    'ko': {        
+        testSentence: '{{name}} 님 감사합니다',
+        shopNotEmpty: '{{name}} can not be null.'
+    },
+    'cn': {        
+        testSentence: 'CN.Thank you {{name}}',
+        shopNotEmpty: '{{name}} 不可为空.'
+    }
+}

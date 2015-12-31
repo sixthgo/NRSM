@@ -1,0 +1,57 @@
+﻿@model Formular.BaaS.Domain.Role
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+<div class="row-fluid">
+    <div class="span12"> 
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Role</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Desc)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Desc)
+            @Html.ValidationMessageFor(model => model.Desc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsUsed)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsUsed)
+            @Html.ValidationMessageFor(model => model.IsUsed)
+        </div>
+
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+</div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

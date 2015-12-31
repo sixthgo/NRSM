@@ -1,0 +1,13 @@
+'use strict';
+
+angular.module('starter.services')
+
+	.factory('DailyStockService', function ($resource, webServerUrl) {
+		return $resource(webServerUrl + '/api/ManageDailyGrApi', {},
+			{
+				searchDailyStock: { method: 'Get', isArray: false, params: { WERKS:'@WERKS',MATNR:'@MATNR'} },
+				saveDailyStock: { method: 'POST', params: { list:'@list'} }
+			});
+	})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,28 @@
+﻿controllerModule.controller('FreshStockCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM013';
+    $scope.base.SetMenu($scope.base.menuId);
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('FreshStockCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'FreshStockCtrl';
+    }
+
+    $scope.Init();
+});

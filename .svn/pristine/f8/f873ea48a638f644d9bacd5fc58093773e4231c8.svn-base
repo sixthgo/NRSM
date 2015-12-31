@@ -1,0 +1,129 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer">
+            <div id="container" class="yellow">
+                <form>
+                    <ul class="list">
+                        <li>
+                            <p class="left">구매오더 / 팔레트코드</p>
+                            <p class="right" style="width:45%">
+                                <input type="text" placeholder="입력"
+                                       ng-model="base.barCode"
+                                       maxlength="18"  id="barCode019" style="width:100%"/>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="left">지점코드</p>
+                            <p class="right"><input type="tel" placeholder="입력"
+                                                    ng-model="data.shopCode"
+                                                    maxlength="6"
+                                                    onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></p>
+                        </li>
+                        <li>
+                            <p class="left">전기 일자</p>
+                            <p class="right" >
+                                <button class="button button-icon " style=" padding-right:0px;" ng-style="{display: style.showSRCalendarButton}" ng-click="OpenDatePick()">{{nowDate}}</button>
+                                <ionic-datepicker id="iPadCalendar" input-obj="base.datepickerObject" ng-click="base.ClickIPadCalendar()">
+                                    <button class="button button-icon "  style=" padding-right:0px;"  ng-style="{display: style.showSRIPadCalendarButton}">{{nowDate}}</button>
+                                </ionic-datepicker>
+                            </p>
+
+
+
+
+                        </li>
+                    </ul>
+                    <p class="btn_border btn_search btn_gray">
+                        <a ng-click="searchStockR($event)"><img src="img/nrsm/icon_search_gray.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                    </p>
+                </form>
+                <form>
+                    <ul class="list bdt no_margin po">
+                        <li>
+                            <p class="left">구매오더</p>
+                            <p class="right">{{base.barCode}}</p>
+                        </li>
+                        <li>
+                            <p class="left">구매처</p>
+                            <p class="right">{{data.place}}</p>
+                        </li>
+                        <li>
+                            <p class="left">공급가액</p>
+                            <p class="right">{{data.price | number}}</p>
+                        </li>
+                    </ul>
+                    <ul class="list bdt no_margin pa">
+                        <li>
+                            <p class="left">팔레트코드</p>
+                            <p class="right">{{base.barCode}}</p>
+                        </li>
+                        <li>
+                            <p class="left">총박스수(박스)</p>
+                            <p class="right">{{data.BoxQty | number}}</p>
+                        </li>
+                    </ul>
+                </form>
+                <div id="table" class="po">
+                    <table>
+                        <tr>
+                            <th style="width:45%;">상품코드 (상품명)</th>
+                            <th style="width:15%;">수량</th>
+                            <th style="width:5%;">단위</th>
+                            <th style="width:15%;">단가 (원)</th>
+                            <th style="width:15%;">입고금액 (원)</th>
+                            <th style="width:5%;" class="check_all" ><img src="img/nrsm/icon_check_gray.png" alt="체크" ng-click="checkAll($event)"/></th>
+                        </tr>
+
+                        <tr  ng-repeat="item in data.PoPalletItemList" >
+                            <td style="vertical-align:middle;" class="item-text-wrap">{{item.matnr}}<br/>{{item.txZ01}}</td>
+                            <td style="vertical-align:middle;"><input type="tel" placeholder="입력" style="text-align:center;width:100%;"
+                                                                      ng-model="item.menge"
+                                                                      numbers-only="numbers-only"
+                                                                      ng-required="required"
+                                                                    ng-value="item.menge |number" ng-change="changeWarehousing(item, data.PoPalletItemList, data)"/></td>
+                            <td style="vertical-align:middle;">{{item.meins}}</td>
+                            <td style="vertical-align:middle;">{{item.netpr | number}}</td>
+                            <td style="vertical-align:middle;">{{item.netwr | number}}</td>
+                            <td class="check" style="vertical-align:middle;">
+                                <a  ng-click="check(item,$event)"><img src="img/nrsm/icon_check_gray.png" alt="체크" /></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="table1" class="pa">
+                    <table>
+                        <tr>
+                            <th>상품코드(상품명)</th>
+                            <th>입수수량</th>
+                            <th>박스수량</th>
+                            <th>출고수량</th>
+                            <th  style="width:30%;">검수수량</th>
+                            <th  style="width:30%;">오차수량</th>
+                        </tr>
+                        <tr  ng-repeat="item in data.PalletItemList" >
+                            <td>{{item.matnr}}<br/>{{item.arktx}}</td>
+                            <td style="vertical-align:middle;">{{item.umrez}}</td>
+                            <td style="vertical-align:middle;">{{item.boxqty}}</td>
+                            <td style="vertical-align:middle;">{{item.lfimg}}</td>
+                            <td style="vertical-align:middle;"><input type="tel" placeholder="입력" style="text-align:center; width:100%;"
+                                                                      ng-model="item.lfimgc"
+                                                                      numbers-only="numbers-only"
+                                                                      ng-required="required"
+                                                                      ng-value="item.lfimgc"/></td>
+                            <td style="vertical-align:middle;"><input type="tel" placeholder="입력" style="text-align:center; width:100%;"
+                                                                      ng-model="item.lfimgd"
+                                                                      numbers-only="numbers-only"
+                                                                      ng-required="required"
+                                                                      ng-value="item.lfimgd"/></td>
+                        </tr>
+                    </table>
+                </div>
+                <p class="btn_border btn_download btn_color mt_12 savePoabtn">
+                    <a ng-click="savePoPalletItemList()"><img src="img/nrsm/icon_download_yellow.png" alt="저장" />&nbsp;&nbsp;저장</a>
+                </p>
+            </div>
+    </ion-content>
+
+</ion-view>

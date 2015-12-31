@@ -1,0 +1,67 @@
+﻿cortrollerModule.controller('EIMSInformationCtrl', function ($scope, $stateParams,PopupService) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM008';
+    $scope.base.SetMenu($scope.base.menuId);
+
+
+    $scope.data = {};
+
+    $scope.data.shop = "강남점 (8206)";
+    $scope.data.something = "444555";
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('EIMSInformationCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'EIMSInformationCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.showShopPop = function() {
+        var url = 'templates/shopPopup.html';
+
+        PopupService
+            .InitPopup(url, $scope, $scope.CallbackConfirm, $scope.CallbackCancel)
+            .then(function (modal) {
+                modal.show();
+            });
+    }
+
+    $scope.CallbackConfirm = function () {
+        $scope.debug.Log($scope.data.something);
+    }
+
+    $scope.CallbackCancel = function () {
+        $scope.debug.Log('$scope.CallbackCancel()');
+    }
+
+    $scope.changeCheckShow=function(event){
+        var temp=$(event.target);
+        if(temp.find('a').hasClass('hideCheck')){
+            temp.parent().find('.activeCheck').addClass('hideCheck');
+            temp.parent().find('.activeCheck').removeClass('activeCheck');
+
+            temp.find('a').removeClass('hideCheck');
+            temp.find('a').addClass('activeCheck');
+        }else{
+
+        }
+        $scope.textss=temp.find('span').text();
+        $('#checkshowtext').text( $scope.textss);
+    }
+});

@@ -1,0 +1,583 @@
+{
+  "files": {
+    "ionic.css": {
+      "filename": "lib/ionic/css/ionic.css",
+      "version": "58c76e806bf43078d4243c542bbaa6b6807535e3"
+    },
+    "eland.css": {
+      "filename": "lib/eland/css/eland.css",
+      "version": "2961d1fd5dd1a34a024ff24dd9212f663713277b"
+    },
+    "swiper.css": {
+      "filename": "lib/eland/css/swiper.css",
+      "version": "fab59d75a5c807b0ae9887f364b7c114cfbd9734"
+    },
+    "ngDialog.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog.css",
+      "version": "44c7c86bd24c6dd7dd828d88732beb0757694159"
+    },
+    "ngDialog-theme-default.min.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog-theme-default.min.css",
+      "version": "747a98440aadf225fbf87699f7e4484f72f5139e"
+    },
+    "ngDialog-theme-plain.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog-theme-plain.css",
+      "version": "f22856c473c5e9a60091c1125127c5d798c5d78b"
+    },
+    "ngDialog-custom-width.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog-custom-width.css",
+      "version": "0c179527ccc410d3a8dbaab093573f769dfcaf42"
+    },
+    "jquery-ui.min.css": {
+      "filename": "lib/eland/js/jqueryUI/css/jquery-ui.min.css",
+      "version": "fb61c3a75ba0b80010f5eb05d76c89982fec1a2e"
+    },
+    "ionSlideTabs.css": {
+      "filename": "lib/eland/js/ionSildeTabs/css/ionSlideTabs.css",
+      "version": "82690d544056648e39ed4294785cbc13cab3d955"
+    },
+    "style.css": {
+      "filename": "css/style.css",
+      "version": "8ef24b6ad34df12cc24c4bc42f84be11ba6f3af6"
+    },
+    "style-nrsm.css": {
+      "filename": "css/style-nrsm.css",
+      "version": "1e0523627bc68a25910e11e5518f1a08975b63e2"
+    },
+    "main_ionic_cover.css": {
+      "filename": "css/main_ionic_cover.css",
+      "version": "98a58f26fc3aa8a3bbbc05396a6cc8b9ed70be65"
+    },
+    "jquery-1.10.0.js": {
+      "filename": "lib/eland/js/jquery/jquery-1.10.0.js",
+      "version": "aeb1fc3900153c9b6c39ceee9d3622fac4a686ff"
+    },
+    "ionic.bundle": {
+      "version": "179480e56d4b4faac332b2abaa43b31abda071f2",
+      "filename": "lib/ionic/js/ionic.bundle.js"
+    },
+    "ionic": {
+      "version": "6e1d63c443630a0a5206b882f7ecf2bb1e38abd2",
+      "filename": "lib/ionic/js/ionic.js"
+    },
+    "angular.js": {
+      "filename": "lib/ionic/js/angular/angular.js",
+      "version": "cad3ec108bda293484e1651e234f151be5de50fa"
+    },
+    "angular-animate.js": {
+      "filename": "lib/ionic/js/angular/angular-animate.js",
+      "version": "aa2c7c79b4b9a7f9602e38b8ae2223c9ed91d254"
+    },
+    "angular-route.js": {
+      "filename": "lib/ionic/js/angular/angular-route.js",
+      "version": "7510f46e9fa0e7be65c18ebfab5c2618aec5a73f"
+    },
+    "angular-touch.js": {
+      "filename": "lib/ionic/js/angular/angular-touch.js",
+      "version": "a28709aeb92229be60cdb7cc6fdb42a7d1fc7dcf"
+    },
+    "angular-ui-router.js": {
+      "filename": "lib/ionic/js/angular-ui/angular-ui-router.js",
+      "version": "4a6e1aa406ce7a83f4767e7dba4c3ca7de0d6917"
+    },
+    "angular-resource.js": {
+      "filename": "lib/ionic/js/angular/angular-resource.js",
+      "version": "a153b3344f34e6f0e5254527467a9da451c181f8"
+    },
+    "angular-cookies.js": {
+      "filename": "lib/ionic/js/angular/angular-cookies.js",
+      "version": "25769f9c059eb900cbd1941db7c9e3ee88d7d962"
+    },
+    "angular-sanitize.js": {
+      "filename": "lib/ionic/js/angular/angular-sanitize.js",
+      "version": "be82ec127e7af703484b5c87aade7ece005b1745"
+    },
+    "angular-deckgrid.js": {
+      "filename": "lib/eland/js/angular-deckgrid/angular-deckgrid.js",
+      "version": "cdeecb33ffd751c07d222bb4ec1eb0b88cda588a"
+    },
+    "autocomplete.directive.js": {
+      "filename": "lib/eland/js/autocomplte/autocomplete.directive.js",
+      "version": "89cae0830c54c135161c48c65aa0ae0507ff7dc7"
+    },
+    "ng-cordova.js": {
+      "filename": "lib/eland/js/ngCordova/dist/ng-cordova.js",
+      "version": "986b25ab6fe48a338f205c9de70264efd149dd1e"
+    },
+    "ngDialog.js": {
+      "filename": "lib/eland/js/ngDialog/js/ngDialog.js",
+      "version": "25385f6973e2660d86307d51d0ea4155e2f31a1d"
+    },
+    "jquery-ui.min.js": {
+      "filename": "lib/eland/js/jqueryUI/js/jquery-ui.min.js",
+      "version": "130216a6c5f106bd3de9ca4a274f4e8c0a0925ad"
+    },
+    "jquery.ui.touch-punc.js": {
+      "filename": "lib/eland/js/jqueryUI/js/jquery.ui.touch-punch.js",
+      "version": "be2b8f8c205c05b23e81b0b34ba9b73b95dc6d53"
+    },
+    "ionSildeTabs.js": {
+      "filename": "lib/eland/js/ionSildeTabs/js/ionSildeTabs.js",
+      "version": "562836af5cf7ac249a0b12f2f0817519ffed98ad"
+    },
+    "swiper.js": {
+      "filename": "lib/eland/js/swiper.js",
+      "version": "d9ee99f5ae24830712be98ab32e214ed26249c1e"
+    },
+    "multiLanguage.js": {
+      "filename": "js/multiLanguage.js",
+      "version": "f612d0c9dfcf1736665856027c346c780a4cfe72"
+    },
+    "angular-translate.js": {
+      "filename": "lib/eland/js/angular-translate/angular-translate.js",
+      "version": "30fc40e5e9b78185c64eb17deae4753cbb5fad46"
+    },
+    "ngStorage.js": {
+      "filename": "lib/eland/js/ngstorage/ngStorage.js",
+      "version": "79bd45706a3b63aab633d7e6233a4a9c20ca1be8"
+    },
+    "SVGPanZoom.js": {
+      "filename": "js/SVGPanZoom.js",
+      "version": "b746799986ed3b7ee875b5d13ec73ec68a91732e"
+    },
+    "slide.and.push.js": {
+      "filename": "lib/eland/js/slideAndpush/slide.and.push.js",
+      "version": "67f19b9e516ac6d0ca6ed15382375cd3c84465d2"
+    },
+    "ionic-datepicker.bundle.min.js": {
+      "filename": "lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
+      "version": "af3c2cbc9dfc8a3641217b489440f8ad95c13050"
+    },
+    "require.js": {
+      "filename": "lib/eland/js/requireJS/require.js",
+      "version": "416046466828d24c360617a434d083d1739a566c"
+    },
+    "app.js": {
+      "filename": "js/app.js",
+      "version": "0b3c29edaadc1f5030c3f6cef02de5221695ad48"
+    },
+    "checkCtrl.js": {
+      "filename": "js/controllers/checkCtrl.js",
+      "version": "3e0876c55146693f2483ed72d6e1a67a8ccc4117"
+    },
+    "menuCtrl.js": {
+      "filename": "js/controllers/menuCtrl.js",
+      "version": "b3c22d0357522674dba5a4d233045bb7b41103da"
+    },
+    "homeCtrl.js": {
+      "filename": "js/controllers/homeCtrl.js",
+      "version": "3566811dfc35ea6ac1816a99b81cae44b9d2c545"
+    },
+    "footerCtrl.js": {
+      "filename": "js/controllers/footerCtrl.js",
+      "version": "10f438b7643f295f4a9bc5323d85f9afd7bb08b4"
+    },
+    "adminCtrl.js": {
+      "filename": "js/controllers/adminCtrl.js",
+      "version": "df776536b4b0ac4f39a945ca10c3d19ee7fbca23"
+    },
+    "commonCtrl.js": {
+      "filename": "js/controllers/common/commonCtrl.js",
+      "version": "d268b14fc067b165420c221bbc1e1ad63960a8e9"
+    },
+    "floorplanSalesSearchCtrl.js": {
+      "filename": "js/controllers/common/floorplanSalesSearchCtrl.js",
+      "version": "2901fe6a264149bb22d2fc6b6cbffff2b781b4f6"
+    },
+    "floorplanRecordSearchCtrl.js": {
+      "filename": "js/controllers/common/floorplanRecordSearchCtrl.js",
+      "version": "642624ae7a2bfd705b4c89529291531e846bccad"
+    },
+    "managerReportCtrl.js": {
+      "filename": "js/controllers/managerReport/managerReportCtrl.js",
+      "version": "f98b3d9ddfcad083c4d496f81ea5233796e937d0"
+    },
+    "reportStoreCtrl.js": {
+      "filename": "js/controllers/managerReport/reportStoreCtrl.js",
+      "version": "3c1456c01bd5b3163db01d0aedd61df6c3f60c24"
+    },
+    "reportCuCtrl.js": {
+      "filename": "js/controllers/managerReport/reportCuCtrl.js",
+      "version": "f5920080c62d9f5adef996c2b3c6740e5e2aa2f1"
+    },
+    "hyperCtrl.js": {
+      "filename": "js/controllers/hyper/hyperCtrl.js",
+      "version": "d14c3d71c1772e15df31376c342ba693a99a32fd"
+    },
+    "sampleCtrl.js": {
+      "filename": "js/controllers/hyper/sampleCtrl.js",
+      "version": "9d67e1667fd6677d308c58d829c89fc02877bcbc"
+    },
+    "CEOReportPlantCtrl.js": {
+      "filename": "js/controllers/managerReport/CEOReportPlantCtrl.js",
+      "version": "9ab6fccf864ab85e6a488f0f600b26e0216ae122"
+    },
+    "CEOReportCUCtrl.js": {
+      "filename": "js/controllers/managerReport/CEOReportCUCtrl.js",
+      "version": "8ce9a1e2fdb64e0c945ed91c7d15e716a7ab1ac8"
+    },
+    "profitToPlanCtrl.js": {
+      "filename": "js/controllers/sales/profitToPlanCtrl.js",
+      "version": "85ea405797ac6719407ad79e34d47f5ee8d29054"
+    },
+    "nowSalesStockInwerksCtrl.js": {
+      "filename": "js/controllers/sales/nowSalesStockInwerksCtrl.js",
+      "version": "8ce1d4ec26f8f32727b3f0a3299c7d459ccd0744"
+    },
+    "nowEventSalesCtrl.js": {
+      "filename": "js/controllers/sales/nowEventSalesCtrl.js",
+      "version": "a9709b7945e65db57f60df7fcbb5268a95f8352e"
+    },
+    "nowEventSalesDetailCtrl.js": {
+      "filename": "js/controllers/sales/nowEventSalesDetailCtrl.js",
+      "version": "27d2ce3e83362c24834d27bede4d0d8356c63eec"
+    },
+    "nowEventSalesTimeCtrl.js": {
+      "filename": "js/controllers/sales/nowEventSalesTimeCtrl.js",
+      "version": "6dd3b5cc94520c463f101f903c00c80c4a30ef41"
+    },
+    "nowEventSalesBrandCtrl.js": {
+      "filename": "js/controllers/sales/nowEventSalesBrandCtrl.js",
+      "version": "6a8de3a0bd5161ab483822339b32bff30a17d874"
+    },
+    "productInformationCtrl.js": {
+      "filename": "js/controllers/common/productInformationCtrl.js",
+      "version": "48bfe69aeaca2e03ff60247a0342416a84e349ae"
+    },
+    "productDetailCtrl.js": {
+      "filename": "js/controllers/common/productDetailCtrl.js",
+      "version": "e5b8eb6887ec75f0ffbae9e989ef78dfb8ad510b"
+    },
+    "EIMSInformationCtrl.js": {
+      "filename": "js/controllers/common/EIMSInformationCtrl.js",
+      "version": "fadd192bb2869fa7780e985ffc2874b8dc7b0723"
+    },
+    "salesProjectionsCtrl.js": {
+      "filename": "js/controllers/common/salesProjectionsCtrl.js",
+      "version": "1372851fab62f1c7fab20f2090609256b999a41c"
+    },
+    "floorPlanSalesCtrl.js": {
+      "filename": "js/controllers/common/floorPlanSalesCtrl.js",
+      "version": "5a04d98de5f9ad75f8d87d368a2dd0a4f22cd9f1"
+    },
+    "floorPlanSalesPopupCtrl.js": {
+      "filename": "js/controllers/common/floorPlanSalesPopupCtrl.js",
+      "version": "eca4cee03241f6925c955b8d802d91fa7767d3f3"
+    },
+    "floorPlanStoreDetailPopupCtrl.js": {
+      "filename": "js/controllers/common/floorPlanStoreDetailPopupCtrl.js",
+      "version": "764787d3f7deb6ec9cb0ee3319afb01c21013e22"
+    },
+    "floorPlanAccrueSalesCtrl.js": {
+      "filename": "js/controllers/common/floorPlanAccrueSalesCtrl.js",
+      "version": "1987519effe0ce55f7d136ae0fe41db916b913a3"
+    },
+    "floorPlanAccrueSalesPopupCtrl.js": {
+      "filename": "js/controllers/common/floorPlanAccrueSalesPopupCtrl.js",
+      "version": "ad03f991bee51de25d8b0044ed23c01d4a1ec3d8"
+    },
+    "floorPlanRecordCtrl.js": {
+      "filename": "js/controllers/common/floorPlanRecordCtrl.js",
+      "version": "f35a1c112920bd011d82740059dc7b5ed2b12fa2"
+    },
+    "freshStockCtrl.js": {
+      "filename": "js/controllers/hyper/freshStockCtrl.js",
+      "version": "f450fbd497f18b8a9c365f362d4580faef97be30"
+    },
+    "manualOrderCtrl.js": {
+      "filename": "js/controllers/hyper/manualOrderCtrl.js",
+      "version": "ef1f140cca3f1d45eebeddfb05ca5ca01ea9865f"
+    },
+    "realStockControlCtrl.js": {
+      "filename": "js/controllers/hyper/realStockControlCtrl.js",
+      "version": "97c88ccaf42c99638754d2add597f7e59a55e1d9"
+    },
+    "barcodeSendCtrl.js": {
+      "filename": "js/controllers/hyper/barcodeSendCtrl.js",
+      "version": "fa7c7d362016b9cdd89a6e25e9eee0c0f4cae05c"
+    },
+    "POGManagementCtrl.js": {
+      "filename": "js/controllers/hyper/POGManagementCtrl.js",
+      "version": "d55f4891360bb6e859f4f0e2cdcb1c2b82538606"
+    },
+    "POGPopupCtrl.js": {
+      "filename": "js/controllers/hyper/POGPopupCtrl.js",
+      "version": "2aa7abee468967daef474e3990ee36358a93ec34"
+    },
+    "dailyStockCtrl.js": {
+      "filename": "js/controllers/sc/dailyStockCtrl.js",
+      "version": "aaa603db0026be60eb1ff60af4d0ed68007391ea"
+    },
+    "stockRegisterCtrl.js": {
+      "filename": "js/controllers/sc/stockRegisterCtrl.js",
+      "version": "21922137041ce0df9d5dbf037839f5df8d60529d"
+    },
+    "inventoryCountingCtrl.js": {
+      "filename": "js/controllers/sc/inventoryCountingCtrl.js",
+      "version": "eaba9a10b38b509ba45871fa96f43b880dd1ee10"
+    },
+    "storePopupCtrl.js": {
+      "filename": "js/controllers/storePopupCtrl.js",
+      "version": "bb4dab4385b33ece6a40d947fe0d22a54eecdb56"
+    },
+    "cuPopupCtrl.js": {
+      "filename": "js/controllers/cuPopupCtrl.js",
+      "version": "b033c4cbf9d379566d8332108c37299fc706f9ce"
+    },
+    "cordova-sercvice.js": {
+      "filename": "js/services/cordova-sercvice.js",
+      "version": "d2b2e685877918d7560de223a060b6fcb3a886dc"
+    },
+    "popup-service.js": {
+      "filename": "js/services/popup-service.js",
+      "version": "aa7e53fba9f26b81f3d857dc0817dd8e3c5e8cea"
+    },
+    "util-service.js": {
+      "filename": "js/services/util-service.js",
+      "version": "d870741ffa7ad4298e26652d3842635fd6cdf62d"
+    },
+    "menuApi-service.js": {
+      "filename": "js/services/menuApi-service.js",
+      "version": "5b53afaa9d95d173ac4f3baba73c1d0b682eb10c"
+    },
+    "favorite-service.js": {
+      "filename": "js/services/favorite-service.js",
+      "version": "c1d47cd3b9635583c71f2d88eee3e894d9339d0b"
+    },
+    "plant-service.js": {
+      "filename": "js/services/plant-service.js",
+      "version": "54e2edd60b15369b580c0d1ec6e867ac25533301"
+    },
+    "CEOReport-service.js": {
+      "filename": "js/services/CEOReport-service.js",
+      "version": "7e8ccbaf51b010f96ef1afd6e3a5846ffd2c9dca"
+    },
+    "cu-service.js": {
+      "filename": "js/services/cu-service.js",
+      "version": "2e32a2fd6da1160d2d2b8003eaf58e7fdbe239b2"
+    },
+    "manualOrderNew-service.js": {
+      "filename": "js/services/manualOrderNew-service.js",
+      "version": "acaebd7e842139067f0323f654c715c0f5230413"
+    },
+    "realInventoryNew-service.js": {
+      "filename": "js/services/realInventoryNew-service.js",
+      "version": "3d180c3ba1caa5045cd8ecbcbf80d2c73f9f1ffc"
+    },
+    "sendBarcodeEmailNew-service.js": {
+      "filename": "js/services/sendBarcodeEmailNew-service.js",
+      "version": "a7163bbc7edd44754127784e3e4009f6164db526"
+    },
+    "EIMSInformation-service.js": {
+      "filename": "js/services/EIMSInformation-service.js",
+      "version": "52f6f312853cb0434ade2a0f57aacb85f1770bc9"
+    },
+    "inventoryCountingNew-service.js": {
+      "filename": "js/services/inventoryCountingNew-service.js",
+      "version": "a61c66e6cc90f094ad600da5189f5a3eb6d7a8ab"
+    },
+    "storeFloor-service.js": {
+      "filename": "js/services/storeFloor-service.js",
+      "version": "128a70c42d35119f5623df45bed61d5c266e5fa3"
+    },
+    "floorplan-service.js": {
+      "filename": "js/services/floorplan-service.js",
+      "version": "96bf46038eb0cbd00fc04e277c05b1a7fd70a71e"
+    },
+    "floorArea-service.js": {
+      "filename": "js/services/floorArea-service.js",
+      "version": "595e426e7e9a488c2ba40c0aa4e3d9f2e3fca65e"
+    },
+    "spaceProfit-service.js": {
+      "filename": "js/services/spaceProfit-service.js",
+      "version": "46030990ea9018bbcc0a8d77c2922a5bf8f445ea"
+    },
+    "storeDetail-service.js": {
+      "filename": "js/services/storeDetail-service.js",
+      "version": "113102c920c8c6b194c1282c1e88dbd81e59c08b"
+    },
+    "storeDetail2-service.js": {
+      "filename": "js/services/storeDetail2-service.js",
+      "version": "6e880e89728b5df5c8604cd0237bec4e74d81287"
+    },
+    "stockRegisterNew-service.js": {
+      "filename": "js/services/stockRegisterNew-service.js",
+      "version": "99793d7f08ff267b04dd638f52a19548b58d45b0"
+    },
+    "floorplanHistoryRecord-service.js": {
+      "filename": "js/services/floorplanHistoryRecord-service.js",
+      "version": "75dd0b9b31a345f2a3547850535ea1cca27b0780"
+    },
+    "floorHistoryRecordDetail-service.js": {
+      "filename": "js/services/floorHistoryRecordDetail-service.js",
+      "version": "dce410763689cfeaab156580099c6a986d9ad246"
+    },
+    "floorplanHistory-service.js": {
+      "filename": "js/services/floorplanHistory-service.js",
+      "version": "8c0508582dfe469b23134070cfad8157c64fbebd"
+    },
+    "dailyStock-service.js": {
+      "filename": "js/services/dailyStock-service.js",
+      "version": "e54f4a26548a26bb73c3c86c83f862a552da68a4"
+    },
+    "eventSales-service.js": {
+      "filename": "js/services/eventSales-service.js",
+      "version": "358db19b2510b61b8a244f57c869724a43bf1773"
+    },
+    "materialPriceInfor-service.js": {
+      "filename": "js/services/materialPriceInfor-service.js",
+      "version": "81b542b2f1522d551f27675353ddbbf7c92d0661"
+    },
+    "userInfor-service.js": {
+      "filename": "js/services/userInfor-service.js",
+      "version": "abcb22085fad3e296bbf17cc54a50ec04ecf2603"
+    },
+    "materialSaveLabel-service.js": {
+      "filename": "js/services/materialSaveLabel-service.js",
+      "version": "139c2a8a6aee648e2337b1a0cfd18439e74acf6d"
+    },
+    "accumulateSales-service.js": {
+      "filename": "js/services/accumulateSales-service.js",
+      "version": "ee9eadd03d91f385149229375969e1255c5fa0aa"
+    },
+    "userLinkButton-service.js": {
+      "filename": "js/services/userLinkButton-service.js",
+      "version": "eeb6027dc046675dde528e2bfcf56b6de680f4eb"
+    },
+    "dailySalePreditionNew-service.js": {
+      "filename": "js/services/dailySalePreditionNew-service.js",
+      "version": "5af0822e1a1b811613af45a03578f54f7c1d4ad5"
+    },
+    "adminApi-service.js": {
+      "filename": "js/services/adminApi-service.js",
+      "version": "14a4acb1bf7114176d4979bffdd6594f98b1f86b"
+    },
+    "getUserPurgCode-service.js": {
+      "filename": "js/services/getUserPurgCode-service.js",
+      "version": "5bb8ba0b13c50e644d32739982308d98aaf102e8"
+    },
+    "elandDirective.js": {
+      "filename": "js/directive/elandDirective.js",
+      "version": "3ef8fca3074fb4b0e21e9e5accb2640fcb093505"
+    }
+  },
+  "load": [
+    "lib/ionic/js/ionic.bundle.js",
+    "lib/ionic/js/ionic.js",
+    "lib/ionic/js/angular/angular.js",
+    "lib/ionic/js/angular/angular-animate.js",
+    "lib/ionic/js/angular/angular-route.js",
+    "lib/ionic/js/angular/angular-touch.js",
+    "lib/ionic/js/angular-ui/angular-ui-router.js",
+    "lib/ionic/js/angular/angular-resource.js",
+    "lib/ionic/js/angular/angular-cookies.js",
+    "lib/ionic/js/angular/angular-sanitize.js",
+    "lib/eland/js/jquery/jquery-1.10.0.js",
+    "lib/eland/js/angular-deckgrid/angular-deckgrid.js",
+    "lib/eland/js/autocomplte/autocomplete.directive.js",
+    "lib/eland/js/ngCordova/dist/ng-cordova.js",
+    "lib/eland/js/ngDialog/js/ngDialog.js",
+    "lib/eland/js/jqueryUI/js/jquery-ui.min.js",
+    "lib/eland/js/jqueryUI/js/jquery.ui.touch-punch.js",
+    "lib/eland/js/ionSildeTabs/js/ionSildeTabs.js",
+    "lib/eland/js/swiper.js",
+    "js/multiLanguage.js",
+    "lib/eland/js/angular-translate/angular-translate.js",
+    "lib/eland/js/ngstorage/ngStorage.js",
+    "js/SVGPanZoom.js",
+    "lib/eland/js/slideAndpush/slide.and.push.js",
+    "lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
+    "lib/eland/js/requireJS/require.js",
+    "lib/ionic/css/ionic.css",
+    "lib/eland/css/eland.css",
+    "lib/eland/css/swiper.css",
+    "lib/eland/js/ngDialog/css/ngDialog.css",
+    "lib/eland/js/ngDialog/css/ngDialog-theme-default.min.css",
+    "lib/eland/js/ngDialog/css/ngDialog-theme-plain.css",
+    "lib/eland/js/ngDialog/css/ngDialog-custom-width.css",
+    "lib/eland/js/jqueryUI/css/jquery-ui.min.css",
+    "lib/eland/js/ionSildeTabs/css/ionSlideTabs.css",
+    "css/style.css",
+    "css/style-nrsm.css",
+    "css/main_ionic_cover.css",
+    "js/app.js",
+    "js/controllers/checkCtrl.js",
+    "js/controllers/menuCtrl.js",
+    "js/controllers/homeCtrl.js",
+    "js/controllers/footerCtrl.js",
+    "js/controllers/adminCtrl.js",
+    "js/controllers/common/commonCtrl.js",
+    "js/controllers/common/floorplanSalesSearchCtrl.js",
+    "js/controllers/common/floorplanRecordSearchCtrl.js",
+    "js/controllers/managerReport/managerReportCtrl.js",
+    "js/controllers/managerReport/reportStoreCtrl.js",
+    "js/controllers/managerReport/reportCuCtrl.js",
+    "js/controllers/hyper/hyperCtrl.js",
+    "js/controllers/hyper/sampleCtrl.js",
+    "js/controllers/managerReport/CEOReportPlantCtrl.js",
+    "js/controllers/managerReport/CEOReportCUCtrl.js",
+    "js/controllers/sales/profitToPlanCtrl.js",
+    "js/controllers/sales/nowSalesStockInwerksCtrl.js",
+    "js/controllers/sales/nowEventSalesCtrl.js",
+    "js/controllers/sales/nowEventSalesDetailCtrl.js",
+    "js/controllers/sales/nowEventSalesTimeCtrl.js",
+    "js/controllers/sales/nowEventSalesBrandCtrl.js",
+    "js/controllers/common/productInformationCtrl.js",
+    "js/controllers/common/productDetailCtrl.js",
+    "js/controllers/common/EIMSInformationCtrl.js",
+    "js/controllers/common/salesProjectionsCtrl.js",
+    "js/controllers/common/floorPlanSalesCtrl.js",
+    "js/controllers/common/floorPlanSalesPopupCtrl.js",
+    "js/controllers/common/floorPlanStoreDetailPopupCtrl.js",
+    "js/controllers/common/floorPlanAccrueSalesCtrl.js",
+    "js/controllers/common/floorPlanAccrueSalesPopupCtrl.js",
+    "js/controllers/common/floorPlanRecordCtrl.js",
+    "js/controllers/hyper/freshStockCtrl.js",
+    "js/controllers/hyper/manualOrderCtrl.js",
+    "js/controllers/hyper/realStockControlCtrl.js",
+    "js/controllers/hyper/barcodeSendCtrl.js",
+    "js/controllers/hyper/POGManagementCtrl.js",
+    "js/controllers/hyper/POGPopupCtrl.js",
+    "js/controllers/sc/dailyStockCtrl.js",
+    "js/controllers/sc/stockRegisterCtrl.js",
+    "js/controllers/sc/inventoryCountingCtrl.js",
+    "js/controllers/storePopupCtrl.js",
+    "js/controllers/cuPopupCtrl.js",
+    "js/services/cordova-sercvice.js",
+    "js/services/popup-service.js",
+    "js/services/util-service.js",
+    "js/services/menuApi-service.js",
+    "js/services/favorite-service.js",
+    "js/services/plant-service.js",
+    "js/services/CEOReport-service.js",
+    "js/services/cu-service.js",
+    "js/services/manualOrderNew-service.js",
+    "js/services/realInventoryNew-service.js",
+    "js/services/sendBarcodeEmailNew-service.js",
+    "js/services/EIMSInformation-service.js",
+    "js/services/inventoryCountingNew-service.js",
+    "js/services/storeFloor-service.js",
+    "js/services/floorplan-service.js",
+    "js/services/floorArea-service.js",
+    "js/services/spaceProfit-service.js",
+    "js/services/storeDetail-service.js",
+    "js/services/storeDetail2-service.js",
+    "js/services/stockRegisterNew-service.js",
+    "js/services/floorplanHistoryRecord-service.js",
+    "js/services/floorHistoryRecordDetail-service.js",
+    "js/services/floorplanHistory-service.js",
+    "js/services/dailyStock-service.js",
+    "js/services/floorplanHistory-service.js",
+    "js/services/eventSales-service.js",
+    "js/services/materialPriceInfor-service.js",
+    "js/services/userInfor-service.js",
+    "js/services/materialSaveLabel-service.js",
+    "js/services/accumulateSales-service.js",
+    "js/services/userLinkButton-service.js",
+    "js/services/dailySalePreditionNew-service.js",
+    "js/services/adminApi-service.js",
+    "js/services/getUserPurgCode-service.js",
+    "js/directive/elandDirective.js"
+  ],
+  "version": "46ca00f0cd79bb08c56c1c9e45ce8c494ff68b3d"
+}

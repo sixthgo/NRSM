@@ -1,0 +1,285 @@
+﻿@model Formular.BaaS.Domain.Role
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript">
+
+        var modifyUserList = [];
+        var modifyProgramList = [];
+        var modifyOperationList = [];
+        var OperationProgramId;
+        $(function () {
+            
+
+            $('#AddUserModal').on('show', function () {
+                $('#AddUserTable').dataTable({
+                    "bRetrieve": true ,
+                    "bProcessing": true,
+                    "sAjaxSource": '@Url.Action("UserListByRole", "BaaSUser", new { id=Model.Id })',
+                    "fnDrawCallback": function () {
+                        $("#AddUserTable>tbody").find(":checkbox").on("change", function () {
+                            var $this = $(this);
+                            var isFind = false;
+                            var FindItem;
+                            for (var i = 0; i < modifyUserList.length; i++)
+                            {
+                                if (modifyUserList[i].id == $this.val()) {
+                                    isFind = true;
+                                    FindItem = item;
+                                    break;
+                                }
+                            }
+                            if (isFind == false) modifyUserList.push({ id: $this.val(), Status: $this.is(":checked") ? 1 : 2 })
+                            else FindItem.Status = $this.is(":checked") ? 1 : 2;
+
+                        });
+                    },
+                    "aoColumns": [
+                        { "mData": "check" },
+                        { "mData": "Name" },
+                        { "mData": "Desc" }
+                    ]
+                });
+
+                $("#btnAddUsers").on("click", function () {
+                    var url = "@Url.Action("User" , "BaaSRole" , new {id = Model.Id})";
+                    $.post(url, { data: JSON.stringify(modifyUserList) }, function () {
+                        $('#AddUserModal').modal('hide');
+                        window.location.reload(true);
+                    }, "json");
+                });
+
+            })
+           
+            $('#AddProgramModal').on('show', function () {
+                $('#AddProgramTable').dataTable({
+                    "bRetrieve": true,
+                    "bProcessing": true,
+                    "sAjaxSource": '@Url.Action("ProgramListByRole", "BaaSProgram", new { id=Model.Id })',
+                    "fnDrawCallback": function () {
+                        $("#AddProgramTable>tbody").find(":checkbox").on("change", function () {
+
+                            var isFind = false;
+                            var FindItem;
+                            for (var i = 0; i < modifyProgramList.length; i++) {
+                                if (modifyProgramList[i].id == $(this).val()) {
+                                    isFind = true;
+                                    FindItem = item;
+                                    break;
+                                }
+                            }
+                            if (isFind == false) modifyProgramList.push({ id: $(this).val(), Status: $(this).is(":checked") ? 1 : 2 })
+                            else FindItem.Status = $(this).is(":checked") ? 1 : 2;
+
+                        });
+                    },
+                    "aoColumns": [
+                        { "mData": "check" },
+                        { "mData": "Code" },
+                        { "mData": "Name" },
+                        { "mData": "Desc" }
+                    ]
+                });
+
+                $("#btnAddProgram").on("click", function () {
+                    var url = "@Url.Action("Program" , "BaaSRole" , new {id = Model.Id})";
+                    $.post(url, { data: JSON.stringify(modifyProgramList) }, function () {
+                        window.location.reload(true);
+                    }, "json");
+                });
+            })
+            
+
+            $("#ProgramTable").on("click", ".OpenAddOperation", function () {
+                OperationProgramId = $(this).data('id');
+                $('#AddOperationModal').modal('show');
+            });
+
+            $('#AddOperationModal').on('show', function () {
+                $('#AddOperationTable').dataTable({
+                    "bDestroy": true,
+                    "sAjaxSource": '@Url.Action("OperationListByProgramRole", "BaaSOperation", new { id=Model.Id })',
+                    "fnServerParams": function ( aoData ) {
+                        aoData.push({ "name": "programId", "value": OperationProgramId });
+                    },
+                    "fnDrawCallback": function () {
+                        $("#AddOperationTable").css("width", "100%");
+                        $("#AddOperationTable>tbody").find(":checkbox").on("change", function () {
+                            var isFind = false;
+                            var FindItem;
+                            for (var i = 0; i < modifyOperationList.length; i++) {
+                                if (modifyOperationList[i].id == $(this).val()) {
+                                    isFind = true;
+                                    FindItem = item;
+                                    break;
+                                }
+                            }
+                            if (isFind == false) modifyOperationList.push({ id: $(this).val(), Status: $(this).is(":checked") ? 1 : 2 })
+                            else FindItem.Status = $(this).is(":checked") ? 1 : 2;
+                        });
+                    },
+                    "aoColumns": [
+                        { "mData": "check" },
+                        { "mData": "Name" },
+                        { "mData": "Desc" }
+                    ]
+                });
+
+                $("#btnAddOperation").on("click", function () {
+                    
+                    var url = "@Url.Action("Operation" , "BaaSRole" , new {id = Model.Id})";
+                    $.post(url, { programid:OperationProgramId ,  data: JSON.stringify(modifyOperationList) }, function () {
+                        window.location.reload(true);
+                    }, "json");
+                });
+            })
+
+
+
+            @if (!String.IsNullOrEmpty(Request["view"]))
+            {
+                <text>
+            $(".nav-tabs a[href=#@Request["view"]]").tab('show');
+                </text>
+             }
+
+            
+        });
+    </script>
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Role</p>
+              <small>Role Details</small>
+            </blockquote>
+            @Html.Partial("../BaaSApplication/_LeftInfo" , Model.AppDivision )
+            
+            <h4 class="text-info">Role</h4>
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Name)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Desc)</dt>
+                <dd>@Html.DisplayFor(model => model.Desc)</dd>
+                <dt>@Html.DisplayNameFor(model => model.IsUsed)</dt>
+                <dd>@Html.DisplayFor(model => model.IsUsed)</dd>
+            </dl>
+            <p>
+                <a href="@Url.Action("Edit" , new { id = Model.Id } )" class="btn btn-small" ><i class="icon-pencil"></i> Edit</a>
+            </p>
+        </div>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12"> 
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab"><i class='icon-user'></i> Users ( @Model.Users.Count() )</a></li>
+            <li><a href="#tab2" data-toggle="tab"><i class='icon-list-alt'></i> Programs ( @Model.Programs.Count() )</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <p>
+                    <a href="#AddUserModal" class="btn btn-small" role="button" data-toggle="modal"><i class="icon-plus"></i> User</a>
+                </p>
+                @Html.Partial("../BaaSUser/_Table" , Model.Users )
+            </div>
+
+            <div class="tab-pane" id="tab2">
+                <p>
+                    <a href="#AddProgramModal" class="btn btn-small" role="button" data-toggle="modal"><i class="icon-plus"></i> Program</a>
+                </p>
+                @Html.Partial("../BaaSRole/_ProgramInRoleTable" , Model.Programs )
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddUserModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="AddUserLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="AddUserLabel">Add User</h3>
+  </div>
+  <div class="modal-body">
+      <table id="AddUserTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+          <thead>
+              <tr>
+                  <th style="width: 10px;">Select</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddUserTable" rowspan="1" colspan="1" style="width: 60px;">Name</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddUserTable" rowspan="1" colspan="1" style="width: 60px;">Desc</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="btnAddUsers" type="button" class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+
+<div id="AddProgramModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="AddProgramLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="AddProgramLabel">Add Program</h3>
+  </div>
+  <div class="modal-body">
+      <table id="AddProgramTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+          <thead>
+              <tr>
+                  <th style="width: 10px;">Select</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 30px;">Code</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 30px;">Name</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 60px;">Desc</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="btnAddProgram" type="button" class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+<div id="AddOperationModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="AddOperationLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="AddOperationLabel">Add User</h3>
+  </div>
+  <div class="modal-body">
+      <table id="AddOperationTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+          <thead>
+              <tr>
+                  <th style="width: 10px;">Select</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddOperationTable" rowspan="1" colspan="1" style="width: 30px;">Name</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddOperationTable" rowspan="1" colspan="1" style="width: 60px;">Desc</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="btnAddOperation" type="button" class="btn btn-primary">Save changes</button>
+  </div>
+</div>

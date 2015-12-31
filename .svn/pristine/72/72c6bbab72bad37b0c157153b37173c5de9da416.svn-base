@@ -1,0 +1,123 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer">
+        <div id="container" class="orange">
+            <ul id="headlineA" class="list">
+                <li>
+                    <p class="left">구매조직</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.userStore.storeCode" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">구매그룹</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.purchaseGroupCode" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">지점</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.storeCode" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">Scan일자</p>
+                    <p class="right">                        
+                        <span class="date" ng-hide="!orderProposal.showIPadCalendarButton">
+                            <ionic-datepicker id="iPadCalendar" input-obj="base.datepickerObject" ng-click="base.ClickIPadCalendar()">
+                                <span>{{orderProposal.scanDate}}</span>(ionic)
+                            </ionic-datepicker>
+                        </span>
+                        <span ng-click="OpenDatePick()" ng-hide="!orderProposal.showCalendarButton">{{orderProposal.scanDate}}(cordova)</span>
+                    </p>
+                </li>
+                <li>
+                    <p class="left">사원 번호</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="user.plantCode" />
+                    </p>
+                </li>
+            </ul>
+
+            <div id="headlineB" class="row">
+                <div ng-style="{'display': orderProposal.mode == '' || orderProposal.mode == 'V' ? 'lnline': 'none'}" class="col col50 btn_border btn_search btn_gray" ng-click="Search()" style="margin-right: 5px;">
+                    <a>조회</a>
+                </div>
+                <div ng-style="{'display': orderProposal.mode == 'V' ? 'lnline': 'none'}" class="col col50 btn_border btn_search btn_gray" ng-click="StartChange()" style="margin-right: 5px;">
+                    <a>수정</a>
+                </div>
+                <div ng-style="{'display': orderProposal.mode == 'C' ? 'lnline': 'none'}" class="col col50 btn_border btn_search btn_color" ng-click="CancelChange()" style="margin-right: 5px;">
+                    <a>취소</a>
+                </div>
+                <div ng-style="{'display': orderProposal.mode == 'C' ? 'lnline': 'none'}" class="col col50 btn_border btn_search btn_color" ng-click="Save()" style="margin-right: 5px;">
+                    <a>저장</a>
+                </div>                
+            </div>
+
+                <!--구매처명    상품코드    상품명     
+                    발주수량    입수      납품예정일   단가구분    구매단가    재고수량-->                
+
+            <div id="orderProposalTableHeader" class="list subTableHeader" ng-style="{'width': currentWidth}" style="margin-bottom: 0px;">
+                <div class="row">
+                    <div class="col col-33" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '구매처명')">구매처명</div>
+                    <div class="col col-33" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '상품코드')">상품코드</div>
+                    <div class="col col-33" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '상품명')">상품명</div>                    
+                </div>
+                <div class="row">
+                    <div class="col col-15" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '발주수량')">발주수량</div>
+                    <div class="col col-15" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '입수')">입수</div>
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '납품예정일')">납품예정일</div>
+                    <div class="col col-15" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '단가구분')">단가구분</div>
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '구매단가')">구매단가</div>
+                    <div class="col col-15" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '재고수량')">재고수량</div>
+                </div>
+            </div>
+
+            <ion-scroll direction="y" id="scrollA_orderProposal" ng-style="{'height':scrollHeight, 'width': currentWidth}">
+                <ion-list can-swipe="true" delegate-handle="orderProposalList">
+                    <ion-item class="orderProposalItem" ng-repeat="item in orderProposal.result track by $index" style="width: 100%; padding-left: 0px; padding-right:0px;">
+                        <div class="row">
+                            <span class="col col-33" style="vertical-align:middle; white-space:normal;">
+                                <select>
+                                    <option>TEST-1231</option>
+                                    <option>TEST-3343</option>
+                                    <option>TEST-4232</option>
+                                </select>
+                            </span>
+                            <span class="col col-33" style="vertical-align:middle; white-space:normal;">{{item.PROP2 }}</span>
+                            <span class="col col-33" style="vertical-align:middle; white-space:normal;">{{item.PROP3 }}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col col-15" style="vertical-align:middle; white-space:normal;">{{item.PROP4 }}</span>
+                            <span class="col col-15" style="vertical-align:middle; white-space:normal;">{{item.PROP5 }}</span>
+                            <span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.PROP6 }}</span>
+                            <span class="col col-15" style="vertical-align:middle; white-space:normal;">{{item.PROP7 }}</span>
+                            <span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.PROP8 }}</span>
+                            <span class="col col-15" style="vertical-align:middle; white-space:normal;">{{item.PROP9 }}</span>
+                        </div>
+                        <!--<div class="col col-center">{{item.PROP4 }}</div>
+                <div class="col col-center">
+                    <div class="col col-center" ng-style="{'display': orderProposal.mode == 'V' ? 'lnline': 'none'}">{{item.PROP5 }}</div>
+                    <input type="text" class="col" ng-model="item.PROP5" ng-style="{'display': orderProposal.mode == 'C' ? 'lnline': 'none'}" />
+                </div>
+                <div class="col col-center">
+                    <div class="col col-center" ng-style="{'display': orderProposal.mode == 'V' ? 'lnline': 'none'}">{{item.PROP6 }}</div>
+                    <input type="text" class="col" ng-model="item.PROP6" ng-style="{'display': orderProposal.mode == 'C' ? 'lnline': 'none'}" />
+                </div>
+                <div class="col col-center">{{item.PROP7 }}</div>
+                <div class="col col-center">{{item.PROP8 }}</div>
+                <div class="col col-center">{{item.PROP9 }}</div>
+                <div class="col col-center" ng-style="{'display': orderProposal.mode == 'V' ? 'lnline': 'none'}"></div>
+                <div class="col col-center" ng-style="{'display': orderProposal.mode == 'C' ? 'lnline': 'none'}">
+                    <button class="button button-small button-assertive" ng-click="RemoveItem(item)" style="min-height: 25px !important; min-width: 50px;">삭제</button>
+                </div>-->
+                        <ion-option-button class="button-assertive" ng-click="RemoveItem(item)">DELETE</ion-option-button>
+                    </ion-item>
+                </ion-list>
+            </ion-scroll>
+        </div>
+    </ion-content>
+</ion-view>

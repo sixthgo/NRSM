@@ -1,0 +1,72 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer productInforClass" scroll="false">
+        <div id="container" class="green">
+            <ul class="select" id="headlineA">
+                <li class="store" ng-click="showShopPop()"
+                    favorite-key="{{favoriteKeyA}}"
+                    favorite="storePopup.selectedStore.plantCode">
+                    <span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="date" ng-style="{display: showIPadCalendarButton}">
+                    <ionic-datepicker id="iPadCalendar" input-obj="base.datepickerObject" ng-click="base.ClickIPadCalendar()">
+                        <span>{{data.date}}</span>
+                    </ionic-datepicker>
+                </li>
+                <li class="date" ng-click="OpenDatePick()" ng-style="{display: showCalendarButton}">
+                    <span>{{data.date}}</span>
+                </li>
+            </ul>
+
+            <div id="date">
+                <div class="row" style="padding: 0 0 0 0;">
+                    <div class="col text-right" style="padding: 0 0 0 0;">
+                        단위 : 천원/천명
+                    </div>
+                </div>
+            </div>
+
+            <table id="noSort" class="EmisTableHeader">
+                <tr>
+                    <th width="16%" style="vertical-align:middle;" on-hold="ShowPopover($event, '항목')">
+                        <span class="th35" ng-if="standardViewSize == 'S'">항목</span>
+                        <span class="th35" ng-if="standardViewSize != 'S'">항목</span>
+                    </th>
+                    <th width="16%" style="vertical-align:middle;" on-hold="ShowPopover($event, '실적')">
+                        <span class="th35" ng-if="standardViewSize == 'S'">실적</span>
+                        <span class="th35" ng-if="standardViewSize != 'S'">실적</span>
+                    </th>
+                    <th width="16%" on-hold="ShowPopover($event, '전년')">
+                        <span class="th50" ng-if="standardViewSize == 'S'">전년<br />(2014년)</span>
+                        <span class="th70" ng-if="standardViewSize != 'S'">전년<br />(2014년)</span>
+                    </th>
+                    <th width="16%" style="vertical-align:middle;" on-hold="ShowPopover($event, '성장율')">
+                        <span class="th35" ng-if="standardViewSize == 'S'">성장율</span>
+                        <span class="th50" ng-if="standardViewSize != 'S'">성장율</span>
+                    </th>
+                    <th width="16%" on-hold="ShowPopover($event, '2년전')">
+                        <span class="th35" ng-if="standardViewSize == 'S'">2년전<br />(2013년)</span>
+                        <span class="th70" ng-if="standardViewSize != 'S'">2년전<br />(2013년)</span>
+                    </th>
+                    <th width="16%" on-hold="ShowPopover($event, '3년전')">
+                        <span class="th35" ng-if="standardViewSize == 'S'">3년전<br />(2012년)</span>
+                        <span class="th70" ng-if="standardViewSize != 'S'">3년전<br />(2012년)</span>
+                    </th>
+                </tr>
+            </table>
+            <ion-scroll direction="y" ng-style="{'height':scrollHeight}">
+                <table>
+                    <tr ng-repeat="item in EIMSInformationList">
+                        <td width="16%">{{item.type}}</td>
+                        <td width="16%">{{item.thisYear | thousandBaseFilter}}</td>
+                        <td width="16%">{{item.previousYear | thousandBaseFilter}}</td>
+                        <td width="16%">{{item.growthRate}}%</td>
+                        <td width="16%">{{item.pPreviousYear | thousandBaseFilter}}</td>
+                        <td width="16%">{{item.ppPreviousYear | thousandBaseFilter}}</td>
+                    </tr>
+                </table>
+            </ion-scroll>
+        </div>
+    </ion-content>
+</ion-view>

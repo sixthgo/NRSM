@@ -1,0 +1,11 @@
+﻿<ion-footer-bar id="footer" ng-class="setting.footer.class" ng-hide="base.menuId=='NRSMM00'">
+    <ion-footer-bar id="footer" ng-class="setting.footer.class" ng-hide="base.menuId=='NRSMM00'">
+        <ul>
+            <li></li>
+            <li><a ng-click="base.ClickStar()"><img src="img/nrsm/footer_02.png" alt="즐겨찾기 추가"></a></li>
+            <li><a ng-click="base.GoHome()"><img src="img/nrsm/footer_03.png" alt="홈으로"></a></li>
+            <li><a href="#"><img src="img/nrsm/footer_04.png" alt="카메라 스캔"></a></li>
+            <li><a ng-click="base.ClickGear()"><img src="img/nrsm/footer_05.png" alt="설정"></a></li>
+        </ul>
+    </ion-footer-bar>
+</ion-footer-bar>

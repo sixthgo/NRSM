@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetMailList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FolderId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageNum" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailFolder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PageType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailFolderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailFolderResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailView">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="itemId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailViewResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalUnreadCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTotalUnreadCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTotalUnreadCountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEmployeeDetailInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="uid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEmployeeDetailInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEmployeeDetailInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEmployeeSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="pageNum" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEmployeeSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEmployeeSearchResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="folderId" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageNum" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailSearchResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailTotalCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="folderId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailTotalCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailTotalCountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailFolderEmpty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FolderId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailFolderEmptyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMailFolderEmptyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewImg">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="itemId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewImgResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailViewImgResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewMove">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="selType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="folderId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="receivedTime" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewMoveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailViewMoveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="itemId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailViewFileResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewSaveFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ItemId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailViewSaveFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailViewSaveFileResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailDelete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ItemIds" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailDeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMailDeleteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailMove">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ItemIds" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TargetFolderId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailMoveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMailMoveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMail_UnRead">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ItemIds" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReadYn" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMail_UnReadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMail_UnReadResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailChangeFlag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ItemId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Flag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMailChangeFlagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMailChangeFlagResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRecentReceivers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AllYn" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRecentReceiversResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRecentReceiversResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="loginId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBody" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strRecipients" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCcRecipients" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHiddenCc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetMailListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailList" />
+  </wsdl:message>
+  <wsdl:message name="GetMailListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailFolderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailFolder" />
+  </wsdl:message>
+  <wsdl:message name="GetMailFolderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailFolderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailView" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailViewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTotalUnreadCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTotalUnreadCount" />
+  </wsdl:message>
+  <wsdl:message name="GetTotalUnreadCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTotalUnreadCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEmployeeDetailInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEmployeeDetailInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetEmployeeDetailInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEmployeeDetailInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEmployeeSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEmployeeSearch" />
+  </wsdl:message>
+  <wsdl:message name="GetEmployeeSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEmployeeSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailSearch" />
+  </wsdl:message>
+  <wsdl:message name="GetMailSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailTotalCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailTotalCount" />
+  </wsdl:message>
+  <wsdl:message name="GetMailTotalCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailTotalCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMailFolderEmptySoapIn">
+    <wsdl:part name="parameters" element="tns:SetMailFolderEmpty" />
+  </wsdl:message>
+  <wsdl:message name="SetMailFolderEmptySoapOut">
+    <wsdl:part name="parameters" element="tns:SetMailFolderEmptyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewImgSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailViewImg" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewImgSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailViewImgResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewMoveSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailViewMove" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewMoveSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailViewMoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewFileSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailViewFile" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewFileSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailViewFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewSaveFileSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailViewSaveFile" />
+  </wsdl:message>
+  <wsdl:message name="GetMailViewSaveFileSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailViewSaveFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMailDeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMailDelete" />
+  </wsdl:message>
+  <wsdl:message name="SetMailDeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMailDeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMailMoveSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMailMove" />
+  </wsdl:message>
+  <wsdl:message name="SetMailMoveSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMailMoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMail_UnReadSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMail_UnRead" />
+  </wsdl:message>
+  <wsdl:message name="SetMail_UnReadSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMail_UnReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMailChangeFlagSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMailChangeFlag" />
+  </wsdl:message>
+  <wsdl:message name="SetMailChangeFlagSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMailChangeFlagResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRecentReceiversSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRecentReceivers" />
+  </wsdl:message>
+  <wsdl:message name="GetRecentReceiversSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRecentReceiversResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WS_MailSoap">
+    <wsdl:operation name="GetMailList">
+      <wsdl:input message="tns:GetMailListSoapIn" />
+      <wsdl:output message="tns:GetMailListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailFolder">
+      <wsdl:input message="tns:GetMailFolderSoapIn" />
+      <wsdl:output message="tns:GetMailFolderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailView">
+      <wsdl:input message="tns:GetMailViewSoapIn" />
+      <wsdl:output message="tns:GetMailViewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTotalUnreadCount">
+      <wsdl:input message="tns:GetTotalUnreadCountSoapIn" />
+      <wsdl:output message="tns:GetTotalUnreadCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEmployeeDetailInfo">
+      <wsdl:input message="tns:GetEmployeeDetailInfoSoapIn" />
+      <wsdl:output message="tns:GetEmployeeDetailInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEmployeeSearch">
+      <wsdl:input message="tns:GetEmployeeSearchSoapIn" />
+      <wsdl:output message="tns:GetEmployeeSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailSearch">
+      <wsdl:input message="tns:GetMailSearchSoapIn" />
+      <wsdl:output message="tns:GetMailSearchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailTotalCount">
+      <wsdl:input message="tns:GetMailTotalCountSoapIn" />
+      <wsdl:output message="tns:GetMailTotalCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMailFolderEmpty">
+      <wsdl:input message="tns:SetMailFolderEmptySoapIn" />
+      <wsdl:output message="tns:SetMailFolderEmptySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewImg">
+      <wsdl:input message="tns:GetMailViewImgSoapIn" />
+      <wsdl:output message="tns:GetMailViewImgSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewMove">
+      <wsdl:input message="tns:GetMailViewMoveSoapIn" />
+      <wsdl:output message="tns:GetMailViewMoveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewFile">
+      <wsdl:input message="tns:GetMailViewFileSoapIn" />
+      <wsdl:output message="tns:GetMailViewFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewSaveFile">
+      <wsdl:input message="tns:GetMailViewSaveFileSoapIn" />
+      <wsdl:output message="tns:GetMailViewSaveFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMailDelete">
+      <wsdl:input message="tns:SetMailDeleteSoapIn" />
+      <wsdl:output message="tns:SetMailDeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMailMove">
+      <wsdl:input message="tns:SetMailMoveSoapIn" />
+      <wsdl:output message="tns:SetMailMoveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMail_UnRead">
+      <wsdl:input message="tns:SetMail_UnReadSoapIn" />
+      <wsdl:output message="tns:SetMail_UnReadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMailChangeFlag">
+      <wsdl:input message="tns:SetMailChangeFlagSoapIn" />
+      <wsdl:output message="tns:SetMailChangeFlagSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRecentReceivers">
+      <wsdl:input message="tns:GetRecentReceiversSoapIn" />
+      <wsdl:output message="tns:GetRecentReceiversSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <wsdl:input message="tns:SendMailSoapIn" />
+      <wsdl:output message="tns:SendMailSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WS_MailSoap" type="tns:WS_MailSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMailList">
+      <soap:operation soapAction="http://tempuri.org/GetMailList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailFolder">
+      <soap:operation soapAction="http://tempuri.org/GetMailFolder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailView">
+      <soap:operation soapAction="http://tempuri.org/GetMailView" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTotalUnreadCount">
+      <soap:operation soapAction="http://tempuri.org/GetTotalUnreadCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmployeeDetailInfo">
+      <soap:operation soapAction="http://tempuri.org/GetEmployeeDetailInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmployeeSearch">
+      <soap:operation soapAction="http://tempuri.org/GetEmployeeSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailSearch">
+      <soap:operation soapAction="http://tempuri.org/GetMailSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailTotalCount">
+      <soap:operation soapAction="http://tempuri.org/GetMailTotalCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailFolderEmpty">
+      <soap:operation soapAction="http://tempuri.org/SetMailFolderEmpty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewImg">
+      <soap:operation soapAction="http://tempuri.org/GetMailViewImg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewMove">
+      <soap:operation soapAction="http://tempuri.org/GetMailViewMove" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewFile">
+      <soap:operation soapAction="http://tempuri.org/GetMailViewFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewSaveFile">
+      <soap:operation soapAction="http://tempuri.org/GetMailViewSaveFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailDelete">
+      <soap:operation soapAction="http://tempuri.org/SetMailDelete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailMove">
+      <soap:operation soapAction="http://tempuri.org/SetMailMove" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMail_UnRead">
+      <soap:operation soapAction="http://tempuri.org/SetMail_UnRead" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailChangeFlag">
+      <soap:operation soapAction="http://tempuri.org/SetMailChangeFlag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRecentReceivers">
+      <soap:operation soapAction="http://tempuri.org/GetRecentReceivers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WS_MailSoap12" type="tns:WS_MailSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetMailList">
+      <soap12:operation soapAction="http://tempuri.org/GetMailList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailFolder">
+      <soap12:operation soapAction="http://tempuri.org/GetMailFolder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailView">
+      <soap12:operation soapAction="http://tempuri.org/GetMailView" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTotalUnreadCount">
+      <soap12:operation soapAction="http://tempuri.org/GetTotalUnreadCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmployeeDetailInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetEmployeeDetailInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmployeeSearch">
+      <soap12:operation soapAction="http://tempuri.org/GetEmployeeSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailSearch">
+      <soap12:operation soapAction="http://tempuri.org/GetMailSearch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailTotalCount">
+      <soap12:operation soapAction="http://tempuri.org/GetMailTotalCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailFolderEmpty">
+      <soap12:operation soapAction="http://tempuri.org/SetMailFolderEmpty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewImg">
+      <soap12:operation soapAction="http://tempuri.org/GetMailViewImg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewMove">
+      <soap12:operation soapAction="http://tempuri.org/GetMailViewMove" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewFile">
+      <soap12:operation soapAction="http://tempuri.org/GetMailViewFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailViewSaveFile">
+      <soap12:operation soapAction="http://tempuri.org/GetMailViewSaveFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailDelete">
+      <soap12:operation soapAction="http://tempuri.org/SetMailDelete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailMove">
+      <soap12:operation soapAction="http://tempuri.org/SetMailMove" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMail_UnRead">
+      <soap12:operation soapAction="http://tempuri.org/SetMail_UnRead" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMailChangeFlag">
+      <soap12:operation soapAction="http://tempuri.org/SetMailChangeFlag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRecentReceivers">
+      <soap12:operation soapAction="http://tempuri.org/GetRecentReceivers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap12:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WS_Mail">
+    <wsdl:port name="WS_MailSoap" binding="tns:WS_MailSoap">
+      <soap:address location="http://mobile.eland.co.kr/webservice/ws_mail.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WS_MailSoap12" binding="tns:WS_MailSoap12">
+      <soap12:address location="http://mobile.eland.co.kr/webservice/ws_mail.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

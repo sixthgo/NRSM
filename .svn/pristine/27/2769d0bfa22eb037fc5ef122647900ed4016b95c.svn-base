@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.AppDivision>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Application</p>
+              <small>Application division list</small>
+            </blockquote>
+            <p>
+            <a href="@Url.Action("Create")" class="btn btn-small" ><i class="icon-plus"></i> Create</a>
+            </p>
+        
+            @*
+            <form>
+                <div class="control-group">
+                    <label class="control-label" for="Application">Application</label>
+                    <div class="controls">
+                        <input type="text" id="Application" placeholder="Application">
+                    </div>
+                </div>
+                <a href="@Url.Action("Search")" class="btn btn-small pull-right" ><i class="icon-search"></i> Search</a>
+            </form>
+             *@
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript" language="javascript">
+        $(function () {
+           
+        });
+    </script>
+}
+
+<div class="row-fluid">
+    <div class="span12" >
+        @Html.Partial("../BaaSApplication/_Table" , Model )
+    </div>
+</div>

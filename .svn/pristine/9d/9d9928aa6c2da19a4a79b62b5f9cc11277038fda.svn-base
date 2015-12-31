@@ -1,0 +1,80 @@
+﻿<div ng-controller="FloorPlanSalesPopupCtrl">
+    <div class="list">
+        <div>
+        <!--<div class="item item-divider">-->
+            지점 / 층
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        지점
+                    </div>
+                    <select ng-model="popup.selectedRequest.storeNfloor"
+                            ng-options="c.sectionName for c in storeNfloors"
+                            ng-change="SelectStoreAction()">
+                        <option value="">점 선택</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        층
+                    </div>
+                    <select ng-model="popup.selectedRequest.floor"
+                            ng-options="d.name for d in popup.selectedRequest.storeNfloor.floors"
+                            ng-change="SelectFloorAction()">
+                        <option value="">층 선택</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <span style="display:none" favorite-key="{{favoriteKeyA}}" favorite="popup.selectedRequest.storeNfloor.sectionCode"></span>
+        <span style="display:none" favorite-key="{{favoriteKeyB}}" favorite="popup.selectedRequest.floor.code"></span>
+
+        <div>
+        <!--<div class="item item-divider">-->
+            면적
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="areaTypeRadioGroup" ng-model="popup.area" value="G" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">공용포함면적<br />(영업면적)</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="areaTypeRadioGroup" ng-model="popup.area" value="N" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">순수매장면적<br />(전용면적)</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+        <span style="display:none" favorite-key="{{favoriteKeyC}}" favorite="popup.area"></span>
+        
+        <div>
+        <!--<div class="item item-divider">-->
+            기준 데이터
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="salesTypeRadioGroup" ng-model="popup.standard" value="01" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">매출</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="salesTypeRadioGroup" ng-model="popup.standard" value="02" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">평당매출</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+        <span style="display:none" favorite-key="{{favoriteKeyD}}" favorite="popup.standard"></span>
+    </div>
+</div>

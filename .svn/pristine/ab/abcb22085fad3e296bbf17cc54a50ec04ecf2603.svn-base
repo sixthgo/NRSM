@@ -1,0 +1,14 @@
+'use strict';
+
+angular.module('starter.services')
+
+	.factory('UserInforService', function ($resource, webServerUrl) {
+		return $resource(webServerUrl + '/api/plant?loginId=:loginId&x=:x', {
+				loginId: '@loginId', x: '@x'
+			},
+			{
+				'query': { method: 'GET', isArray: false }
+			});
+	})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,103 @@
+﻿cortrollerModule.controller('CuPopupCtrl', function ($scope, $state, $stateParams, $q, $timeout, $ionicLoading, CUService, UtilService) {
+
+    $scope.data = {};
+    $scope.data.cues = [];
+    $scope.data.pcs = [];
+
+    $scope.Init = function () {
+        $scope.SetLocalWord();
+        $scope.debug.Log('CuPopupCtrl.Init()');
+        $scope.GetCu();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.cuPop = {};
+        $scope.word.cuPop.title = 'CU 선택';
+        // $scope.word.test = $scope.word.testSentence;
+    }
+
+    $scope.GetCu = function () {
+        
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        CUService.query({
+            loginId: $scope.user.loginId,
+            type: 'cu',
+            cuCode: ''
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.debug.Log('GetCu.get().success');
+            
+            ////$scope.data.cues = angular.copy(data);
+            $scope.data.cues = data;
+
+            if ($scope.cuPopup.selectedCu != null) {
+                $scope.cuPopup.selectedCuTemp = angular.copy( $scope.cuPopup.selectedCu);
+                for( var i=0; i < $scope.data.cues.length; i++) {
+                    if ($scope.cuPopup.selectedCuTemp.cuCode == $scope.data.cues[i].cuCode) {
+                        $scope.cuPopup.selectedCuTemp = $scope.data.cues[i];
+                        $scope.OnCuChange();
+                        return;
+                    }
+                }                
+            }
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+
+        });
+    }
+
+    $scope.OnCuChange = function (item) {
+
+        $scope.cuPopup.selectedPcTemp = null;
+        $scope.GetPc();
+    }
+
+    $scope.GetPc = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        CUService.query({
+            loginId: '',
+            type: 'pc',
+            cuCode: $scope.cuPopup.selectedCuTemp.cuCode
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.debug.Log('GetPc.get().success');
+            
+            ////$scope.data.pcs = angular.copy(data);
+            $scope.data.pcs = data;
+            var find = false;
+            if ($scope.cuPopup.selectedPc != null) {
+                $scope.cuPopup.selectedPcTemp = angular.copy($scope.cuPopup.selectedPc);
+                for (var i = 0; i < $scope.data.pcs.length; i++) {
+                    if ($scope.cuPopup.selectedPcTemp.pcCode == $scope.data.pcs[i].pcCode) {
+                        $scope.cuPopup.selectedPcTemp = $scope.data.pcs[i];
+                        find = true;
+                        break;
+                    }
+                }
+            }
+            if (find == false) {
+                $scope.cuPopup.selectedPcTemp = $scope.data.pcs[0];
+            }
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+
+        });
+    }
+
+    $scope.OnPcChange = function (item) {
+        //$scope.pcPopup.selectedPcTemp = angular.copy(item);
+    }
+
+    $scope.Init();
+});

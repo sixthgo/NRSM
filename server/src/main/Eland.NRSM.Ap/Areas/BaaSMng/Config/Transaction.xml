@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+	        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:tx="http://www.springframework.net/tx"
+         xmlns:db="http://www.springframework.net/database">
+
+  <!--<object id="transactionManager" type="Spring.Data.Core.AdoPlatformTransactionManager, Spring.Data">
+    <property name="DbProvider" ref="DbProvider" />
+  </object>-->
+  <object id="transactionManager" type="Spring.Data.NHibernate.HibernateTransactionManager, Spring.Data.NHibernate32">
+    <property name="DbProvider" ref="DbProvider_BaaS" />
+    <property name="SessionFactory" ref="SessionFactory_BaaS"/>
+  </object>
+
+  <!--<object id="transactionManager" type="Spring.Data.Core.TxScopeTransactionManager, Spring.Data"/>-->
+  <!--<object id="transactionManager" type="Spring.Data.NHibernate.HibernateTransactionManager, Spring.Data.NHibernate32"/>-->
+
+  <object name="autoProxyCreator"
+         type="Spring.Aop.Framework.AutoProxy.ObjectNameAutoProxyCreator, Spring.Aop">
+
+    <property name="InterceptorNames" value="transactionInterceptor"/>
+    <property name="ObjectNames">
+      <list>
+        <value>*Facade</value>
+        <value>*Service</value>
+        <value>*Dao</value>
+      </list>
+    </property>
+  </object>
+
+  <object id="transactionInterceptor"
+        type="Spring.Transaction.Interceptor.TransactionInterceptor, Spring.Data">
+    <property name="TransactionManager" ref="transactionManager"/>
+    <!-- note do not have converter from string to this property type registered -->
+    <!-- so useing a ref to the source of transaction options                    -->
+    <property name="TransactionAttributeSource" ref="nameMatchTxAttributeSource"/>
+  </object>
+
+  <object id="nameMatchTxAttributeSource"
+          type="Spring.Transaction.Interceptor.NameMatchTransactionAttributeSource, Spring.Data">
+    <property name="NameMap">
+      <dictionary>
+        <!-- Propagation Levels
+          "PROPAGATION_REQUIRED"
+          "PROPAGATION_SUPPORTS"
+          "PROPAGATION_MANDATORY"
+          "PROPAGATION_REQUIRES_NEW"
+          "PROPAGATION_NOT_SUPPORTED"
+          "PROPAGATION_NEVER"
+          "PROPAGATION_NESTED"
+        -->
+        <!-- Isolation Levels
+          "ISOLATION_READCOMMITTED"
+          "ISOLATION_READUNCOMMITTED"
+          "ISOLATION_REPEATABLEREAD"
+          "ISOLATION_SERIALIZABLE"
+        -->
+        <!--<entry key="Save*" value="PROPAGATION_REQUIRED" />
+        <entry key="Add*" value="PROPAGATION_REQUIRED" />
+        <entry key="Update*" value="PROPAGATION_REQUIRED" />
+        <entry key="Delete*" value="PROPAGATION_REQUIRED" />-->
+        <entry key="*" value="PROPAGATION_REQUIRED,ISOLATION_READCOMMITTED" />
+        <entry key="Get*" value="PROPAGATION_SUPPORTS,ISOLATION_READUNCOMMITTED,readOnly" />
+        <entry key="Search*" value="PROPAGATION_SUPPORTS,ISOLATION_READUNCOMMITTED,readOnly" />
+      </dictionary>
+    </property>
+  </object>
+
+</objects>

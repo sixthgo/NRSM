@@ -1,0 +1,35 @@
+﻿cortrollerModule.controller('StorePopupCtrl', function ($scope, $state, $stateParams, $q, $timeout, PlantService, UtilService) {
+
+
+    $scope.Init = function () {
+        $scope.SetLocalWord();
+        $scope.GetStore();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.storePop = {};
+        $scope.word.storePop.title = '지점 선택';
+        // $scope.word.test = $scope.word.testSentence;
+    }
+
+    $scope.OnChange = function (item) {
+        //debugger
+        //$scope.popup.selectedStoreTemp = angular.copy(item);
+        $scope.popup.selectedStoreTemp = item;
+    }
+
+    $scope.GetStore = function () {
+        PlantService.get({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.debug.Log('GetStore.get().success');
+            debugger
+        }, function (error) {
+            $scope.debug.Log(error);
+            debugger
+            
+        });
+    }
+
+    $scope.Init();
+});

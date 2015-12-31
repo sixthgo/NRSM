@@ -1,0 +1,77 @@
+﻿<ion-view view-title="{{word.productInfo}}">
+    <ion-content class="has-footer">
+        <div id="container" class="green">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">지점 코드</p>
+                        <p class="right">{{data.shopCode}}</p>
+                    </li>
+                    <li>
+                        <p class="left">상품 코드</p>
+                        <p class="right">{{base.barCode007}}</p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_color">
+                    <a href="#" ng-click="SearchProductInform()"><img src="img/nrsm/icon_search_green.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <ul class="list border_top">
+                <li>
+                    <p class="left">D_ 다다기 오이(ex) 국내산</p>
+                    <p class="right"><span class="box box_green">정상가 판매중</span></p>
+                </li>
+                <li>
+                    <p class="left">D_ 다다기 오이(ex) 국내산</p>
+                    <p class="right"><span class="box box_red">취급 중단</span></p>
+                </li>
+                <li>
+                    <p class="left">D_ 다다기 오이(ex) 국내산</p>
+                    <p class="right"><span class="box box_yellow">행사중</span></p>
+                </li>
+                <li class="half mr_6p">
+                    <p class="left color">상품 가격</p>
+                    <p class="right">999,999</p>
+                </li>
+                <li class="half">
+                    <p class="left color">포스 가격</p>
+                    <p class="right">999,999</p>
+                </li>
+                <li class="half mr_6p">
+                    <p class="left color">매출 1</p>
+                    <p class="right">999,999</p>
+                </li>
+                <li class="half">
+                    <p class="left color">매출 2</p>
+                    <p class="right">999,999</p>
+                </li>
+                <li class="half mr_6p">
+                    <p class="left color">현재고 1</p>
+                    <p class="right">999,999</p>
+                </li>
+                <li class="half">
+                    <p class="left color">현재고 2</p>
+                    <p class="right">999,999</p>
+                </li>
+                <li>
+                    <p class="left color">입고 예정일 / 수량</p>
+                    <p class="right">2015년 6월 8일 / 80 개</p>
+                </li>
+                <li>
+                    <p class="left color">물류 센터 보관 유무</p>
+                    <p class="right">보관중 / 1,000 개</p>
+                </li>
+            </ul>
+
+            <ul class="box_btn_list">
+                <li><a href="#">재고 실사</a></li>
+                <li><a href="#">수동 발주</a></li>
+                <li><a href="#">POG 정보조회</a></li>
+                <li><a href="#">전점 조회</a></li>
+                <li><a href="#">라벨 저장</a></li>
+                <li><a ui-sref="app.common.ProductDetail">상세 보기</a></li>
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>

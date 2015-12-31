@@ -1,0 +1,32 @@
+﻿using Formular.Data;
+using NHibernate.Transform;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain = Eland.NRSM.Core.Domain;
+
+namespace Eland.NRSM.Template.Dao
+{
+
+
+    public interface ICEOReportDao : IGenericDao<Domain.CEOReport>
+    {
+        List<Domain.CEOReport> GetCEOReportPlan(string gubun, string group);
+    }
+
+    public class CEOReportDao : HibernateGenericDao<Domain.CEOReport>, ICEOReportDao
+    {
+        public List<Domain.CEOReport> GetCEOReportPlan(string gubun, string group)
+        {
+            var result = Session.GetNamedQuery("NRSM_CEOReport_R01")
+                .SetParameter("GROUP", group)
+                .SetParameter("GUBUN", gubun)
+                .SetResultTransformer(Transformers.AliasToBean(typeof(Domain.CEOReport)))
+                .List<Domain.CEOReport>();
+
+            return result as List<Domain.CEOReport>;
+        }
+    }
+}

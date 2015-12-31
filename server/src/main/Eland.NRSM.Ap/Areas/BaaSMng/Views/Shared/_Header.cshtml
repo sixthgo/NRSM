@@ -1,0 +1,35 @@
+﻿
+                <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">  
+                        <div class="container">
+                            <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="brand" href="/">LampGlass</a>
+                            <div class="nav-collapse">
+                                <ul class="nav pull-left">
+                                    <li>@Html.ActionLink("Application", "index", "BaaSApplication", new { id = String.Empty }, new { })</li>
+                                    <li>@Html.ActionLink("User", "index", "BaaSUser", new { id = String.Empty }, new { })</li>
+                                    <li>@Html.ActionLink("Role", "index", "BaaSRole", new { id = String.Empty }, new { })</li>
+                                    <li>@Html.ActionLink("Program", "index", "BaaSProgram", new { id = String.Empty }, new { })</li>
+                                    <li>@Html.ActionLink("Operation", "index", "BaaSOperation", new { id = String.Empty }, new { })</li>
+                                    <li>@Html.ActionLink("ProgramMenu", "index", "BaaSProgramMenu", new { id = String.Empty }, new { })</li>
+                                    <li class="dropdown">
+	                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Server IO <b class="caret"></b></a>
+	                                    <ul class="dropdown-menu">
+                                            <li class="nav-header">Server State</li>
+                                            <li>@Html.ActionLink("Server", "index", "BaaSServer", new { id = String.Empty }, new { })</li>
+		                                    <li class="divider"></li>
+                                            <li class="nav-header">Bucket Manager</li>
+                                            <li>@Html.ActionLink("Bucket", "index", "BaaSBucket", new { id = String.Empty }, new { })</li>		                                    
+	                                    </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+     

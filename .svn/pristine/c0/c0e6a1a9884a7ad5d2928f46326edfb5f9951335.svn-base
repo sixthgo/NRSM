@@ -1,0 +1,89 @@
+directiveModule
+
+.directive('resize',['$window', function ($window) {
+	return {
+		link: function (scope, elem, attrs) {
+			scope.onResize = function () {
+				var header = document.getElementsByTagName('body')[0];
+
+				elem.windowWidth = header.clientWidth * 2;
+				elem.css({'width': elem.windowWidth + 'px', 'height': '5000px'});
+			}
+
+			scope.onResize();
+
+			angular.element($window).bind('resize', function() {
+				scope.onResize();
+				scope.$apply();
+			})
+		}
+	}
+}])
+
+.directive('numbersOnly',function () {
+		//maxLenght : 6
+		//not allow 0 at start index
+		//only enter 0-9
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attrs, modelCtrl) {
+
+			modelCtrl.$parsers.push(function (inputValue) {
+				if (inputValue == undefined || inputValue == ""
+					|| inputValue == null) return ''
+
+				var newValue = "";
+				var transformedInput = '';
+
+				if (inputValue.length > 1 && inputValue.substring(0,1) == "0") {
+					newValue = inputValue.substring(1,inputValue.length);
+				}
+				else {
+					newValue = inputValue.substring(0,6).replace(/[^0-9]/g, '');
+				}
+
+				if (newValue != "") {
+					transformedInput = parseInt(newValue).toString();
+				}
+
+				if (transformedInput != inputValue) {
+					modelCtrl.$setViewValue(transformedInput);
+					modelCtrl.$render();
+				}
+
+				return transformedInput;
+			});
+
+			element.bind('click',function () {
+				modelCtrl.$setViewValue("");
+				modelCtrl.$render();
+			})
+		}
+	}
+})
+
+.directive('toggle', function () {
+	return {
+		link: function(scope, element, attrs){
+
+			angular.element(element).bind('on-touch', function (e) {
+				if (element.hasClass("active")) {
+				}
+				else {
+					element.addClass("active");
+					element.find("img").attr("src", element.find("img").attr("src").replace("_hover.png",".png"));
+				}
+				//alert('123');
+			}, function (e) {
+				if (element.hasClass("active")) {
+					element.removeClass("active");
+					element.find("img").attr("src", element.find("img").attr("src").replace(".png","_hover.png"));
+				}
+				else {
+
+				}
+				//alert('321');
+			})
+		}
+	}
+})

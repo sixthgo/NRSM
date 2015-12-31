@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<client>
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymaterialpriceinfo/100/zquerymaterialpriceinfo/zquerymaterialpriceinfo_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYMATERIALPRICEINFO.QueryMaterialPriceInfo" name="ZQUERYMATERIALPRICEINFO_BINDING"/>
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryuserauthin/100/zqueryuserauthin/zqueryuserauthin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYUSERAUTHIN.QueryUserAuthIn" name="ZQUERYUSERAUTHIN_BINDING"/>
+  <!--实际库存查询及调整: NRSM015-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagerealinventoryin/100/zmanagerealinventoryin/zmanagerealinventoryin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="MANAGEREALINVENTORYIN.ManageRealInventoryIn" name="ZMANAGEREALINVENTORYIN_BINDING"/>
+  <!--手动下单: NRSM014-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagemanualorderin/100/zmanagemanualorderin/zmanagemanualorderin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="MANAGEMANUALORDERIN.ManageManualOrderIn" name="ZMANAGEMANUALORDERIN_BINDING"/>
+  <!--日截预测业绩查询: NRSM009-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerydailysalepredictionin/100/zquerydailysalepredictionin/zquerydailysalepredictionin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="QUERYDAILYSALEPREDICTIONIN.QueryDailySalePredictionIn" name="ZQUERYDAILYSALEPREDICTIONIN_BINDING"/>
+  <!--条形码生成和发送: NRSM016-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagesalepricesendin/100/zmanagesalepricesendin/zmanagesalepricesendin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="MANAGESALEPRICESENDIN.ManageSalePriceSendIn" name="ZMANAGESALEPRICESENDIN_BINDING"/>
+  <!--邮件发送Webservice-->
+  <endpoint address="http://mobile.eland.co.kr/webservice/ws_mail.asmx" binding="basicHttpBinding" bindingConfiguration="WS_MailSoap" contract="MailWebService.WS_MailSoap" name="WS_MailSoap"/>
+  <!--日配送入库: NRSM018-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagedailygrin/100/zmanagedailygrin/zmanagedailygrin_binding"
+    binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+    contract="MANAGEDAILYGRIN.ManageDailyGrIn" name="ZMANAGEDAILYGRIN_BINDING" />
+  <!--库存盘点: NRSM020-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagestockinspectioncreatein/100/zmanagestockinspectioncreatein/zmanagestockinspectioncreatein_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="MANAGESTOCKINSPECTIONCREATEIN.ManageStockInspectionCreateIn" name="ZMANAGESTOCKINSPECTIONCREATEIN_BINDING"/>
+  <!--库存登记: NRSM019-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagescpopalletitemin/100/zmanagescpopalletitemin/zmanagescpopalletitemin_binding"
+            binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+            contract="MANAGESCPOPALLETITEMIN.ManageScPoPalletItemIn" name="ZMANAGESCPOPALLETITEMIN_BINDING" />
+  <!--商品信息: NRSM007-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagesavemateriallabel/100/zmanagesavemateriallabel/zmanagesavemateriallabel_binding"
+            binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+            contract="MANAGESAVEMATERIALLABEL.ManageSaveMaterialLabel" name="ZMANAGESAVEMATERIALLABEL_BINDING" />
+  <!--查询前一年跟当天同星期的日期-->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryprevsamedatein/100/zqueryprevsamedatein/zqueryprevsamedatein_binding"
+        binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+        contract="QUERYPREVSAMEDATEIN.QueryPrevSameDateIn" name="ZQUERYPREVSAMEDATEIN_BINDING" />
+
+  <!-- storeFloor service -->
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerystorefloorcodein_v1000/100/zquerystorefloorcodein_v1000/zquerystorefloorcodein_v1000_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYSTOREFLOORCODEIN_V1000.QueryStoreFloorCodeIn_V1000" name="ZQUERYSTOREFLOORCODEIN_V1000_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryhistoryin/100/zqueryhistoryin/zqueryhistoryin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYHISTORYIN.QueryHistoryIn" name="ZQUERYHISTORYIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagefloorcodein/100/zmanagefloorcodein/zmanagefloorcodein_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZMANAGEFLOORCODEIN.ManageFloorCodeIn" name="ZMANAGEFLOORCODEIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryrevenuein/100/zqueryrevenuein/zqueryrevenuein_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYREVENUEIN.QueryRevenueIn" name="ZQUERYREVENUEIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagespaceprofitin/100/zmanagespaceprofitin/zmanagespaceprofitin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZMANAGESPACEPROFITIN.ManageSpaceProfitIn" name="ZMANAGESPACEPROFITIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerystoredetailinfoin/100/zquerystoredetailinfoin/zquerystoredetailinfoin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYSTOREDETAILINFOIN.QueryStoreDetailInfoIn" name="ZQUERYSTOREDETAILINFOIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryfloorrevenuein/100/zqueryfloorrevenuein/zqueryfloorrevenuein_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYFLOORREVENUEIN.QueryFloorRevenueIn" name="ZQUERYFLOORREVENUEIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymonthresultin/100/zquerymonthresultin/zquerymonthresultin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYMONTHRESULTIN.QueryMonthResultIn" name="ZQUERYMONTHRESULTIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryeventrevenuein_v1100/100/zqueryeventrevenuein_v1100/zqueryeventrevenuein_v1100_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYEVENTREVENUEIN_V1100.QueryEventRevenueIn_V1100" name="ZQUERYEVENTREVENUEIN_V1100_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerysalesresultin_v1000/100/zquerysalesresultin_v1000/zquerysalesresultin_v1000_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYSALESRESULTIN_V1000.QuerySalesResultIn_V1000" name="ZQUERYSALESRESULTIN_V1000_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerypogdisplayin/100/zquerypogdisplayin/zquerypogdisplayin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYPOGDISPLAYIN.QueryPOGDisplayIn" name="ZQUERYPOGDISPLAYIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanageorderofferprogramin/100/zmanageorderofferprogramin/zmanageorderofferprogramin_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="MANAGEORDEROFFERPROGRAMIN.ManageOrderOfferProgramIn" name="ZMANAGEORDEROFFERPROGRAMIN_BINDING" />
+
+  <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerysaleamtnstock1200in/100/zquerysaleamtnstock1200in/zquerysaleamtnstock1200in_binding" binding="customBinding" bindingConfiguration="CustomHttpTransportBinding" contract="ZQUERYSALEAMTNSTOCK1200IN.QuerySaleAmtNStock1200In" name="ZQUERYSALEAMTNSTOCK1200IN_BINDING" />
+</client>

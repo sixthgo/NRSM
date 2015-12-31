@@ -1,0 +1,125 @@
+﻿controllerModule.controller('InventoryCountingCtrl', function ($scope,
+                                                               $stateParams,
+                                                               $state,$q,
+                                                               $timeout,
+                                                               $ionicLoading,
+                                                               InventoryCountingService,
+                                                               PopupService,UtilService) {
+
+    $scope.base.categoryId = 'sc';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM020';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+        defer.resolve();
+    }
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        $scope.InitData();
+    }
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'InventoryCountingCtrl';
+    }
+    $scope.InitData=function(){
+        var currentTime=new Date();
+        $scope.data.DZLDAT = $scope.nowDate=UtilService.FormatDate(currentTime);
+        $scope.data.ERFNM ="CSO";
+
+        var werks = $scope.user.plantCode;
+
+        if (!UtilService.IsNullOrEmpty(werks)) {
+            $scope.data.WERKS = werks;
+        }
+        else {
+            $scope.data.WERKS = null;
+        }
+
+        if (werks != "8000" && werks != "1") {
+            $scope.data.WERKSClass = true;//{ReadOnly: true};
+        }
+        else {
+            $scope.data.WERKSClass =false;// {ReadOnly: false};
+
+        }
+    }
+    $scope.Init();
+
+    $scope.inventorySearch=function(){
+
+        if($scope.data.WERKS == null||$scope.data.WERKS==""||$scope.base.barCode020==null||$scope.base.barCode020==""){
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            return;
+        }
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        InventoryCountingService.query({
+            MATNR:$scope.base.barCode020,
+            WERKS:$scope.data.WERKS
+        },function(data){
+            $ionicLoading.hide();
+            $scope.data.returnMessage= data.returnMessage;
+        },function(error){
+            $scope.data.returnMessage="";
+            $ionicLoading.hide();
+        });
+    }
+    $scope.inventorySave=function(){
+
+        //if($scope.user.plantCode==null||$scope.user.plantCode==""){
+        //    PopupService.OpenPopupAlert("점포코드 값이 존재하지 않습니다.");
+        //    return;
+        //}
+        //if($scope.data.MATNR==null||$scope.data.MATNR==""){
+        //    PopupService.OpenPopupAlert("상품코드 값이 존재하지 않습니다.");
+        //    return;
+        //}
+        //if($scope.data.FIXID==null||$scope.data.FIXID==""){
+        //    PopupService.OpenPopupAlert("진열대는 빈값이면 안됩니다 .");
+        //    return;
+        //}
+        //if($scope.data.DISQTY==null||$scope.data.DISQTY==""){
+        //    PopupService.OpenPopupAlert("실사수량은 빈값이면 안됩니다.");
+        //    return;
+        //}
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+        var param={
+            "DZLDAT":$scope.data.DZLDAT,
+            "WERKS":$scope.user.plantCode,
+            "MATNR":$scope.data.MATNR,
+            "FIXID":$scope.data.FIXID,
+            "ERFNM":$scope.data.ERFNM,
+            "DISQTY": UtilService.IsUndefinedOrNull($scope.data.DISQTY)? "0" : $scope.data.DISQTY
+        };
+        InventoryCountingService.save(param,function(data){
+            $ionicLoading.hide();
+            if(data.flag=="S"){
+                    PopupService.OpenPopupAlert("저장되었습니다.");
+            }else {
+                    PopupService.OpenPopupAlert(data.returnMessage);
+            }
+        },function(error){
+            $ionicLoading.hide();
+        });
+    }
+});

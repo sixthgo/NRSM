@@ -1,0 +1,393 @@
+﻿//var getBarcodebySwipe = function (barcode) {
+//     var scope = angular.element($('#home')).scope();
+//    // alert(barcode);
+//     scope.$apply(function (barcode) {
+//         scope.GetBarCode(barcode);
+//     });
+//}
+
+controllerModule.controller('HomeCtrl', function ($scope,
+                                                  $state,
+                                                  $stateParams,
+                                                  $q,
+                                                  $ionicLoading,
+                                                  $ionicScrollDelegate,
+                                                  $timeout, $sce,
+                                                  MenuApiService,
+                                                  FavoriteService,
+                                                  PopupService, UserInforService) {
+
+    $scope.base.categoryId = 'home';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = $scope.setting.homeMenuId;
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.menu = {};
+    $scope.menu.sections = [];
+
+    $scope.checked = false;
+    $scope.favoriteHtml = '';
+    $scope.menuHtml = [];
+
+    $scope.Init = function () {
+        $scope.debug.Log('base.menuId=' + $scope.base.menuId);
+
+        //back to home page,init barcode
+        $scope.base.barCode007 = null;
+        $scope.base.barCode014 = null;
+        $scope.base.barCode015 = null;
+        $scope.base.barCode018 = null;
+        $scope.base.barCode019 = null;
+        $scope.base.barCode020 = null;
+        $scope.base.barCodeList = [];
+
+        $scope.debug.Log('Init Barcode Success!');
+
+        $scope.InitData();
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.GetUserMenu = function () {
+        var defer = $q.defer();
+
+        MenuApiService.get({
+            appId: $scope.system.appId,
+            loginId: $scope.user.loginId,
+            currentMenuVersion: $scope.system.currentMenuVersion,
+            locale: $scope.system.locale
+        }, function (data) {
+            $scope.debug.Log('GetUserMenu.get().success');
+            angular.copy(data.data.sections, $scope.menu.sections);
+            defer.resolve();
+        }, function (error) {            
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.GetUserFavorite = function () {
+        var defer = $q.defer();
+
+        FavoriteService.query({
+            loginId: $scope.user.loginId            
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            angular.copy(data, $scope.favorite.items);
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.GetUserInfor = function () {
+        var defer = $q.defer();
+
+        UserInforService.query({
+            loginId: $scope.user.loginId,
+            x: "test"
+        }, function (data) {
+            $scope.user.plantCode = (data.werks == "1" ? "8206" : data.werks); //test
+            $scope.user.empNo = data.empno;
+
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        $scope.debug.Log( error);
+    }
+
+    $scope.InitData = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        $q.all({
+                A: $scope.GetUserMenu().catch($scope.CatchException),
+                B: $scope.GetUserFavorite().catch($scope.CatchException),
+                C: $scope.GetUserInfor().catch($scope.CatchException)
+            })
+            .then(
+                function (results) {
+                    $ionicLoading.hide();
+
+                    $scope.debug.Log('InitData()');
+                    $scope.SetFavoriteMenuName();
+
+                    $scope.favoriteHtml = $sce.trustAsHtml($scope.GetFavoriteHtml());
+                    
+                    for (var i = 0; i < $scope.menu.sections.length; i++) {
+                        $scope.menuHtml.push($sce.trustAsHtml($scope.GetSectionHtml($scope.menu.sections[i])));
+                    }
+                }
+            );
+    }
+
+    $scope.SetFavoriteMenuName = function () {
+        var temp = $scope.favorite.items;
+        for (var i = 0; i < temp.length; i++) {
+            temp[i].name = $scope.GetMenuName(temp[i].url);
+            temp[i].icon = $scope.GetMenuIcon(temp[i].url);
+        }
+
+        //var timer = $timeout(SetScroll, 10000);
+        //timer.then(function () {
+        //    console.log('timer success');
+        //    $timeout.cancel(timer);
+        //}, 
+        //function () {
+        //    console.log('timer fail');
+        //    $timeout.cancel(timer);
+        //})
+    }
+
+    $scope.GoView = function (favoriteOrder) {        
+        console.log('GoView()');
+        var selectedFavorite = null;
+        for (var i = 0; i < $scope.favorite.items.length; i++) {
+            if ($scope.favorite.items[i].order == favoriteOrder) {
+                
+                selectedFavorite = $scope.favorite.items[i];
+                break;
+            }
+        }
+
+        var state = selectedFavorite.url;
+        
+        if ($scope.HasMenu(state) == true) {
+            //$scope.debug.Log('home:$scope.favorite.programCode=' + $scope.favorite.programCode);
+            $scope.base.GoView(state, selectedFavorite);
+        }
+        else {
+            // have no authenticate
+            PopupService.OpenPopupAlert('Warning', state + 'Have not permission', $scope.CallbackTest);
+        }
+    }
+
+
+    $scope.RemoveFavorite = function (favoriteOrder) {
+        console.log('RemoveFavorite() param is ' + favoriteOrder);
+
+        var selectedFavorite = null;
+        for (var i = 0; i < $scope.favorite.items.length; i++) {
+            if ($scope.favorite.items[i].order == favoriteOrder) {
+
+                selectedFavorite = $scope.favorite.items[i];
+                break;
+            }
+        }
+        $scope.currentSelectedFavorite = selectedFavorite;
+        if (selectedFavorite == null)
+            return;
+
+        PopupService.OpenPopupConfirm('즐겨찾기 삭제', '', $scope.DeleteFavorite, null);
+    }
+
+    $scope.DeleteFavorite = function () {
+        //
+        $scope.deleteFavorite = new FavoriteService();
+        
+        $scope.deleteFavorite.ProgramCode = $scope.currentSelectedFavorite.programCode;
+
+        $scope.deleteFavorite.$put({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.currentSelectedFavorite = null;
+            $state.go($state.current, {}, { reload: true }); // refresh in same view
+
+        }, function (error) {
+            $scope.currentSelectedFavorite = null;
+        });
+    }
+
+    $scope.HasMenu = function (state) {
+
+        var hasMenu = false;
+
+        for (var i = 0; i < $scope.menu.sections.length; i++) {
+            for (var j = 0; j < $scope.menu.sections[i].menus.length; j++) {
+                if ($scope.menu.sections[i].menus[j].url == state) {
+                    hasMenu = true;
+                    break;
+                }
+            }
+        }
+
+        return hasMenu;
+    }
+
+    $scope.GetMenuName = function (state) {
+
+        var name = '';
+
+        for (var i = 0; i < $scope.menu.sections.length; i++) {
+            for (var j = 0; j < $scope.menu.sections[i].menus.length; j++) {
+                if ($scope.menu.sections[i].menus[j].url == state) {
+                    name = $scope.menu.sections[i].menus[j].name;
+                    break;
+                }
+            }
+        }
+
+        return name;
+    }
+
+    $scope.GetMenuIcon = function (state) {
+
+        var name = '';
+
+        for (var i = 0; i < $scope.menu.sections.length; i++) {
+            for (var j = 0; j < $scope.menu.sections[i].menus.length; j++) {
+                if ($scope.menu.sections[i].menus[j].url == state) {
+                    name = $scope.menu.sections[i].menus[j].icon;
+                    break;
+                }
+            }
+        }
+
+        return name;
+    }
+    
+    // [TEMP]
+    $scope.CallbackTest = function () {
+        $scope.debug.Log('$scope.CallbackTest()');
+    }
+
+    // [TEMP]
+    $scope.CallbackConfirm = function () {
+        $scope.debug.Log('$scope.CallbackConfirm()');
+    }
+
+    // [TEMP]
+    $scope.CallbackCancel = function () {
+        $scope.debug.Log('$scope.CallbackCancel()');
+    }
+
+    // [TEMP]
+    $scope.TestModal = function (type) {
+        var url = 'templates/common/test.html';
+        if (type == 'B')
+            url = 'templates/common/testB.html';
+
+        PopupService
+                .InitPopup(url, $scope, $scope.CallbackConfirm, $scope.CallbackCancel)
+                .then(function (modal) {
+                    modal.show();
+                });
+
+    }
+
+    // [TEMP]
+    $scope.GoViewTEST = function (state, favoriteId) {
+        
+        //if ($scope.HasMenu(state) == true) {
+            //$scope.favorite.id = favoriteId;
+            ////$scope.favorite.programCode = 'NRSM003';
+            ////$scope.favorite.order = 1;
+            $state.go('app.common.floorplanRecordSearch');
+        //}
+        //else {
+            // have no authenticate
+            PopupService.OpenPopupAlert('Warning', state + 'Have not permission', $scope.CallbackTest);
+            ////PopupService.OpenPopupConfirm('Warning', state + 'Have not permission.', $scope.CallbackConfirm, $scope.CallbackCancel);
+            var url = 'templates/common/test.html';
+            ////PopupService.OpenPopup(url, $scope);
+            //PopupService
+            //    .InitPopup(url, $scope)
+            //    .then(function (modal) {
+            //        modal.show();
+            //    });
+        //}
+    }
+
+    $scope.GoTest = function (state) {
+
+        $state.go(state);
+
+    }
+
+    $scope.GetFavoriteHtml = function () {
+        
+        if ($scope.checked == true) {            
+            return;
+        }
+        $scope.checked = true;
+        var items = $scope.favorite.items;
+        var temp = '';
+
+        for (var i = 0; i < items.length; i++) {
+            if (i % 3 == 0) {
+                temp += '<div class="row">';
+            }
+            
+            temp += '    <div class="col col-33 text-center item-image">';
+            temp += '        <a><img src="./img/nrsm/' + items[i].icon + '.png" style="width: 100%" on-hold="RemoveFavorite(\'' + items[i].order + '\')" ng-click="GoView(\'' + items[i].order + '\')" /><h2>' + items[i].name + '</h2></a>';
+            temp += '    </div>';
+
+            if (i == items.length - 1) {
+                temp += '</div>';
+            }
+            else if ((i + 1) % 3 == 0 && i > 0) {
+                temp += '</div>';
+            }
+        }
+        console.log('GetFavoriteHtml()');
+
+        return temp;
+    }
+
+    var SetScroll = function () {
+
+        //var delegate = $ionicScrollDelegate.$getByHandle('homeScroll');
+        //delegate.resize();        
+        
+        //var handle = _.find($ionicScrollDelegate._instances, function (s) {
+        //    return s.$$delegateHandle == 'homeScroll';
+        //});
+        //handle.resize();
+      
+        //$ionicScrollDelegate.$getByHandle('homeScroll')._instances[0].resize();
+        //$ionicScrollDelegate._instances[0].resize();
+    }
+
+    // generate html
+    $scope.GetSectionHtml = function (section) {
+        var temp = '';
+        for (var i = 0; i < section.menus.length; i++) {
+            if ( i % 3 == 0 ) {
+                temp += '<div class="row">';
+            }
+            
+            temp += '    <div class="col col-33 text-center item-image">';
+            temp += '        <a><img src="./img/nrsm/' + section.menus[i].icon + '.png" style="width: 100%" ng-click="base.GoView(\'' + section.menus[i].url + '\')" /><h2>' + section.menus[i].name + '</h2></a>';
+            temp += '    </div>';
+            
+            if(i == section.menus.length - 1 ) {
+                temp += '</div>';
+            }
+            else if ((i + 1) % 3 == 0 && i > 0) {
+                temp += '</div>';
+            }
+        }
+        
+        return temp;
+    }
+
+
+
+
+    $scope.Init();
+
+});

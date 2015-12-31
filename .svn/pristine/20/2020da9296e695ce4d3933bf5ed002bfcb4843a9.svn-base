@@ -1,0 +1,73 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer pogScroll">
+        <div class="CEOreportPlant">
+            <ion-tabs class="tabs-striped tabs-top tabs-color-positive ">
+                <ion-tab title="당일 실적">
+                    <ion-view  >
+                        <ion-content >
+                            <ion-list>
+                                <ion-item class="item-date">
+                                        <div class="item-left">2015년 6월 7일 (월요일)</div>
+                                        <div class="item-right ">단위 : 백만원</div>
+                                </ion-item>
+                                <ion-item class="eland-table-header margin-top-date report-table-item">
+                                    <div class="row">
+                                        <div class="col col-16">구분</div>
+                                        <div class="col col-16">목표</div>
+                                        <div class="col col-16">실적</div>
+                                        <div class="col col-16">달성율</div>
+                                        <div class="col col-16">작년실적</div>
+                                        <div class="col col-16">성장률</div>
+                                    </div>
+                                </ion-item>
+                                <ion-item class="eland-table-body  report-table-item" ng-repeat="ritem in reportList" >
+                                    <div class="row" ng-style="ritem.g=='group'&&{'background':'#ecf3fe'}">
+                                        <div class="col col-16">{{ritem.a}}</div>
+                                        <div class="col col-16">{{ritem.b}}</div>
+                                        <div class="col col-16">{{ritem.c}}</div>
+                                        <div class="col col-16">{{ritem.d}}</div>
+                                        <div class="col col-16">{{ritem.e}}</div>
+                                        <div class="col col-16">{{ritem.f}}</div>
+                                    </div>
+                                </ion-item>
+                            </ion-list>
+                        </ion-content>
+                    </ion-view>
+                </ion-tab>
+                <ion-tab title="당일 실적">
+                    <ion-view  >
+                        <ion-content >
+                            <ion-list>
+                                <ion-item class="item-date">
+                                    <div class="item-left">2015년 6월 7일 (월요일)</div>
+                                    <div class="item-right ">단위 : 백만원</div>
+                                </ion-item>
+                                <ion-item class="eland-table-header margin-top-date report-table-item">
+                                    <div class="row">
+                                        <div class="col col-16">구분</div>
+                                        <div class="col col-16">목표</div>
+                                        <div class="col col-16">실적</div>
+                                        <div class="col col-16">달성율</div>
+                                        <div class="col col-16">작년실적</div>
+                                        <div class="col col-16">성장률</div>
+                                    </div>
+                                </ion-item>
+                                <ion-item class="eland-table-body  report-table-item" ng-repeat="ritem in reportList" >
+                                    <div class="row" ng-style="ritem.g=='group'&&{'background':'#ecf3fe'}">
+                                        <div class="col col-16">{{ritem.a}}</div>
+                                        <div class="col col-16">{{ritem.b}}</div>
+                                        <div class="col col-16">{{ritem.c}}</div>
+                                        <div class="col col-16">{{ritem.d}}</div>
+                                        <div class="col col-16">{{ritem.e}}</div>
+                                        <div class="col col-16">{{ritem.f}}</div>
+                                    </div>
+                                </ion-item>
+                            </ion-list>
+                        </ion-content>
+                    </ion-view>
+                </ion-tab>
+            </ion-tabs>
+        </div>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,79 @@
+package com.eland.mdm;
+
+import java.util.HashMap;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.eland.nrsm.MainActivity;
+import com.jiransoft.mdm.library.MDMLib;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
+
+public class MDMPlugin extends CordovaPlugin {
+	private String authServer = "mdmssl.eland.co.kr:44400";
+	private String companyCode = "11121400";
+	@Override
+	public boolean execute(String action, JSONArray args,
+			final CallbackContext callbackContext) throws JSONException {
+		
+		if("check_app".equals(action)) {
+			final JSONObject status = new JSONObject();
+			this.cordova.getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					String deviceId = MainActivity.deviceId;
+					Log.i("ElandMFW", "deviceId : " + deviceId);
+					HashMap<String, String> appAuthentication = MDMLib.appAuthentication(MainActivity.mContext, authServer, companyCode, "1111", deviceId);
+					
+					Log.i("ElandMFW", "PackageName : " + MainActivity.mContext.getPackageName());
+					
+					PackageManager manager = MainActivity.mContext.getPackageManager();
+					PackageInfo info = null;
+					try {
+						info = manager.getPackageInfo(MainActivity.mContext.getPackageName(), 0);
+					} catch (NameNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}			
+					String version = info.versionName;
+					int code = info.versionCode;
+					Log.i("ElandMFW", "Version : " + version);
+					Log.i("ElandMFW", "Code : " + code);
+					
+					String codeKey = appAuthentication.get(MDMLib.CODE_KEY);
+					String message = appAuthentication.get(MDMLib.MESSAGE_KEY);
+					
+					Log.i("ElandMFW", "packageName : " + MainActivity.mContext.getPackageName());
+					Log.i("ElandMFW", "codeKey : " + codeKey);
+					Log.i("ElandMFW", "message : " + message);
+					
+					try{
+						status.put("packageName", MainActivity.mContext.getPackageName());
+						status.put("codeKey", codeKey);
+						status.put("message", message);
+					}catch (Exception e) {
+						
+					}
+					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, status);
+		            pluginResult.setKeepCallback(true);
+		            callbackContext.sendPluginResult(pluginResult);
+					
+				}
+			});
+			return true;
+		}
+		
+		return super.execute(action, args, callbackContext);
+	}
+	
+	
+
+}

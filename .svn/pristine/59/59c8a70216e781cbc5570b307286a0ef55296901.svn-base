@@ -1,0 +1,51 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer">
+        <div id="container" class="yellow">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">구매오더 / 팔레트코드</p>
+                        <p class="right">4526501291</p>
+                    </li>
+                    <li>
+                        <p class="left">점포</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                    <li>
+                        <p class="left">전기 일자</p>
+                        <p class="right">2015년 3월 3일</p>
+                    </li>
+                    <li>
+                        <p class="left">구매오더</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                    <li>
+                        <p class="left">구매처</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                    <li>
+                        <p class="left">구매오더 / 팔레트코드</p>
+                        <p class="right">4526501291</p>
+                    </li>
+                    <li>
+                        <p class="left">공급가액</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                </ul>
+            </form>
+
+
+            <div class="row"  style="padding:0px;">
+                <p class="btn_border btn_download  mt_12"  style="width:49%; margin-right:2%;border:2px solid #ccc;">
+                    <a href="#none" style="color:#ccc;"><img src="../../img/nrsm/icon_search_gray.png" alt="저장" />&nbsp;&nbsp;저장</a>
+                </p>
+                <p class="btn_border btn_download btn_color mt_12" style="width:49%">
+                    <a href="#none"><img src="../../img/nrsm/icon_download_yellow.png" alt="저장" />&nbsp;&nbsp;저장</a>
+                </p>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  For more information on how to configure your ASP.NET application, please visit
+  http://go.microsoft.com/fwlink/?LinkId=301880
+  -->
+<configuration>
+  <configSections>
+    <sectionGroup name="spring">
+      <section name="context" type="Spring.Context.Support.MvcContextHandler, Spring.Web.Mvc4" />
+    </sectionGroup>
+    <sectionGroup name="common">
+      <section name="logging" type="Common.Logging.ConfigurationSectionHandler, Common.Logging" />
+    </sectionGroup>
+    
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+  </configSections>
+
+  <!--<common>
+    <logging>
+      <factoryAdapter type="Common.Logging.Log4Net.Log4NetLoggerFactoryAdapter, Common.Logging.Log4net">
+        <arg key="configType" value="FILE-WATCH" />
+        <arg key="configFile" value="~/Config/Admin/Log4Net.xml" />
+      </factoryAdapter>
+    </logging>
+  </common>-->
+  
+  <spring>
+    <context>
+      <resource uri="assembly://Formular.BaaS.Web.Common/Formular.BaaS.Web.Common.Config/Membership.xml" />
+      <resource uri="file://~/Areas/BaaSMng/Config/BaaSSettings.xml" />
+      <resource uri="file://~/Areas/BaaSMng/Config/Transaction.xml" />
+
+      <resource uri="file://~/Config/Admin/NHibernateSettings.xml" />
+      <resource uri="file://~/Config/Admin/Abstract.xml" />
+      <resource uri="file://~/Config/Admin/Aspect.xml" />
+      <resource uri="file://~/Config/Admin/Transaction.xml" />
+      
+      <resource uri="file://~/Config/Service.xml" />
+      <resource uri="file://~/Config/WebService.xml" />
+      <resource uri="file://~/Config/Dao.xml" />
+    </context>
+  </spring>
+
+  <connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-Eland.NRSM.Ap-20150701102830.mdf;Initial Catalog=aspnet-Eland.NRSM.Ap-20150701102830;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  <appSettings>
+    <add key="webpages:Version" value="3.0.0.0" />
+    <add key="webpages:Enabled" value="false" />
+    <add key="ClientValidationEnabled" value="true" />
+    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+
+    <add key="BaaSId" value="admin" />
+    <add key="BaaSpw" value="1234" />
+
+    <!-- SAP WEB SERVICE ACCOUNT START -->
+    <add key="SAP_WEBSERVICE_USERNAME" value="ceuser" />
+    <add key="SAP_WEBSERVICE_PASSWORD" value="ceuser1234" />
+    <!-- SAP WEB SERVICE ACCOUNT END   -->
+    
+    <add key="Spring.Data.NHibernate.Support.OpenSessionInViewModule.SessionFactoryObjectName" value="SessionFactory_BaaS" />
+
+  </appSettings>
+  <system.web>
+    <authentication mode="None" />
+    <compilation debug="true" targetFramework="4.5.1" />
+    <httpRuntime targetFramework="4.5.1" />
+    <httpModules>
+      <add name="Spring" type="Spring.Context.Support.WebSupportModule, Spring.Web" />
+    </httpModules>
+    <httpHandlers>
+      <add verb="*" path="*.asmx" type="Spring.Web.Services.WebServiceHandlerFactory, Spring.Web" />
+      <add verb="*" path="ContextMonitor.ashx" type="Spring.Web.Support.ContextMonitor, Spring.Web" />
+    </httpHandlers>
+  </system.web>
+  <system.webServer>
+    <validation validateIntegratedModeConfiguration="false" />
+    <modules runAllManagedModulesForAllRequests="true">
+      <remove name="FormsAuthentication" />
+      <remove name="Spring" />
+      <add name="Spring" type="Spring.Context.Support.WebSupportModule, Spring.Web" />
+      <add name="OpenSessionInView" type="Spring.Data.NHibernate.Support.OpenSessionInViewModule, Spring.Data.NHibernate32" />
+    </modules>
+    <handlers>
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" />
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" />
+      <remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+      <remove name="OPTIONSVerbHandler" />
+      <remove name="TRACEVerbHandler" />
+      <add name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll" preCondition="classicMode,runtimeVersionv4.0,bitness32" responseBufferLimit="0" />
+      <add name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_isapi.dll" preCondition="classicMode,runtimeVersionv4.0,bitness64" responseBufferLimit="0" />
+      <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
+      <add name="SpringWebServiceSupport" verb="*" path="*.asmx" type="Spring.Web.Services.WebServiceHandlerFactory, Spring.Web" />  
+  </handlers>
+  </system.webServer>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin.Security.OAuth" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin.Security.Cookies" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" culture="neutral" publicKeyToken="30ad4fe6b2a6aeed" />
+        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Helpers" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.2.0" newVersion="5.2.2.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Optimization" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-1.1.0.0" newVersion="1.1.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-1.5.2.14234" newVersion="1.5.2.14234" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="log4net" publicKeyToken="669e0ddf0bb1aa2a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-1.2.11.0" newVersion="1.2.11.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Http" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Http.WebHost" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Common.Logging" publicKeyToken="af08829b84f0328e" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-1.2.0.0" newVersion="1.2.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Net.Http.Formatting" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
+      <parameters>
+        <parameter value="mssqllocaldb" />
+      </parameters>
+    </defaultConnectionFactory>
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+
+  <system.serviceModel>
+
+    <client>
+          <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymaterialpriceinfo/100/zquerymaterialpriceinfo/zquerymaterialpriceinfo_binding"
+              binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+              contract="ZQUERYMATERIALPRICEINFO.QueryMaterialPriceInfo"
+              name="ZQUERYMATERIALPRICEINFO_BINDING" />
+          <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryuserauthin/100/zqueryuserauthin/zqueryuserauthin_binding"
+              binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+              contract="ZQUERYUSERAUTHIN.QueryUserAuthIn" name="ZQUERYUSERAUTHIN_BINDING" />
+
+          <!--实际库存查询及调整: NRSM015-->
+          <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagerealinventoryin/100/zmanagerealinventoryin/zmanagerealinventoryin_binding"
+              binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+              contract="MANAGEREALINVENTORYIN.ManageRealInventoryIn" name="ZMANAGEREALINVENTORYIN_BINDING" />
+          <!--手动下单: NRSM014-->
+          <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagemanualorderin/100/zmanagemanualorderin/zmanagemanualorderin_binding"
+              binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+              contract="MANAGEMANUALORDERIN.ManageManualOrderIn" name="ZMANAGEMANUALORDERIN_BINDING" />
+          <!--日截预测业绩查询: NRSM009-->
+          <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerydailysalepredictionin/100/zquerydailysalepredictionin/zquerydailysalepredictionin_binding"
+              binding="customBinding" bindingConfiguration="CustomHttpTransportBinding"
+              contract="QUERYDAILYSALEPREDICTIONIN.QueryDailySalePredictionIn"
+              name="ZQUERYDAILYSALEPREDICTIONIN_BINDING" />
+      </client>
+    <behaviors>
+      <endpointBehaviors>
+        <behavior name="defaultbehavior">
+          <webHttp />
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="credentialBinding" maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+          <security mode="TransportCredentialOnly">
+            <transport clientCredentialType="None" proxyCredentialType="None" />
+            <message clientCredentialType="UserName" algorithmSuite="Default" />
+          </security>
+        </binding>
+      </basicHttpBinding>
+      <customBinding>
+        <binding name="CustomHttpTransportBinding" closeTimeout="00:10:00"
+          openTimeout="00:10:00" receiveTimeout="00:10:00" sendTimeout="00:10:00">
+          <textMessageEncoding maxReadPoolSize="64" maxWritePoolSize="16"
+            messageVersion="Soap11" writeEncoding="utf-8">
+            <readerQuotas maxDepth="10000000" maxStringContentLength="2147483647"
+              maxArrayLength="67108864" maxBytesPerRead="2147483647" maxNameTableCharCount="100000" />
+          </textMessageEncoding>
+          <httpTransport maxBufferPoolSize="2147483647" maxReceivedMessageSize="2147483647"
+            authenticationScheme="Basic" bypassProxyOnLocal="false" hostNameComparisonMode="StrongWildcard"
+            keepAliveEnabled="false" maxBufferSize="2147483647" proxyAuthenticationScheme="Basic"
+            realm="XISOAPApps" useDefaultWebProxy="true" />
+        </binding>
+
+        <binding name="ZQUERYMATERIALPRICEINFO_BINDING">
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        <binding name="ZQUERYUSERAUTHIN_BINDING">
+          <!--    WsdlImporter encountered unrecognized policy assertions in ServiceDescription 'http://eland.co.kr/KRERP/MOB':    -->
+          <!--    <wsdl:binding name='ZQUERYUSERAUTHIN_BINDING'>    -->
+          <!--        <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing">..</wsaw:UsingAddressing>    -->
+          <!--        <saptrnbnd:OptimizedXMLTransfer xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/">..</saptrnbnd:OptimizedXMLTransfer>    -->
+          <!--        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">..</sapattahnd:Enabled>    -->
+          <textMessageEncoding messageVersion="Soap11" />
+          <httpsTransport authenticationScheme="Basic" />
+        </binding>
+        
+      </customBinding>
+      <webHttpBinding>
+        <binding name="wsHttpBinding">
+          <security mode="Transport">
+            <transport clientCredentialType="None" /><!--Certificate-->
+          </security>
+        </binding>
+        <binding name="webBinding">
+          <security mode="TransportCredentialOnly">
+            <transport clientCredentialType="Ntlm" realm="" />
+          </security>
+        </binding>
+      </webHttpBinding>
+    </bindings>
+    
+    
+  </system.serviceModel>
+</configuration>

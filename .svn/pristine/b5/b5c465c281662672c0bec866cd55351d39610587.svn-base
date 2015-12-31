@@ -1,0 +1,30 @@
+<ion-view view-title="{{word.productDetail}}">
+    <ion-content class=" scroll-content has-header" style="width: 95%; margin: 0 auto;">
+        <ion-list calss=" ">
+            <ion-item class="  item-borderless">
+                <a style="float:left;">상품 코드</a>
+                <a style="float:right;">8802989301</a>
+            </ion-item>
+            <ion-item  >
+                <a style="float:left">상품 이름</a>
+                <a style="float:right">원물 산들애쇠고기8g*10입</a>
+            </ion-item>
+            <ion-item >
+                <a style="float:left">공급 업체</a>
+                <a style="float:right">109329 / 씨제이제일제당(주)</a>
+            </ion-item>
+            <ion-item >
+                <a style="float:left">규격</a>
+                <a style="float:right">0.000</a>
+            </ion-item>
+            <ion-item >
+                <a style="float:left">부가세</a>
+                <a style="float:right">과세</a>
+            </ion-item>
+            <ion-item >
+                <a style="float:left">이동 평균가</a>
+                <a style="float:right">6,346 원</a>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

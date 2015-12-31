@@ -1,0 +1,11 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('StoreDetailService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/storedetail?werks=:werks&floor=:floor&layoutCode=:layoutCode', {
+        werks: '@werks',
+        floor: '@floor',
+        layoutCode: '@layoutCode'
+    });
+})

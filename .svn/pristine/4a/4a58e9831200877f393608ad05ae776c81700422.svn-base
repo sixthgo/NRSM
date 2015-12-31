@@ -1,0 +1,24 @@
+﻿cortrollerModule.controller('ReportCuCtrl', function ($scope, $stateParams) {
+
+    $scope.base.viewId = 'NRSM002';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;
+
+    $scope.Init = function () {
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+        }
+
+        // [scheduled] move to root controller
+        $scope.SetLocalWord();
+        $scope.base.snapshot = '';
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Report CU';
+    }
+
+    $scope.Init();
+});

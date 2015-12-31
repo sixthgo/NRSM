@@ -1,0 +1,66 @@
+﻿<ion-modal-view class="modal">
+    <ion-header-bar class="bar bar-header bar-eland-balanced">
+        <h1 class="title">{{data.werks.sectionName}} / {{data.floor.name}}</h1>
+        <button class="button button-clear button-primary" ng-click="closeModal()">닫기</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="swiper-container swiper-content" ng-attr-style="{{GetStyleWidthHeight(true)}}">
+            <div class="swiper-wrapper" ng-attr-style="{{GetStyleTotalWidth()}}" >
+                <div ng-repeat="historyUrl in historyUrls">
+                    <div class="swiper-slide" ng-attr-style="{{GetStyleWidthHeight()}}">
+                        <div class="center" ng-attr-style="{{GetStyleWidthHeight(true)}}">
+                            <div class="inner" ng-attr-style="{{GetStyleWidthHeight(true)}}">
+                                <iframe src="{{historyUrl.changeData}}" frameborder="0" width="100%" ng-attr-style="{{GetFrameHeight()}}"></iframe>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 20px; position: absolute; left: 0; bottom: 0; width: 100%;">
+                <p align="right" style="color:red;font-weight:bold;">※ 붉은색 매장은 매장코드나 평수가 변경된 매장입니다. </p>
+            </div>
+        </div>
+        <div class="swiper-container swiper-nav">
+            <div class="swiper-wrapper" ng-attr-style="{{GetButtonStyle()}}">
+                <div class="swiper-slide swiper-slide-visible swiper-slide-active" ng-class="{'active-nav': selected == datess, '': selected != datess}" ng-repeat="datess in dates">
+                    <span class="angle"></span>
+                    <button class="btn btn-primary" ng-click="selectMove(datess)">{{datess}}</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>
+<!--<ion-modal-view class="modal">
+    <ion-header-bar class="bar bar-header bar-eland-balanced">
+        <h1 class="title">{{data.werks.sectionName}} / {{data.floor.name}}</h1>
+        <button class="button button-clear button-primary" ng-click="closeModal()">닫기</button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="swiper-container swiper-content" ng-style="{'height':pHeight}">
+            <div class="swiper-wrapper" ng-style="{'width':totalWidth, 'height':pHeight, 'transition':trasitionSpeed,'-webkit-transition':trasitionSpeed, '-webkit-transform':sa}">
+                <div ng-repeat="historyUrl in historyUrls">
+                    <div class="swiper-slide" ng-style="{'width':pWidth, 'height':pHeight}">
+                        <div class="center" ng-style="{'height':pHeight}">
+                            <div class="inner" ng-style="{'height':pHeight}">
+                                <iframe src="{{historyUrl.changeData}}" frameborder="0" width="100%" ng-style="{'height':iFrameHeight}"></iframe>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 20px; position: absolute; left: 0; bottom: 0; width: 100%;">
+                <p align="right" style="color:red;font-weight:bold;">※ 붉은색 매장은 매장코드나 평수가 변경된 매장입니다. </p>
+            </div>
+        </div>
+        <div class="swiper-container swiper-nav">
+            <div class="swiper-wrapper" ng-style="{'padding-left':'0px','padding-right':'0px', 'width':navWidth, 'height':'45px', 'transition':trasitionSpeed,'-webkit-transition':trasitionSpeed, '-webkit-transform':'translate3d(0px, 0px, 0px)'}">
+                <div class="swiper-slide swiper-slide-visible swiper-slide-active" ng-class="{'active-nav': selected == datess, '': selected != datess}" ng-repeat="datess in dates">
+                    <span class="angle"></span>
+                    <button class="btn btn-primary" ng-click="selectMove(datess)">{{datess}}</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>-->

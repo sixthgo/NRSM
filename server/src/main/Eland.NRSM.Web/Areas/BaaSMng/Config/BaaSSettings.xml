@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" xmlns:db="http://www.springframework.net/database" xmlns:tx="http://www.springframework.net/tx">
+
+  <object id="AuthProviderMap" type="System.Collections.Generic.Dictionary&lt;string, Formular.BaaS.Membership.Service.IAuthProvider>">
+    <constructor-arg>
+      <dictionary key-type="string" value-type="Formular.BaaS.Membership.Service.IAuthProvider, Formular.BaaS.Core">
+        <entry key="IAM" value-ref="IAMAuthProvider"/>
+      </dictionary>
+    </constructor-arg>    
+  </object>
+
+  <object id="IAMAuthProvider" type="Formular.BaaS.IAM.Service.AuthProvider,Formular.BaaS.IAM"/>
+  
+  <!-- BaaS DB Provider -->
+  <!--<db:provider id="DbProvider_BaaS" provider="SqlServer-2.0" connectionString="Integrated Security=false; Data Source=KRSAGBFWDB01.home.e-kmall.com;Database=BaaSIO;User ID=gbfw;Password=1234;" />-->
+  <db:provider id="DbProvider_BaaS" provider="SqlServer-2.0" connectionString="Integrated Security=false; Data Source=10.123.180.231;Database=BaaS_angular;User ID=gbfw;Password=1234;" />
+  <!--<db:provider id="DbProvider_BaaS" provider="SqlServer-2.0" connectionString="Integrated Security=false; Data Source=KRVAJSLKDEV01.home.e-kmall.com;Database=JSLK;User ID=baas;Password=baas1;" />-->
+  <!--<db:provider id="DbProvider_BaaS" provider="SqlServer-2.0" connectionString="Integrated Security=false; Data Source=krvajslkqa01.home.e-kmall.com;Database=JSLK;User ID=baas;Password=baas1;" />-->
+  <!--<db:provider id="DbProvider_BaaS" provider="SqlServer-2.0" connectionString="Data Source=pcg102dv87\sqlexpress;Initial Catalog=BaaS_1.0.0.0;Integrated Security=True;"/>-->
+  
+
+  <!-- BaaS Session Factory -->
+  <object id="SessionFactory_BaaS" type="Spring.Data.NHibernate.LocalSessionFactoryObject, Spring.Data.NHibernate32">
+    <property name="DbProvider" ref="DbProvider_BaaS" />
+    <property name="MappingAssemblies">
+      <list>
+        <value>Formular.BaaS.Membership</value>
+        <!--<value>Formular.BaaS.Mobile</value>
+        <value>Formular.BaaS.IO</value>-->
+      </list>
+    </property>
+    <property name="HibernateProperties">
+      <dictionary>
+        <entry key="connection.provider" value="NHibernate.Connection.DriverConnectionProvider" />
+        <entry key="dialect" value="NHibernate.Dialect.MsSql2005Dialect" />
+        <entry key="connection.driver_class" value="NHibernate.Driver.SqlClientDriver" />
+        <entry key="show_sql" value="true" />
+        <entry key="hbm2ddl.auto" value="update" />
+        <!-- create , create-drop , update , validate -->
+        <entry key="connection.isolation" value="ReadCommitted" />
+      </dictionary>
+    </property>
+  </object>
+
+  <!-- BaaS HibernateTemplate -->
+  <object id="HibernateTemplate_BaaS" type="Spring.Data.NHibernate.Generic.HibernateTemplate, Spring.Data.NHibernate32">
+    <property name="SessionFactory" ref="SessionFactory_BaaS" />
+    <property name="TemplateFlushMode" value="Auto" />
+    <property name="CacheQueries" value="true" />
+  </object>
+</objects>

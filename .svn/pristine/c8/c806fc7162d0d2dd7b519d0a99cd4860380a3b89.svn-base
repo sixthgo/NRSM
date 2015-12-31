@@ -1,0 +1,26 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header bar-dark">
+            <h1 class="title">지점 선택</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="eland-radio-list list">
+            <div class="item eland-item-fixed">
+                현재 선택한 지점
+                <a class="eland-badge">{{data.choose}}</a>
+            </div>
+
+            <ion-radio ng-repeat="item in clientSideList"
+                       ng-value="item.value"
+                       ng-model="data.choose"
+                       ng-change="changeCheckStatu()">
+                {{ item.text }}
+            </ion-radio>
+        </div>
+    </ion-content>
+    <ion-footer-bar >
+        <div class="button-bar">
+            <a class="button button-clear"  ng-click="closeModal('cancel')"><i class="icon ion-ios-close-empty"></i>취소</a></a>
+            <a class="button button-clear" style="color:#666666;"  ng-click="closeModal('close')"><i class="icon ion-ios-checkmark-empty" ></i>확인</a></a>
+        </div>
+    </ion-footer-bar>
+</ion-modal-view>

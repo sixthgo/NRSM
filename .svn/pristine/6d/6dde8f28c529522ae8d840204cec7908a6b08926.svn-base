@@ -1,0 +1,150 @@
+﻿@model Formular.BaaS.Domain.Operation
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript">
+        var isProgramFirst = true;
+        var modifyProgramList = [];
+        $(function () {
+            $('#AddProgramModal').on('show', function () {
+                if (isProgramFirst) isProgramFirst = false;
+                else return;
+                $('#AddProgramTable').dataTable({
+                    "bProcessing": true,
+                    "sAjaxSource": '@Url.Action("ProgramListByOperation", "BaaSProgram", new { id=Model.Id })',
+                    "fnDrawCallback": function () {
+                        $("#AddProgramTable>tbody").find(":checkbox").on("change", function () {
+
+                            var isFind = false;
+                            var FindItem;
+                            for (var i = 0; i < modifyProgramList.length; i++) {
+                                if (modifyProgramList[i].id == $(this).val()) {
+                                    isFind = true;
+                                    FindItem = item;
+                                    break;
+                                }
+                            }
+                            if (isFind == false) modifyProgramList.push({ id: $(this).val(), Status: $(this).is(":checked") ? 1 : 2 })
+                            else FindItem.Status = $(this).is(":checked") ? 1 : 2;
+
+                        });
+                    },
+                    "aoColumns": [
+                        { "mData": "check" },
+                        { "mData": "Code" },
+                        { "mData": "Name" },
+                        { "mData": "Desc" },
+                    ]
+                });
+
+                $("#btnAddProgram").on("click", function () {
+                    var url = "@Url.Action("Program" , "BaaSOperation" , new {id = Model.Id})";
+                    $.post(url, { data: JSON.stringify(modifyProgramList) }, function () {
+                        $('#AddUserModal').modal('hide');
+                        window.location.reload(true);
+                    }, "json");
+                });
+            })
+            $('#AddProgramModal').on('shown', function () {
+
+            })
+            $('#AddProgramModal').on('hide', function () {
+
+            })
+            $('#AddProgramModal').on('hidden', function () {
+
+            })
+            @if(!String.IsNullOrEmpty(Request["view"]) ) {
+                <text>
+            $(".nav-tabs a[href=#@Request["view"]]").tab('show');
+                </text>
+            }
+        });
+    </script>
+}
+
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Operation</p>
+              <small>Operation Details</small>
+            </blockquote>
+            @Html.Partial("../BaaSApplication/_LeftInfo" , Model.AppDivision )
+            <h4 class="text-info">Operation</h4>
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Name)</dd>
+                <dt>@Html.DisplayNameFor(model => model.ControlName)</dt>
+                <dd>@Html.DisplayFor(model => model.ControlName)</dd>
+                <dt>@Html.DisplayNameFor(model => model.IsUsed)</dt>
+                <dd>@Html.DisplayFor(model => model.IsUsed)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Desc)</dt>
+                <dd>@Html.DisplayFor(model => model.Desc)</dd>
+            </dl>
+            <p>
+                <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-small" ><i class="icon-pencil"></i> Edit</a>
+            </p>
+        </div>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-list-alt"></i> Programs</a></li>
+          </ul>
+          <div class="tab-content">
+              <div class="tab-pane active" id="tab1">
+                  <p>
+                    <a href="#AddProgramModal" class="btn btn-small" role="button" data-toggle="modal"><i class="icon-plus"></i> Program</a>
+                </p>
+                @Html.Partial("../BaaSProgram/_Table" , Model.Programs )
+              </div>
+            </div>
+        </div>
+</div>
+</div>
+
+
+<div id="AddProgramModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="AddProgramLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="AddProgramLabel">Add Program</h3>
+  </div>
+  <div class="modal-body">
+      <table id="AddProgramTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+          <thead>
+              <tr>
+                  <th style="width: 10px;">Select</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 30px;">Code</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 30px;">Name</th>
+                  <th class="header" role="columnheader" tabindex="0" aria-controls="AddProgramTable" rowspan="1" colspan="1" style="width: 60px;">Desc</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="btnAddProgram" type="button" class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+
+

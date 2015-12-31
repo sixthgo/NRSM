@@ -1,0 +1,197 @@
+﻿controllerModule.controller('POGManagementCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, MenuApiService, FavoriteService, PopupService) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM017'; //
+    $scope.base.SetMenu($scope.base.menuId);
+
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+
+        $scope.base.swiper();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'POG 진열관리';
+    }
+
+    // sample for initialize
+    $scope.GetGarbageData = function () {
+
+        var defer = $q.defer();
+
+        MenuApiService.get({
+            appId: $scope.system.appId,
+            loginId: $scope.user.loginId,
+            currentMenuVersion: $scope.system.currentMenuVersion,
+            locale: $scope.system.locale
+        }, function (data) {
+            $scope.debug.Log('GetGarbageData.get().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    // sample for initialize
+    $scope.GetGarbageData2 = function () {
+        var defer = $q.defer();
+
+        FavoriteService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $scope.debug.Log('GetUserFavorite.query().success');
+            // garbage
+            defer.resolve();
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+
+        // show loading image
+        $ionicLoading.show({
+            noBackdrop: true
+        }); // nobackdrop: true
+
+        $q.all({
+            A: $scope.GetGarbageData().catch($scope.CatchException),
+            B: $scope.GetGarbageData2().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('InitData()');
+
+                // if exists favorite key, set each value by key
+                ////$scope.SetControlsByFavorite();
+
+            }
+            , function (error) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+
+            });
+    }
+
+    $scope.Init();
+
+
+
+
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            ////title: '지점 선택',
+            ////subTitle: '현재 선택한 지점 ' + name,
+            ////cssClass: 'storePopup',
+            cssClass: 'storePopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive', // new!!
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+        });
+    }
+
+
+    $scope.OpenPOGPopup = function () {
+        var url = 'templates/POGPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: 'POG 진열정보',
+            //subTitle: '현재 선택한 지점 ' + name,
+            cssClass: 'storePopup',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                ////$scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+            }
+            else {
+                ////$scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+        });
+    }
+});

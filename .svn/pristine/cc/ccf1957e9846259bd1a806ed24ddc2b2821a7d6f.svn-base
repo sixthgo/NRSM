@@ -1,0 +1,454 @@
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.controllers' is found in controllers.js
+
+// window.BOOTSTRAP_OK = true;
+// console.log('window.BOOTSTRAP_OK : ' + window.BOOTSTRAP_OK);
+
+angular.module('starter', ['ionic',
+    'starter.controllers',
+    'starter.services',
+    'starter.directive',
+    'ngCordova',
+    'akoenig.deckgrid',
+    'autocomplete.directive',
+    'ngDialog',
+    'ngStorage',
+	'ion-sildeTabs'])
+
+.run(function($ionicPlatform, $rootScope, $ionicHistory) {
+
+  window.BOOTSTRAP_OK = true;
+  // console.log('window.BOOTSTRAP_OK : ' + window.BOOTSTRAP_OK);
+
+  $ionicPlatform.registerBackButtonAction(function(e){
+    if ($rootScope.backButtonPressedOnceToExit) {
+        ionic.Platform.exitApp();
+    }
+
+    else if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
+    }
+    else {
+        $rootScope.backButtonPressedOnceToExit = true;
+        window.plugins.toast.showShortBottom(
+            "Press back button again to exit",function(a){},function(b){}
+        );
+        setTimeout(function(){
+            $rootScope.backButtonPressedOnceToExit = false;
+        },2000);
+    }
+    e.preventDefault();
+    return false;
+  },101);
+
+  $ionicPlatform.ready(function() {
+    // window.BOOTSTRAP_OK = true;
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+    // if(ionic.Platform.isWebView()){
+    //   window.BOOTSTRAP_OK = true;
+    //   console.log('window.BOOTSTRAP_OK : ' + window.BOOTSTRAP_OK);
+    // }
+  });
+
+})
+
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.platform.android.navBar.alignTitle('center');
+  $ionicConfigProvider.views.swipeBackEnabled(false);
+  $stateProvider
+
+  .state('check', {
+    url: "/check",
+    templateUrl: "templates/check.html",
+    controller: 'CheckCtrl'
+  })
+
+  .state('app', {
+    url: "/app",
+    abstract: true,
+    templateUrl: "templates/menu.html",
+    controller: 'AppCtrl'
+  })
+
+  .state('app.home', {
+    url: "/home",
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: "templates/home.html",
+        controller: 'HomeCtrl'
+      }
+    }
+  })
+
+    .state('app.admin', {
+        url: "/admin",
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/admin.html',
+                controller: 'AdminCtrl'
+            }
+        }
+    })
+
+    .state('app.common', {
+        url: '/common',
+        abstract: true,
+        parent: 'app'
+    })
+    .state('app.common.ProductInformation', {
+        url: '/common/productInformation',
+        parent: 'app',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/productInformation.html",
+                controller: 'ProductInformationCtrl'
+            }
+        }
+    })
+    .state('app.common.ProductDetail', {
+        url: '/common/productDetail',
+        parent: 'app',
+        views: {
+          'menuContent': {
+              templateUrl: "templates/common/productDetail.html",
+              controller: "ProductDetailCtrl"
+          }
+        }
+    })
+    .state('app.common.EIMSInformation', {
+        url: '/common/EIMSInformation',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/EIMSInformation.html",
+                controller: 'EIMSInformationCtrl'
+            }
+        }
+    })
+    .state('app.common.SalesProjections', {
+        url: '/common/salesProjections',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/salesProjections.html",
+                controller: 'SalesProjectionsCtrl'
+            }
+        }
+    })
+    .state('app.common.FloorPlanSales', {
+        url: '/common/floorPlanSales',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/floorPlanSales.html",
+                controller: 'FloorPlanSalesCtrl'
+            }
+        }
+    })
+    .state('app.common.FloorPlanAccrueSales', {
+        url: '/common/floorPlanAccrueSales',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/floorPlanAccrueSales.html",
+                controller: 'FloorPlanAccrueSalesCtrl'
+            }
+        }
+    })
+    .state('app.common.FloorPlanRecord', {
+        url: '/common/floorPlanRecord',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/floorPlanRecord.html",
+                controller: 'FloorPlanRecordCtrl'
+            }
+        }
+    })
+
+    .state('app.managerReport', {
+        url: '/managerReport',
+        abstract: true,
+        parent: 'app'
+    })
+
+    .state('app.managerReport.reportStore', {
+        url: '/reportStore',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/managerReport/reportStore.html",
+                controller: 'ReportStoreCtrl'
+            }
+        }
+    })
+
+    .state('app.managerReport.reportCu', {
+        url: '/reportCu',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/managerReport/reportCu.html",
+                controller: 'ReportCuCtrl'
+                }
+            }
+        })
+    .state('app.managerReport.CEOReportPlant', {
+        url: '/managerReport/CEOReportPlant',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/managerReport/CEOReportPlant.html",
+                controller: 'CEOReportPlantCtrl'
+            }
+        }
+    })
+    .state('app.managerReport.CEOReportCU', {
+        url: '/managerReport/CEOReportCU',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/managerReport/CEOReportCU.html",
+                controller: 'CEOReportCUCtrl'
+            }
+        }
+    })
+
+    .state('app.hyper', {
+        url: '/hyper',
+        abstract: true,
+        parent: 'app'
+    })
+
+    .state('app.hyper.sample', {
+        url: '/sampleStore',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/sample.html",
+                controller: 'SampleCtrl'
+            }
+        }
+    })
+    .state('app.hyper.FreshStock', {
+        url: '/hyper/freshStock',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/freshStock.html",
+                controller: 'FreshStockCtrl'
+            }
+        }
+    })
+    .state('app.hyper.ManualOrder', {
+        url: '/hyper/manualOrder',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/manualOrder.html",
+                controller: 'ManualOrderCtrl'
+            }
+        }
+    })
+    .state('app.hyper.RealStockControl', {
+        url: '/hyper/realStockControl',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/realStockControl.html",
+                controller: 'RealStockControlCtrl'
+            }
+        }
+    })
+    .state('app.hyper.BarcodeSend', {
+        url: '/hyper/barcodeSend',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/barcodeSend.html",
+                controller: 'BarcodeSendCtrl'
+            }
+        }
+    })
+    .state('app.hyper.POGManagement', {
+        url: '/hyper/POGManagement/:plantCode/:goodsCode',
+        parent: 'app',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/POGManagement.html",
+                controller: 'POGManagementCtrl',
+                params: ['plantCode', 'goodsCode']
+            }
+        }
+    })
+
+    .state('app.sales', {
+        url: '/sales',
+        abstract: true,
+        parent: 'app'
+    })
+
+    .state('app.sales.ProfitToPlan', {
+        url: '/sales/profitToPlan',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sales/profitToPlan.html",
+                controller: 'ProfitToPlanCtrl'
+            }
+        }
+    })
+    .state('app.sales.NowSalesStockInwerks', {
+        url: '/sales/nowSalesStockInwerks',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sales/nowSalesStockInwerks.html",
+                controller: 'NowSalesStockInwerksCtrl'
+            }
+        }
+    })
+    .state('app.sales.NowEventSales', {
+        url: '/sales/nowEventSales',
+        parent: 'app',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sales/nowEventSales.html",
+                controller: 'NowEventSalesCtrl',
+                params: ['standard', 'date', 'column', 'isDescending']
+            }
+        }
+    })
+    .state('app.sales.NowEventSalesDetail', {
+        url: '/sales/nowEventSalesDetail/:standard/:plantCode/:plantName/:date/:column/:isDescending',
+        parent: 'app',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sales/nowEventSalesDetail.html",
+                controller: 'NowEventSalesDetailCtrl',
+                params: ['standard', 'plantCode', 'plantName', 'date', 'column', 'isDescending']
+            }
+        }
+    })
+    .state('app.sales.NowEventSalesTime', {
+        url: '/sales/nowEventSalesTime/:standard/:plantCode/:plantName/:code/:name/:date/:column/:isDescending',
+        parent: 'app',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sales/nowEventSalesTime.html",
+                controller: 'NowEventSalesTimeCtrl',
+                params: ['standard', 'plantCode', 'plantName', 'code', 'name', 'date', 'column', 'isDescending']
+            }
+        }
+    })
+    .state('app.sales.NowEventSalesBrand', {
+        url: '/sales/nowEventSalesBrand/:standard/:brandCode/:brandName/:date/:column/:isDescending',
+        parent: 'app',
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sales/nowEventSalesBrand.html",
+                controller: 'NowEventSalesBrandCtrl',
+                params: ['standard', 'brandCode', 'brandName', 'date', 'column', 'isDescending']
+            }
+        }
+    })
+
+    .state('app.sc', {
+        url: '/sc',
+        abstract: true,
+        parent: 'app'
+    })
+    .state('app.sc.DailyStock', {
+        url: '/sc/dailyStock',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sc/dailyStock.html",
+                controller: 'DailyStockCtrl'
+            }
+        }
+    })
+    .state('app.sc.StockRegister', {
+        url: '/sc/stockRegister',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sc/stockRegister.html",
+                controller: 'StockRegisterCtrl'
+            }
+        }
+    })
+    .state('app.sc.InventoryCounting', {
+        url: '/sc/inventoryCounting',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/sc/inventoryCounting.html",
+                controller: 'InventoryCountingCtrl'
+            }
+        }
+    })
+  // if none of the above states are matched, use this as the fallback
+  // $urlRouterProvider.otherwise('/app/home');
+  $urlRouterProvider.otherwise('/check');
+})
+var controllerModule = angular.module('starter.controllers', ['pascalprecht.translate', 'ngSanitize', 'ionic-datepicker']);
+var serviceModule = angular.module('starter.services', ['ngResource', 'ngDialog']);
+var directiveModule = angular.module('starter.directive',[]);
+
+
+//
+controllerModule.config( ['$translateProvider', function ($translateProvider){
+    console.log('controllerModule.config');
+    for (lang in words) {
+        $translateProvider.translations(lang, words[lang]);
+    }
+    //test
+    for (lang in variableWords) {
+        $translateProvider.translations(lang, variableWords[lang]);
+    }
+
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.useSanitizeValueStrategy('escaped');
+}])
+
+controllerModule.filter('thousandBaseFilter', function ($filter) {
+
+    return function (val, position) {
+        if (isNaN(val))
+            return val;
+        else
+            val = Math.round(val / 1000);
+
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+})
+
+// PC : ''
+// Device: 'http://121.190.88.31:8020'
+serviceModule.constant('webServerUrl', 'http://121.190.88.31:8020');
+//serviceModule.constant('webServerUrl', '');
+controllerModule.constant('config', {
+    webServerUrl: 'http://121.190.88.31:8020'
+});

@@ -1,0 +1,475 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="newSalesStockInwerksHandle" has-bouncing="false" scroll="false">
+        <div id="container" class="red">
+            <ul class="select">
+                <li class="store" ng-click="OpenStorePopup()" favorite-key="{{favoriteKeyA}}" favorite="storePopup.selectedStore.plantCode"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="cu_pc" ng-click="OpenCuPopup()" favorite-key="{{favoriteKeyB}}" favorite="cuPopup.selectedCu.cuCode"><span>{{cuPopup.selectedCu.cuName}} / {{cuPopup.selectedPc.pcName}}</span></li>
+            </ul>
+            <span style="display:none" favorite-key="{{favoriteKeyC}}" favorite="cuPopup.selectedPc.pcCode"></span>
+
+            <!-- all all all-->
+            <div ng-if="search.type=='-1-1-1'">
+                <ul class="tab triple swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">지점별</li>
+                    <li class="swiper-pagination-bullet">CU별</li>
+                    <li class="swiper-pagination-bullet">시간대별</li>
+                </ul>
+                <div id="date">
+                    <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                    <p class="right">단위 : 원</p>
+                </div>
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListAA.sum.amount | number}}<br />({{result.ListAA.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollAA" ng-style="{'height':newHeightAA}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListAB.sum.amount | number}}<br />({{result.ListAB.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollAB" ng-style="{'height':newHeightAB}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListAC.sum.amount | number}}<br />({{result.ListAC.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollAC" ng-style="{'height':newHeightAC}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- specific all all -->
+            <div ng-if="search.type=='0-1-1'">
+                <ul class="tab triple swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">CU별</li>
+                    <li class="swiper-pagination-bullet">시간대별</li>
+                    <li class="swiper-pagination-bullet">층별</li>
+                </ul>
+                <div id="date">
+                    <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                    <p class="right">단위 : 원</p>
+                </div>
+
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListBA.sum.amount | number}}<br />({{result.ListBA.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollBA" ng-style="{'height':newHeightBA}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListBB.sum.amount | number}}<br />({{result.ListBB.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollBB" ng-style="{'height':newHeightBB}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListBC.sum.amount | number}}<br />({{result.ListBC.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollBC" ng-style="{'height':newHeightBC}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- specific specific all -->
+            <div ng-if="search.type=='00-1'">
+                <ul class="tab swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">PC별</li>
+                    <li class="swiper-pagination-bullet">시간대별</li>
+                </ul>
+                <div id="date">
+                    <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                    <p class="right">단위 : 원</p>
+                </div>
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListCA.sum.amount | number}}<br />({{result.ListCA.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollCA" ng-style="{'height':newHeightCA}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListCB.sum.amount | number}}<br />({{result.ListCB.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollCB" ng-style="{'height':newHeightCB}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- specific specific specific -->
+            <div ng-if="search.type=='000'">
+                <ul class="tab swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">스타일별</li>
+                    <li class="swiper-pagination-bullet">상품별</li>
+                </ul>
+                <div id="date">
+                    <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                    <p class="right">단위 : 원</p>
+                </div>
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액</span></th>
+                                    <th class="sort width20P" ng-click="sorting('price')" ng-class="{'sort down': (sort.column == 'price' && sort.isDescending), 'sort up': (sort.column == 'price' && !sort.isDescending)}"><span>판매가(수량)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('stock')" ng-class="{'sort down': (sort.column == 'stock' && sort.isDescending), 'sort up': (sort.column == 'stock' && !sort.isDescending)}"><span>점재고(물류재고)</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListDA.sum.amount | number}}<br />({{result.ListDA.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollDA" ng-style="{'height':newHeightDA}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액</span></th>
+                                    <th class="sort width20P" ng-click="sorting('price')" ng-class="{'sort down': (sort.column == 'price' && sort.isDescending), 'sort up': (sort.column == 'price' && !sort.isDescending)}"><span>판매가(수량)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('stock')" ng-class="{'sort down': (sort.column == 'stock' && sort.isDescending), 'sort up': (sort.column == 'stock' && !sort.isDescending)}"><span>점재고(물류재고)</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListDB.sum.amount | number}}<br />({{result.ListDB.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollDB" ng-style="{'height':newHeightDB}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- all specific all -->
+            <div ng-if="search.type=='-10-1'">
+                <ul class="tab swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">지점별</li>
+                    <li class="swiper-pagination-bullet">PC별</li>
+                </ul>
+                <div id="date">
+                    <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                    <p class="right">단위 : 원</p>
+                </div>
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListEA.sum.amount | number}}<br />({{result.ListEA.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollEA" ng-style="{'height':newHeightEA}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListEB.sum.amount | number}}<br />({{result.ListEB.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollEB" ng-style="{'height':newHeightEB}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- all specific specific -->
+            <div ng-if="search.type=='-100'">
+                <ul class="tab swiper-pagination swiper-pagination-clickable">
+                    <li class="swiper-pagination-bullet swiper-pagination-bullet-active">지점별</li>
+                    <li class="swiper-pagination-bullet">시간대별</li>
+                </ul>
+                <div id="date">
+                    <p class="left" ng-bind="headerDate | date:'yyyy-MM-dd'"></p>
+                    <p class="right">단위 : 원</p>
+                </div>
+                <div id="table" class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListFA.sum.amount | number}}<br />({{result.ListFA.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollFA" ng-style="{'height':newHeightFA}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                        <div class="swiper-slide">
+                            <table>
+                                <tr>
+                                    <th class="sort width30P" ng-click="sorting('name')" ng-class="{'sort down': (sort.column == 'name' && sort.isDescending), 'sort up': (sort.column == 'name' && !sort.isDescending)}"><span>구분</span></th>
+                                    <th class="sort width30P" ng-click="sorting('amount')" ng-class="{'sort down': (sort.column == 'amount' && sort.isDescending), 'sort up': (sort.column == 'amount' && !sort.isDescending)}"><span>매출액 (비율)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perAmount')" ng-class="{'sort down': (sort.column == 'perAmount' && sort.isDescending), 'sort up': (sort.column == 'perAmount' && !sort.isDescending)}"><span>건단가 (건수)</span></th>
+                                    <th class="sort width20P" ng-click="sorting('perSale')" ng-class="{'sort down': (sort.column == 'perSale' && sort.isDescending), 'sort up': (sort.column == 'perSale' && !sort.isDescending)}"><span>평당매출</span></th>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="width30P">합계</td>
+                                    <td class="width30P">{{result.ListFB.sum.amount | number}}<br />({{result.ListFB.sum.rate | number}} %)</td>
+                                    <td class="width20P">-</td>
+                                    <td class="width20P">-</td>
+                                </tr>
+                            </table>
+                            <ion-scroll direction="y" id="scrollFB" ng-style="{'height':newHeightFB}">
+                                <table>
+                                    <tr>
+                                        <td>이랜드 리테일<br />복합관 김해점</td>
+                                        <td>999,999,999,999<br />(10.2%)</td>
+                                        <td>999,999<br />(999,999)</td>
+                                        <td>999,999</td>
+                                    </tr>
+                                </table>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

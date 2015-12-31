@@ -1,0 +1,10 @@
+'use strict';
+
+angular.module('starter.services')
+
+    .factory('QureyPreSameDateService', function ($resource, webServerUrl) {
+        return $resource(webServerUrl + '/api/QueryPreSameDate', {},
+            {
+                searchPreSameDate: { method: 'Get', isArray: false, params: {dt:'@dt'} }
+            });
+    })

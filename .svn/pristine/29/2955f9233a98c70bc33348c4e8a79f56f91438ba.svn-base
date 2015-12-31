@@ -1,0 +1,93 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer">
+            <div id="container" class="yellow">
+                <form>
+                    <ul class="list">
+                        <li>
+                            <p class="left">구매오더 / 팔레트코드</p>
+                            <p class="right">4526501291</p>
+                        </li>
+                        <li>
+                            <p class="left">점포</p>
+                            <p class="right">8215</p>
+                        </li>
+                        <li>
+                            <p class="left">전기 일자</p>
+                            <p class="right">2015년 3월 3일</p>
+                        </li>
+                    </ul>
+                    <p class="btn_border btn_search btn_gray">
+                        <a href="#none"><img src="../../img/nrsm/icon_search_gray.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                    </p>
+                </form>
+
+                <form>
+                    <ul class="list bdt no_margin">
+                        <li>
+                            <p class="left">구매오더</p>
+                            <p class="right"><input type="text" placeholder="입력" /></p>
+                        </li>
+                        <li>
+                            <p class="left">구매처</p>
+                            <p class="right"><input type="text" placeholder="입력" /></p>
+                        </li>
+                        <li>
+                            <p class="left">공급가액</p>
+                            <p class="right"><input type="text" placeholder="입력" /></p>
+                        </li>
+                    </ul>
+                </form>
+
+                <div id="table">
+                    <table>
+                        <tr>
+                            <th>상품코드 (상품명)</th>
+                            <th>수량</th>
+                            <th>단위</th>
+                            <th>단가 (원)</th>
+                            <th>입고금액 (원)</th>
+                            <th class="check_all"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></th>
+                        </tr>
+                        <tr>
+                            <td>880126011077<br />보드라운 숲  L</td>
+                            <td>20</td>
+                            <td>EA</td>
+                            <td>11,212,000</td>
+                            <td>201,816,000</td>
+                            <td class="check"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></td>
+                        </tr>
+                        <tr>
+                            <td>880126011077<br />보드라운 숲  L</td>
+                            <td>20</td>
+                            <td>EA</td>
+                            <td>11,212,000</td>
+                            <td>201,816,000</td>
+                            <td class="check"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></td>
+                        </tr>
+                        <tr>
+                            <td>880126011077<br />보드라운 숲  L</td>
+                            <td>20</td>
+                            <td>EA</td>
+                            <td>11,212,000</td>
+                            <td>201,816,000</td>
+                            <td class="check"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></td>
+                        </tr>
+                        <tr>
+                            <td>880126011077<br />보드라운 숲  L</td>
+                            <td>20</td>
+                            <td>EA</td>
+                            <td>11,212,000</td>
+                            <td>201,816,000</td>
+                            <td class="check"><img src="../../img/nrsm/icon_check_gray.png" alt="체크" /></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <p class="btn_border btn_download btn_color mt_12">
+                    <a href="#none"><img src="../../img/nrsm/icon_download_yellow.png" alt="저장" />&nbsp;&nbsp;저장</a>
+                </p>
+            </div>
+
+    </ion-content>
+
+</ion-view>

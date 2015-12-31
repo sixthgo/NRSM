@@ -1,0 +1,17 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+    .factory('UtilService', function () {
+
+        return {
+
+          IsUndefinedOrNull: function (val) {
+              return angular.isUndefined(val) || val == null;
+          },
+
+          IsNullOrEmpty: function (val) {
+              return angular.isUndefined(val) || val == null || val.trim().length == 0;
+          }
+      }
+    })

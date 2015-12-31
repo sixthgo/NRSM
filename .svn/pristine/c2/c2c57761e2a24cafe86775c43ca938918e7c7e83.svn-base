@@ -1,0 +1,24 @@
+﻿cortrollerModule.controller('FooterCtrl', function ($scope, $stateParams) {
+
+    $scope.Init = function () {
+
+    }
+
+    $scope.ClickStar = function () {
+        $scope.debug.Log('FooterCtrl.ClickStar()');
+
+        $scope.base.SaveSnapshot();
+    }
+
+
+    $scope.ClickGear = function () {
+        $scope.debug.Log('FooterCtrl.ClickGear()');
+    }
+
+
+    $scope.ClickAdd = function () {
+        $scope.debug.Log('FooterCtrl.ClickAdd()');
+    }
+
+    $scope.Init();
+});

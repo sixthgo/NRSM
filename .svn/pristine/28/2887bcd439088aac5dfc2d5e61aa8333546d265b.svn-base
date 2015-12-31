@@ -1,0 +1,92 @@
+﻿<div class="row">
+    <div class="newLayer">
+        <div class="header">
+            <p>조건 선택</p>
+        </div>
+    </div>
+    <div class="body" style="padding-top: 70px; width:96%">
+        <div>
+            기준 데이터
+        </div>
+        <div class="row" style="width:98%">
+            <div class="col col50">
+                <label class="item item-radio">
+                    <input type="radio" name="eventSalesStandardRadioGroup" ng-model="popup.standard" value="pda" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px;width:125px">행사장판매기준</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col col50">
+                <label class="item item-radio">
+                    <input type="radio" name="eventSalesStandardTypeRadioGroup" ng-model="popup.standard" value="key" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px;width:125px">행사Key판매기준</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            조회종류
+        </div>
+        <div class="row" style="width:98%">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="eventSalesTypeRadioGroup" ng-model="popup.type" value="brand" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px;width:75px">브랜드별</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="eventSalesTypeRadioGroup" ng-model="popup.type" value="event" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px;width:75px">{{eventBtnText}}</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="eventSalesTypeRadioGroup" ng-model="popup.type" value="time" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px;width:75px">시간대별</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+
+        <div ng-hide="popup.type == 'event' || popup.type == 'time'">
+            CU / PC
+        </div>
+        <ion-content onscroll="false">
+            <div style="padding-top:25px">
+                <div class="row" ng-hide="popup.type == 'event' || popup.type == 'time'">
+                    <div class="col col50">
+                        <ion-scroll direction="y" style="height: 200px; margin-top:210px;">
+                            <div class="list">
+                                <ion-radio ng-repeat="cu in data.cues"
+                                           ng-value="cu"
+                                           ng-change="OnCuChange(cu)"
+                                           ng-model="cuPopup.selectedCuTemp"
+                                           name="cuRadio">
+                                    {{ cu.cuName }}
+                                </ion-radio>
+                            </div>
+                        </ion-scroll>
+                    </div>
+                    <div class="col col50">
+                        <ion-scroll direction="y" class="popup-scroll" style="height: 200px; margin-top:210px;">
+                            <div class="list">
+                                <ion-radio ng-repeat="pc in data.pcs"
+                                           ng-value="pc"
+                                           ng-change="OnPcChange(pc)"
+                                           ng-model="cuPopup.selectedPcTemp"
+                                           name="pcRadio">
+                                    {{ pc.pcName }}
+                                </ion-radio>
+                            </div>
+                        </ion-scroll>
+                    </div>
+                </div>
+
+            </div>
+        </ion-content>
+    </div>
+</div>

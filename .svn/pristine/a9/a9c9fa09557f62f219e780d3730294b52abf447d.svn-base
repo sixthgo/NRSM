@@ -1,0 +1,49 @@
+﻿<ion-view view-title="{{word.realStockControl}}">
+    <ion-content class="has-footer">
+        <div id="container" class="orange">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">지점 코드</p>
+                        <p class="right"><input type="tel"
+                                                placeholder="입력"
+                                                maxlength="6"
+                                                onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-model="user.plantCode"/></p>
+                    </li>
+                    <li>
+                        <p class="left">상품 코드</p>
+                        <p class="right"><input type="text" placeholder="입력"
+                                                ng-model="base.barCode"
+                                                maxlength="13"/></p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_gray" ng-click="SearchRealStock()">
+                    <a><img src="img/nrsm/icon_search_gray.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">상품이름</p>
+                        <p class="right">{{data.salePriceInfor}}</p>
+                    </li>
+                    <li>
+                        <p class="left">현재고</p>
+                        <p class="right">{{data.nowStock}}</p>
+                    </li>
+                    <li>
+                        <p class="left">실재고</p>
+                        <p class="right"><input type="tel" placeholder="입력" maxlength="6"
+                                                numbers-only="numbers-only"
+                                                ng-required="required"
+                                                ng-model="data.realStock"/></p>
+                    </li>
+                </ul>
+                <p ng-show="data.isRealShow" class="btn_border btn_confirm btn_color" ng-click="UpdateRealStock()">
+                    <a><img src="img/nrsm/icon_check_green.png" alt="조회" />&nbsp;&nbsp;실재고 조정</a>
+                </p>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,11 @@
+﻿cortrollerModule.controller('HomeCtrl', function ($scope, $stateParams) {
+
+    $scope.base.menuId = 'NRSMM00';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.Init = function () {
+
+    }
+
+    $scope.Init();
+});

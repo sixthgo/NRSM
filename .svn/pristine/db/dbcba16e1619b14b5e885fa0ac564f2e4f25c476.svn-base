@@ -1,0 +1,65 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-header bar-eland-yellow">
+		<div class="buttons">
+			<button class="button back-button buttons button-clear header-item" ng-click="goBack()">
+				<i class="icon ion-ios-arrow-left"></i>Back
+			</button>
+		</div>
+		<h1 class="title">일배입고스캔조회</h1>
+	</ion-header-bar>
+	<ion-content class="has-footer yellow">
+		<div id="container" class="popContainer">
+			<ion-list>
+				<ion-item style="padding-right: 49px; border-top: none;">
+					<div class="row" style="padding: 0; text-align: center;">
+						<div class="col col-10" style="text-align: center;">순번</div>
+						<div class="col col-67" style="text-align: center;">상품</div>
+						<div class="col col-10" style="text-align: center;">단위</div>
+						<div class="col col-10" style="text-align: center;">수량</div>
+					</div>
+				</ion-item>
+			</ion-list>
+			<ion-scroll direction="y" style="border-top: none;">
+				<ion-list>
+					<ion-item ng-repeat="item in DailyStockList.BarCodeList">
+						<!--{{item.Seq}}-->
+						<!--<span class="item-note" style="color: #000;">-->
+						<!--{{item.Matnr}}-->
+						<!--</span>-->
+						<div class="row" style="padding: 0; text-align: center;">
+							<div class="col col-10" style="text-align: center;">{{item.Seq}}</div>
+							<div class="col col-67" style="white-space: normal; vertical-align:middle">{{item.Maktx}}<br>{{item.Matnr}}</div>
+							<div class="col col-10" style="text-align: center;">{{item.Meins}}</div>
+							<div class="col col-10" style="text-align: center;">
+								<input type="tel" numbers-only="numbers-only" style="width: 100%; text-align: center;"
+								       ng-required="required" ng-model="item.Input" placeholder="입력"
+								       ng-change="ChangeTotal($index)"/></div>
+						</div>
+						<ion-option-button class="button-assertive"
+						                   ng-click="RemoveItem($index)">&nbsp;&nbsp;&nbsp;삭제</ion-option-button>
+						</ion-delete-button>
+					</ion-item>
+				</ion-list>
+			</ion-scroll>
+		</div>
+
+
+	</ion-content>
+	<ion-footer-bar class="yellow" style="height: 59px; padding: 0 2.5%; margin: 0 auto;">
+		<!--<ul id="layer">-->
+			<!--<li class="btn_cancel">-->
+				<!--<a class="button button-clear"-->
+				   <!--ng-click="closeModal('cancel')">-->
+					<!--<i class="icon ion-ios-close-empty"></i>취소</a>-->
+			<!--</li>-->
+			<!--<li class="btn_confirm">-->
+				<!--<a class="button button-clear"-->
+				   <!--ng-click="closeModal('close')">-->
+					<!--<i class="icon ion-ios-checkmark-empty" ></i>확인</a>-->
+			<!--</li>-->
+		<!--</ul>-->
+		<p class="btn_border btn_confirm btn_color btn_bottom" style="width: 99%;" ng-click="SaveDailyStock()">
+			<a><img src="img/nrsm/icon_check_yellow.png" />&nbsp;&nbsp;입고 등록</a>
+		</p>
+	</ion-footer-bar>
+</ion-modal-view>

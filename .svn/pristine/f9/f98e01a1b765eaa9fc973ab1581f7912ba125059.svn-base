@@ -1,0 +1,33 @@
+.tableborder
+{	
+	color:#1C2A3F;
+	border-width:thin;
+	border-color:#C0C0C0;
+	border-style:solid;
+}
+.trborder
+{
+	height:20px;
+}
+.title
+{
+	width:70px;
+	background-color:#C0C0C0;
+	border-width:thin;
+	border-color:white;
+	border-style:solid;
+	font-family:돋움;
+	font-size:11px;
+	font-color:gray;
+	text-align:left;
+}
+.content
+{
+	/*width:115px;*/
+	border-width:thin;
+	border-color:#C0C0C0;
+	border-style:solid;
+	font-family:돋움;
+	font-size:11px;	
+	font-color:gray;
+}

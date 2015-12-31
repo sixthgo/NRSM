@@ -1,0 +1,525 @@
+﻿controllerModule.controller('POGManagementCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, $window, $timeout, $ionicPosition, MenuApiService, FavoriteService, PopupService, PlantService, POGService) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM017'; //
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.style.showCalendarButton = 'none';
+    $scope.style.showIPadCalendarButton = 'none';
+    $scope.style.showReloadButton = 'none';
+
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = null; //{ plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    //
+    $scope.POGPopup = {};
+    $scope.POGPopup.selectedFirstCategory = '';
+    $scope.POGPopup.selectedFirstCategoryTemp = '';
+    $scope.POGPopup.selectedThirdCategory = '';
+    $scope.POGPopup.selectedThirdCategoryTemp = '';
+    $scope.POGPopup.selectedColumn = '';
+    $scope.POGPopup.selectedColumnTemp = '';
+    $scope.POGPopup.selectedRedundency = null;
+
+    $scope.POGPopup.thirdCategoryScrollTop = 0;
+    $scope.POGPopup.thirdCategoryScrollTopTemp = 0;
+    $scope.POGPopup.columnScrollTop = 0;
+    $scope.POGPopup.columnScrollTopTemp = 0;
+
+    $scope.param = {};
+
+    $scope.entryPointType = 'main';
+
+    $scope.data = {};
+    $scope.data.redundencyGoods = null;
+    ////$scope.data.allStore = null;
+
+    $scope.Init = function () {
+        
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+        
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitParam();
+        $scope.InitData();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+
+        ////$ionicHistory.nextViewOptions({
+        ////    disableBack: true
+        ////});
+
+        $state.go('app.home');
+    }
+
+    $scope.InitParam = function () {
+
+        if ($stateParams.goodsCode != "") {
+            $scope.param.plantCode = $stateParams.plantCode;
+            $scope.param.goodsCode = $stateParams.goodsCode;
+
+            $scope.entryPointType = 'otherView';
+        }
+        else {
+            $scope.param.plantCode = '';
+            $scope.param.goodsCode = '';
+
+            $scope.entryPointType = 'main';
+        }
+    }
+
+    $scope.SetLocalWord = function () {
+        //$scope.word.title = 'POG 진열관리';
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        $q.all({
+            A: $scope.GetUserStore().catch($scope.CatchException),
+            B: $scope.GetPOGNumberOfGoods().catch($scope.CatchException),
+            C: $scope.GetAllStore().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.data.userStore = results.A;
+                $scope.data.redundencyGoods = results.B;
+                $scope.data.allStore = results.C;
+
+                // ADD
+                if ($scope.param.plantCode != '') {
+                    $scope.data.userStore.werks = $scope.param.plantCode;
+                }
+
+                //// [TEST]
+                ////$scope.data.userStore.werks = '8206'; //// [TEST]                
+                
+                for (var i = 0; i < results.C.length; i++) {
+                    if ($scope.data.userStore.werks == results.C[i].plantCode) {
+                        $scope.storePopup.selectedStore = results.C[i];
+                        break;
+                    }
+                }
+
+                $scope.SetEntryPoint();
+            }
+            , function (error) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+            }
+        );
+    }
+
+    $scope.GetUserStore = function () {
+        var defer = $q.defer();
+
+        PlantService.get({
+            loginId: $scope.user.loginId
+            , x: ''
+        }, function (data) {
+            defer.resolve(data);
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.GetPOGNumberOfGoods = function () {
+        var defer = $q.defer();
+
+        POGService.query({
+            plantCode: $scope.param.plantCode,
+            firstCategory: '',
+            thirdCategory: '',
+            column: '',
+            userName: '',
+            goodsCode: $scope.param.goodsCode
+        }, function (data) {
+            defer.resolve(data);
+        }, function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.GetAllStore = function () {
+        var defer = $q.defer();
+
+        PlantService.query({
+            loginId: $scope.user.loginId
+        },
+        function (data) {
+            defer.resolve(data);
+        },
+        function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.SetEntryPoint = function () {
+
+        // called from HOME menu
+        if ($scope.entryPointType == 'main') {
+
+            // no have default store yet
+            if ($scope.data.userStore.werks.length != 4) {
+                $scope.OpenStorePopup();
+            }
+
+            // have default store
+            else {                
+                $scope.OpenPOGPopup();
+            }
+        }
+        // called from other view with store, goods parameters
+        else {
+
+            // set from param.plantCode 
+            //for (var i = 0; i < $scope.data.allStore.length; i++) {
+            //    if ($scope.param.plantCode == $scope.data.allStore[i].plantCode) {
+            //        $scope.storePopup.selectedStore = $scope.data.allStore[i];
+            //        break;
+            //    }
+            //}
+
+            // set multiple rows
+            if ($scope.data.redundencyGoods.length > 1) {
+                $scope.OpenRedundencyGoodsPopup();                
+            }
+            else {
+
+                // no have default store yet
+                if ($scope.data.userStore.werks.length != 4) {
+                    $scope.OpenStorePopup();
+                }
+
+                // show data list
+                else {
+
+                    //
+                    var goods = $scope.data.redundencyGoods[0];
+                    $scope.POGPopup.selectedFirstCategory = goods.fircg;
+                    $scope.POGPopup.selectedThirdCategory = goods.thicg;
+                    $scope.POGPopup.selectedColumn = goods.zcol;
+
+                    $scope.GetPOGData();
+                }
+            }
+        }
+    }
+
+    $scope.OpenStorePopup = function () {
+        $scope.debug.Log('$scope.OpenStorePopup()');
+
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+
+        $scope.param = {};
+        $scope.param.subTitle = name;
+        $scope.param.noHaveAllStore = true;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'storePopupNew',
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+
+                if ($scope.entryPointType == 'otherView') {
+                    $scope.entryPointType = 'main';
+                }
+                else {
+                    $scope.POGPopup.selectedFirstCategory = '';
+                    $scope.POGPopup.selectedFirstCategoryTemp = '';
+                    $scope.POGPopup.selectedThirdCategory = '';
+                    $scope.POGPopup.selectedThirdCategoryTemp = '';
+                    $scope.POGPopup.selectedColumn = '';
+                    $scope.POGPopup.selectedColumnTemp = '';
+                }
+                $scope.OpenPOGPopup();
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+
+                if ($scope.storePopup.selectedStore == null) {
+                    PopupService.OpenPopupAlert('', '지점 선택은 필수 선택입니다.', $scope.OpenStorePopup);
+                    return;
+                }
+            }
+        });
+    }
+
+    $scope.GetSelectedItemName = function (showGuideText) {
+        var result = '';
+
+        if ($scope.POGPopup.selectedThirdCategory == '' && $scope.POGPopup.selectedColumn == '') {
+            if (showGuideText == true)
+                result = '선택하세요';
+            else
+                result = '';
+        }
+        else
+            result = $scope.TrimLeftUnderbar($scope.POGPopup.selectedThirdCategory) + " / " + $scope.POGPopup.selectedColumn;
+
+        return result;
+    }
+
+    $scope.OpenPOGPopup = function () {
+
+        var subTitle = $scope.GetSelectedItemName();
+
+        $scope.param = {};
+        $scope.param.subTitle = subTitle;
+
+        $scope.POGPopup.selectedFirstCategoryTemp = $scope.POGPopup.selectedFirstCategory;
+        $scope.POGPopup.selectedThirdCategoryTemp = $scope.POGPopup.selectedThirdCategory;
+        $scope.POGPopup.selectedColumnTemp = $scope.POGPopup.selectedColumn;
+
+        var url = 'templates/hyper/POGPopup.html';
+        var conditionPopup = $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'POGPopup',
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                
+                if ($scope.POGPopup.selectedFirstCategoryTemp != ''
+                        && $scope.POGPopup.selectedThirdCategoryTemp != ''
+                        && $scope.POGPopup.selectedColumnTemp != '') {
+                    $scope.POGPopup.selectedFirstCategory = $scope.POGPopup.selectedFirstCategoryTemp;
+                    $scope.POGPopup.selectedThirdCategory = $scope.POGPopup.selectedThirdCategoryTemp;
+                    $scope.POGPopup.selectedColumn = $scope.POGPopup.selectedColumnTemp;
+                    $scope.POGPopup.thirdCategoryScrollTop = $scope.POGPopup.thirdCategoryScrollTopTemp;
+                    $scope.POGPopup.columnScrollTop = $scope.POGPopup.columnScrollTopTemp;
+
+                    $scope.GetPOGData();
+                }
+                else {
+                    $scope.POGPopup.selectedFirstCategoryTemp = $scope.POGPopup.selectedFirstCategory;
+                    $scope.POGPopup.selectedThirdCategoryTemp = $scope.POGPopup.selectedThirdCategory;
+                    $scope.POGPopup.selectedColumnTemp = $scope.POGPopup.selectedColumn;
+                    $scope.POGPopup.thirdCategoryScrollTopTemp = $scope.POGPopup.thirdCategoryScrollTop;
+                    $scope.POGPopup.columnScrollTopTemp = $scope.POGPopup.columnScrollTop;
+
+                    PopupService.OpenPopupAlert('', '모든 항목은 필수 선택입니다.', null);
+                }
+            }
+            else {
+                $scope.POGPopup.selectedFirstCategoryTemp = $scope.POGPopup.selectedFirstCategory;
+                $scope.POGPopup.selectedThirdCategoryTemp = $scope.POGPopup.selectedThirdCategory;
+                $scope.POGPopup.selectedColumnTemp = $scope.POGPopup.selectedColumn;
+                $scope.POGPopup.thirdCategoryScrollTopTemp = $scope.POGPopup.thirdCategoryScrollTop;
+                $scope.POGPopup.columnScrollTopTemp = $scope.POGPopup.columnScrollTop;
+            }
+        });
+    }
+
+    $scope.OpenRedundencyGoodsPopup = function () {
+    
+        var url = 'templates/hyper/POGRedundencyGoodsPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'storePopupNew',
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                var temp = $scope.POGPopup.selectedRedundency;
+                
+                $scope.POGPopup.selectedFirstCategory = temp.fircg;
+                $scope.POGPopup.selectedFirstCategoryTemp = temp.fircg;
+                $scope.POGPopup.selectedThirdCategory = temp.thicg;
+                $scope.POGPopup.selectedThirdCategoryTemp = temp.thicg;
+                $scope.POGPopup.selectedColumn = temp.zcol;
+                $scope.POGPopup.selectedColumnTemp = temp.zcol;
+
+                // no have default store yet
+                if ($scope.data.userStore.werks.length != 4) {
+                    $scope.OpenStorePopup();
+                }
+
+                // show data list
+                else {
+                    $scope.GetPOGData();
+                }
+            }
+            else {
+                $scope.POGPopup.selectedFirstCategory = '';
+                $scope.POGPopup.selectedFirstCategoryTemp = '';
+                $scope.POGPopup.selectedThirdCategory = '';
+                $scope.POGPopup.selectedThirdCategoryTemp = '';
+                $scope.POGPopup.selectedColumn = '';
+                $scope.POGPopup.selectedColumnTemp = '';
+
+                PopupService.OpenPopupAlert('', '중복 진열된 상품이므로 반드시 선택해주세요.', $scope.OpenRedundencyGoodsPopup);
+            }
+        });
+    }
+
+    $scope.OnRedundencyGoodsChange = function () {
+        
+    }
+
+    $scope.GetPOGData = function () {
+        $scope.debug.Log('GetPOGData()');
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        POGService.query({
+            plantCode: $scope.storePopup.selectedStore.plantCode,
+            firstCategory: $scope.POGPopup.selectedFirstCategory,
+            thirdCategory: $scope.POGPopup.selectedThirdCategory,
+            column: $scope.POGPopup.selectedColumn,
+            userName: '',
+            goodsCode: ''
+        },
+        function (data) {
+            $ionicLoading.hide();
+            
+            $scope.tblData = data;
+
+            $timeout(SetScroll, 500);
+        },
+        function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+        });
+
+    }
+
+    $scope.TrimLeftUnderbar = function (val) {
+        var idx = -1;
+        var result = val;
+
+        idx = val.indexOf('_');
+        if (idx > -1) {
+            result = val.substring(idx + 1);
+        }
+
+        return result;
+    }
+
+    $scope.SetDataHeight = function () {
+        var totalHeight = $window.innerHeight;
+
+        var headerBarHeight = 45;
+
+        var headlineAHeight = $ionicPosition.offset(angular.element(document.querySelector('#headlineA'))).height;
+        var tableHeaderHeight = $ionicPosition.offset(angular.element(document.querySelector('#tableHeader'))).height;
+
+        var footerHeight = 51;//$ionicPosition.offset(angular.element(document.querySelector('#footer'))).height;
+
+        //
+        //$scope.debug.Log('headlineAHeight=' + headlineAHeight);
+        //$scope.debug.Log('tableHeaderHeight=' + tableHeaderHeight);
+        //$scope.debug.Log('tableHeaderHeight=' + tableHeaderHeight);
+        //$scope.debug.Log('footerHeight=' + footerHeight);
+
+        var dataHeight = totalHeight - headerBarHeight - (headlineAHeight + tableHeaderHeight) - footerHeight;
+
+        //$scope.debug.Log('dataHeight=' + dataHeight);
+
+        var isAndroid = ionic.Platform.isAndroid();
+        var isIPad = ionic.Platform.isIPad();
+        var isIOS = ionic.Platform.isIOS();
+
+        var interpolateValue = 0;
+        if (isAndroid)
+            interpolateValue = -10; // for android
+        if (isIPad || isIOS)
+            interpolateValue = -20; // for iOS
+
+        dataHeight += interpolateValue;
+
+        if (isAndroid) {
+            if ($sessionStorage.androidVersion < 19) {
+                ////dataHeight = dataHeight - 88;
+            }
+        }
+
+        //$scope.debug.Log('dataHeight=' + dataHeight);
+
+        $scope.scrollHeight = dataHeight + 'px';
+    }
+
+    var SetScroll = function () {
+        console.log('POGManagementCtrl.SetScroll');
+        $scope.SetDataHeight();
+    }
+
+    $scope.Init();
+});

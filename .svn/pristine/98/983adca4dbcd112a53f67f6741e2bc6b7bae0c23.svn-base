@@ -1,0 +1,68 @@
+﻿@model Formular.BaaS.Domain.Server
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+
+@using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), ViewContext.RouteData.GetRequiredString("controller"), FormMethod.Post, new { @class = "form-horizontal" }))
+{
+
+    <fieldset>
+        <legend>Monitering Server State</legend>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Name, "", new { placeholder = "Server Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.IPAddress, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.IPAddress, "", new { placeholder = "IP address" })
+            </div>
+        </div>
+        
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.AccountInfo.DomainName , new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.AccountInfo.DomainName , "", new { placeholder = "Domain Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.AccountInfo.UserName , new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.AccountInfo.UserName, "", new { placeholder = "User Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.AccountInfo.Password, new { @class = "control-label" })
+            <div class="controls">
+                @Html.PasswordFor(model => model.AccountInfo.Password, new { placeholder = "Password" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.StoragePath, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.StoragePath, "", new { placeholder = "(option) Upload File Path" })
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,215 @@
+﻿cortrollerModule.controller('NowSalesStockInwerksCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicPopup, $timeout, $cordovaDatePicker) {
+
+    var options = {
+        date: new Date(),
+        mode: 'date', // or 'time'
+        minDate: new Date() - 10000,
+        allowOldDates: true,
+        allowFutureDates: false,
+        doneButtonLabel: 'DONE',
+        doneButtonColor: '#F2F3F4',
+        cancelButtonLabel: 'CANCEL',
+        cancelButtonColor: '#000000'
+    };
+
+    document.addEventListener("deviceready", function () {
+
+        $cordovaDatePicker.show(options).then(function (date) {
+            //alert(date);
+            var selectedDate = new Date(date);
+            $scope.tempDate = selectedDate.toString('yyyy-MM-dd');
+        });
+
+    }, false);
+    //debugger
+    var temp = new Date();
+    $scope.tempDate = temp.toString('yyyy-MM-dd');
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM005'; // updated 
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.search = {};
+    //$scope.search.store = null;
+    //$scope.search.cu = null;
+    //$scope.search.pc = null;    
+    $scope.search.type = '-1-1-1';
+
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.cuPopup = {};
+    $scope.cuPopup.selectedCu = { cuCode: '-1', cuName: '모든CU' };
+    $scope.cuPopup.selectedCuTemp = null;
+    $scope.cuPopup.selectedPc = { pcCode: '-1', pcName: '모든PC' };
+    $scope.cuPopup.selectedPcTemp = null;
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('NowSalesStockInwerksCtrl.Init();');
+
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+
+        $scope.base.swiper();
+    }
+
+    $scope.multiSwiper = function (n) {
+        if (n == null)
+            n = '';
+
+        new Swiper('.swiper-container' + n, {
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        })
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = '현시각 매출 및 재고조회';
+    }
+
+    $scope.InitData = function () {
+
+    }
+
+    $scope.Init();
+
+    $scope.SetSearchType = function () {
+        var store = '0';
+        var cu = '0';
+        var pc = '0';
+
+        if ($scope.storePopup.selectedStore.plantCode == '-1')
+            store = '-1';
+
+        if ($scope.cuPopup.selectedCu.cuCode == '-1')
+            cu = '-1';
+
+        if ($scope.cuPopup.selectedPc.pcCode == '-1')
+            pc = '-1';
+
+        var result = store + cu + pc;
+        $scope.search.type = result;        
+    }
+
+    $scope.OpenStorePopup = function () {
+        ////var name = ($scope.storePopup.selectedStore == null) ? '' : ' : ' + $scope.storePopup.selectedStore.plantName;
+        var name = $scope.storePopup.selectedStore.plantName;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '지점 선택',
+            subTitle: '현재 선택한 지점 ' + name,
+            cssClass: 'storePopup',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+
+                $scope.SetSearchType();
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+
+            $timeout(SetSwiper, 1000); // $scope.base.swiper();
+        });
+    }
+
+    $scope.OpenCuPopup = function () {
+        ////var name = ($scope.cuPopup.selectedCu == null) ? '' : ' : ' + $scope.cuPopup.selectedCu.cuName;
+        ////name += ($scope.cuPopup.selectedPc == null) ? '' : $scope.cuPopup.selectedPc.pcName;
+        var name = $scope.cuPopup.selectedCu.cuName;
+        name += $scope.cuPopup.selectedPc.pcName;
+
+        var url = 'templates/cuPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: 'CU/PC 선택',
+            subTitle: '현재 선택한 CU/PC ' + name,
+            cssClass: 'storePopup', // common use - storePopup, cuPopup
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function (e) {
+                    
+                    if ($scope.cuPopup.selectedCuTemp != null
+                        && $scope.cuPopup.selectedPcTemp != null) {
+                        
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }]
+        }).then(function (result) {          
+
+            if (result == true) {
+                $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                $scope.cuPopup.selectedPc = angular.copy($scope.cuPopup.selectedPcTemp);
+
+                $scope.SetSearchType();
+            }
+            else {
+                $scope.cuPopup.selectedCuTemp = angular.copy($scope.cuPopup.selectedCu);
+                $scope.cuPopup.selectedPcTemp = angular.copy($scope.cuPopup.selectedPc);
+            }
+
+            $timeout(SetSwiper, 1000); // $scope.base.swiper();
+            
+        });
+    }
+
+    var SetSwiper = function () {
+        //$scope.debug.Log('in  $scope.SetSwipe()');
+        $scope.base.swiper();
+    }
+});

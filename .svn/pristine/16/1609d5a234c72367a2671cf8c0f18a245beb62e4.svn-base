@@ -1,0 +1,332 @@
+﻿/*
+page style add by BeiJing ---start
+*/
+
+.button.button-eland-balanced.button-boder, .button.button-eland-light.button-boder {
+	border-width: 2px;
+	width: 100%;
+	font-weight: bolder;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.button-radius {
+
+	padding: 6px;
+	border-radius: 4px;
+	line-height: 14px;
+	float: right;
+	color: white;
+}
+
+.item-eland-width {
+	width: 100%;
+}
+
+.eland-badge {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+	position: absolute;
+	top: 16px;
+	right: 32px;
+	color: black;
+	font-size: 15px;
+}
+
+input.eland-badge {
+	text-align: right;
+	height: 40%;
+}
+
+.eland-item {
+	font-size: 15px;
+	color: black;
+	letter-spacing: -0.5px;
+	border-right: none;
+	border-left: none;
+	vertical-align: middle;
+}
+
+.list {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.list .eland-item {
+	padding-top: 14px;
+	padding-left: 2.5%;
+	padding-right: 2.5%;
+}
+
+.sub-list .list{
+	width: 90%;
+	margin: 0 auto;
+}
+
+.sub-list {
+	width: 47%;
+	float: left;
+	border-top: none;
+	border-right: none;
+}
+
+.sub-list .list .eland-item {
+	padding-top: 14px;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+.eland-font-color-green {
+	color: #158f54;
+}
+
+.goTobutton a {
+	display: block;
+	border: 2px solid #ccc;
+	color: #ccc;
+	font-weight: 600;
+	line-height: 36px;
+	text-align: center;
+	text-decoration: none;
+	letter-spacing: 0.5px;
+}
+
+.goTobutton a:hover {
+	opacity: 0.5;
+}
+.list .item .hideCheck{
+	display:none;
+}
+.list .item .activeCheck{
+	display:inline;
+}
+
+.select {
+	width: 100%;
+}
+
+.select .item {
+	padding: 0;
+}
+
+.select .row.list {
+	height: 44px;
+	bottom: 10px;
+}
+
+.select .row .col, .eland-table-header div.row, .eland-table-body div.row {
+	text-align: center;
+}
+
+.eland-table-header {
+	padding: 0;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+}
+
+.eland-table-header .row.list {
+	padding: 0;
+}
+
+.eland-table-header div.row a {
+	display: inherit;
+}
+
+.eland-table-body {
+	padding: 0;
+	border-left: none;
+	border-right: none;
+}
+
+.eland-col-offset-7 {
+	margin-left: 7%;
+}
+
+.col-offset-2 {
+	margin-left: 3%;
+}
+
+.eland-col-6 {
+	-webkit-box-flex: 0;
+	-webkit-flex: 0 0 19%;
+	-moz-box-flex: 0;
+	-moz-flex: 0 0 19%;
+	-ms-flex: 0 0 19%;
+	flex: 0 0 19%;
+	max-width: 19%; }
+
+.eland-radio-list .item {
+	border-right: none;
+	border-left: none;
+
+}
+
+.eland-radio-list .eland-item-fixed {
+	padding: 14px;
+}
+
+.eland-radio-list .item div {
+	padding-left: 14px;
+	padding-bottom: 14px;
+	padding-top: 14px;
+}
+
+.eland-radio-list .item-radio .radio-icon {
+	padding: 8px;
+}
+
+.eland-radio-list .item-radio input {
+	/* hide any radio button inputs elements (the ugly circles) */
+	position: absolute;
+	left: -9999px; }
+.eland-radio-list .item-radio input:checked ~ .item-content {
+	/* style the item content when its checked */
+	background: #f7f7f7; }
+.eland-radio-list .item-radio input:checked ~ .radio-icon {
+	/* show the checkmark icon when its checked */
+	visibility: visible; }
+
+/*
+RealStockControl
+*/
+.realstock-button-radius {
+	float: right;
+}
+
+.realstock-padding {
+	padding-left: 0;
+	padding-right: 0;
+	border-right: none;
+	border-left: none;
+}
+
+/*
+Sale Projections
+*/
+.list .saleProjections-padding {
+	padding: 14px 2.5%;
+}
+
+div.eland-tab-hover {
+	cursor: pointer;
+}
+
+div.eland-tab-hover a {
+	color: #ccc;
+}
+
+div.eland-tab-hover .active {
+	border-bottom: 3px solid #158f54;
+}
+
+div.eland-tab-hover .active a {
+	color:  #158f54;
+}
+
+div.eland-tab-hover .list {
+	width: 100%;
+}
+
+.saleProjection-header.eland-table-header {
+	padding: 6px;
+}
+
+.table-header div,.table-body div {
+	float: left;
+	width: 25%;
+	text-align: center;
+}
+
+.saleNewlist.list {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.table-header.eland-table-header-item {
+	border-bottom: none;
+	border-top: none;
+	padding: 12px;
+}
+
+.eland-table-body-item, .eland-table-header-item {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	width: 95%;
+	margin-left: 1.2%;
+	margin-right: 1.2%;
+	padding: 11px;
+}
+
+/*CEOReportPlant.html */
+.pogManagement{
+	width:100%;
+}
+.pogScroll .scroll {
+	height: 100%;
+}
+.CEOreportPlant{
+	width:100%;
+	color: #333;
+	letter-spacing: -0.5px;
+}
+.CEOreportPlant .tabs-top .tabs{
+	top:0px;
+}
+.CEOreportPlant .tab-nav .tab-item{
+	max-width:50%;
+	color:#ccc;
+	font-weight:600;
+	line-height:45px;
+}
+.CEOreportPlant .tab-content .has-tabs-top{
+	top:48px;
+}
+.CEOreportPlant .item-date{
+	padding:0px 8px;
+	border-left: none;
+	border-right: none;
+	font-size:12px;
+	line-height: 44px;
+	font-weight:500;
+}
+
+.CEOreportPlant .item-date .item-right{
+	float:right;
+}
+.CEOreportPlant .item-date .item-left{
+	float:left;
+}
+.CEOreportPlant .margin-top-date{
+	margin-top:5px;
+	color:#4285f4;
+}
+.CEOreportPlant .margin-top-date:hover{
+	opacity:0.6;
+}
+.CEOreportPlant .report-table-item{
+	font-size:12px;
+	font-weight: 500;
+
+}
+.CEOreportPlant .report-table-item .row{
+	padding:2px 8px;
+}
+.CEOreportPlant .col-16{
+	-webkit-box-flex: 0;
+	-webkit-flex: 0 0 16.6667%;
+	-moz-box-flex: 0;
+	-moz-flex: 0 0 16.6667%;
+	-ms-flex: 0 0 16.6667%;
+	flex: 0 0 16.6667%;
+	max-width: 16.6667%;
+}
+
+/*
+page style add by BeiJing ---end
+*/

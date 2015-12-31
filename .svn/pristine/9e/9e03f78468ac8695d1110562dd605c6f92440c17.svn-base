@@ -1,0 +1,297 @@
+﻿controllerModule.controller('OrderProposalCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, $window, $timeout, $ionicPosition, $cordovaDatePicker, MenuApiService, FavoriteService, PopupService, UtilService) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM021'; // [TEMP] NRSM021 ??
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.style.showCalendarButton = 'none';
+    $scope.style.showIPadCalendarButton = 'none';
+    $scope.style.showReloadButton = 'none';
+
+    $scope.favorite.support = false;
+
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = null;
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.orderProposal = {};
+    $scope.orderProposal.showIPadCalendarButton = false;
+    $scope.orderProposal.showCalendarButton = !$scope.orderProposal.showIPadCalendarButton;
+
+    $scope.orderProposal.result = {};
+
+    $scope.widthFlag = 320;
+    $scope.currentWidth;
+    $scope.standardViewSize = 'S'; // S, B
+
+    
+    $scope.Init = function () {
+
+        $scope.currentWidth = $window.innerWidth;
+        if ($scope.currentWidth > $scope.widthFlag)
+            $scope.standardViewSize = 'B';
+
+        var interplateValue = 10;
+        if ($scope.standardViewSize == 'B')
+            interplateValue = 20;
+
+        $scope.currentWidth = ($scope.currentWidth - interplateValue) + 'px';
+        console.log('$scope.standardViewSize=' + $scope.standardViewSize);
+
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+        
+        ////[TEMP]
+        if (isAuthenticate == false) {
+            ////PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            ////return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        $scope.InitData();
+
+        var isIPad = ionic.Platform.isIPad();
+        isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+            $scope.base.SetCalendarCallbackForIPad($scope.datePickerCallbackForIPad);            
+        }
+
+        $scope.orderProposal.showIPadCalendarButton = isIPad;
+        $scope.orderProposal.showCalendarButton = !$scope.orderProposal.showIPadCalendarButton;
+    }
+
+    $scope.GoHome = function () {
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+
+        $scope.orderProposal.userStore = {};
+        $scope.orderProposal.userStore.storeCode = $scope.user.plantCode;   // 구매조직
+        $scope.orderProposal.purchaseGroupCode = '';                        // 구매그룹
+        $scope.orderProposal.storeCode = '';                                // 지점
+        $scope.orderProposal.scanDate = UtilService.FormatDate(new Date()); // 스캔일자
+        $scope.orderProposal.userCode = $scope.user.empNo;                  // 사번
+    }
+    
+    $scope.datePickerCallbackForIPad = function (val) {
+
+        if (typeof (val) === 'undefined') {
+        }
+        else {
+            $scope.orderProposal.scanDate = UtilService.FormatDate(val);
+            SetDefaultCalendarDate($scope.orderProposal.scanDate);
+        }
+    }
+
+    $scope.OpenDatePick = function () {
+
+        var initDate = $scope.orderProposal.tempScanDate == null ? new Date() : $scope.orderProposal.tempScanDate;
+
+        var options = {
+            date: initDate,
+            mode: 'date', // or 'time'
+            minDate: new Date() - 10 * 365 * 24 * 60 * 60 * 1000,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#ddd',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var isIPad = ionic.Platform.isIPad();
+        if (isIPad == true) {
+        }
+        else {
+            $cordovaDatePicker.show(options).then(function (date) {
+                var selectedDate;
+                if (date == undefined || date == null) {
+                    selectedDate = new Date();
+                }
+                else {
+                    selectedDate = new Date(date);
+
+                    $scope.orderProposal.scanDate = UtilService.FormatDate(selectedDate);
+                    $scope.orderProposal.tempScanDate = selectedDate; // set current selected
+                }
+            });
+        }
+    }
+    
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+        $scope.param.noHaveAllStore = true;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'storePopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+        });
+    }
+
+    $scope.SetDataHeight = function () {
+        var totalHeight = $window.innerHeight;
+
+        var headerBarHeight = 45;
+
+        var headlineAHeight = $ionicPosition.offset(angular.element(document.querySelector('#headlineA'))).height;
+        var headlineBHeight = $ionicPosition.offset(angular.element(document.querySelector('#headlineB'))).height;
+        var tableHeaderHeight = $ionicPosition.offset(angular.element(document.querySelector('#orderProposalTableHeader'))).height;
+
+        var footerHeight = 51;//angular.element(document.querySelector('#footer'))[0].offsetHeight;
+
+        var dataHeight = totalHeight - headerBarHeight - (headlineAHeight + headlineBHeight + tableHeaderHeight) - footerHeight;
+
+        var isAndroid = ionic.Platform.isAndroid();
+        var isIPad = ionic.Platform.isIPad();
+        var isIOS = ionic.Platform.isIOS();
+
+        var interpolateHeight = 0;
+        if (isAndroid)
+            interpolateHeight = -10; // for android
+        if (isIPad || isIOS)
+            interpolateHeight = -20; // for iOS
+
+        dataHeight += interpolateHeight;
+
+        if (isAndroid) {
+            if ($sessionStorage.androidVersion < 19) {
+                ////dataHeight = dataHeight - 88;
+            }
+        }
+
+        $scope.scrollHeight = dataHeight + 'px';
+
+        $scope.debug.Log('$scope.scrollHeight=' + $scope.scrollHeight);
+    }
+
+    $scope.Search = function () {
+        
+        //
+        $scope.GetData();       
+
+    }
+
+    $scope.GetData = function () {
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        // mock
+        //var tempType = {
+        //    PROP1: '', // 구매처명
+        //    PROP2: '', // 상품코드
+        //    PROP3: '', // 상품명
+        //    PROP4: '', // 발주수량
+        //    PROP5: '', // 입수
+
+        //    PROP6: '', // 납품예정일
+        //    PROP7: '', // 단가구분
+        //    PROP8: '', // 구매단가
+        //    PROP9: '', // 재고수량
+        //    PROP10: '', // 
+        //}
+
+        var resultArray = new Array();
+        var j = 0;
+        for (var i = 1; i < 100; i += 10) {
+            var temp = {};
+            j++;
+            temp.PROP1 = ('PROP' + j) + i;
+            temp.PROP2 = ('PROP' + j) + (i + 1);
+            temp.PROP3 = ('PROP' + j) + (i + 2);
+            temp.PROP4 = ('PROP' + j) + (i + 3);
+            temp.PROP5 = ('PROP' + j) + (i + 4);
+            temp.PROP6 = ('PROP' + j) + (i + 5);
+            temp.PROP7 = ('PROP' + j) + (i + 6);
+            temp.PROP8 = ('PROP' + j) + (i + 7);
+            temp.PROP9 = ('PROP' + j) + (i + 8);
+            temp.PROP10 = ('PROP' + j) + (i + 9);
+
+            resultArray.push(temp);
+        }
+
+        $scope.orderProposal.result = resultArray;
+        $ionicLoading.hide();
+        ////OrderProposalService.query({
+        ////    input: $scope.popup.standard,
+        ////    gubun: "1",
+        ////    date: $scope.headerDate,
+        ////    plantCode: "",
+        ////    brandCode: "",
+        ////    personNumber: $scope.user.loginId
+        ////},
+        ////function (data) {
+        ////    $ionicLoading.hide();
+            
+        ////    if (data.result == 'E') {
+        ////        PopupService.OpenPopupAlert(data.message);
+        ////        return;
+        ////    }
+
+        ////    $timeout($scope.SetDataHeight, 500);
+        ////},
+        ////function (error) {
+        ////    $ionicLoading.hide();
+        ////    $scope.debug.Log(error);
+        ////});
+    }
+
+    $scope.StartChange = function () {
+
+    }
+
+    $scope.Save = function () {
+
+    }
+
+    $scope.Remove = function () {
+
+    }
+
+    $scope.Init();
+});

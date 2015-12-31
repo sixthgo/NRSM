@@ -1,0 +1,196 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer">
+        <div id="container" class="orange">
+            <ul id="headlineA" class="list">
+                <li>
+                    <p class="left">구매조직</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.userStore.storeCode" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">구매그룹</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.purchaseGroupCode" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">지점</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.storeCode" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">Scan일자</p>
+                    <p class="right">                        
+                        <span class="date" ng-hide="!orderProposal.showIPadCalendarButton">
+                            <ionic-datepicker id="iPadCalendar" input-obj="base.datepickerObject" ng-click="base.ClickIPadCalendar()">
+                                <span>{{orderProposal.scanDate}}</span>(ionic)
+                            </ionic-datepicker>
+                        </span>
+                        <span ng-click="OpenDatePick()" ng-hide="!orderProposal.showCalendarButton">{{orderProposal.scanDate}}(cordova)</span>
+                    </p>
+                </li>
+                <li>
+                    <p class="left">사원 번호</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="user.plantCode" />
+                    </p>
+                </li>
+            </ul>
+
+            <!--<ul id="headlineB" class="box_btn_list">
+                <li class="btn_gray">
+                    <a href="" ng-click="Search()">조회</a>
+                </li>
+                <li class="btn_border btn_color"><a href="" ng-click="StartChange()">변경</a></li>
+                <li class="btn_border"><a class="btn_color" href="" ng-click="Save()">저장</a></li>
+            </ul>-->
+            <div id="headlineB" class="row">
+                <div class="col col30 btn_border btn_search btn_gray" ng-click="Search()" style="margin-right: 5px;">
+                    <a>조회</a>
+                </div>
+                <div class="col col30 btn_border btn_search btn_color" ng-click="StartChange()" style="margin-right: 5px;">
+                    <a>변경</a>
+                </div>
+                <div class="col col30 btn_border btn_search btn_color" ng-click="Save()" style="margin-right: 5px;">
+                    <a>저장</a>
+                </div>
+            </div>
+
+            <!--<table id="orderProposalTableHeader" >--> <!--ng-style="{'width': currentWidth}"-->
+                <!--구매처명    상품코드    상품명     발주수량    입수 
+                    납품예정일   단가구분    구매단가    재고수량    삭제-->
+                <!--<tr>
+                    <th class="width10P" on-hold="ShowPopover($event, '구매처명')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">구매처명</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">구매처명</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '상품코드')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">상품코드</div>
+                        <div class="th50" ng-if="standardViewSize != 'S'">상품코드</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '상품명')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">상품명</div>
+                        <div class="th50" ng-if="standardViewSize != 'S'">상품명</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '발주수량')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">발주수량</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">발주수량</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '입수')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">입수</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">입수</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '납품예정일')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">납품예정일</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">납품예정일</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '단가구분')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">단가구분</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">단가구분</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '구매단가')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">구매단가</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">구매단가</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '재고수량')" style="padding: 0 0 0 0">
+                        <div class="th30" ng-if="standardViewSize == 'S'">재고수량</div>
+                        <div class="th30" ng-if="standardViewSize != 'S'">재고수량</div>
+                    </th>
+                    <th class="width10P" on-hold="ShowPopover($event, '삭제')" style="padding: 0 0 0 0">
+                        <div class="th30">삭제</div>
+                    </th>
+                </tr>-->
+
+                <!--<tr>
+                    <th class="width20P" on-hold="ShowPopover($event, '구매처명')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">구매처명</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">구매처명</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '상품코드')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">상품코드</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">상품코드</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '상품명')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">상품명</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">상품명</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '발주수량')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">발주수량</div>
+                        <div class="th50" ng-if="standardViewSize != 'S'">발주수량</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '입수')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">입수</div>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="width20P" on-hold="ShowPopover($event, '납품예정일')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">납품예정일</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">납품예정일</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '단가구분')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">단가구분</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">단가구분</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '구매단가')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">구매단가</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">구매단가</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '재고수량')">
+                        <div class="th50" ng-if="standardViewSize == 'S'">재고수량</div>
+                        <div class="th70" ng-if="standardViewSize != 'S'">재고수량</div>
+                    </th>
+                    <th class="width20P" on-hold="ShowPopover($event, '삭제')">
+                        <div class="th50">삭제</div>
+                    </th>
+                </tr>-->
+
+            <div id="orderProposalTableHeader" class="list subTableHeader" ng-style="{'width': currentWidth}" style="margin-bottom: 0px;">
+                <div class="row">
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '구매처명')">구매처명</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '상품코드')">상품코드</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '상품명')">상품명</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '발주수량')">발주수량</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '입수')">입수</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '납품예정일')">납품예정일</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '단가구분')">단가구분</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '구매단가')">구매단가</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '재고수량')">재고수량</div>
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '삭제')">삭제</div>
+                </div>
+            </div>
+
+            <ion-scroll direction="y" id="scrollA_orderProposal" ng-style="{'height':scrollHeight}">
+                <div class="list " ng-repeat="item in orderProposal.result">
+                    <div class="row">
+                        <div class="col col-center">{{item.PROP1}}</div>
+                        <div class="col col-center">{{item.PROP2 }}</div>
+                        <div class="col col-center">{{item.PROP3 }}</div>
+                        <div class="col col-center">
+                            <input type="text" class="col" ng-model="item.PROP4" />
+                        </div>
+                        <div class="col col-center">{{item.PROP5 }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-center">
+                            <input type="text" ng-model="item.PROP6" />
+                        </div>
+                        <div class="col col-center">{{item.PROP7 }}</div>
+                        <div class="col col-center">{{item.PROP8 }}</div>
+                        <div class="col col-center">{{item.PROP9 }}</div>
+                        <div class="col col-center">
+                            <button class="button button-small button-assertive" ng-click="remove(item.prop2)" style="min-height: 25px !important; min-width: 50px;">삭제</button>
+                        </div>
+                    </div>
+                </div>
+            </ion-scroll>
+        </div>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,455 @@
+{
+  "files": {
+    "autoupdate": {
+      "filename": "lib/cordova-app-loader/dist/autoupdate.min.js",
+      "version": "19d0d9b8c5819df3fff81ae7292f58ac23687893"
+    },
+    "ionic.css": {
+      "filename": "lib/ionic/css/ionic.css",
+      "version": "58c76e806bf43078d4243c542bbaa6b6807535e3"
+    },
+    "eland.css": {
+      "filename": "lib/eland/css/eland.css",
+      "version": "2961d1fd5dd1a34a024ff24dd9212f663713277b"
+    },
+    "swiper.css": {
+      "filename": "lib/eland/css/swiper.css",
+      "version": "fab59d75a5c807b0ae9887f364b7c114cfbd9734"
+    },
+    "ngDialog.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog.css",
+      "version": "44c7c86bd24c6dd7dd828d88732beb0757694159"
+    },
+    "ngDialog-theme-default.min.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog-theme-default.min.css",
+      "version": "747a98440aadf225fbf87699f7e4484f72f5139e"
+    },
+    "ngDialog-theme-plain.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog-theme-plain.css",
+      "version": "f22856c473c5e9a60091c1125127c5d798c5d78b"
+    },
+    "ngDialog-custom-width.css": {
+      "filename": "lib/eland/js/ngDialog/css/ngDialog-custom-width.css",
+      "version": "0c179527ccc410d3a8dbaab093573f769dfcaf42"
+    },
+    "jquery-ui.min.css": {
+      "filename": "lib/eland/js/jqueryUI/css/jquery-ui.min.css",
+      "version": "fb61c3a75ba0b80010f5eb05d76c89982fec1a2e"
+    },
+    "ionSlideTabs.css": {
+      "filename": "lib/eland/js/ionSildeTabs/css/ionSlideTabs.css",
+      "version": "82690d544056648e39ed4294785cbc13cab3d955"
+    },
+    "style.css": {
+      "filename": "css/style.css",
+      "version": "8ef24b6ad34df12cc24c4bc42f84be11ba6f3af6"
+    },
+    "style-nrsm.css": {
+      "filename": "css/style-nrsm.css",
+      "version": "d6cb14f657fb52625756eb2e8bea5e3e5ee89fce"
+    },
+    "main_ionic_cover.css": {
+      "filename": "css/main_ionic_cover.css",
+      "version": "98a58f26fc3aa8a3bbbc05396a6cc8b9ed70be65"
+    },
+    "jquery-1.10.0": {
+      "filename": "lib/eland/js/jquery/jquery-1.10.0.js",
+      "version": "aeb1fc3900153c9b6c39ceee9d3622fac4a686ff"
+    },
+    "ionic.bundle": {
+      "filename": "lib/ionic/js/ionic.bundle.js",
+      "version": "179480e56d4b4faac332b2abaa43b31abda071f2"
+    },
+    "angular-route": {
+      "filename": "lib/ionic/js/angular/angular-route.js",
+      "version": "7510f46e9fa0e7be65c18ebfab5c2618aec5a73f"
+    },
+    "angular-resource": {
+      "filename": "lib/ionic/js/angular/angular-resource.js",
+      "version": "a153b3344f34e6f0e5254527467a9da451c181f8"
+    },
+    "angular-cookies": {
+      "filename": "lib/ionic/js/angular/angular-cookies.js",
+      "version": "25769f9c059eb900cbd1941db7c9e3ee88d7d962"
+    },
+    "angular-sanitize": {
+      "filename": "lib/ionic/js/angular/angular-sanitize.js",
+      "version": "be82ec127e7af703484b5c87aade7ece005b1745"
+    },
+    "angular-touch": {
+      "filename": "lib/ionic/js/angular/angular-touch.js",
+      "version": "a28709aeb92229be60cdb7cc6fdb42a7d1fc7dcf"
+    },
+    "angular-deckgrid": {
+      "filename": "lib/eland/js/angular-deckgrid/angular-deckgrid.js",
+      "version": "cdeecb33ffd751c07d222bb4ec1eb0b88cda588a"
+    },
+    "autocomplete.directive": {
+      "filename": "lib/eland/js/autocomplte/autocomplete.directive.js",
+      "version": "89cae0830c54c135161c48c65aa0ae0507ff7dc7"
+    },
+    "ng-cordova": {
+      "filename": "lib/eland/js/ngCordova/dist/ng-cordova.js",
+      "version": "986b25ab6fe48a338f205c9de70264efd149dd1e"
+    },
+    "ngDialog": {
+      "filename": "lib/eland/js/ngDialog/js/ngDialog.js",
+      "version": "25385f6973e2660d86307d51d0ea4155e2f31a1d"
+    },
+    "jquery-ui.min": {
+      "filename": "lib/eland/js/jqueryUI/js/jquery-ui.min.js",
+      "version": "130216a6c5f106bd3de9ca4a274f4e8c0a0925ad"
+    },
+    "jquery.ui.touch-punch": {
+      "filename": "lib/eland/js/jqueryUI/js/jquery.ui.touch-punch.js",
+      "version": "be2b8f8c205c05b23e81b0b34ba9b73b95dc6d53"
+    },
+    "ionSildeTabs": {
+      "filename": "lib/eland/js/ionSildeTabs/js/ionSildeTabs.js",
+      "version": "562836af5cf7ac249a0b12f2f0817519ffed98ad"
+    },
+    "swiper": {
+      "filename": "lib/eland/js/swiper.js",
+      "version": "d9ee99f5ae24830712be98ab32e214ed26249c1e"
+    },
+    "multiLanguage": {
+      "filename": "js/multiLanguage.js",
+      "version": "f612d0c9dfcf1736665856027c346c780a4cfe72"
+    },
+    "angular-translate": {
+      "filename": "lib/eland/js/angular-translate/angular-translate.js",
+      "version": "30fc40e5e9b78185c64eb17deae4753cbb5fad46"
+    },
+    "ngStorage": {
+      "filename": "lib/eland/js/ngstorage/ngStorage.js",
+      "version": "79bd45706a3b63aab633d7e6233a4a9c20ca1be8"
+    },
+    "getUserPurgCode-service": {
+      "filename": "js/services/getUserPurgCode-service.js",
+      "version": "5bb8ba0b13c50e644d32739982308d98aaf102e8"
+    },
+    "app": {
+      "filename": "js/app.js",
+      "version": "582060f06c031f2c216d7ffdd71c2da6b2bb2340"
+    },
+    "checkCtrl": {
+      "filename": "js/controllers/checkCtrl.js",
+      "version": "55e9f51667786ca4fdd6e42ca73d4d45d9f119a9"
+    },
+    "menuCtrl": {
+      "filename": "js/controllers/menuCtrl.js",
+      "version": "301a7f31404b11921ec28de13467c0186553c552"
+    },
+    "homeCtrl": {
+      "filename": "js/controllers/homeCtrl.js",
+      "version": "a5defab6f5ff44e34d39ec54ff70dc710a7aecc1"
+    },
+    "footerCtrl": {
+      "filename": "js/controllers/footerCtrl.js",
+      "version": "10f438b7643f295f4a9bc5323d85f9afd7bb08b4"
+    },
+    "adminCtrl": {
+      "filename": "js/controllers/adminCtrl.js",
+      "version": "8df51507200c82c752bee3f3c03d9156ba2e1eb8"
+    },
+    "commonCtrl": {
+      "filename": "js/controllers/common/commonCtrl.js",
+      "version": "d268b14fc067b165420c221bbc1e1ad63960a8e9"
+    },
+    "floorplanSalesSearchCtrl": {
+      "filename": "js/controllers/common/floorplanSalesSearchCtrl.js",
+      "version": "2901fe6a264149bb22d2fc6b6cbffff2b781b4f6"
+    },
+    "floorplanRecordSearchCtrl": {
+      "filename": "js/controllers/common/floorplanRecordSearchCtrl.js",
+      "version": "642624ae7a2bfd705b4c89529291531e846bccad"
+    },
+    "managerReportCtrl": {
+      "filename": "js/controllers/managerReport/managerReportCtrl.js",
+      "version": "f98b3d9ddfcad083c4d496f81ea5233796e937d0"
+    },
+    "reportStoreCtrl": {
+      "filename": "js/controllers/managerReport/reportStoreCtrl.js",
+      "version": "3c1456c01bd5b3163db01d0aedd61df6c3f60c24"
+    },
+    "reportCuCtrl": {
+      "filename": "js/controllers/managerReport/reportCuCtrl.js",
+      "version": "f5920080c62d9f5adef996c2b3c6740e5e2aa2f1"
+    },
+    "hyperCtrl": {
+      "filename": "js/controllers/hyper/hyperCtrl.js",
+      "version": "d14c3d71c1772e15df31376c342ba693a99a32fd"
+    },
+    "sampleCtrl": {
+      "filename": "js/controllers/hyper/sampleCtrl.js",
+      "version": "9d67e1667fd6677d308c58d829c89fc02877bcbc"
+    },
+    "CEOReportPlantCtrl": {
+      "filename": "js/controllers/managerReport/CEOReportPlantCtrl.js",
+      "version": "9ab6fccf864ab85e6a488f0f600b26e0216ae122"
+    },
+    "CEOReportCUCtrl": {
+      "filename": "js/controllers/managerReport/CEOReportCUCtrl.js",
+      "version": "8ce9a1e2fdb64e0c945ed91c7d15e716a7ab1ac8"
+    },
+    "profitToPlanCtrl": {
+      "filename": "js/controllers/sales/profitToPlanCtrl.js",
+      "version": "177f19cc6ee96e29b76cf9f5e89a79803fb55515"
+    },
+    "nowSalesStockInwerksCtrl": {
+      "filename": "js/controllers/sales/nowSalesStockInwerksCtrl.js",
+      "version": "8ce1d4ec26f8f32727b3f0a3299c7d459ccd0744"
+    },
+    "nowEventSalesCtrl": {
+      "filename": "js/controllers/sales/nowEventSalesCtrl.js",
+      "version": "207cecef7629c4fbb036e897cf64d02fc60f3c1f"
+    },
+    "nowEventSalesDetailCtrl": {
+      "filename": "js/controllers/sales/nowEventSalesDetailCtrl.js",
+      "version": "fb0a0059503e3da65d8cfc5447bda918600164ff"
+    },
+    "nowEventSalesTimeCtrl": {
+      "filename": "js/controllers/sales/nowEventSalesTimeCtrl.js",
+      "version": "78fe6753d1a0a519b70d5427ad0876255d570084"
+    },
+    "nowEventSalesBrandCtrl": {
+      "filename": "js/controllers/sales/nowEventSalesBrandCtrl.js",
+      "version": "e0afee985c4ad8e483c6ba6acfe6fc587aadb5b0"
+    },
+    "productInformationCtrl": {
+      "filename": "js/controllers/common/productInformationCtrl.js",
+      "version": "48bfe69aeaca2e03ff60247a0342416a84e349ae"
+    },
+    "productDetailCtrl": {
+      "filename": "js/controllers/common/productDetailCtrl.js",
+      "version": "e5b8eb6887ec75f0ffbae9e989ef78dfb8ad510b"
+    },
+    "EIMSInformationCtrl": {
+      "filename": "js/controllers/common/EIMSInformationCtrl.js",
+      "version": "fadd192bb2869fa7780e985ffc2874b8dc7b0723"
+    },
+    "salesProjectionsCtrl": {
+      "filename": "js/controllers/common/salesProjectionsCtrl.js",
+      "version": "1372851fab62f1c7fab20f2090609256b999a41c"
+    },
+    "floorPlanSalesCtrl": {
+      "filename": "js/controllers/common/floorPlanSalesCtrl.js",
+      "version": "5a04d98de5f9ad75f8d87d368a2dd0a4f22cd9f1"
+    },
+    "floorPlanSalesPopupCtrl": {
+      "filename": "js/controllers/common/floorPlanSalesPopupCtrl.js",
+      "version": "eca4cee03241f6925c955b8d802d91fa7767d3f3"
+    },
+    "floorPlanStoreDetailPopupCtrl": {
+      "filename": "js/controllers/common/floorPlanStoreDetailPopupCtrl.js",
+      "version": "764787d3f7deb6ec9cb0ee3319afb01c21013e22"
+    },
+    "floorPlanAccrueSalesCtrl": {
+      "filename": "js/controllers/common/floorPlanAccrueSalesCtrl.js",
+      "version": "1987519effe0ce55f7d136ae0fe41db916b913a3"
+    },
+    "floorPlanAccrueSalesPopupCtrl": {
+      "filename": "js/controllers/common/floorPlanAccrueSalesPopupCtrl.js",
+      "version": "ad03f991bee51de25d8b0044ed23c01d4a1ec3d8"
+    },
+    "floorPlanRecordCtrl": {
+      "filename": "js/controllers/common/floorPlanRecordCtrl.js",
+      "version": "f35a1c112920bd011d82740059dc7b5ed2b12fa2"
+    },
+    "freshStockCtrl": {
+      "filename": "js/controllers/hyper/freshStockCtrl.js",
+      "version": "f450fbd497f18b8a9c365f362d4580faef97be30"
+    },
+    "manualOrderCtrl": {
+      "filename": "js/controllers/hyper/manualOrderCtrl.js",
+      "version": "ef1f140cca3f1d45eebeddfb05ca5ca01ea9865f"
+    },
+    "realStockControlCtrl": {
+      "filename": "js/controllers/hyper/realStockControlCtrl.js",
+      "version": "97c88ccaf42c99638754d2add597f7e59a55e1d9"
+    },
+    "barcodeSendCtrl": {
+      "filename": "js/controllers/hyper/barcodeSendCtrl.js",
+      "version": "fa7c7d362016b9cdd89a6e25e9eee0c0f4cae05c"
+    },
+    "POGManagementCtrl": {
+      "filename": "js/controllers/hyper/POGManagementCtrl.js",
+      "version": "d55f4891360bb6e859f4f0e2cdcb1c2b82538606"
+    },
+    "POGPopupCtrl": {
+      "filename": "js/controllers/hyper/POGPopupCtrl.js",
+      "version": "2aa7abee468967daef474e3990ee36358a93ec34"
+    },
+    "dailyStockCtrl": {
+      "filename": "js/controllers/sc/dailyStockCtrl.js",
+      "version": "aaa603db0026be60eb1ff60af4d0ed68007391ea"
+    },
+    "stockRegisterCtrl": {
+      "filename": "js/controllers/sc/stockRegisterCtrl.js",
+      "version": "21922137041ce0df9d5dbf037839f5df8d60529d"
+    },
+    "inventoryCountingCtrl": {
+      "filename": "js/controllers/sc/inventoryCountingCtrl.js",
+      "version": "eaba9a10b38b509ba45871fa96f43b880dd1ee10"
+    },
+    "storePopupCtrl": {
+      "filename": "js/controllers/storePopupCtrl.js",
+      "version": "bb4dab4385b33ece6a40d947fe0d22a54eecdb56"
+    },
+    "cuPopupCtrl": {
+      "filename": "js/controllers/cuPopupCtrl.js",
+      "version": "b033c4cbf9d379566d8332108c37299fc706f9ce"
+    },
+    "elandDirective": {
+      "filename": "js/directive/elandDirective.js",
+      "version": "3ef8fca3074fb4b0e21e9e5accb2640fcb093505"
+    },
+    "SVGPanZoom": {
+      "filename": "js/SVGPanZoom.js",
+      "version": "b746799986ed3b7ee875b5d13ec73ec68a91732e"
+    },
+    "slide.and.push": {
+      "filename": "lib/eland/js/slideAndpush/slide.and.push.js",
+      "version": "67f19b9e516ac6d0ca6ed15382375cd3c84465d2"
+    },
+    "ionic-datepicker.styles.css": {
+      "filename": "lib/ionic-datepicker/src/ionic-datepicker.styles.css",
+      "version": "6fad5cabcc25f9010c7be1ef4086c07e3dbc56a8"
+    },
+    "ionic-datepicker.app.js": {
+      "filename": "lib/ionic-datepicker/src/ionic-datepicker.app.js",
+      "version": "72844a207c2b14373c3ea998a1ff2286a10c3d04"
+    },
+    "ionic-datepicker.directive": {
+      "filename": "lib/ionic-datepicker/src/ionic-datepicker.directive.js",
+      "version": "b4a30c34ee5c163c545058e1f6d43e737e7ddb83"
+    },
+    "ionic-datepicker.service": {
+      "filename": "lib/ionic-datepicker/src/ionic-datepicker.service.js",
+      "version": "2321614e93b8b1a124f81f70ad31caf2e6a416c9"
+    },
+    "ionic-datepicker.bundle.min": {
+      "filename": "lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js",
+      "version": "af3c2cbc9dfc8a3641217b489440f8ad95c13050"
+    }
+  },
+  "load": [
+    "lib/cordova-app-loader/dist/autoupdate.min.js",
+    "lib/ionic/css/ionic.css",
+    "lib/eland/css/eland.css",
+    "lib/eland/css/swiper.css",
+    "lib/eland/js/ngDialog/css/ngDialog.css",
+    "lib/eland/js/ngDialog/css/ngDialog-theme-default.min.css",
+    "lib/eland/js/ngDialog/css/ngDialog-theme-plain.css",
+    "lib/eland/js/ngDialog/css/ngDialog-custom-width.css",
+    "lib/eland/js/jqueryUI/css/jquery-ui.min.css",
+    "lib/eland/js/ionSildeTabs/css/ionSlideTabs.css",
+    "css/style.css",
+    "css/style-nrsm.css",
+    "css/main_ionic_cover.css",
+    "lib/eland/js/jquery/jquery-1.10.0.js",
+    "lib/ionic/js/ionic.bundle.js",
+    "lib/ionic/js/angular/angular-route.js",
+    "lib/ionic/js/angular/angular-resource.js",
+    "lib/ionic/js/angular/angular-cookies.js",
+    "lib/ionic/js/angular/angular-sanitize.js",
+    "lib/ionic/js/angular/angular-touch.js",
+    "lib/eland/js/angular-deckgrid/angular-deckgrid.js",
+    "lib/eland/js/autocomplte/autocomplete.directive.js",
+    "lib/eland/js/ngCordova/dist/ng-cordova.js",
+    "lib/eland/js/ngDialog/js/ngDialog.js",
+    "lib/eland/js/jqueryUI/js/jquery-ui.min.js",
+    "lib/eland/js/jqueryUI/js/jquery.ui.touch-punch.js",
+    "lib/eland/js/ionSildeTabs/js/ionSildeTabs.js",
+    "lib/eland/js/swiper.js",
+    "js/multiLanguage.js",
+    "lib/eland/js/angular-translate/angular-translate.js",
+    "lib/eland/js/ngstorage/ngStorage.js",
+    "js/services/cordova-sercvice.js",
+    "js/services/util-service.js",
+    "js/services/popup-service.js",
+    "js/services/menuApi-service.js",
+    "js/services/favorite-service.js",
+    "js/services/plant-service.js",
+    "js/services/CEOReport-service.js",
+    "js/services/cu-service.js",
+    "js/services/manualOrderNew-service.js",
+    "js/services/realInventoryNew-service.js",
+    "js/services/sendBarcodeEmailNew-service.js",
+    "js/services/EIMSInformation-service.js",
+    "js/services/inventoryCountingNew-service.js",
+    "js/services/storeFloor-service.js",
+    "js/services/floorplan-service.js",
+    "js/services/floorArea-service.js",
+    "js/services/spaceProfit-service.js",
+    "js/services/storeDetail-service.js",
+    "js/services/storeDetail2-service.js",
+    "js/services/stockRegisterNew-service.js",
+    "js/services/floorplanHistoryRecord-service.js",
+    "js/services/floorHistoryRecordDetail-service.js",
+    "js/services/floorplanHistory-service.js",
+    "js/services/dailyStock-service.js",
+    "js/services/floorplanHistory-service.js",
+    "js/services/eventSales-service.js",
+    "js/services/materialPriceInfor-service.js",
+    "js/services/userInfor-service.js",
+    "js/services/materialSaveLabel-service.js",
+    "js/services/accumulateSales-service.js",
+    "js/services/userLinkButton-service.js",
+    "js/services/dailySalePreditionNew-service.js",
+    "js/services/adminApi-service.js",
+    "js/services/getUserPurgCode-service.js",
+    "js/app.js",
+    "js/controllers/checkCtrl.js",
+    "js/controllers/menuCtrl.js",
+    "js/controllers/homeCtrl.js",
+    "js/controllers/footerCtrl.js",
+    "js/controllers/adminCtrl.js",
+    "js/controllers/common/commonCtrl.js",
+    "js/controllers/common/floorplanSalesSearchCtrl.js",
+    "js/controllers/common/floorplanRecordSearchCtrl.js",
+    "js/controllers/managerReport/managerReportCtrl.js",
+    "js/controllers/managerReport/reportStoreCtrl.js",
+    "js/controllers/managerReport/reportCuCtrl.js",
+    "js/controllers/hyper/hyperCtrl.js",
+    "js/controllers/hyper/sampleCtrl.js",
+    "js/controllers/managerReport/CEOReportPlantCtrl.js",
+    "js/controllers/managerReport/CEOReportCUCtrl.js",
+    "js/controllers/sales/profitToPlanCtrl.js",
+    "js/controllers/sales/nowSalesStockInwerksCtrl.js",
+    "js/controllers/sales/nowEventSalesCtrl.js",
+    "js/controllers/sales/nowEventSalesDetailCtrl.js",
+    "js/controllers/sales/nowEventSalesTimeCtrl.js",
+    "js/controllers/sales/nowEventSalesBrandCtrl.js",
+    "js/controllers/common/productInformationCtrl.js",
+    "js/controllers/common/productDetailCtrl.js",
+    "js/controllers/common/EIMSInformationCtrl.js",
+    "js/controllers/common/salesProjectionsCtrl.js",
+    "js/controllers/common/floorPlanSalesCtrl.js",
+    "js/controllers/common/floorPlanSalesPopupCtrl.js",
+    "js/controllers/common/floorPlanStoreDetailPopupCtrl.js",
+    "js/controllers/common/floorPlanAccrueSalesCtrl.js",
+    "js/controllers/common/floorPlanAccrueSalesPopupCtrl.js",
+    "js/controllers/common/floorPlanRecordCtrl.js",
+    "js/controllers/hyper/freshStockCtrl.js",
+    "js/controllers/hyper/manualOrderCtrl.js",
+    "js/controllers/hyper/realStockControlCtrl.js",
+    "js/controllers/hyper/barcodeSendCtrl.js",
+    "js/controllers/hyper/POGManagementCtrl.js",
+    "js/controllers/hyper/POGPopupCtrl.js",
+    "js/controllers/sc/dailyStockCtrl.js",
+    "js/controllers/sc/stockRegisterCtrl.js",
+    "js/controllers/sc/inventoryCountingCtrl.js",
+    "js/controllers/storePopupCtrl.js",
+    "js/controllers/cuPopupCtrl.js",
+    "js/directive/elandDirective.js",
+    "js/SVGPanZoom.js",
+    "lib/eland/js/slideAndpush/slide.and.push.js",
+    "lib/ionic-datepicker/src/ionic-datepicker.styles.css",
+    "lib/ionic-datepicker/src/ionic-datepicker.app.js",
+    "lib/ionic-datepicker/src/ionic-datepicker.directive.js",
+    "lib/ionic-datepicker/src/ionic-datepicker.service.js",
+    "lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"
+  ],
+  "version": "3bd8e5817086d80dc9f62f9e04e1cc57f132d858"
+}

@@ -1,0 +1,162 @@
+﻿/**
+ * Created by june on 15. 6. 11..
+ */
+cortrollerModule.controller('AppCtrl', ['$scope', '$ionicModal', '$timeout', 'CordovaService', '$state', '$translate', function ($scope, $ionicModal, $timeout, CordovaService, $state, $translate) {
+
+    CordovaService.ready.then(function () {
+        // Using MDMPlugin for MDM Check
+    });
+    
+    // for child controller 
+    $scope.base = {};
+    $scope.base.menuId = '';
+    $scope.base.viewId = '';
+    ////$scope.base.stateId = '';
+    $scope.base.snapshot = null;
+
+    $scope.word = {};
+
+    // global setting
+    $scope.setting = {};
+    $scope.setting.header = {};
+    $scope.setting.footer = {};
+
+    $scope.debug = {};
+    $scope.debug.logging = true;
+
+    $scope.debug.Log = function (val) {
+        if ($scope.debug.logging == true)
+            console.log(val);
+    }
+
+    $scope.Init = function (translate) {
+        $scope.debug.Log('AppCtrl.Init();');
+
+        var headerFooterClass = 'bar-energized';
+        $scope.setting.header.class = headerFooterClass;
+        $scope.setting.footer.class = headerFooterClass;
+
+        // set multi language
+        translate.use('ko').then(function () {
+            $scope.GetWord(translate);
+        });
+    }
+
+
+    $scope.GetWord = function (translate) {
+
+        var result = [];
+        var firstArray = $.map(words, function (val, idx) { return [val]; });
+        var temp = null;
+        temp = $.map(firstArray[0], function (val, idx) { return [idx]; });
+        result = $.merge( result, temp)
+
+        //
+        $scope.wordParam = { name: 'tester' };
+
+        //debugger
+        translate(result).then(function (words) {
+            $scope.word.common = words.common;
+            $scope.word.manager = words.manager;
+            $scope.word.title = words.title;
+            $scope.word.task = words.task;
+            $scope.word.hyper = words.hyper;
+        });
+
+        translate('testSentence', { name: 'tester' }).then(function (word) {
+            $scope.word.testSentence = word;
+        });
+    }
+
+    $scope.Init($translate);
+
+    // called sub system main controller
+    $scope.base.HasAuthentication = function () {
+
+        // [ing]
+        // call service 
+        // return result 
+        return true;
+    }
+
+    $scope.base.SetMenu = function (menuId) {
+        
+        $scope.base.menuId = menuId;
+
+        var headerClass = $scope.setting.header.class;
+        var footerClass = $scope.setting.footer.class;
+
+        if (menuId == 'NRSMM00') {
+            headerClass = 'bar-positive';
+            footerClass = 'bar-positive';
+        }
+        else if (menuId == 'NRSMM01') {
+            headerClass = 'bar-calm';
+            footerClass = 'bar-calm';
+        }
+        else if (menuId == 'NRSMM02') {
+            headerClass = 'bar-balanced';
+            footerClass = 'bar-balanced';
+        }
+        else if (menuId == 'NRSMM03') {
+            headerClass = 'bar-energized';
+            footerClass = 'bar-energized';
+        }
+        else if (menuId == 'NRSMM04') {
+            headerClass = 'bar-assertive';
+            footerClass = 'bar-assertive';
+        }
+        else if (menuId == 'NRSMM05') {
+            headerClass = 'bar-royal';
+            footerClass = 'bar-royal';
+        }
+
+        $scope.setting.header.class = headerClass;
+        $scope.setting.footer.class = footerClass;
+    }
+
+    $scope.base.SetView = function (viewId) {
+
+        $scope.base.viewId = viewId;
+        
+        if (viewId == 'NRSM001') {
+            $scope.debug.Log('AppCtrl.base.SetView()');
+        }            
+    }
+
+    $scope.base.SaveSnapshot = function () {
+        
+    }
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('AppCtrl.base.Reload()');
+        $state.go($state.current, {}, { reload: true });
+        
+        // $state.transitionTo('new-state', null, {'reload':true});
+    }
+
+}])
+
+.directive('footer', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl : '/templates/footer.html'
+    }
+})
+
+//.directive('header', function () {
+//    return {
+//        restrict: 'E',
+//        replace: true,
+//        templateUrl: '/templates/header.html',
+//        //link: function (scope, element, attrs) {
+//        //    debugger
+//        //    //temp = scope.setting.header.class;
+//        //    element.addClass(scope.setting.header.class);
+//        //}
+//        scope: {
+//            temp: '=csstype'
+//        }
+//    }
+//})

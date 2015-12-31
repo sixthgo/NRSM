@@ -1,0 +1,21 @@
+/**
+ * Created by june on 15. 6. 11..
+ */
+cortrollerModule.controller('PlaylistsCtrl', function($scope, $cordovaBarcodeScanner) {
+        $scope.playlists = [
+            { title: 'Reggae', id: 1 },
+            { title: 'Chill', id: 2 },
+            { title: 'Dubstep', id: 3 },
+            { title: 'Indie', id: 4 },
+            { title: 'Rap', id: 5 },
+            { title: 'Cowbell', id: 6 }
+        ];
+
+        $scope.callBarcodeReader = function() {
+            $cordovaBarcodeScanner.scan().then(function(barcodeData){
+                alert(barcodeData.text);
+            }, function(error){
+
+            });
+        }
+    });

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://eland.co.kr/KRERP/SD" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:n1="http://sap.com/xi/SAPGlobal/Global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" targetNamespace="http://eland.co.kr/KRERP/SD" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsp:UsingPolicy wsdl:required="true" />
+  <wsp:Policy wsu:Id="BN_ZQUERYFLOORREVENUEIN_BINDING">
+    <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing" />
+    <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/" wsp:Optional="true" />
+    <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility">
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sp:HttpBasicAuthentication />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sapsp:HTTPSSO2 />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="IF_QueryFloorRevenueIn">
+    <sapsession:Session xmlns:sapsession="http://www.sap.com/webas/630/soap/features/session/">
+      <sapsession:enableSession>false</sapsession:enableSession>
+    </sapsession:Session>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" />
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_FloorRevenueByResultElementsQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema xmlns="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/SD" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://eland.co.kr/KRERP/SD">
+      <xsd:simpleType name="AreaType">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="CalcType">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Color">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="9" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="ExchangeFaultData">
+        <xsd:sequence>
+          <xsd:element name="faultText" type="xsd:string" />
+          <xsd:element minOccurs="0" name="faultUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="faultDetail" type="xi0:ExchangeLogData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ExchangeLogData">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="severity" type="xsd:string" />
+          <xsd:element name="text" type="xsd:string" />
+          <xsd:element minOccurs="0" name="url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="Floor">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="FloorRevenueByResultElementsQueryMessage_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="PlantCode" type="xi0:PlantCode2" />
+          <xsd:element minOccurs="0" name="Floor" type="xi0:Floor" />
+          <xsd:element minOccurs="0" name="YearMonth" type="xi0:YearMonth" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FloorRevenueByResultElementsResponseMessage_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Result" type="xi0:RESULT" />
+          <xsd:element minOccurs="0" name="Message" type="xi0:MESSAGE100" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="RevenueCurrentList" type="xi0:RevenueCurrentList" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="RevenueStoreInfoList" type="xi0:RevenueStoreInfoList" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="RevenueIfList" type="xi0:RevenueIFList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="GoalSum">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="17" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Grade2">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LayoutCode">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LayoutModuleName">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="20" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MESSAGE100">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="100" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Percent">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="7" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PlantCode2">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ProfitPercent">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="11" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ProfitSum">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Quantity">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RESULT">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RetireCode">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="RevenueCurrentList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="LayoutCode" type="xi0:LayoutCode" />
+          <xsd:element minOccurs="0" name="ShapeID" type="xi0:ShapeID" />
+          <xsd:element minOccurs="0" name="GSpaceSize" type="xi0:SpaceSize" />
+          <xsd:element minOccurs="0" name="NSpaceSize" type="xi0:SpaceSize" />
+          <xsd:element minOccurs="0" name="GoalSum" type="xi0:GoalSum" />
+          <xsd:element minOccurs="0" name="LayoutModuleName" type="xi0:LayoutModuleName" />
+          <xsd:element minOccurs="0" name="SaleSum" type="xi0:SaleSum" />
+          <xsd:element minOccurs="0" name="ProfitSum" type="xi0:ProfitSum" />
+          <xsd:element minOccurs="0" name="ProfitPercent" type="xi0:ProfitPercent" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RevenueIFList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="CalcType" type="xi0:CalcType" />
+          <xsd:element minOccurs="0" name="ReportCode" type="xi0:RetireCode" />
+          <xsd:element minOccurs="0" name="Grade" type="xi0:Grade2" />
+          <xsd:element minOccurs="0" name="ValueFrom" type="xi0:RevenueValue" />
+          <xsd:element minOccurs="0" name="ValueTo" type="xi0:RevenueValue" />
+          <xsd:element minOccurs="0" name="Color" type="xi0:Color" />
+          <xsd:element minOccurs="0" name="Text" type="xi0:Text40" />
+          <xsd:element minOccurs="0" name="Quantity" type="xi0:Quantity" />
+          <xsd:element minOccurs="0" name="Percent" type="xi0:Percent" />
+          <xsd:element minOccurs="0" name="Sequence" type="xi0:Sequence" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RevenueStoreInfoList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="LayoutCode" type="xi0:LayoutCode" />
+          <xsd:element minOccurs="0" name="ShapeID" type="xi0:ShapeID" />
+          <xsd:element minOccurs="0" name="AreaType" type="xi0:AreaType" />
+          <xsd:element minOccurs="0" name="ReportCode" type="xi0:RetireCode" />
+          <xsd:element minOccurs="0" name="CalcType" type="xi0:CalcType" />
+          <xsd:element minOccurs="0" name="Value" type="xi0:Value" />
+          <xsd:element minOccurs="0" name="Color" type="xi0:Color" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="RevenueValue">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SaleSum">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Sequence">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:int">
+          <xsd:maxInclusive value="10" />
+          <xsd:minInclusive value="0" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ShapeID">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="20" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SpaceSize">
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="6" />
+          <xsd:fractionDigits value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Text40">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Value">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="YearMonth">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="6" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="FloorRevenueByResultElementsQuery_sync" type="xi0:FloorRevenueByResultElementsQueryMessage_sync" />
+      <xsd:element name="FloorRevenueByResultElementsResponse_sync" type="xi0:FloorRevenueByResultElementsResponseMessage_sync" />
+    </xsd:schema>
+    <xsd:schema xmlns="http://sap.com/xi/SAPGlobal/Global" xmlns:xi0="http://eland.co.kr/KRERP/SD" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://sap.com/xi/SAPGlobal/Global">
+      <xsd:import namespace="http://eland.co.kr/KRERP/SD" />
+      <xsd:element name="StandardMessageFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="standard" type="xi0:ExchangeFaultData" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="FloorRevenueByResultElementsQuery_sync">
+    <wsdl:part name="FloorRevenueByResultElementsQuery_sync" element="tns:FloorRevenueByResultElementsQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="FloorRevenueByResultElementsResponse_sync">
+    <wsdl:part name="FloorRevenueByResultElementsResponse_sync" element="tns:FloorRevenueByResultElementsResponse_sync" />
+  </wsdl:message>
+  <wsdl:message name="StandardMessageFault">
+    <wsdl:part name="StandardMessageFault" element="n1:StandardMessageFault" />
+  </wsdl:message>
+  <wsdl:portType name="QueryFloorRevenueIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#IF_QueryFloorRevenueIn" />
+    </wsp:Policy>
+    <wsdl:operation name="FloorRevenueByResultElementsQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_FloorRevenueByResultElementsQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:FloorRevenueByResultElementsQuery_sync" />
+      <wsdl:output message="tns:FloorRevenueByResultElementsResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZQUERYFLOORREVENUEIN_BINDING" type="tns:QueryFloorRevenueIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN_ZQUERYFLOORREVENUEIN_BINDING" />
+    </wsp:Policy>
+    <wsa:EndpointReference xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+      <wsa:ReferenceParameters />
+    </wsa:EndpointReference>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FloorRevenueByResultElementsQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZQUERYFLOORREVENUEIN">
+    <wsdl:port name="ZQUERYFLOORREVENUEIN_BINDING" binding="tns:ZQUERYFLOORREVENUEIN_BINDING">
+      <soap:address location="http://KRSRPRDAP04.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryfloorrevenuein/100/zqueryfloorrevenuein/zqueryfloorrevenuein_binding" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

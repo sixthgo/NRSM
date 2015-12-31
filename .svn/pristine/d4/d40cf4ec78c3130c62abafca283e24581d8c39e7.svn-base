@@ -1,0 +1,97 @@
+﻿/*
+Adapt to ioni.css
+*/
+*, *:before, *:after {
+	/* -webkit-box-sizing: border-box; */
+	-moz-box-sizing: border-box;
+	box-sizing: inherit; }
+body {
+	-webkit-font-smoothing: auto;
+}
+
+/*
+override ionic.css's input
+*/
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+	display: inline-block;
+	padding-top: 0;
+	padding-left: 0;
+	height: 22px;
+	color: #999;
+	vertical-align: middle;
+	font:normal 14px 'Noto Sans Korean',sans-serif;
+	line-height: 22px;
+	letter-spacing:-0.5px;
+}
+
+/*
+shopPop's radio group style start
+*/
+.eland-radio-list {
+	width:95%;
+	height:100%;
+	padding:0 2.5%;
+	overflow-y:auto;
+}
+
+.eland-radio-list .item {
+	width:95%;
+	border-top:none;
+	overflow:hidden;
+	cursor:pointer;
+	border-right: none;
+	border-left: none;
+	margin: 0 auto;
+	font:normal 14px 'Noto Sans Korean',sans-serif;
+	color: #333;
+
+}
+.eland-radio-list .item:first-child {
+	border-top:0;
+	width: 90%;
+}
+
+.eland-badge {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+	position: absolute;
+	top: 16px;
+	right: 32px;
+	color: black;
+	font-size: 15px;
+}
+.raio-footer { width:90%; margin:0 auto; height: 59px;}
+ul#layer { width: 100%; margin:0 auto;overflow:hidden;padding-top: 5px;}
+ul#layer li { width:48.7%; float:left; }
+ul#layer li:first-child { margin-right:2.6%; }
+ul#layer li a { display:block; min-height: 39px; border:2px solid #666; color:#666; font-weight:600; text-align:center; }
+ul#layer li a:hover { opacity:0.5; }
+ul#layer li:first-child a { border:2px solid #ccc; color:#ccc; }
+
+/*
+shopPop's radio group style end
+*/
+
+[nav-view-transition="ios"][nav-view-direction="forward"], [nav-view-transition="ios"][nav-view-direction="back"] {
+	background-color: transparent;
+}
+
+.storePopup .popup { 
+    width: 300px;
+    height: 420px;
+}
+
+.storePopup .popup-body {
+    height: 270px;
+}
+
+.popup-scroll {
+    height: 250px;
+    margin-top:20px;
+    padding-bottom:10px;
+}

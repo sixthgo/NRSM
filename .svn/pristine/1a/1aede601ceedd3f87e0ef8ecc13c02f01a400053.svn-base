@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" xmlns:r="http://www.springframework.net/remoting" default-lazy-init="true">
+  <object id="MembershipService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <!--<property name="ServiceUri" value="http://localhost:5088/MembershipServiceWS.asmx"/>-->
+    <property name="ServiceUri" value="${url}/MembershipServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Formular.BaaS.Service.IMembershipService, Formular.BaaS.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="FavoriteService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/FavoriteServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IFavoriteService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="PlantService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/PlantServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IPlantService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="CEOReportService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/CEOReportServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.ICEOReportService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="QueryDailySalePredictionInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/QueryDailySalePredictionInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IQueryDailySalePredictionInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="ManageManualOrderInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/ManageManualOrderInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IManageManualOrderInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="ManageRealInventoryInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/ManageRealInventoryInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IManageRealInventoryInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="CUService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/CUServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.ICUService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="ManageSalePriceSendInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/ManageSalePriceSendInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IManageSalePriceSendInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="EmailSendService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/EmailSendServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IEmailSendService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="EIMSInformationService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/EIMSInformationServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IEIMSInformationService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="ManageStockInspectionCreateInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/ManageStockInspectionCreateInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IManageStockInspectionCreateInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+  
+  <object id="ManageScPoPalletItemInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/ManageScPoPalletItemInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IManageScPoPalletItemInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="ManageDailyGrInService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/ManageDailyGrInServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IManageDailyGrInService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+
+  <object id="StoreFloorService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/StoreFloorServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IStoreFloorService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="FloorPlanService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/FloorPlanServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IFloorPlanService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="FloorPlanCompareService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/FloorPlanCompareServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IFloorPlanCompareService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="FloorAreaService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/FloorAreaServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IFloorAreaService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="SpaceProfitService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/SpaceProfitServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.ISpaceProfitService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="StoreDetailService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/StoreDetailServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IStoreDetailService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="FloorHistoryRecordService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/FloorHistoryRecordServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IFloorHistoryRecordService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="FloorHistoryRecordDetailService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/FloorHistoryRecordDetailServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IFloorHistoryRecordDetailService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="QueryMaterialPriceInfoService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/QueryMaterialPriceInfoServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IQueryMaterialPriceInfoService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="MaterialSaveLabelService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/MaterialSaveLabelServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IMaterialSaveLabelService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="EventSalesService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/EventSalesServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IEventSalesService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="AccumulateSalesService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/AccumulateSalesServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IAccumulateSalesService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="AdminService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/AdminServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IAdminService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="POGFirstCategoryService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/POGFirstCategoryServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IPOGFirstCategoryService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="POGThirdCategoryService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/POGThirdCategoryServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IPOGThirdCategoryService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="POGColumnService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/POGColumnServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IPOGColumnService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+
+  <object id="POGGoodsService" type="Spring.Web.Services.WebServiceProxyFactory, Spring.Services">
+    <property name="ServiceUri" value="${url}/POGGoodsServiceWS.asmx"/>
+    <property name="ServiceInterface" value="Eland.NRSM.Core.Services.IPOGGoodsService, Eland.NRSM.Core"/>
+    <property name="ProductTemplate">
+      <object>
+        <property name="Timeout" value="60000" />
+      </object>
+    </property>
+  </object>
+  
+  <object name="appConfigPropertyHolder"
+            type="Spring.Objects.Factory.Config.PropertyPlaceholderConfigurer, Spring.Core">
+    <property name="configSections">
+      <value>SpringAppSettings</value>
+    </property>
+  </object>
+
+</objects>

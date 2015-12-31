@@ -1,0 +1,72 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer ">
+        <div id="container" class="blue">
+
+            <ul class="tab swiper-pagination swiper-pagination-clickable">
+                <li class="swiper-pagination-bullet swiper-pagination-bullet-active">당일 실적</li>
+                <li class="swiper-pagination-bullet">당월 실적</li>
+            </ul>
+
+            <div id="date">
+                <p class="left">{{currentTime}} 마감기준</p>
+                <p class="right">단위 : 백만원</p>
+            </div>
+
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th ng-click="orderTable='name';"  width="30%">구분</th>
+                                <th ng-click="orderTable='plaN_SALES';"  width="15%">목표</th>
+                                <th ng-click="orderTable='reaL_SALES';"  width="15%">실적</th>
+                                <th ng-click="orderTable='sW_SALE_A';"  width="13%">달성율</th>
+                                <th ng-click="orderTable='sW_SALE';"  width="13%">작년실적</th>
+                                <th ng-click="orderTable='sW_SALE_G';"  width="13%">성장률</th>
+                            </tr>
+                            </table>
+                        <ion-scroll direction="y">
+                            <table>
+                                <tr class="highlight" ng-repeat="item in CEOReportPList | orderBy:orderTable">
+                                    <td  width="30%">{{item.name}}</td>
+                                    <td  width="15%">{{item.plaN_SALES}}</td>
+                                    <td  width="15%">{{item.reaL_SALES}}</td>
+                                    <td  width="13%">{{item.sW_SALE_A}}%</td>
+                                    <td  width="13%">{{item.sW_SALE}}</td>
+                                    <td  width="13%">{{item.sW_SALE_G}}%</td>
+                                </tr>
+                        </table>
+                        </ion-scroll>
+                    </div>
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th ng-click="orderTable='name';"  width="30%">구분</th>
+                                <th  width="15%"><div ng-click="orderTable='d_plaN_SALES';">목표</div>
+                                    <div ng-click="orderTable='m_plaN_SALES';">목표</div></th>
+                                <th ng-click="orderTable='reaL_SALES';"  width="15%">실적</th>
+                                <th  width="13%"><div ng-click="orderTable='d_sW_SALE_A';">달성율</div>
+                                    <div ng-click="orderTable='m_sW_SALE_A';">달성율</div></th>
+                                <th ng-click="orderTable='sW_SALE';"  width="13%">작년실적</th>
+                                <th ng-click="orderTable='sW_SALE_G';"  width="13%">성장률</th>
+                            </tr>
+                            </table>
+                        <ion-scroll direction="y">
+                            <table>
+                                <tr class="highlight" ng-repeat="item in CEOReportQList | orderBy:orderTable">
+                                    <td  width="30%">{{item.name}}</td>
+                                    <td  width="15%"><div>{{item.d_plaN_SALES}}%</div><div>{{item.m_plaN_SALES}}%</div></td>
+                                    <td  width="15%">{{item.reaL_SALES}}</td>
+                                    <td  width="13%"><div>{{item.d_sW_SALE_A}}</div><div>{{item.m_sW_SALE_A}}</div></td>
+                                    <td  width="13%">{{item.sW_SALE}}</td>
+                                    <td  width="13%">{{item.sW_SALE_G}}%</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

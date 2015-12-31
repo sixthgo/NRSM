@@ -1,0 +1,34 @@
+﻿<!--<div>
+    <div class="row">
+        <h4><b>{{selectedShopName}}</b></h4>
+    </div>
+    <div class="row">
+        매출(면적)<br />
+        <b>{{selectedSales | number:0}}원 ({{pyeong}}평)</b>
+    </div>
+    <div class="row">
+        <div class="col">
+            평당매출<br /><b>{{pyeongSales | number:0}}원</b>
+        </div>
+        <div class="col">
+            평당이익<br /><b>{{popupProfit}}</b>
+        </div>
+    </div>
+</div>-->
+<div class="ngdialog-message">
+    <div style="padding-top:5px;padding-bottom:-2px;">
+        <h4><b>{{selectedShopName}}</b></h4>
+    </div>
+    <div class="bs-callout bs-callout-danger" style="text-align:center;">
+        매출(면적)<br />
+        <b>{{selectedSales | number:0}}원 ({{pyeong}}평)</b>
+    </div>
+    <div class="bs-callout bs-callout-primary">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top: -10px">
+            <tr>
+                <td style="border-right:1px solid " align="center" valign="middle" width="50%">평당매출<br /><b>{{pyeongSales | number:0}}원</b></td>
+                <td style="padding-left:10px" align="center" valign="middle" width="50%">평당이익<br /><b>{{popupProfit}}</b></td>
+            </tr>
+        </table>
+    </div>
+</div>

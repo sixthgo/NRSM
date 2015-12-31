@@ -1,0 +1,615 @@
+﻿controllerModule.controller('ProfitToPlanCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicHistory, $ionicPopup, $timeout, $ionicScrollDelegate, $ionicPosition, $window, $sessionStorage, $ionicPopover, MenuApiService, FavoriteService, PopupService, PlantService, CUService, AccumulateSalesService, UtilService) {
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM004'; // updated
+    $scope.base.SetMenu($scope.base.menuId);
+    //$scope.base.stateId = $state.$current.name;
+
+    $scope.favorite.support = true; // support favorite feature in this view
+    $scope.favoriteKeyA = "KeyA";
+    $scope.favoriteKeyB = "KeyB";
+    $scope.favoriteKeyC = "KeyC";
+    $scope.favoriteKeyD = "KeyD";
+
+    $scope.search = {};
+    $scope.search.isMonthly = true;
+    $scope.search.subType = 1;
+    $scope.search.type = '-1-1-1';
+
+    $scope.searchCollection = {};
+
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.cuPopup = {};
+    $scope.cuPopup.selectedCu = { cuCode: '-1', cuName: '모든CU' };
+    $scope.cuPopup.selectedCuTemp = null;
+    $scope.cuPopup.selectedPc = { pcCode: '-1', pcName: '모든PC' };
+    $scope.cuPopup.selectedPcTemp = null;
+
+    $scope.data = {};
+    $scope.result = {};
+
+    $scope.sort = {};
+    $scope.sort.column = 'name';
+    $scope.sort.isDescending = false;
+
+    $scope.requireScrollHeight = true;
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'none'; // default value is 'inline'
+
+    $scope.isReload = false;
+
+    $scope.widthFlag = 320;
+    $scope.currentWidth;
+    $scope.standardViewSize = 'S'; // S, B
+
+    $scope.Init = function () {
+        $scope.debug.Log('LoginId=' + $scope.user.loginId);
+        $scope.debug.Log('ProfitToPlanCtrl.Init()');
+
+        $scope.currentWidth = $window.innerWidth;
+        if ($scope.currentWidth > $scope.widthFlag)
+            $scope.standardViewSize = 'B';
+
+        ////$ionicScrollDelegate.$getByHandle('scrollA').scrollTop(true);
+        //for (var i = 0; i < $ionicScrollDelegate.$getByHandle()._ionScroll.length; i++) {
+        //    if ($ionicScrollDelegate.$getByHandle()._ionScroll[i].$$scrollName == 'scrollA') {
+        //        $ionicScrollDelegate.$getByHandle()._ionScroll[i].scrollTop(true);
+        //    }
+        //}
+        // set local word
+        $scope.SetLocalWord();
+
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        $scope.headerDate = UtilService.FormatDayDate(yesterday);
+
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.SetDataHeight = function () {
+        var totalHeight = $window.innerHeight;
+
+        var headerBarHeight = 45;
+        
+        var headlineAHeight = $ionicPosition.offset(angular.element(document.querySelector('#headlineA'))).height;
+        var headlineBHeight = $ionicPosition.offset(angular.element(document.querySelector('#headlineB'))).height;
+        var dateHeight = $ionicPosition.offset(angular.element(document.querySelector('#date'))).height;
+        var tableHeaderHeight = $ionicPosition.offset(angular.element(document.querySelector('#profitToPlanTableHeader'))).height;
+
+        var footerHeight = 51;//angular.element(document.querySelector('#footer'))[0].offsetHeight;
+
+        var dataHeight = totalHeight - headerBarHeight - (headlineAHeight + headlineBHeight + dateHeight + tableHeaderHeight) - footerHeight;
+       
+        console.log('totalHeight=' + totalHeight + ', headerBarHeight=' + headerBarHeight);
+        console.log(', headlineAHeight=' + headlineAHeight + ', headlineBHeight=' + headlineBHeight);
+        console.log(', dateHeight=' + dateHeight + ', tableHeaderHeight=' + tableHeaderHeight);
+        console.log(', footerHeight=' + footerHeight + ', dataHeight=' + dataHeight);
+
+        var isAndroid = ionic.Platform.isAndroid();
+        var isIPad = ionic.Platform.isIPad();
+        var isIOS = ionic.Platform.isIOS();
+        
+        console.log('isAndroid=' + isAndroid);
+        console.log('isIPad=' + isIPad);
+        console.log('isIOS=' + isIOS);
+
+        var interpolateHeight = 0;
+        if (isAndroid)
+            interpolateHeight = -10; // for android
+        if (isIPad || isIOS)
+            interpolateHeight = -20; // for iOS
+
+        dataHeight += interpolateHeight;
+
+        if (isAndroid) {
+            if ($sessionStorage.androidVersion < 19) {
+                ////dataHeight = dataHeight - 88;
+            }
+        }
+
+        $scope.scrollHeight = dataHeight + 'px';
+
+        console.log('$scope.scrollHeight=' + $scope.scrollHeight);
+    }
+
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+
+        $scope.InitData();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        //$scope.word.title = '목표 전년 대비 실적';
+    }
+
+    $scope.InitData = function () {
+        // if exists favorite key, set each value by key
+        if ($scope.favorite.support == true && $scope.favorite.selected != null)
+            $scope.SetControlsByFavorite();
+
+        else
+            $scope.GetData();
+    }
+
+    $scope.sorting = function (sortColumn) {
+        $scope.sort.isDescending = ($scope.sort.column == sortColumn) ? !$scope.sort.isDescending : false;
+        $scope.sort.column = sortColumn;
+    }
+
+    $scope.SetFavoriteB = function (favoriteB) {
+        var defer = $q.defer();
+
+        PlantService.query({
+            loginId: $scope.user.loginId
+        },
+        function (data) {
+            $scope.data.stores = data;
+            for (var i = 0; i < $scope.data.stores.length; i++) {
+                if (favoriteB == $scope.data.stores[i].plantCode) {
+                    $scope.storePopup.selectedStoreTemp = $scope.data.stores[i];
+                    $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+                    break;
+                }
+            }
+            defer.resolve(data);
+        },
+        function(error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.SetFavoriteC = function (favoriteC) {
+
+        var defer = $q.defer();
+
+        CUService.query({
+            loginId: $scope.user.loginId,
+            type: 'cu',
+            cuCode: ''
+        },
+        function (data) {
+            $scope.data.cues = data;
+            for (var i = 0; i < $scope.data.cues.length; i++) {
+                if (favoriteC == $scope.data.cues[i].cuCode) {
+                    $scope.cuPopup.selectedCuTemp = $scope.data.cues[i];
+                    $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                    break;
+                }
+            }
+            defer.resolve(data);
+        },
+        function(error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.SetControlsByFavorite = function () {
+
+        // add code each view
+        var favoriteA = $scope.base.GetFavoriteValue($scope.favoriteKeyA); //
+        var favoriteB = $scope.base.GetFavoriteValue($scope.favoriteKeyB); //
+        var favoriteC = $scope.base.GetFavoriteValue($scope.favoriteKeyC); //
+        var favoriteD = $scope.base.GetFavoriteValue($scope.favoriteKeyD); //
+
+        // favoriteA
+        $scope.search.isMonthly = Boolean(favoriteA);
+
+        $q.all({
+            A: $scope.SetFavoriteB(favoriteB).catch($scope.CatchException),
+            B: $scope.SetFavoriteC(favoriteC).catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+
+            // favoriteD
+            CUService.query({
+                loginId: '',
+                type: 'pc',
+                cuCode: $scope.cuPopup.selectedCu.cuCode
+            }, function (data) {
+                $scope.data.pcs = data;
+                for (var i = 0; i < $scope.data.pcs.length; i++) {
+                    if (favoriteD == $scope.data.pcs[i].pcCode) {
+                        $scope.cuPopup.selectedPcTemp = $scope.data.pcs[i];
+                        $scope.cuPopup.selectedPc = angular.copy($scope.cuPopup.selectedPcTemp);
+                        break;
+                    }
+                }
+
+                $scope.GetData();
+            });
+        },
+            function (error) {
+            $scope.debug.Log('$q error');
+            }
+        );
+
+        // mandatory function call, clear current favorite data
+        ////$scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.GetData = function () {
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        $q.all({
+            A: $scope.GetDataTypeA().catch($scope.CatchException),
+            B: $scope.GetDataTypeB().catch($scope.CatchException),
+            C: $scope.GetDataTypeC().catch($scope.CatchException),
+            D: $scope.GetDataTypeD().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.result.ListA = results.A.salesdata;
+                $scope.Sum($scope.result.ListA, 'A');
+
+                $scope.result.ListB = results.B.salesdata;
+                $scope.Sum($scope.result.ListB, 'B');
+
+                $scope.result.ListC = results.C.salesdata;
+                $scope.Sum($scope.result.ListC, 'C');
+
+                $scope.result.ListD = results.D.salesdata;
+                $scope.Sum($scope.result.ListD, 'D');
+
+                if ($scope.isReload == false)
+                    $timeout(SetSwiper, 500);
+            }
+            , function (error) {
+
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+            }
+        );
+    }
+
+    $scope.Sum = function (list, type) {
+
+        var goalAmount = 0;
+        var amount = 0;
+        var pastAmount = 0;
+        var rate = 0.0;
+        var growthRate = 0.0;
+
+        for (var i = 0; i < list.length; i++) {
+            goalAmount += list[i].goalAmount;
+            amount += list[i].amount;
+            pastAmount += list[i].pastAmount;
+        }
+
+        rate = (amount / goalAmount * 100).toFixed(1);
+        growthRate = (amount / pastAmount * 100).toFixed(1);
+
+        list.sum = {};
+        list.sum.goalAmount = goalAmount;
+        list.sum.amount = amount;
+        list.sum.pastAmount = pastAmount;
+        list.sum.rate = isNaN(rate) ? 0 : rate;
+        list.sum.growthRate = isNaN(growthRate) ? 0 : rate;
+
+    }
+
+    $scope.GetDataTypeA = function () {
+        var defer = $q.defer();
+
+        AccumulateSalesService.query(
+            {
+                gubun: $scope.search.isMonthly == true ? 1 : 1 + 4,
+                plantCode: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                yearMonth: '', // use server side value
+                categoryUnit: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                purchaseGroup: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                brandCode: '',
+                personNumber: $scope.user.loginId
+            },
+            function (data) {
+                $scope.debug.Log('GetDataTypeA.query().success');
+                defer.resolve(data);
+            },
+            function (error) {
+                $scope.debug.Log(error);
+                defer.reject(error);
+            }
+        );
+
+        return defer.promise;
+    }
+
+    $scope.GetDataTypeB = function () {
+        var defer = $q.defer();
+
+        AccumulateSalesService.query(
+            {
+                gubun: $scope.search.isMonthly == true ? 2 : 2 + 4,
+                plantCode: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                yearMonth: '', // use server side value
+                categoryUnit: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                purchaseGroup: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                brandCode: '',
+                personNumber: $scope.user.loginId
+            },
+            function (data) {
+                $scope.debug.Log('GetDataTypeB.query().success');
+                defer.resolve(data);
+            },
+            function (error) {
+                $scope.debug.Log(error);
+                defer.reject(error);
+            }
+        );
+
+        return defer.promise;
+    }
+
+    $scope.GetDataTypeC = function () {
+        var defer = $q.defer();
+
+        AccumulateSalesService.query(
+            {
+                gubun: $scope.search.isMonthly == true ? 3 : 3 + 4,
+                plantCode: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                yearMonth: '', // use server side value
+                categoryUnit: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                purchaseGroup: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                brandCode: '',
+                personNumber: $scope.user.loginId
+            },
+            function (data) {
+                $scope.debug.Log('GetDataTypeC.query().success');
+                defer.resolve(data);
+            },
+            function (error) {
+                $scope.debug.Log(error);
+                defer.reject(error);
+            }
+        );
+
+        return defer.promise;
+    }
+
+    $scope.GetDataTypeD = function () {
+        var defer = $q.defer();
+
+        AccumulateSalesService.query(
+            {
+                gubun: $scope.search.isMonthly == true ? 4 : 4 + 4,
+                plantCode: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                yearMonth: '', // use server side value
+                categoryUnit: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                purchaseGroup: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                brandCode: '',
+                personNumber: $scope.user.loginId
+            },
+            function (data) {
+                $scope.debug.Log('GetDataTypeD.query().success');
+                defer.resolve(data);
+            },
+            function (error) {
+                $scope.debug.Log(error);
+                defer.reject(error);
+            }
+        );
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.ToggleMonthly = function () {
+        $scope.search.isMonthly = !$scope.search.isMonthly;
+
+        $scope.GetData();
+    }
+
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'storePopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive', // new!!
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+
+                ////$scope.CollectSearchCondition(false);
+                $scope.GetData();
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+
+            if ($scope.isReload == false)
+                $timeout(SetSwiper, 500);
+        });
+    }
+
+    $scope.OpenCuPopup = function () {
+        var name = ($scope.cuPopup.selectedCu == null) ? '' : $scope.cuPopup.selectedCu.cuName;
+        name += ($scope.cuPopup.selectedPc == null) ? '' : " / " + $scope.cuPopup.selectedPc.pcName;
+
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/cuPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'cuPcPopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+
+                    if ($scope.cuPopup.selectedCuTemp != null
+                        && $scope.cuPopup.selectedPcTemp != null) {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                $scope.cuPopup.selectedPc = angular.copy($scope.cuPopup.selectedPcTemp);
+
+                $scope.GetData();
+            }
+            else {
+                $scope.cuPopup.selectedCuTemp = angular.copy($scope.cuPopup.selectedCu);
+                $scope.cuPopup.selectedPcTemp = angular.copy($scope.cuPopup.selectedPc);
+            }
+
+            if ($scope.isReload == false)
+                $timeout(SetSwiper, 500);
+        });
+    }
+
+    $scope.ClickSubType = function (val) {
+        $scope.search.subType = val;
+        //console.log($scope.search.subType);
+    }
+
+    var SetSwiper = function () {
+        //$scope.base.swiper();
+
+        //var interpolateHeight = 32; // default for iOS
+        //var isAndroid = ionic.Platform.isAndroid();
+        //if (isAndroid)
+        //    interpolateHeight = 10; // for android
+
+        //if ($scope.requireScrollHeight == true) {
+        //    var obj = angular.element('#scrollA');
+        //    var position = $ionicPosition.position(obj);
+        //    $scope.newHeightA = position.height - position.top - interpolateHeight;
+
+        //    obj = angular.element('#scrollB');
+        //    position = $ionicPosition.position(obj);
+        //    $scope.newHeightB = position.height - position.top - interpolateHeight;
+
+        //    obj = angular.element('#scrollC');
+        //    position = $ionicPosition.position(obj);
+        //    $scope.newHeightC = position.height - position.top - interpolateHeight;
+
+        //    obj = angular.element('#scrollD');
+        //    position = $ionicPosition.position(obj);
+        //    $scope.newHeightD = position.height - position.top - interpolateHeight;
+
+        //    $scope.requireScrollHeight = false;
+        //}
+
+        //$scope.isReload = false;
+
+        $scope.base.swiper();
+
+        if ($scope.requireScrollHeight == true) {
+            $scope.SetDataHeight();
+            $scope.requireScrollHeight = false;
+        }
+        $scope.isReload = false;
+
+        var scrolls = $ionicScrollDelegate.$getByHandle()._instances;
+        for (var i = 0; i < scrolls.length; i++) {
+            scrolls[i].scrollTop(true);
+        }
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('ProfitToPlanCtrl.base.Reload()');
+
+        $scope.result.ListA = {};
+        $scope.result.ListB = {};
+        $scope.result.ListC = {};
+        $scope.result.ListD = {};
+
+        $scope.isReload = true;
+
+        $scope.Init();
+    }
+
+    ////
+    ////var template = '<ion-popover-view class="fit">{{tooltipText}}</ion-popover-view>';
+    ////$scope.popover = $ionicPopover.fromTemplate(template, {
+    ////    scope: $scope
+    ////});
+
+    ////var HidePopover = function () {
+    ////    $scope.popover.hide();
+    ////}
+
+    ////$scope.ShowPopover = function ($event, text) {
+    ////    ////console.log('text=' + text);
+    ////    $scope.tooltipText = text;
+    ////    $scope.popover.show($event);
+    ////    $timeout(HidePopover, 3000);
+    ////}
+
+    ////$scope.$on('$destroy', function () {
+    ////    $scope.popover.remove();
+    ////})
+    ////
+});

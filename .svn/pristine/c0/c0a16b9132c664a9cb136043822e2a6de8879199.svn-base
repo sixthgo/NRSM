@@ -1,0 +1,31 @@
+﻿<div>
+    <div class="row">
+        <div class="newLayer">
+            <div class="header">
+                <p>POG 진열 정보</p>
+            </div>
+            <div class="body">
+                <div class="double">
+                    <p class="left">현재 선택</p>
+                    <p class="right">{{param.subTitle}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ion-scroll direction="y" style="height: 230px; margin-top:0px; margin-left:0px">
+                <div class="list">
+                    <ion-radio ng-repeat="row in data.redundencyGoods"
+                               ng-value="row"
+                               ng-model="POGPopup.selectedRedundency"
+                               ng-change="OnRedundencyGoodsChange()"
+                               name="redundencyGoodsRadio">
+                        {{ TrimLeftUnderbar(row.thicg)}} / {{row.zcol}}
+                    </ion-radio>
+                </div>
+            </ion-scroll>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿<ion-view >
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer">
+        <div id="container" class="orange">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">지점코드</p>
+                            <p class="right"><input type="tel" ng-model="user.plantCode" maxlength="6"
+                                                onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></p>
+                    </li>
+                    <li>
+                        <p class="left">상품코드</p>
+                        <p class="right"><input type="text"
+                                                ng-model="base.barCode"
+                                                placeholder="입력" /></p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_gray" >
+                    <a ng-click="SearchManualOrderInfo()"><img src="img/nrsm/icon_search_gray.png" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">상품명</p>
+                        <p class="right">{{data.ManualOrderInfo.maktx}}</p>
+                    </li>
+                    <li>
+                        <p class="left">박스입수</p>
+                        <p class="right">{{data.ManualOrderInfo.umrez | number}}</p>
+                    </li>
+                    <li>
+                        <p class="left">현재고</p>
+                        <p class="right">{{data.ManualOrderInfo.labst | number}}</p>
+                    </li>
+                    <li>
+                        <p class="left">어제판매</p>
+                        <p class="right">{{data.ManualOrderInfo.yeqty | number}}</p>
+                    </li>
+                    <li style="padding-bottom: 8px;">
+                        <p class="left">구매/예정</p>
+                        <p class="right">{{data.cellMerge}}</p>
+                        <p  style="width:100%"><span class="box box_red" style="margin-top:45px;">하이퍼 CU의 신선파트에 대해서만 수동발주가 가능합니다.</span></p>
+                    </li>
+                    <li>
+                        <p class="left">오더형태</p>
+                        <p class="right">{{data.ManualOrderInfo.bwscL_TX}}</p>
+                    </li>
+                    <li>
+                        <p class="left">오더수량</p>
+                        <p class="right"><input type="tel"
+                                                ng-model="data.ManualOrderInfo.menge"
+                                                placeholder="입력"
+                                                numbers-only="numbers-only"
+                                                ng-required="required" /></p>
+                    </li>
+                </ul>
+                <!-- <p class="btn_border btn_confirm btn_color" ng-click="SaveManualOrderInfo()">
+                    <a href="#">
+                      <img src="img/nrsm/icon_check_orange.png" />&nbsp;&nbsp;오더 저장
+                    </a>
+                </p> -->
+                <p class="btn_border btn_confirm btn_color" >
+                    <a ng-click="SaveManualOrderInfo()">
+                      <img src="img/nrsm/icon_check_orange.png" />&nbsp;&nbsp;오더 저장
+                    </a>
+                </p>
+            </form>
+        </div>
+    </ion-content>
+
+</ion-view>

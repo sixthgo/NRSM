@@ -1,0 +1,45 @@
+.deckgrid[deckgrid]::before {
+    content: '2 .column.column-1-2';
+    font-size: 0;
+    visibility: hidden;
+    margin: 100px auto;
+}
+
+.deckgrid .column {
+    float: left;
+}
+
+.deckgrid .column-1-2 {
+    width: 50%;
+}
+
+.photo {
+    background: #fff center 30px no-repeat;
+    border: 1px solid rgba(0, 0, 0, .15);
+    margin: 0 7px 10px 7px;
+    position: relative;
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.71);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.71);
+    box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.71);
+}
+.photo img{
+    width: 100%;
+}
+
+.photo .photo-wrapper {
+    min-height: 100px;
+}
+
+.photo .photo-description {
+    background-color: #fff;
+    font-size: 10px;
+    padding: 10px;
+}
+
+.photo .photo-tags {
+    background-color: #fff;
+    padding: 10px;
+    color: #005982;
+    font-size: 10px;
+    font-weight: bold;
+}

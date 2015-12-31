@@ -1,0 +1,9 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('StoreFloorService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/storefloor?menu=:menu&werks=:werks&floor=:floor&loginId=:loginId', {
+        loginId: '@loginId'
+    });
+})

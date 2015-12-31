@@ -1,0 +1,22 @@
+﻿<ion-view view-title="Admin" class="main">
+    <ion-content class="has-header">
+        <div class="card">
+            <div class="item item-divider">
+                사용자 전환
+            </div>
+            <div class="item item-text-wrap">
+                <div> 현재 사용자 sessionStorage.loginId : <span>{{tempLoginId}}</span></div>
+                <div> 현재 사용자 user.loginId : <span>{{user.loginId}}</span></div>                
+                <div>
+                    <label class="item item-input">
+                        <span class="input-label">변경할 사용자 Id</span>
+                        <input type="text" ng-model="admin.targetUserId" />
+                    </label>
+                    <button class="button button-assertive" ng-click="ChangeUser()">변경</button>
+                    <button class="button button-assertive" ng-click="GoHome()">홈으로</button>
+                </div>
+            </div>
+            
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,128 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer" has-bouncing="false" scroll="false">
+        <div id="container" class="green">
+            <ul id="headlineA" class="select">
+                <li class="store" ng-click="OpenStorePopup()"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li ng-click="OpenSaleType()"><span>{{data.realSelected}}</span></li>
+
+                <li class="date" ng-style="{display: showIPadCalendarButton}">
+                    <ionic-datepicker id="iPadCalendar" input-obj="base.datepickerObject">
+                        <span>{{nowDate | date:'yyyy-MM-dd'}}</span>
+                    </ionic-datepicker>
+                </li>
+                <li ng-click="OpenDatePick1()" ng-style="{display: showCalendarButton}"><span>{{nowDate}}</span></li>
+
+                <!-- <li class="date" ng-style="{display: showIPadCalendarButton}" style="border-top: 1px solid #ddd;">
+                    <ionic-datepicker id="iPadCalendars" input-obj="base.datepickerObject" ng-click="base.ClickIPadCalendar('2')">
+                        <span>{{oldDate | date:'yyyy-MM-dd'}}</span>
+                    </ionic-datepicker>
+                </li> -->
+                <li class="date" ng-style="{display: showIPadCalendarButton}" style="border-top: 1px solid #ddd;">
+                        {{oldDate | date:'yyyy-MM-dd'}}
+                </li>
+                <li ng-click="OpenDatePick2()" ng-style="{display: showCalendarButton}" style="border-top: 1px solid #ddd;"><span>{{oldDate}}</span></li>
+            </ul>
+
+            <form class="mt_12" id="saleProSearch">
+                <p class="btn_border btn_search btn_color" >
+                    <a ng-click="SearchSaleProjection()"><img src="img/nrsm/icon_search_green.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <ul class="tab bdt swiper-pagination swiper-pagination-clickable" id="saleProTab">
+            <li class="swiper-pagination-bullet swiper-pagination-bullet-active">시간대 실적</li>
+            <li class="swiper-pagination-bullet">마감실적 예상</li>
+            </ul>
+
+            <div id="date">
+                <p class="right">단위 : 백만원</p>
+            </div>
+
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table id="noSort" class="saleProTableHeader">
+                            <tr>
+                                <th ng-click="orderTable='zfl';" width="19%" on-hold="ShowPopover($event, '구분')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">구분</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">구분</span>
+                                </th>
+                                <th ng-click="orderTable='zamt';" width="28%" on-hold="ShowPopover($event, '조회일 누적 매출')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">조회일 누적 매출</span>
+                                    <span class="th90" ng-if="standardViewSize != 'S'">조회일 누적 매출</span>
+                                </th>
+                                <th ng-click="orderTable='zamT2';" width="28%" on-hold="ShowPopover($event, '비교일 누적매출')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">비교일 누적매출</span>
+                                    <span class="th90" ng-if="standardViewSize != 'S'">비교일 누적매출</span>
+                                </th>
+                                <th ng-click="orderTable='zyul';" width="25%" on-hold="ShowPopover($event, '성장율')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">성장율</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">성장율</span>
+                                </th>
+                            </tr>
+                            <tr class="highlight" ng-repeat="item in data.dailySalePreditionTime">
+                                <td width="19%">{{item.namE1}}</td>
+                                <td width="28%">{{item.zamt | number}}</td>
+                                <td width="28%">{{item.zamT2 | number}}</td>
+                                <td width="25%" ng-class="{fontRed: item.zyul < 0}">{{item.zyul}}%</td>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" ng-style="{'height':scrollHeight}" >
+                            <table>
+                                <tr ng-repeat="item in data.dailySalePreditionFloor | orderBy:orderTable">
+                                    <td width="19%">{{item.zfl}}</td>
+                                    <td width="28%">{{item.zamt | number}}</td>
+                                    <td width="28%">{{item.zamT2 | number}}</td>
+                                    <td width="25%" ng-class="{fontRed: item.zyul < 0}">{{item.zyul}}%</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <table id="noSort" >
+                            <tr>
+                                <th ng-click="orderTable='zfl';" width="19%" on-hold="ShowPopover($event, '구분')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">구분</span>
+                                    <span class="th35" ng-if="standardViewSize != 'S'">구분</span>
+                                </th>
+                                <th ng-click="orderTable='zamT3';" width="28%" on-hold="ShowPopover($event, '조회일 예측 마감 매출')">
+                                    <span class="th70" ng-if="standardViewSize == 'S'">조회일 예측 마감 매출</span>
+                                    <span class="th120" ng-if="standardViewSize != 'S'">조회일 예측 마감 매출</span>
+                                </th>
+                                <th ng-click="orderTable='zamT4';" width="28%" on-hold="ShowPopover($event, '비교일 마감 실적')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">비교일 마감 실적</span>
+                                    <span class="th90" ng-if="standardViewSize != 'S'">비교일 마감 실적</span>
+                                </th>
+                                <th ng-click="orderTable='zyuL2';" width="25%" on-hold="ShowPopover($event, '예측 성장율')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">예측 성장율</span>
+                                    <span class="th70" ng-if="standardViewSize != 'S'">예측 성장율</span>
+                                </th>
+                            </tr>
+                            <tr class="highlight" ng-repeat="item in data.dailySalePreditionTime">
+                                <td width="19%">{{item.namE1}}</td>
+                                <td width="28%">{{item.zamT3}}</td>
+                                <td width="28%">{{item.zamT4}}</td>
+                                <td width="25%" ng-class="{fontRed: item.zyul < 0}">{{item.zyuL2}}%</td>
+                            </tr>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="item in data.dailySalePreditionFloor | orderBy:orderTable">
+                                    <td width="19%">{{item.zfl}}</td>
+                                    <td width="28%" style="background-color: #FFFFE0;">{{item.zamT3}}</td>
+                                    <td width="28%">{{item.zamT4}}</td>
+                                    <td width="25%" ng-class="{fontRed: item.zyul < 0}">{{item.zyuL2}}%</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

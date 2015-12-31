@@ -1,0 +1,405 @@
+﻿// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.controllers' is found in controllers.js
+angular.module('starter', ['ionic',
+    'starter.controllers',
+    'starter.services',
+    'starter.directive',
+    'ngCordova',
+    'akoenig.deckgrid',
+    'autocomplete.directive',
+    'ngDialog',
+	'ion-sildeTabs'])
+
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
+})
+
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.platform.android.navBar.alignTitle('center');
+  $stateProvider
+
+  .state('app', {
+    url: "/app",
+    abstract: true,
+    templateUrl: "templates/menu.html",
+    controller: 'AppCtrl'
+  })
+
+  .state('app.home', {
+    url: "/home",
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: "templates/home.html",
+        controller: 'HomeCtrl'
+      }
+    }
+  })
+
+    .state('app.common', {
+        url: '/common',
+        abstract: true,
+        parent: 'app'
+    })
+
+      .state('app.common.floorplanSalesSearch', {
+          url: '/common/floorplanSalesSearch',
+          parent: 'app',
+          views: {
+              'menuContent': {
+                  templateUrl: "templates/common/floorplanSalesSearch.html",
+                  controller: 'FloorplanSalesSearchCtrl'
+              }
+          }
+      })
+
+    .state('app.common.floorplanRecordSearch', {
+        url: '/common/floorplanRecordSearch',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/common/floorplanRecordSearch.html",
+                controller: 'FloorplanRecordSearchCtrl'
+            }
+        }
+    })
+
+
+// NRSM006	상품정보 조회	ProductInformation	app.common.ProductInformation
+.state('app.common.ProductInformation', {
+    url: '/common/productInformation',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/common/productInformation.html",
+            controller: 'ProductInformationCtrl'
+        }
+    }
+})
+
+.state('app.common.ProductDetail', {
+    url: '/common/productDetail',
+    parent: 'app',
+    views: {
+      'menuContent': {
+          templateUrl: "templates/common/productDetail.html",
+          controller: "ProductDetailCtrl"
+      }
+    }
+})
+
+// NRSM008	EIMS고객정보 조회	EIMSInformation	app.common.EIMSInformation
+.state('app.common.EIMSInformation', {
+    url: '/common/EIMSInformation',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/common/EIMSInformation.html",
+            controller: 'EIMSInformationCtrl'
+        }
+    }
+})
+
+// NRSM009	일마감 예측실적 조회	SalesProjections	app.common.SalesProjections
+.state('app.common.SalesProjections', {
+    url: '/common/salesProjections',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/common/salesProjections.html",
+            controller: 'SalesProjectionsCtrl'
+        }
+    }
+})
+
+// NRSM010	도면기준 매출조회	FloorPlanSales	app.common.FloorPlanSales
+.state('app.common.FloorPlanSales', {
+    url: '/common/floorPlanSales',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/common/floorPlanSales.html",
+            controller: 'FloorPlanSalesCtrl'
+        }
+    }
+})
+
+// NRSM011	도면기준 실적조회	FloorPlanAccrueSales	app.common.FloorPlanAccrueSales
+.state('app.common.FloorPlanAccrueSales', {
+    url: '/common/floorPlanAccrueSales',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/common/floorPlanAccrueSales.html",
+            controller: 'FloorPlanAccrueSalesCtrl'
+        }
+    }
+})
+
+
+// NRSM012	도면이력조회	FloorPlanRecord	app.common.FloorPlanRecord
+.state('app.common.FloorPlanRecord', {
+    url: '/common/floorPlanRecord',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/common/floorPlanRecord.html",
+            controller: 'FloorPlanRecordCtrl'
+        }
+    }
+})
+
+    .state('app.managerReport', {
+        url: '/managerReport',
+        abstract: true,
+        parent: 'app'
+    })
+
+    .state('app.managerReport.reportStore', {
+        url: '/reportStore',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/managerReport/reportStore.html",
+                controller: 'ReportStoreCtrl'
+            }
+        }
+    })
+
+    .state('app.managerReport.reportCu', {
+        url: '/reportCu',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/managerReport/reportCu.html",
+                controller: 'ReportCuCtrl'
+                }
+            }
+        })
+
+
+// NRSM001	경영자레포트[지점]	CEOReportPlant	app.managerReport.CEOReportPlant
+.state('app.managerReport.CEOReportPlant', {
+    url: '/managerReport/CEOReportPlant',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/managerReport/CEOReportPlant.html",
+            controller: 'CEOReportPlantCtrl'
+        }
+    }
+})
+
+// NRSM002	경영자레포트[CU]	CEOReportCU	app.managerReport.CEOReportCU
+.state('app.managerReport.CEOReportCU', {
+    url: '/managerReport/CEOReportCU',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/managerReport/CEOReportCU.html",
+            controller: 'CEOReportCUCtrl'
+        }
+    }
+})
+
+    .state('app.hyper', {
+        url: '/hyper',
+        abstract: true,
+        parent: 'app'
+    })
+
+    .state('app.hyper.sample', {
+        url: '/sampleStore',
+        parent: 'app',
+        views: {
+            'menuContent': {
+                templateUrl: "templates/hyper/sample.html",
+                controller: 'SampleCtrl'
+            }
+        }
+    })
+
+
+// NRSM013	신선재고관리	FreshStock	app.hyper.FreshStock
+.state('app.hyper.FreshStock', {
+    url: '/hyper/freshStock',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/hyper/freshStock.html",
+            controller: 'FreshStockCtrl'
+        }
+    }
+})
+
+// NRSM014	수동발주	ManualOrder	app.hyper.ManualOrder
+.state('app.hyper.ManualOrder', {
+    url: '/hyper/manualOrder',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/hyper/manualOrder.html",
+            controller: 'ManualOrderCtrl'
+        }
+    }
+})
+
+// NRSM015	실재고조정	RealStockControl	app.hyper.RealStockControl
+.state('app.hyper.RealStockControl', {
+    url: '/hyper/realStockControl',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/hyper/realStockControl.html",
+            controller: 'RealStockControlCtrl'
+        }
+    }
+})
+
+// NRSM016	바코드 목록 생성 및 전송	BarcodeSend	app.hyper.BarcodeSend
+.state('app.hyper.BarcodeSend', {
+    url: '/hyper/barcodeSend',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/hyper/barcodeSend.html",
+            controller: 'BarcodeSendCtrl'
+        }
+    }
+})
+
+// NRSM017	POG진열 관리	POGManagement	app.hyper.POGManagement
+.state('app.hyper.POGManagement', {
+    url: '/hyper/POGManagement',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/hyper/POGManagement.html",
+            controller: 'POGManagementCtrl'
+        }
+    }
+})
+
+    .state('app.sales', {
+        url: '/sales',
+        abstract: true,
+        parent: 'app'
+    })
+
+// NRSM003	목표,전년 대비	ProfitToPlan	app.sales.ProfitToPlan
+.state('app.sales.ProfitToPlan', {
+    url: '/sales/profitToPlan',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/sales/profitToPlan.html",
+            controller: 'ProfitToPlanCtrl'
+        }
+    }
+})
+
+// NRSM004	현시각 매출 및 재고조회	NowSalesStockInwerks	app.sales.NowSalesStockInwerks
+.state('app.sales.NowSalesStockInwerks', {
+    url: '/sales/nowSalesStockInwerks',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/sales/nowSalesStockInwerks.html",
+            controller: 'NowSalesStockInwerksCtrl'
+        }
+    }
+})
+
+// NRSM005	현시각 행사매출 조회	NowEventSales	app.sales.NowEventSales
+.state('app.sales.NowEventSales', {
+    url: '/sales/nowEventSales',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/sales/nowEventSales.html",
+            controller: 'NowEventSalesCtrl'
+        }
+    }
+})
+
+
+.state('app.sc', {
+    url: '/sc',
+    abstract: true,
+    parent: 'app'
+})
+
+// NRSM018	일배입고	DailyStock	app.sc.DailyStock
+.state('app.sc.DailyStock', {
+    url: '/sc/dailyStock',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/sc/dailyStock.html",
+            controller: 'DailyStockCtrl'
+        }
+    }
+})
+
+// NRSM019	입고등록	StockRegister	app.sc.StockRegister
+.state('app.sc.StockRegister', {
+    url: '/sc/stockRegister',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/sc/stockRegister.html",
+            controller: 'StockRegisterCtrl'
+        }
+    }
+})
+
+// NRSM020	재고실사	InventoryCounting	app.sc.InventoryCounting
+.state('app.sc.InventoryCounting', {
+    url: '/sc/inventoryCounting',
+    parent: 'app',
+    views: {
+        'menuContent': {
+            templateUrl: "templates/sc/inventoryCounting.html",
+            controller: 'InventoryCountingCtrl'
+        }
+    }
+})
+
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/home');
+})
+var cortrollerModule = angular.module('starter.controllers', ['pascalprecht.translate']);
+var serviceModule = angular.module('starter.services', ['ngResource', 'ngDialog']);
+var directiveModule = angular.module('starter.directive',[]);
+var platform;
+
+//
+cortrollerModule.config( ['$translateProvider', function ($translateProvider){
+    console.log('cortrollerModule.config');
+    for (lang in words) {
+        $translateProvider.translations(lang, words[lang]);
+    }
+    //test
+    for (lang in variableWords) {
+        $translateProvider.translations(lang, variableWords[lang]);
+    }
+
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.useSanitizeValueStrategy('escaped');
+}])

@@ -1,0 +1,11 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('SpaceProfitService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/spaceprofit?werks=:werks&layoutCode=:layoutCode&gubun=:gubun', {
+        werks: '@werks',
+        layoutCode: '@layoutCode',
+        gubun: '@gubun'
+    });
+})

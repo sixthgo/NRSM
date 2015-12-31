@@ -1,0 +1,64 @@
+﻿@model Formular.BaaS.Domain.AppDivision
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Application</p>
+              <small>Application Create</small>
+            </blockquote>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/plugins/validate");
+
+
+    <script type="text/javascript">
+        $("#commentForm").validate({
+            rules: {
+                loginId: "required" , 
+                loginPassword: "required"
+            },
+            messages: {
+                loginId: "",
+                loginPassword: ""
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    </script>
+}
+
+<div class="row-fluid">
+    <div class="span12"> 
+    @using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), ViewContext.RouteData.GetRequiredString("controller"), new { }, FormMethod.Post, new { id = "AppDivisionForm", @class = "form-horizontal" }))
+    {
+        <fieldset>
+            <legend>Application</legend>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" , @for="Name" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name, "", new { placeholder = "Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Desc, new { @class = "control-label" , @for="Desc" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Desc, "", new { placeholder = "Desc"  })
+            </div>
+        </div>
+        <button type="submit"  class="btn btn-primary"> Add Application </button>
+        </fieldset>
+    }
+    </div>
+</div>
+
+

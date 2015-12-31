@@ -1,0 +1,132 @@
+﻿@model Formular.BaaS.Domain.User
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>User</p>
+              <small>User Create</small>
+            </blockquote>
+            @if (ViewBag.AppDivision != null)
+            {
+                @Html.Partial("../BaaSApplication/_LeftInfo", ViewBag.AppDivision as AppDivision)
+            }
+        </div>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12"> 
+
+@using (Html.BeginForm(ViewContext.RouteData.GetRequiredString("action"), ViewContext.RouteData.GetRequiredString("controller"), FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <fieldset>
+        <legend>User</legend>
+        @if ( ViewBag.AppDivisions != null ){
+        <div class="control-group">
+            @Html.LabelFor(model => model.AppDivision.Name , new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.DropDownListFor(model => model.AppDivision.Id, 
+                           new SelectList(ViewBag.AppDivisions, 
+                                             "id", 
+                                             "Name"
+                                            ),
+                           "-- Select State --")
+                @Html.ValidationMessageFor(model => model.UserName)
+                </div>
+            </div>
+        </div>
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.AppDivision.Id)
+        }
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MemberDetail.Email, new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.EditorFor(model => model.MemberDetail.Email)
+                @Html.ValidationMessageFor(model => model.MemberDetail.Email)
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.MemberDetail.Password, new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.PasswordFor(model => model.MemberDetail.Password)
+                @Html.ValidationMessageFor(model => model.MemberDetail.Password)
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.MemberDetail.PasswordQuestion, new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.EditorFor(model => model.MemberDetail.PasswordQuestion)
+                @Html.ValidationMessageFor(model => model.MemberDetail.PasswordQuestion)
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.MemberDetail.PasswordAnswer, new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.EditorFor(model => model.MemberDetail.PasswordAnswer)
+                @Html.ValidationMessageFor(model => model.MemberDetail.PasswordAnswer)
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MemberDetail.Comment, new { @class = "control-label" })
+            <div class="controls">
+                <div class="input-prepend">
+                @Html.EditorFor(model => model.MemberDetail.Comment)
+                @Html.ValidationMessageFor(model => model.MemberDetail.Comment)
+                </div>
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+        </div>
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            @if ( ViewBag.AppDivision != null ){
+                <text>
+                $("#AppDivision_Id").val("@ViewBag.AppDivision.Id");
+                </text>
+            }
+    });
+    </script>
+}

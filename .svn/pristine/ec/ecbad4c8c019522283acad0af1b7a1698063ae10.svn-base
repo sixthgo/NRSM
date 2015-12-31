@@ -1,0 +1,18 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="my-handle">
+        <div id="container" class="red">
+
+            <ul class="select left">
+                <li class="drawing" ng-click="OpenFloorPlanSalesPopup()"><span>{{headerText}}</span>{{subText}}</li>
+                
+            </ul>
+            <div compile="showGuideHtml"></div>
+
+            <ion-scroll zooming-="true" direction="xy" ng-style="{'width': windowSize.width, 'height':windowSize.height}">
+                <div id="mainCanvas" compile="combineTextHtml" style="height:400px"></div>
+            </ion-scroll>
+
+        </div>
+    </ion-content>
+
+</ion-view>

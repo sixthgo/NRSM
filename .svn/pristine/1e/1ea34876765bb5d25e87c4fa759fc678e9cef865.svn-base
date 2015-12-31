@@ -1,0 +1,81 @@
+﻿<div ng-controller="POGPopupCtrl">
+
+    <div class="row">
+        <div class="newLayer">
+            <div class="header">
+                <p>POG 진열 정보</p>
+            </div>
+            <div class="body">
+                <div class="double">
+                    <p class="left">현재 선택</p>
+                    <p class="right">{{param.subTitle}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SAMPLE HTML
+    <div class="list">
+        <div class="row">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="POGPopupRadioGroup" ng-model="POGPopup.selectedFirstCategoryTemp" value="1" />
+                    <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:75px">대분류1</div>
+                    <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="POGPopupRadioGroup" ng-model="POGPopup.selectedFirstCategoryTemp" value="2" />
+                    <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:75px">대분류2</div>
+                    <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="POGPopupRadioGroup" ng-model="POGPopup.selectedFirstCategoryTemp" value="3" />
+                    <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:75px">대분류3</div>
+                    <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+                </label>
+            </div>
+        </div>
+    </div>-->
+
+    <div compile="firstCategoryHtml"></div>
+
+    <!--<div class="row" ng-hide="POGPopupData.thirdCategories.length == 0">-->
+    <div class="row" ng-hide="POGPopup.selectedFirstCategoryTemp==''">
+        <div class="col col50">
+            <ion-scroll direction="y" delegate-handle="scroll_thirdCategory" style="height: 230px; margin-top:0px; margin-left:0px">
+                <div class="list">
+                    <!--<ion-radio ng-repeat="item in POGPopupData.thirdCategories"
+                               ng-value="item.thicg"
+                               ng-change="OnThirdCategoryChange()"
+                               ng-model="POGPopup.selectedThirdCategoryTemp"
+                               name="thirdCategoryRadio">
+                        {{ TrimLeftUnderbar(item.thicg) }}
+                    </ion-radio>-->
+                    <label class="item item-radio" ng-repeat="item in POGPopupData.thirdCategories">
+                        <input type="radio" name="thicgGroup" ng-model="POGPopup.selectedThirdCategoryTemp" ng-value="item.thicg" ng-change="OnThirdCategoryChange()" />
+                        <div class="item-content" style="padding-left:5px; padding-right:5px;">
+                            {{ TrimLeftUnderbar(item.thicg) }}
+                        </div>
+                        <i class="radio-icon ion-checkmark" style="padding-top: 10px;"></i>
+                    </label>
+                </div>
+            </ion-scroll>
+        </div>
+        <div class="col col50">
+            <ion-scroll direction="y" delegate-handle="scroll_column" style="height: 230px; margin-top:0px;">
+                <div class="list">
+                    <ion-radio ng-repeat="item in POGPopupData.columns"
+                               ng-value="item.zcol"
+                               ng-change="OnColumnChange()"
+                               ng-model="POGPopup.selectedColumnTemp"
+                               name="columnRadio">
+                        {{ item.zcol }}
+                    </ion-radio>
+                </div>
+            </ion-scroll>
+        </div>
+    </div>
+</div>

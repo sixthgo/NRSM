@@ -1,0 +1,10 @@
+{
+  "name": "Base",
+  "app_id": "",
+  "proxies" : [
+	{
+		"path": "/api",
+		"proxyUrl": "http://121.190.88.44:8020/api"
+	}
+  ]
+}

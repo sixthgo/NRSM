@@ -1,0 +1,14 @@
+'use strict';
+
+angular.module('starter.services')
+
+.factory('UserPurgCodeService', function ($resource, webServerUrl) {
+	return $resource(webServerUrl + '/api/plant?purgCode=:purgCode&x=:x&y=y&z=:z', {
+			loginId: '@purgCode', x: '@x', y: '@y', z: '@z'
+		},
+		{
+			'query': { method: 'GET', isArray: true }
+		});
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,381 @@
+/*
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ */
+
+//
+//  AppDelegate.m
+//  NRSM
+//
+//  Created by ___FULLUSERNAME___ on ___DATE___.
+//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//
+
+#import "AppDelegate.h"
+#import "MainViewController.h"
+#import "FFEnvironmentInformationManager.h"
+
+#import <Cordova/CDVPlugin.h>
+
+@interface AppDelegate()
+@property (nonatomic, readonly) FFEnvironmentInformationManager *environmentInformationManager;
+@end
+
+
+@implementation AppDelegate
+
+@synthesize window, viewController;
+@synthesize environmentInformationManager = _environmentInformationManager;
+
+-(FFEnvironmentInformationManager *)environmentInformationManager
+{
+    if(!_environmentInformationManager)
+    _environmentInformationManager = [FFEnvironmentInformationManager environmentInformationManager];
+    return _environmentInformationManager;
+}
+
+- (id)init
+{
+    /** If you need to do any extra app-specific initialization, you can do it here
+     *  -jm
+     **/
+    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+
+    [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+
+    int cacheSizeMemory = 8 * 1024 * 1024; // 8MB
+    int cacheSizeDisk = 32 * 1024 * 1024; // 32MB
+#if __has_feature(objc_arc)
+        NSURLCache* sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"];
+#else
+        NSURLCache* sharedCache = [[[NSURLCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"] autorelease];
+#endif
+    [NSURLCache setSharedURLCache:sharedCache];
+
+    self = [super init];
+    return self;
+}
+
+#pragma mark UIApplicationDelegate implementation
+
+/**
+ * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
+ */
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+#if __has_feature(objc_arc)
+        self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+#else
+        self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
+#endif
+    self.window.autoresizesSubviews = YES;
+
+#if __has_feature(objc_arc)
+        self.viewController = [[MainViewController alloc] init];
+#else
+        self.viewController = [[[MainViewController alloc] init] autorelease];
+#endif
+
+    // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
+    // If necessary, uncomment the line below to override it.
+    // self.viewController.startPage = @"index.html";
+
+    // NOTE: To customize the view's frame size (which defaults to full screen), override
+    // [self.viewController viewWillAppear:] in your view controller.
+    
+    [self checkElandApps];
+
+//    self.window.rootViewController = self.viewController;
+//    [self.window makeKeyAndVisible];
+    
+//    self.viewController.webView.scrollView.bounces = NO;
+
+    return YES;
+}
+
+// this happens while we are running ( in the background, or from within our own app )
+// only valid if NRSM-Info.plist specifies a protocol to handle
+- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
+{
+    
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *strURL = [url absoluteString];
+    
+    if (!strURL || !sourceApplication) {
+        return NO;
+    }
+    
+    NSError *error = NULL;
+    
+    // URL 파싱을 수월하게 하기 위해 정규표현식 사용
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern: [NSString stringWithFormat:@"%@://(\\w+)=(.+)", bundleIdentifier]
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    if (error) {
+        return NO;
+    }
+    
+    NSTextCheckingResult *match = [regex
+                                   firstMatchInString:strURL
+                                   options:0
+                                   range:NSMakeRange(0, [strURL length])];
+    
+    if (!match) {
+        return NO;
+    }
+    
+    NSString *param = [strURL substringWithRange:[match rangeAtIndex:1]];
+    NSString *value = [strURL substringWithRange:[match rangeAtIndex:2]];
+    
+    if ([param isEqualToString:@"responsewifimac"]) {
+        // MDM 앱이 비정상적일 경우에는 UDID값을 가지고 있지 않습니다.
+        // 이 경우 @”(null)” 을 응답합니다.
+        if ([value isEqualToString:@"(null)"]) {
+            NSLog(@"Cannot get WifiMac");
+            return NO;
+        } else {
+            // 응답받은 UDID 값을 저장하여 다음 앱 인증에도 사용합니다. (선택)
+            // 물론 매번 UrlScheme을 호출하여 인증해도 됩니다.
+            NSLog(@"WifiMac: %@", value);
+            [[NSUserDefaults standardUserDefaults] setValue:value forKey:@"wifimac"];
+            
+            self.window.rootViewController = self.viewController;
+            [self.window makeKeyAndVisible];
+            
+            return YES;
+        }
+    }
+    
+    return YES;
+}
+
+
+//for ios9
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options
+
+{
+    
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    
+    NSString *strURL = [url absoluteString];
+    
+    
+    
+    NSString * sourceApplication = [options objectForKey:@"UIApplicationOpenURLOptionsSourceApplicationKey"];
+    
+    
+    
+    if (!strURL || !sourceApplication) {
+        
+        return NO;
+        
+    }
+    
+    
+    
+    NSError *error = NULL;
+    
+    
+    
+    // URL 파싱을 수월하게 하기 위해 정규표현식 사용
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern: [NSString stringWithFormat:@"%@://(\\w+)=(.+)", bundleIdentifier]
+                                  
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                  
+                                                                             error:&error];
+    
+    if (error) {
+        
+        return NO;
+        
+    }
+    
+    
+    
+    NSTextCheckingResult *match = [regex
+                                   
+                                   firstMatchInString:strURL
+                                   
+                                   options:0
+                                   
+                                   range:NSMakeRange(0, [strURL length])];
+    
+    
+    
+    if (!match) {
+        
+        return NO;
+        
+    }
+    
+    
+    
+    NSString *param = [strURL substringWithRange:[match rangeAtIndex:1]];
+    
+    NSString *value = [strURL substringWithRange:[match rangeAtIndex:2]];
+    
+    
+    
+    if ([param isEqualToString:@"responsewifimac"]) {
+        
+        // MDM 앱이 비정상적일 경우에는 UDID값을 가지고 있지 않습니다.
+        
+        // 이 경우 @”(null)” 을 응답합니다.
+        
+        if ([value isEqualToString:@"(null)"]) {
+            
+            NSLog(@"Cannot get WifiMac");
+            
+            return NO;
+            
+        } else {
+            
+            // 응답받은 UDID 값을 저장하여 다음 앱 인증에도 사용합니다. (선택)
+            
+            // 물론 매번 UrlScheme을 호출하여 인증해도 됩니다.
+            
+            NSLog(@"WifiMac: %@", value);
+            
+            [[NSUserDefaults standardUserDefaults] setValue:value forKey:@"wifimac"];
+            
+            
+            
+            self.window.rootViewController = self.viewController;
+            
+            [self.window makeKeyAndVisible];
+            
+            
+            
+            return YES;
+            
+        }
+        
+    }
+    
+    
+    
+    return YES;
+    
+}
+
+
+// repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
+- (void)            application:(UIApplication*)application
+    didReceiveLocalNotification:(UILocalNotification*)notification
+{
+    // re-post ( broadcast )
+    [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
+}
+
+#ifndef DISABLE_PUSH_NOTIFICATIONS
+
+    - (void)                                 application:(UIApplication*)application
+        didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+    {
+        // re-post ( broadcast )
+        NSString* token = [[[[deviceToken description]
+            stringByReplacingOccurrencesOfString:@"<" withString:@""]
+            stringByReplacingOccurrencesOfString:@">" withString:@""]
+            stringByReplacingOccurrencesOfString:@" " withString:@""];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];
+    }
+
+    - (void)                                 application:(UIApplication*)application
+        didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+    {
+        // re-post ( broadcast )
+        [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotificationError object:error];
+    }
+#endif
+
+- (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
+{
+    // iPhone doesn't support upside down by default, while the iPad does.  Override to allow all orientations always, and let the root view controller decide what's allowed (the supported orientations mask gets intersected).
+    NSUInteger supportedInterfaceOrientations = (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationPortraitUpsideDown);
+
+    return supportedInterfaceOrientations;
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
+{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
+
+
+-(void)checkElandApps{
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    NSURL *mdmUrl = [NSURL URLWithString:@"mobilekeeper://"];
+    NSURL *mdmWifimacUrl = [NSURL URLWithString:[NSString stringWithFormat:@"mobilekeeperinfo://getwifimac?delegatescheme=%@://responsewifimac=",bundleIdentifier]];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0){
+        if([userDefaults objectForKey:@"wifimac"] == nil){
+            // MDM install check
+            if ([[UIApplication sharedApplication] canOpenURL:mdmUrl]) {
+                // iOS 7 MDM access check
+                if ([[UIApplication sharedApplication] canOpenURL:mdmWifimacUrl]) {
+                    [[UIApplication sharedApplication] openURL:mdmWifimacUrl];
+                }
+                else {
+                    // 앱 업데이트 필요
+                    UIAlertView *updateAlert = [[UIAlertView alloc]initWithTitle:@"Announcement"
+                                                                         message:@"ElandApps 업데이트가 필요합니다."
+                                                                        delegate:nil
+                                                               cancelButtonTitle:@"OK"
+                                                               otherButtonTitles:nil];
+                    [updateAlert show];
+                }
+            }
+            else {
+                // 앱 설치 필요
+                UIAlertView *installAlert = [[UIAlertView alloc]initWithTitle:@"Announcement"
+                                                                      message:@"ElandApps 설치가 필요합니다."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+                [installAlert show];
+            }
+        }
+        else{
+            self.window.rootViewController = self.viewController;
+            [self.window makeKeyAndVisible];
+        }
+    }
+    else{
+        self.window.rootViewController = self.viewController;
+        [self.window makeKeyAndVisible];
+    }
+    
+}
+
+#pragma mark - AlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        NSLog(@"user pressed OK");
+        exit(0);
+    }
+    else {
+        NSLog(@"user pressed Cancel");
+    }
+}
+
+@end

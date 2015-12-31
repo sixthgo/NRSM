@@ -1,0 +1,38 @@
+﻿controllerModule.controller('HyperCtrl', function ($scope, $state, $stateParams) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSMM04';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.Init = function () {
+        $scope.debug.Log('HyperCtrl.Init();');
+    }
+
+    $scope.Init();
+
+    $scope.tempReload = function () {
+        
+        $scope.debug.Log('HyperCtrl.base.Reload()');
+        $state.go($state.current.name, {}, { reload: true }); // [ing]
+        
+        // $state.transitionTo('new-state', null, {'reload':true});
+    }
+
+    $scope.ClickStar = function () {
+        $scope.debug.Log('HyperCtrl.ClickStar()');
+
+        $scope.base.SaveSnapshot();
+    }
+
+
+    $scope.ClickGear = function () {
+        $scope.debug.Log('HyperCtrl.ClickGear()');
+    }
+
+
+    $scope.ClickAdd = function () {
+        $scope.debug.Log('HyperCtrl.ClickAdd()');
+    }
+});

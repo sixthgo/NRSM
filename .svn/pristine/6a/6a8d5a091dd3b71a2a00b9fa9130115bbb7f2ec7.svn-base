@@ -1,0 +1,442 @@
+/*
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ */
+
+//
+//  MainViewController.h
+//  NRSM
+//
+//  Created by ___FULLUSERNAME___ on ___DATE___.
+//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//
+
+#import "MainViewController.h"
+
+@implementation MainViewController
+@synthesize mySwipe;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Uncomment to override the CDVCommandDelegateImpl used
+        // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
+        // Uncomment to override the CDVCommandQueue used
+        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
+    }
+    return self;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        // Uncomment to override the CDVCommandDelegateImpl used
+        // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
+        // Uncomment to override the CDVCommandQueue used
+        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+#pragma mark View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
+    // you can do so here.
+    
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    
+    // Establish SwipeIn
+    if (!self.mySwipe) {
+        
+        self.mySwipe = [[Swipe alloc] init];
+        
+        //        switchWatch.on = NO;
+        
+        if (self.mySwipe)
+        {
+            //[self.mySwipe setGain:0.9f];
+            [self.mySwipe setNotificationDelegate: self];
+            
+            //            [lblSelectDevice setText:[NSString stringWithFormat:@"Select Device\n(%@)", @"SWIPE_CHIP"]];
+            
+            //[self.mySwipe setSwipeType:SWIPE_MSR];
+            //            [self.mySwipe setSwipeType:SWIPE_BARCODE];
+            [self.mySwipe setSwipeType:SWIPE_CHIP];
+            //            [self.mySwipe setValidCheck:true];
+            
+            
+            printf("\r\nSwipe Initialized ");
+            
+            //            if ( ![self.mySwipe getState] )
+            //                labelStatus.text = [NSString stringWithFormat:@"Swipe Unplugged"];
+            //            else
+            //                labelStatus.text = [NSString stringWithFormat:@"Swipe Plugged"];
+            
+        }
+        else
+        {
+            NSLog(@"Error: Could not create Swiper");
+            
+        }
+    }
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+}
+
+/* Comment out the block below to over-ride */
+
+/*
+ - (UIWebView*) newCordovaViewWithFrame:(CGRect)bounds
+ {
+ return[super newCordovaViewWithFrame:bounds];
+ }
+ */
+
+#pragma mark UIWebDelegate implementation
+
+- (void)webViewDidFinishLoad:(UIWebView*)theWebView
+{
+    // Black base color for background matches the native apps
+    theWebView.backgroundColor = [UIColor blackColor];
+    
+    return [super webViewDidFinishLoad:theWebView];
+}
+
+#pragma mark Swipe
+
+// this method gets called (by property listener callback functions) when a watching or playback
+// audio queue object starts or stops.
+- (void) updateSwipeStateChange
+{
+    char msrTrack[128];
+    CHIP_RESULT chipResult;
+    EMV_INFO    emvInfo;
+    int swipCount;
+    char FwVer[32];
+    char LibVer[32];
+    int msrLength;
+    
+    UIDevice *myDevice = [UIDevice currentDevice];
+    [myDevice setBatteryMonitoringEnabled:YES];
+    
+    //AudioServicesPlaySystemSound(1108);
+    
+    //    printf("\nSwipe Event 0x%x", [self.mySwipe getEvent]);
+    
+    
+    switch ( [self.mySwipe getEvent] ) {
+        case SEVENT_UNPLUG :
+            //            labelStatus.text = [NSString stringWithFormat:@"Swipe Unplugged"];
+            printf("\r\nSwipeApp:UnPlugged !!!");
+            break;
+        case SEVENT_PLUG :
+            //            labelStatus.text = [NSString stringWithFormat:@"Swipe Plugged"];
+            printf("\r\nSwiepeApp:Plugged !!!");
+            break;
+        case SEVENT_MSR :
+        case SEVENT_EMV_MSR :
+            
+            swipCount = [self.mySwipe getCount];
+            
+            [self.mySwipe getFwVer:FwVer];
+            [self.mySwipe getLibVer:LibVer];
+            
+            //            labelMsr.text = [NSString stringWithFormat:@"Track II : "];
+            
+            switch ( [self.mySwipe getResult] ) {
+                case SRESULT_ERROR_FRAME :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Frame Error"];
+                    break;
+                case SRESULT_ERROR_PARITY :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Parity Error"];
+                    break;
+                case SRESULT_EMPTY :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Empty MSR"];
+                    break;
+                case SRESULT_ERROR_FORMAT :
+                    //                    labelResult.text = [NSString stringWithFormat:@"MSR Error"];
+                    break;
+                case SRESULT_ERROR_CARDNO :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Invalid Card No"];
+                    msrLength = [self.mySwipe getTrack:msrTrack];
+                    //                    labelMsr.text = [NSString stringWithFormat:@"MSR : %s",msrTrack];
+                    printf("\r\nSwipeApp:%s %s MSR[%d]%s",FwVer, LibVer,msrLength, msrTrack);
+                    //                    labelMsr.text = [NSString stringWithFormat:@"Track II[%d]:%s",msrLength,msrTrack];
+                    break;
+                case SRESULT_OK :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Complete"];
+                    msrLength = [self.mySwipe getTrack:msrTrack];
+                    //                    labelMsr.text = [NSString stringWithFormat:@"MSR : %s",msrTrack];
+                    printf("\r\nSwipeApp:%s %s MSR[%d]%s",FwVer, LibVer,msrLength, msrTrack);
+                    //                    labelMsr.text = [NSString stringWithFormat:@"Track II[%d]:%s",msrLength,msrTrack];
+                    break;
+                case SRESULT_POWER_ON :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power On"];
+                    break;
+                case SRESULT_POWER_OFF :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power Off"];
+                    break;
+                case SRESULT_ERROR_LRC :
+                    //                    labelResult.text = [NSString stringWithFormat:@"LRC Error"];
+                    msrLength = [self.mySwipe getTrack:msrTrack];
+                    //                    labelMsr.text = [NSString stringWithFormat:@"MSR : %s",msrTrack];
+                    printf("\r\nSwipeApp:%s %s MSR[%d]%s",FwVer, LibVer,msrLength, msrTrack);
+                    //                    labelMsr.text = [NSString stringWithFormat:@"Track II[%d]:%s",msrLength,msrTrack];
+                    break;
+                    
+            }
+            
+            
+            //            labelSwVer.text = [NSString stringWithFormat:@"Lib Ver : %s",LibVer];
+            //            labelFwVer.text = [NSString stringWithFormat:@"Fw Ver : %s",FwVer];
+            //            labelHwVer.text = [NSString stringWithFormat:@"Count : %d",[self.mySwipe getCount]];
+            //            labelBatt.text = [NSString stringWithFormat:@"SM200 Batt Volt[%dV] Life[%d%%]",
+            //                              [self.mySwipe getBatteryVolt],
+            //                              [self.mySwipe getBatteryLife]];
+            //
+            //            labelSerial.text = [NSString stringWithFormat:@"SN : %s", [self.mySwipe getSerialString]];
+            break;
+            
+            // for barcode
+        case SEVENT_BARCODE :
+            //            labelMsr.text = [NSString stringWithFormat:@"BarCode : "];
+            swipCount = [self.mySwipe getCount];
+            [self.mySwipe getFwVer:FwVer];
+            [self.mySwipe getLibVer:LibVer];
+            switch ( [self.mySwipe getResult] ) {
+                case SRESULT_ERROR_FRAME :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Frame Error"];
+                    break;
+                case SRESULT_EMPTY :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Empty BarCode"];
+                    break;
+                case SRESULT_OK :
+                    //[mySwipe scanBeep];
+                    //[self.mySwipe stopWatching];
+                    //AudioServicesPlaySystemSound(1108);
+                    //[self.mySwipe startWatching];
+                    //                    labelResult.text = [NSString stringWithFormat:@"Complete"];
+                    msrLength = [self.mySwipe getBarCode:msrTrack];
+                    //                    labelMsr.text = [NSString stringWithFormat:@"BarCode:[%d]%s",msrLength,	msrTrack];
+                    printf("\r\nSwipeApp: BarCode[%d]%s",msrLength, msrTrack);
+                    break;
+                case SRESULT_SCAN_FAIL :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Scan Fail"];
+                    break;
+                case SRESULT_POWER_ON :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power On"];
+                    break;
+                case SRESULT_POWER_OFF :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power Off"];
+                    break;
+                    
+            }
+            //            labelSwVer.text = [NSString stringWithFormat:@"Lib Ver : %s",LibVer];
+            //            labelFwVer.text = [NSString stringWithFormat:@"Fw Ver : %s",FwVer];
+            //            labelHwVer.text = [NSString stringWithFormat:@"Count : %d",[self.mySwipe getCount]];
+            //            labelBatt.text = [NSString stringWithFormat:@"SM200 Batt Volt[%dV] Life[%d%%]",
+            //                              [self.mySwipe getBatteryVolt],
+            //                              [self.mySwipe getBatteryLife]];
+            //
+            //            labelSerial.text = [NSString stringWithFormat:@"SN : %s", [self.mySwipe getSerialString]];
+            
+            
+            break;
+            
+            
+            // for EMV Control
+        case SEVENT_EMV_CONTROL :
+            //            labelMsr.text = [NSString stringWithFormat:@""];
+            swipCount = [self.mySwipe getCount];
+            [self.mySwipe getFwVer:FwVer];
+            [self.mySwipe getLibVer:LibVer];
+            switch ( [self.mySwipe getResult] ) {
+                case   EMV_POWER_ON :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power On"];
+                    break;
+                case   EMV_POWER_OFF :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power Off"];
+                    break;
+                case   EMV_CARD_INSERT :
+                    break;
+                case   EMV_CARD_EJECT :
+                    //                    labelResult.text  = [NSString stringWithFormat:@"Eject"];
+                    break;
+                case  EMV_IFM_ERROR :
+                    //                    labelResult.text  = [NSString stringWithFormat:@"IC Card Error 0x%x !",[self.mySwipe getIfmErrorCode]];
+                    break;
+                    
+                    
+            }
+            //            labelSwVer.text = [NSString stringWithFormat:@"Lib Ver : %s",LibVer];
+            //            labelFwVer.text = [NSString stringWithFormat:@"Fw Ver : %s",FwVer];
+            //            labelHwVer.text = [NSString stringWithFormat:@"Count : %d",[self.mySwipe getCount]];
+            //            labelBatt.text = [NSString stringWithFormat:@"SM200 Batt Volt[%dV] Life[%d%%]",
+            //                              [self.mySwipe getBatteryVolt],
+            //                              [self.mySwipe getBatteryLife]];
+            //
+            //            labelSerial.text = [NSString stringWithFormat:@"SN : %s", [self.mySwipe getSerialString]];
+            
+            
+            break;
+            
+            // for EMV Data
+        case SEVENT_EMV_DATA :
+            //            labelMsr.text = [NSString stringWithFormat:@"EmvC : "];
+            swipCount = [self.mySwipe getCount];
+            [self.mySwipe getFwVer:FwVer];
+            [self.mySwipe getLibVer:LibVer];
+            [self.mySwipe getChipResult:&chipResult];
+            [self.mySwipe getEmvInfo:&emvInfo];
+            
+            switch ( [self.mySwipe getResult] ) {
+                case   EMV_ICCARD_DATA :
+                    //                    labelResult.text = [NSString stringWithFormat:@"EMV Data"];
+                    break;
+            }
+            
+            //            labelResult.text = [NSString stringWithFormat:@"Complete:%s/%s",emvInfo.applName,emvInfo.holderName];
+            printf("\r\nEmvD:%s %s MSR[%d]%s",FwVer, LibVer,msrLength, msrTrack);
+            //            labelMsr.text = [NSString stringWithFormat:@"EMV[%d]:%s ",msrLength,msrTrack];
+            //
+            //            labelSwVer.text = [NSString stringWithFormat:@"Lib Ver : %s",LibVer];
+            //            labelFwVer.text = [NSString stringWithFormat:@"Fw Ver : %s",FwVer];
+            //            labelHwVer.text = [NSString stringWithFormat:@"Count : %d",[self.mySwipe getCount]];
+            //            labelBatt.text = [NSString stringWithFormat:@"SM200 Batt Volt[%dV] Life[%d%%]",
+            //                              [self.mySwipe getBatteryVolt],
+            //                              [self.mySwipe getBatteryLife]];
+            //
+            //            labelSerial.text = [NSString stringWithFormat:@"SN : %s", [self.mySwipe getSerialString]];
+            
+            break;
+            
+        case SEVENT_SWIPE_INFO :
+            //            labelMsr.text = [NSString stringWithFormat:@"SInfo : "];
+            swipCount = [self.mySwipe getCount];
+            [self.mySwipe getFwVer:FwVer];
+            [self.mySwipe getLibVer:LibVer];
+            switch ( [self.mySwipe getResult] ) {
+                case SRESULT_POWER_ON :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power On"];
+                    break;
+                case SRESULT_POWER_OFF :
+                    //                    labelResult.text = [NSString stringWithFormat:@"Power Off"];
+                    break;
+                    
+            }
+            //            labelSwVer.text = [NSString stringWithFormat:@"Lib Ver : %s",LibVer];
+            //            labelFwVer.text = [NSString stringWithFormat:@"Fw Ver : %s",FwVer];
+            //            labelHwVer.text = [NSString stringWithFormat:@"Count : %d",[self.mySwipe getCount]];
+            //            labelBatt.text = [NSString stringWithFormat:@"SM200 Batt Volt[%dV] Life[%d%%]",
+            //                              [self.mySwipe getBatteryVolt],
+            //                              [self.mySwipe getBatteryLife]];
+            //
+            //            labelSerial.text = [NSString stringWithFormat:@"SN : %s", [self.mySwipe getSerialString]];
+            
+            break;
+            
+            
+            
+    }
+    
+}
+
+
+/* Comment out the block below to over-ride */
+
+/*
+ 
+ - (void) webViewDidStartLoad:(UIWebView*)theWebView
+ {
+ return [super webViewDidStartLoad:theWebView];
+ }
+ 
+ - (void) webView:(UIWebView*)theWebView didFailLoadWithError:(NSError*)error
+ {
+ return [super webView:theWebView didFailLoadWithError:error];
+ }
+ 
+ - (BOOL) webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
+ {
+ return [super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
+ }
+ */
+
+@end
+
+@implementation MainCommandDelegate
+
+/* To override the methods, uncomment the line in the init function(s)
+ in MainViewController.m
+ */
+
+#pragma mark CDVCommandDelegate implementation
+
+- (id)getCommandInstance:(NSString*)className
+{
+    return [super getCommandInstance:className];
+}
+
+- (NSString*)pathForResource:(NSString*)resourcepath
+{
+    return [super pathForResource:resourcepath];
+}
+
+@end
+
+@implementation MainCommandQueue
+
+/* To override, uncomment the line in the init function(s)
+ in MainViewController.m
+ */
+- (BOOL)execute:(CDVInvokedUrlCommand*)command
+{
+    return [super execute:command];
+}
+
+
+
+@end

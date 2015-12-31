@@ -1,0 +1,203 @@
+﻿@model Formular.BaaS.Domain.Program
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Program</p>
+              <small>Program Edit</small>
+            </blockquote>
+            @if (ViewBag.AppDivision != null)
+            {
+                @Html.Partial("../BaaSApplication/_LeftInfo", ViewBag.AppDivision as AppDivision)
+            }
+        </div>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span12"> 
+
+@using (Html.BeginForm("Edit", "BaaSProgram", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+
+    <fieldset>
+        <legend>Program Edit</legend>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.AppDivision.Name, new { @class = "control-label" })
+            <div class="controls">
+               @Html.DropDownListFor(model => model.AppDivision.Id,
+                           new SelectList(ViewBag.AppDivisions,
+                                             "id",
+                                             "Name"
+                                            ),
+                           "-- Select State --")
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Code, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Code, "", new { placeholder = "Code" })
+                @Html.ValidationMessageFor(model => model.Code)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name, "", new { placeholder = "Name" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Desc, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Desc, "", new { placeholder = "Desc" })
+                @Html.ValidationMessageFor(model => model.Desc)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.IsUsed, new { @class = "control-label" })
+            <div class="controls">
+                <div class="switch switch-small">
+                @Html.EditorFor(model => model.IsUsed, "", new { placeholder = "IsUsed" })
+                </div>
+                @Html.ValidationMessageFor(model => model.IsUsed)
+            </div>
+        </div>
+
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Web Program</a></li>
+            <li><a href="#tab2" data-toggle="tab">Windows Program</a></li>
+            <li><a href="#tab3" data-toggle="tab">Mobile Program</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <div class="control-group">
+                @Html.LabelFor(model => model.WebProgram.Action , new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.WebProgram.Action)
+                    @Html.ValidationMessageFor(model => model.WebProgram.Action)
+                </div>
+            </div>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.WebProgram.Controller , new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.WebProgram.Controller)
+                    @Html.ValidationMessageFor(model => model.WebProgram.Controller)
+                </div>
+            </div>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.WebProgram.IconName , new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.WebProgram.IconName)
+                    @Html.ValidationMessageFor(model => model.WebProgram.IconName)
+                </div>
+            </div>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.WebProgram.Area , new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.WebProgram.Area)
+                    @Html.ValidationMessageFor(model => model.WebProgram.Area)
+                </div>
+            </div>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.WebProgram.Parameter , new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.WebProgram.Parameter)
+                    @Html.ValidationMessageFor(model => model.WebProgram.Parameter)
+                </div>
+            </div>
+
+            </div>
+            <div class="tab-pane" id="tab2">
+              <div class="control-group">
+                    @Html.LabelFor(model => model.WinProgram.AssemblyName , new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.WinProgram.AssemblyName)
+                        @Html.ValidationMessageFor(model => model.WinProgram.AssemblyName)
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.WinProgram.ClassName, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.WinProgram.ClassName)
+                        @Html.ValidationMessageFor(model => model.WinProgram.ClassName)
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.WinProgram.IconName, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.WinProgram.IconName)
+                        @Html.ValidationMessageFor(model => model.WinProgram.IconName)
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.WinProgram.Parameter, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.WinProgram.Parameter)
+                        @Html.ValidationMessageFor(model => model.WinProgram.Parameter)
+                    </div>
+                </div>
+                    </div>
+                    <div class="tab-pane" id="tab3">
+                      <div class="control-group">
+                    @Html.LabelFor(model => model.MobileProgram.Url, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.MobileProgram.Url)
+                        @Html.ValidationMessageFor(model => model.MobileProgram.Url)
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.MobileProgram.IconName , new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.MobileProgram.IconName)
+                        @Html.ValidationMessageFor(model => model.MobileProgram.IconName)
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    @Html.LabelFor(model => model.MobileProgram.ViewType, new { @class = "control-label" })
+                    <div class="controls">
+                        @Html.EditorFor(model => model.MobileProgram.ViewType)
+                        @Html.ValidationMessageFor(model => model.MobileProgram.ViewType)
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <p>
+            <input type="submit" value="Edit" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+</div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

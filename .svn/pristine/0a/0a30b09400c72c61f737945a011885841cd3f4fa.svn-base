@@ -1,0 +1,58 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="floorPlanRecordHandle">
+        <div id="container" class="red">
+            <div class="list">
+                <div>
+                    지점 / 층
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                                지점
+                            </div>
+                            <select ng-model="data.selectedRequest.storeNfloor"
+                                    ng-options="c.sectionName for c in storeNfloors"
+                                    ng-change="SelectStoreAction()">
+                                <option value="">점 선택</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col">
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                                층
+                            </div>
+                            <select ng-model="data.selectedRequest.floor"
+                                    ng-options="d.name for d in data.selectedRequest.storeNfloor.floors"
+                                    ng-change="SelectFloorAction()">
+                                <option value="">층 선택</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <span style="display:none" favorite-key="{{favoriteKeyA}}" favorite="data.selectedRequest.storeNfloor.sectionCode"></span>
+                <span style="display:none" favorite-key="{{favoriteKeyB}}" favorite="data.selectedRequest.floor.code"></span>
+                <div class="row">
+                    <div class="col" ng-hide="toggled == false">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><font size="4"><b>검색결과</b></font></h3>
+                            </div>
+                            <div id="historyResult" class="panel-body" style="overflow-y: auto;">
+                                <p compile="combineTextHtml"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-hide="toggled == false">
+                <button class="button button-full button-light" ng-click="ShowSelectedDate()">
+                    확인
+                </button>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

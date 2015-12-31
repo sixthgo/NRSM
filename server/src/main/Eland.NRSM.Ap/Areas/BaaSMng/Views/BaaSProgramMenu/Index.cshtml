@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.ProgramMenu>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+    @Styles.Render("~/Content/plugins/jqtree")
+}
+
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    @Scripts.Render("~/Scripts/plugins/jqtree")
+    <script type="text/javascript">
+        @*$(function () {
+            $('#treeMenu').tree({
+                dragAndDrop: true,
+                autoOpen: 0,
+                selectable: true
+            });
+        });*@
+        
+    </script>
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+                <p>Program Menu</p>
+                <small>Program Menu list</small>
+            </blockquote>
+
+            <p>
+            <a href="@Url.Action("Create")" class="btn btn-small" ><i class="icon-plus"></i> Create</a>
+            </p>
+            @using(Html.BeginForm()) {
+            @Html.DropDownList("id",
+                           new SelectList(ViewBag.AppDivisions,
+                                             "id",
+                                             "Name"
+                                            ),
+                           "-- Select State --", new { @class="btn-block" })
+                <button type="submit" class="btn btn-small pull-right" ><i class="icon-search"></i> Search</button>
+            }
+            @if ( ViewBag.AppDivision != null )
+            {
+                @Html.Partial("../BaaSApplication/_LeftInfo", ViewBag.AppDivision as AppDivision)
+            }
+
+        </div>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span12" >
+        @Html.Partial("../BaaSProgramMenu/_Table" , Model )
+    </div>
+</div>
+

@@ -1,0 +1,207 @@
+﻿controllerModule.controller('NowEventSalesBrandCtrl', function ($scope, $stateParams, $ionicPopup, $ionicLoading, $q, $ionicPosition, $timeout, $cordovaDatePicker, EventSalesService, PopupService, CUService) {
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM006';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.headerText = '';
+    $scope.headerDate = '';
+
+    $scope.popup = {};
+
+    $scope.sort = {};
+    $scope.sort.column = 'name';
+    $scope.sort.isDescending = false;
+
+    $scope.param = {};
+    $scope.data = {};
+    $scope.cuPopup = {};
+
+    $scope.requireScrollHeight = true;
+
+    $scope.style.showCalendarButton = 'inline';
+    $scope.style.showReloadButton = 'inline';
+
+    $scope.favorite.support = false;
+
+    $scope.base.GetDate = function () {
+        $scope.OpenDatePick();
+    }
+
+    $scope.OpenDatePick = function () {
+        //var minDate = new Date();
+        //minDate.setTime(minDate.valueOf() - 10 * 365 * 24 * 60 * 60 * 1000);
+
+        var options = {
+            date: new Date(),
+            mode: 'date', // or 'time'
+            minDate: new Date() - 10 * 365 * 24 * 60 * 60 * 1000,
+            //allowOldDates: true,
+            //allowFutureDates: true,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#F2F3F4',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var isIPad = ionic.Platform.isIPad();
+        $scope.debug.Log('isIPad=' + isIPad);
+        if (isIPad == true) {
+            var calButton = angular.element('#btnA');
+            var offset = $ionicPosition.offset(calButton); // offset
+            options.x = (offset.left + parseInt(offset.width / 2)).toString();
+            options.y = (offset.top + offset.height).toString();
+        }
+
+        $cordovaDatePicker.show(options).then(function (date) {
+            var selectedDate;
+            if (date == undefined || date == null)
+                selectedDate = new Date();
+            else {
+                selectedDate = new Date(date);
+                $scope.GetNowEventSalesData();
+                $scope.headerDate = UtilService.FormatDate(selectedDate);
+            }
+        });
+    }
+
+    $scope.sorting = function (sortColumn) {
+        $scope.sort.isDescending = ($scope.sort.column == sortColumn) ? !$scope.sort.isDescending : false;
+        $scope.sort.column = sortColumn;
+    }
+
+    $scope.Init = function () {
+        $scope.debug.Log('NowEventSalesBrandCtrl.Init();');
+        $scope.SetLocalWord();
+
+        $scope.InitParam();
+        $scope.InitVariable();
+
+        $scope.GetNowEventSalesData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = '브랜드지점별 행사매출';
+    }
+
+    $scope.InitParam = function () {
+
+        $scope.param.standard = $stateParams.standard;
+        $scope.param.brandCode = $stateParams.brandCode;
+        $scope.param.brandName = $stateParams.brandName.replace("|", "/");
+        $scope.param.date = $stateParams.date;
+        $scope.param.column = $stateParams.column;
+        $scope.param.isDescending = $stateParams.isDescending;
+    }
+
+    $scope.InitVariable = function () {
+        $scope.popup.standard = $scope.param.standard; // salesDiv
+
+        $scope.headerDate = $scope.param.date;
+        $scope.sort.column = $scope.param.column;
+        $scope.sort.isDescending = $scope.param.isDescending;
+
+        $scope.gubun = '6';
+
+        $scope.ResetVariable();
+    }
+
+    $scope.ResetVariable = function () {
+        $scope.headerText = $scope.param.brandName + " > 지점별";
+    }
+
+    $scope.GetNowEventSalesData = function () {
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        EventSalesService.query({
+            input: $scope.popup.standard,
+            gubun: $scope.gubun,
+            date: $scope.headerDate,
+            plantCode: '',
+            layoutCode: '',
+            floor: '',
+            categoryUnit: '',
+            purchaseGroup: '',
+            brandCode: $scope.param.brandCode,
+            personNumber: $scope.user.loginId
+        }, function (data) {
+
+            $ionicLoading.hide();
+            $scope.tblData = data.salesdata;
+            // plantName, amount(rate), perSum(count), spaceSum
+
+            $timeout(SetScroll, 500);
+
+            if (data.result == 'E') {
+                PopupService.OpenPopupAlert(data.message);
+                return;
+            }
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+        });
+    }
+
+    $scope.OpenNowEventSalesBrandPopup = function () {
+
+        $scope.popupTemp = angular.copy($scope.popup);
+
+        var url = 'templates/sales/nowEventSalesBrandPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '조건 선택',
+            cssClass: 'eventSalesPopupNew',
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.ResetVariable();
+                $scope.GetNowEventSalesData();
+            }
+            else {
+                $scope.popup = angular.copy($scope.popupTemp);
+            }
+        });
+    }
+
+    //function leftPad(number, targetLength) {
+    //    var output = number + '';
+    //    while (output.length < targetLength) {
+    //        output = '0' + output;
+    //    }
+    //    return output;
+    //}
+
+    var SetScroll = function () {
+
+        if ($scope.requireScrollHeight == true) {
+            var obj = angular.element('#scrollBrand');
+            var position = $ionicPosition.position(obj);
+            $scope.newHeightA = position.height - position.top + 20;
+
+            $scope.requireScrollHeight = false;
+        }
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('NowEventSalesBrandCtrl.base.Reload()');
+
+        $scope.Init();
+    }
+});

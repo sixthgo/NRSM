@@ -1,0 +1,8 @@
+dependencies: \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/CDVPluginResult.m \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/CDVPluginResult.h \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/CDVAvailability.h \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/CDVAvailabilityDeprecated.h \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/CDVJSON_private.h \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/CDVDebug.h \
+  /Users/joinsik/Desktop/insik/Projects/NRSM/mobile/platforms/ios/CordovaLib/Classes/NSData+Base64.h

@@ -1,0 +1,216 @@
+controllerModule.controller('CheckCtrl', function($scope, $state, $sessionStorage, $ionicPlatform, $ionicHistory, CordovaService, PopupService, $cordovaSplashscreen, $timeout, $q, $window, $ionicLoading){
+
+    $ionicPlatform.ready(function() {
+    // CordovaService.ready.then(function () {
+        console.log('   CordovaService   ');
+        console.log('isWebView : ' + ionic.Platform.isWebView());
+
+
+        //device에서 호출한 경우
+        if(ionic.Platform.isWebView()){
+          cordova.exec(function(winParam){
+            var message = winParam.message;
+            var codeKey = winParam.codeKey;
+            var locale = winParam.locale;
+            var deviceModelName = device.model;
+
+            if(!ionic.Platform.isAndroid()) {
+              deviceModelName = $scope.iOSDeviceModelNameParsing(deviceModelName);
+            }
+            console.log("device type is " + deviceModelName);
+            console.log('message : ' + message);
+            console.log('codeKey : ' + codeKey);
+            console.log('locale : ' + locale);
+
+            //디바이스 정보를 세션에 저장
+            $sessionStorage.deviceLocale = locale;
+            $sessionStorage.deviceModelName = deviceModelName;
+
+            //인증 성공ß
+            if(codeKey == '0x00000000' || codeKey == '0x50000000'){
+
+
+              console.log('success MDM certification : ' + message);
+              $sessionStorage.loginId = message;
+
+              if(ionic.Platform.isAndroid()) {
+                cordova.exec(function(winParam){
+                  var version = winParam.version;
+                  $sessionStorage.androidVersion = version;
+                  console.log('android : ' + $sessionStorage.androidVersion);
+
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+
+                  setTimeout(function(){
+                      $cordovaSplashscreen.hide();
+                  }, 10);
+                  $state.go('app.home');
+                }, function(error){
+                  console.log('error : ' + error);
+                }, 'OSCODE', 'get_version', []);
+              }else{
+
+                $ionicHistory.nextViewOptions({
+                  disableBack: true
+                });
+                setTimeout(function(){
+                    $cordovaSplashscreen.hide();
+                }, 10);
+                $state.go('app.home');
+              }
+              //call cordova app loader
+              // $scope.checkUpdate();
+            }
+            //인증 실패
+            else{
+              $cordovaSplashscreen.hide();
+              console.log('Error : ' + message);
+              if(codeKey == '0xDB310023'){
+                  var appIdentifier = "";
+                  if(ionic.Platform.isAndroid()){
+                    appIdentifier = 'com.jiransoft.mdm.eland';
+                  }
+                  else{
+                    appIdentifier = 'com.eland.mobilekeeper';
+                  }
+                  PopupService.OpenPopupConfirm('SmartRetail', message, function() {
+                      cordova.exec(function(winParam){
+
+                      }, function (error) {
+
+                      }, 'LaunchApp', 'launch_app', [{ packageName: appIdentifier }]);
+                  }, function() {
+
+                  });
+              }else{
+                PopupService.OpenPopupAlert('Warning', message, $scope.closeApp);
+              }
+
+            }
+          },function(error){
+            // alert(error);
+              console.log('error : ' + error);
+          }, 'MDM', 'check_app', []);
+        }
+        //web에서 호출한 경우
+        else{
+          $sessionStorage.loginId = 'ju_minho';
+
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+
+
+          $state.go('app.home');
+        }
+    });
+
+    //인증 실패했을 경우, 후속 처리
+    $scope.closeApp = function () {
+      ionic.Platform.exitApp();
+    }
+
+    $scope.checkUpdate = function () {
+        var fs = new CordovaPromiseFS({ persistent: typeof cordova !== 'undefined' });
+        var SERVER = 'http://121.190.88.43:8020/Updater/';
+
+        var loader = $window.loader = new CordovaAppLoader({
+            fs: fs,
+            localRoot: 'SmartRetail',
+            serverRoot: SERVER,
+            cacheBuster: true,
+            checkTimeout: 10000
+        });
+
+        loader.check().then(function(updateAvailable) {
+            console.log('updateAvailable : ' + updateAvailable);
+            if(updateAvailable){
+              $ionicLoading.show({
+                  template: "앱을 업데이트 중입니다.<br>잠시만 기다려주세요.",
+                  noBackdrop: false,
+                  delay:500
+              });
+              // PopupService.OpenPopupConfirm('Update', '앱이 업데이트 되었습니다.<br>업데이트 하시겠습니까?', $scope.startDownlod, null);
+              $scope.startDownlod();
+            }
+        });
+
+        $scope.startDownlod = function () {
+            loader.download(onprogress).then(function(manifest){
+                console.log('manifest : ' + manifest);
+                $scope.updateApp();
+            },function(failedDownloadUrlArray){
+                console.log('failedDownloadUrlArray : ' + failedDownloadUrlArray);
+                $ionicLoading.hide();
+            });
+        };
+
+        $scope.updateApp = function () {
+            console.log('updateApp');
+            loader.update();
+            // $timeout(function () {
+            //   $ionicLoading.hide();
+            // }, 3000);
+        };
+    };
+
+    //ios device model name parsing
+    $scope.iOSDeviceModelNameParsing = function (deviceModelName) {
+      if (deviceModelName == "iPhone1,1")    return "iPhone 2G";
+      if (deviceModelName == "iPhone1,2")    return "iPhone 3G";
+      if (deviceModelName == "iPhone2,1")    return "iPhone 3GS";
+      if (deviceModelName == "iPhone3,1")    return "iPhone 4";
+      if (deviceModelName == "iPhone3,2")    return "iPhone 4";
+      if (deviceModelName == "iPhone3,3")    return "iPhone 4 (CDMA)";
+      if (deviceModelName == "iPhone4,1")    return "iPhone 4S";
+      if (deviceModelName == "iPhone5,1")    return "iPhone 5";
+      if (deviceModelName == "iPhone5,2")    return "iPhone 5 (GSM+CDMA)";
+      if (deviceModelName == "iPhone5,3")    return "iPhone 5c (GSM+CDMA)";
+      if (deviceModelName == "iPhone5,4")    return "iPhone 5c (UK+Europe+Asia+China)";
+      if (deviceModelName == "iPhone6,1")    return "iPhone 5s (GSM+CDMA)";
+      if (deviceModelName == "iPhone6,2")    return "iPhone 5s (UK+Europe+Asia+China)";
+      if (deviceModelName == "iPhone7,1")    return "iPhone 6 Plus";
+      if (deviceModelName == "iPhone7,2")    return "iPhone 6";
+
+      if (deviceModelName == "iPod1,1")      return "iPod Touch (1 Gen)";
+      if (deviceModelName == "iPod2,1")      return "iPod Touch (2 Gen)";
+      if (deviceModelName == "iPod3,1")      return "iPod Touch (3 Gen)";
+      if (deviceModelName == "iPod4,1")      return "iPod Touch (4 Gen)";
+      if (deviceModelName == "iPod5,1")      return "iPod Touch (5 Gen)";
+      if (deviceModelName == "iPod7,1")      return "iPod Touch (6 Gen)";
+
+      if (deviceModelName == "iPad1,1")      return "iPad";
+      if (deviceModelName == "iPad1,2")      return "iPad 3G";
+      if (deviceModelName == "iPad2,1")      return "iPad 2 (WiFi)";
+      if (deviceModelName == "iPad2,2")      return "iPad 2";
+      if (deviceModelName == "iPad2,3")      return "iPad 2 (CDMA)";
+      if (deviceModelName == "iPad2,4")      return "iPad 2";
+      if (deviceModelName == "iPad2,5")      return "iPad Mini (WiFi)";
+      if (deviceModelName == "iPad2,6")      return "iPad Mini";
+      if (deviceModelName == "iPad2,7")      return "iPad Mini (GSM+CDMA)";
+      if (deviceModelName == "iPad3,1")      return "iPad 3 (WiFi)";
+      if (deviceModelName == "iPad3,2")      return "iPad 3 (GSM+CDMA)";
+      if (deviceModelName == "iPad3,3")      return "iPad 3";
+      if (deviceModelName == "iPad3,4")      return "iPad 4 (WiFi)";
+      if (deviceModelName == "iPad3,5")      return "iPad 4";
+      if (deviceModelName == "iPad3,6")      return "iPad 4 (GSM+CDMA)";
+      if (deviceModelName == "iPad4,1")      return "iPad Air (WiFi)";
+      if (deviceModelName == "iPad4,2")      return "iPad Air (GSM+CDMA)";
+      if (deviceModelName == "iPad4,4")      return "iPad Mini 2 (WiFi)";
+      if (deviceModelName == "iPad4,5")      return "iPad Mini 2 (GSM+CDMA)";
+      if (deviceModelName == "iPad4,6")      return "iPad Mini 2 (China)";
+      if (deviceModelName == "iPad4,7")      return "iPad Mini 3 (WiFi)";
+      if (deviceModelName == "iPad4,8")      return "iPad Mini 3 (GSM+CDMA)";
+      if (deviceModelName == "iPad4,9")      return "iPad Mini 3 (China)";
+      if (deviceModelName == "iPad5,3")      return "iPad Air 2 (WiFi)";
+      if (deviceModelName == "iPad5,4")      return "iPad Air 2";
+
+      if (deviceModelName == "i386")         return "Simulator";
+      if (deviceModelName == "x86_64")       return "Simulator";
+
+      return deviceModelName;
+    };
+
+});

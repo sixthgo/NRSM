@@ -1,0 +1,68 @@
+﻿@model Formular.BaaS.Domain.User
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript" >
+        $(function () {
+
+        });
+    </script>
+}
+
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>User</p>
+              <small>User Details</small>
+            </blockquote>
+            @Html.Partial("../BaaSApplication/_LeftInfo" , Model.AppDivision )
+            <h4 class="text-info">User</h4>
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.UserName)</dt>
+                <dd>@Html.DisplayFor(model => model.UserName)</dd>
+                <dt>@Html.DisplayNameFor(model => model.MemberDetail.Email)</dt>
+                <dd>@Html.DisplayFor(model => model.MemberDetail.Email)</dd>
+                <dt>@Html.DisplayNameFor(model => model.MemberDetail.Comment)</dt>
+                <dd>@Html.DisplayFor(model => model.MemberDetail.Comment)</dd>
+            </dl>
+            <p>
+                <a href="@Url.Action("Edit" , new { id = Model.Id } )" class="btn btn-small" ><i class="icon-pencil"></i> Edit</a>
+            </p>
+        </div>
+    </div>
+}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="well well-large">
+                @using (Html.BeginForm())
+                {
+                        foreach (Formular.BaaS.Domain.Role role in ViewBag.Roles)
+                        {
+                            string containResult = Model.Roles.Contains(role) ? "checked=\"checked\"" : "";
+                            <label class="checkbox">
+                                <input type="checkbox" name="roles" value="@role.Id" @containResult>
+                                @role.Name
+                            </label>
+                        }
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <button type="submit">변경 저장</button>
+                }
+        </div>
+    </div>
+</div>
+
+

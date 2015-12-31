@@ -1,0 +1,12 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('MenuApiService', function ($resource) {
+    return $resource('/api/menuApi?appId=:appId&loginID=:loginID&currentMenuVersion=:currentMenuVersion&locale=:locale', {
+        appId: '@appId',
+        loginID: '@loginID',
+        currentMenuVersion: '@currentMenuVersion',
+        locale: '@locale'
+    });
+})

@@ -1,0 +1,14 @@
+'use strict';
+
+angular.module('starter.services')
+
+.factory('UserLinkButtonService', function ($resource, webServerUrl) {
+	return $resource(webServerUrl + '/api/plant?loginId=:loginId&x=:x&y=y', {
+			loginId: '@loginId', x: '@x', y: '@y'
+		},
+		{
+			'query': { method: 'GET', isArray: true }
+		});
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

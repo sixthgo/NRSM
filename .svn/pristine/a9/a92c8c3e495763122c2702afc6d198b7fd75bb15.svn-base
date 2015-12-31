@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<bindings>
+  <basicHttpBinding>
+    <binding name="credentialBinding" maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+      <security mode="TransportCredentialOnly">
+        <transport clientCredentialType="None" proxyCredentialType="None"/>
+        <message clientCredentialType="UserName" algorithmSuite="Default"/>
+      </security>
+    </binding>
+    <binding name="WS_MailSoap"/>
+  </basicHttpBinding>
+  <customBinding>
+    <binding name="CustomHttpTransportBinding" closeTimeout="00:10:00" openTimeout="00:10:00" receiveTimeout="00:10:00" sendTimeout="00:10:00">
+      <textMessageEncoding maxReadPoolSize="64" maxWritePoolSize="16" messageVersion="Soap11" writeEncoding="utf-8">
+        <readerQuotas maxDepth="10000000" maxStringContentLength="2147483647" maxArrayLength="67108864" maxBytesPerRead="2147483647" maxNameTableCharCount="100000"/>
+      </textMessageEncoding>
+      <httpTransport maxBufferPoolSize="2147483647" maxReceivedMessageSize="2147483647" authenticationScheme="Basic" bypassProxyOnLocal="false" hostNameComparisonMode="StrongWildcard" keepAliveEnabled="false" maxBufferSize="2147483647" proxyAuthenticationScheme="Basic" realm="XISOAPApps" useDefaultWebProxy="true"/>
+    </binding>
+    <binding name="ZQUERYMATERIALPRICEINFO_BINDING">
+      <textMessageEncoding messageVersion="Soap11"/>
+      <httpsTransport authenticationScheme="Basic"/>
+    </binding>
+    <binding name="ZQUERYUSERAUTHIN_BINDING">
+      <!--    WsdlImporter encountered unrecognized policy assertions in ServiceDescription 'http://eland.co.kr/KRERP/MOB':    -->
+      <!--    <wsdl:binding name='ZQUERYUSERAUTHIN_BINDING'>    -->
+      <!--        <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing">..</wsaw:UsingAddressing>    -->
+      <!--        <saptrnbnd:OptimizedXMLTransfer xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/">..</saptrnbnd:OptimizedXMLTransfer>    -->
+      <!--        <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">..</sapattahnd:Enabled>    -->
+      <textMessageEncoding messageVersion="Soap11"/>
+      <httpsTransport authenticationScheme="Basic"/>
+    </binding>
+    <binding name="ZMANAGESCPOPALLETITEMIN_BINDING">
+      <textMessageEncoding messageVersion="Soap11" />
+      <httpsTransport authenticationScheme="Basic" />
+    </binding>
+    <binding name="ZQUERYFLOORREVENUEIN_BINDING">
+      <textMessageEncoding messageVersion="Soap11" />
+      <httpsTransport authenticationScheme="Basic" />
+    </binding>
+  </customBinding>
+  <webHttpBinding>
+    <binding name="wsHttpBinding">
+      <security mode="Transport">
+        <transport clientCredentialType="None"/>
+        <!--Certificate-->
+      </security>
+    </binding>
+    <binding name="webBinding">
+      <security mode="TransportCredentialOnly">
+        <transport clientCredentialType="Ntlm" realm=""/>
+      </security>
+    </binding>
+  </webHttpBinding>
+</bindings>

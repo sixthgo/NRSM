@@ -1,0 +1,249 @@
+﻿controllerModule.controller('NowEventSalesTimeCtrl', function ($scope, $state, $stateParams, $ionicPopup, $ionicLoading, $q, $ionicPosition, $timeout, $cordovaDatePicker, EventSalesService, PopupService, CUService) {
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM006';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.headerText = '';
+    $scope.headerDate = '';
+
+    $scope.popup = {};
+
+    $scope.sort = {};
+    $scope.sort.column = 'name';
+    $scope.sort.isDescending = false;
+
+    $scope.param = {};
+    $scope.data = {};
+    $scope.cuPopup = {};
+
+    $scope.requireScrollHeight = true;
+
+    $scope.style.showCalendarButton = 'inline';
+    $scope.style.showReloadButton = 'inline';
+
+    $scope.favorite.support = false;
+
+    $scope.base.GetDate = function () {
+        $scope.OpenDatePick();
+    }
+
+    $scope.OpenDatePick = function () {
+        //var minDate = new Date();
+        //minDate.setTime(minDate.valueOf() - 10 * 365 * 24 * 60 * 60 * 1000);
+
+        var options = {
+            date: new Date(),
+            mode: 'date', // or 'time'
+            minDate: new Date() - 10 * 365 * 24 * 60 * 60 * 1000,
+            //allowOldDates: true,
+            //allowFutureDates: true,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#F2F3F4',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var isIPad = ionic.Platform.isIPad();
+        console.log('isIPad=' + isIPad);
+        if (isIPad == true) {
+            var calButton = angular.element('#btnA');
+            var offset = $ionicPosition.offset(calButton); // offset
+            options.x = '400';
+            options.y = '10';
+        }
+
+        $cordovaDatePicker.show(options).then(function (date) {
+            var selectedDate;
+            if (date == undefined || date == null)
+                selectedDate = new Date();
+            else {
+                selectedDate = new Date(date);
+                $scope.GetNowEventSalesData();
+                $scope.headerDate = UtilService.FormatDate(selectedDate);
+            }
+        });
+    }
+
+    $scope.sorting = function (sortColumn) {
+        $scope.sort.isDescending = ($scope.sort.column == sortColumn) ? !$scope.sort.isDescending : false;
+        $scope.sort.column = sortColumn;
+    }
+
+    $scope.Init = function () {
+        $scope.debug.Log('NowEventSalesTimeCtrl.Init();');
+        $scope.SetLocalWord();
+
+        $scope.InitParam();
+        $scope.InitVariable();
+
+        $scope.GetNowEventSalesData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = '행사장 브랜드별 매출';
+    }
+
+    $scope.InitParam = function () {
+
+        $scope.param.standard = $stateParams.standard;
+        $scope.param.plantCode = $stateParams.plantCode;
+        $scope.param.plantName = $stateParams.plantName.replace("|", "/");
+        $scope.param.date = $stateParams.date;
+        $scope.param.code = $stateParams.code;
+        $scope.param.name = $stateParams.name.replace("|", "/");
+        $scope.param.column = $stateParams.column;
+        $scope.param.isDescending = $stateParams.isDescending;
+    }
+
+    $scope.InitVariable = function () {
+        $scope.popup.standard = $scope.param.standard; // salesDiv
+
+        if ($scope.popup.standard == 'pda') {
+            $scope.layoutCode = $scope.param.code;
+            $scope.floorCode = '';
+        }
+        else {
+            $scope.layoutCode = '';
+            $scope.floorCode = $scope.param.code;
+        }
+
+        $scope.shopCode = $scope.param.plantCode;
+        $scope.shopName = $scope.param.plantName;
+        $scope.name = $scope.param.name;
+
+        //$scope.popup.type = 'event'; // searchDiv
+        $scope.headerDate = $scope.param.date;
+        $scope.sort.column = $scope.param.column;
+        $scope.sort.isDescending = $scope.param.isDescending;
+
+        $scope.gubun = '4';
+
+        $scope.ResetVariable();
+    }
+
+    $scope.ResetVariable = function () {
+        if ($scope.popup.standard == 'key') {
+            $scope.headerText = $scope.shopName + " > " + $scope.name + "층 > 시간대별";
+        }
+        else if ($scope.popup.standard == 'pda') {
+            $scope.headerText = $scope.name + " > 브랜드별";
+        }
+        else {
+            $scope.headerText = $scope.shopName + " > " + $scope.name + "층 > 시간대별";
+        }
+    }
+
+    $scope.GetNowEventSalesData = function () {
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        EventSalesService.query({
+            input: $scope.popup.standard,
+            gubun: $scope.gubun,
+            date: $scope.headerDate,
+            plantCode: $scope.shopCode,
+            layoutCode: $scope.layoutCode,
+            floor: $scope.floorCode,
+            categoryUnit: '',
+            purchaseGroup: '',
+            brandCode: '',
+            personNumber: $scope.user.loginId
+        }, function (data) {
+
+            $ionicLoading.hide();
+            $scope.tblData = data.salesdata;
+            // plantName, amount(rate), perSum(count), spaceSum
+
+            $timeout(SetScroll, 1000);
+
+            if (data.result == 'E') {
+                PopupService.OpenPopupAlert(data.message);
+                return;
+            }
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+        });
+    }
+
+    $scope.OpenNowEventSalesTimePopup = function () {
+
+        $scope.popupTemp = angular.copy($scope.popup);
+
+        var url = 'templates/sales/nowEventSalesTimePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            title: '조건 선택',
+            cssClass: 'eventSalesPopupNew',
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.ResetVariable();
+                $scope.GetNowEventSalesData();
+            }
+            else {
+                $scope.popup = angular.copy($scope.popupTemp);
+            }
+        });
+    }
+
+    //function leftPad(number, targetLength) {
+    //    var output = number + '';
+    //    while (output.length < targetLength) {
+    //        output = '0' + output;
+    //    }
+    //    return output;
+    //}
+
+    var SetScroll = function () {
+
+        if ($scope.requireScrollHeight == true) {
+            var obj = angular.element('#scrollTime');
+            var position = $ionicPosition.position(obj);
+            $scope.newHeightA = position.height - position.top + 20;
+
+            $scope.requireScrollHeight = false;
+        }
+    }
+
+    $scope.Init();
+
+    $scope.ClickRow = function (row) {
+
+        var type = $scope.popup.standard;
+
+        if (type == 'pda') {
+            var param = {
+                standard: $scope.popup.standard,
+                brandCode: row.code,
+                brandName: row.name.replace("/", "|"),
+                date: $scope.headerDate,
+                column: $scope.sort.column,
+                isDescending: $scope.sort.isDescending
+            };
+
+            $state.go('app.sales.NowEventSalesBrand', param);
+        }
+    }
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('NowEventSalesTimeCtrl.base.Reload()');
+
+        $scope.Init();
+    }
+});

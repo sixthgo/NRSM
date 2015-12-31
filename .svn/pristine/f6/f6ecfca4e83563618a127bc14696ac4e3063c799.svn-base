@@ -1,0 +1,45 @@
+﻿cortrollerModule.controller('SalesProjectionsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM009';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('SalesProjectionsCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        $scope.data.isActive = 'leftA';
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'SalesProjectionsCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.setActive = function (activeWhere) {
+        $scope.data.isActive = activeWhere;
+
+        var header = document.getElementsByTagName('body')[0];
+
+        if (activeWhere == "leftA") {
+            $ionicScrollDelegate.$getByHandle('saleScroll').scrollTo(0, 0, true);
+        }
+        else {
+            $ionicScrollDelegate.$getByHandle('saleScroll').scrollTo(header.clientWidth, 0, true);
+        }
+    }
+});

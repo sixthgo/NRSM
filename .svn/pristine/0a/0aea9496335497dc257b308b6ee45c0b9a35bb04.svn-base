@@ -1,0 +1,13 @@
+'use strict';
+
+angular.module('starter.services')
+
+.factory('ManageManualOrderInService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/ManageManualOrderAip', {},
+        {
+            searchProductInfo: { method: 'Get', isArray: true, params: {matnr:'@matnr',werks:'@werks'} },
+            saveManualOrder: { method: 'POST', params: { dto:'@dto'}}
+        });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

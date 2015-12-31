@@ -1,0 +1,41 @@
+﻿<ion-view view-title="{{word.realStockControl}}">
+    <ion-content class="has-footer">
+        <div id="container" class="green">
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">점포 코드</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                    <li>
+                        <p class="left">상품 코드</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_gray">
+                    <a href="#"><img src="img/nrsm/icon_search_gray.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <form>
+                <ul class="list">
+                    <li>
+                        <p class="left">상품 정보</p>
+                        <p class="right">원물 산들애 쇠고기 8g*10입</p>
+                    </li>
+                    <li>
+                        <p class="left">현재고</p>
+                        <p class="right">70</p>
+                    </li>
+                    <li>
+                        <p class="left">실재고</p>
+                        <p class="right"><input type="text" placeholder="입력" /></p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_confirm btn_color">
+                    <a href="#"><img src="img/nrsm/icon_check_green.png" alt="조회" />&nbsp;&nbsp;실재고 조정</a>
+                </p>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

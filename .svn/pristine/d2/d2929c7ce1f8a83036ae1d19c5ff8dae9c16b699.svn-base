@@ -1,0 +1,12 @@
+<ion-view view-title="Playlists">
+  <ion-content>
+    <div class="list">
+        <div class="item item-button-right">
+            Call Barcode Camera
+            <button type="button" class="button button-positive" ng-click="callBarcodeReader()">
+                <i class="ion-ios-camera"></i>
+            </button>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

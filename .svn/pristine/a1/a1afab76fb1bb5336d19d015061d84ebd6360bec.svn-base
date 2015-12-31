@@ -1,0 +1,26 @@
+cortrollerModule.controller('ProductDetailCtrl',function($scope, $stateParams){
+
+    $scope.base.menuId = 'NRSMM07';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.base.viewId = 'NRSM001';
+    $scope.base.SetView($scope.base.viewId);
+
+    $scope.Init = function () {
+
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        $scope.SetLocalWord();
+
+
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Product Detail';
+    }
+    $scope.Init();
+});

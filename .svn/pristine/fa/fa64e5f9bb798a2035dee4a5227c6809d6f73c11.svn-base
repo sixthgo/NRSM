@@ -1,0 +1,38 @@
+<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer" >
+        <div id="container" class="green">
+            <ul class="list">
+                <li>
+                    <p class="left">상품 코드</p>
+                    <p class="right">{{data.MaterialDetail.mATNR}}</p>
+                </li>
+                <li>
+                    <p class="left">상품 이름</p>
+                    <p class="right">{{data.MaterialDetail.mAKTX}}</p>
+                </li>
+                <li style="border-bottom: none;">
+                    <p class="left">공급 업체</p>
+                    <p class="right" style="height: 24px;">{{data.lIFNR}}</p>
+                </li>
+                <li style="border-top: none;">
+                    <p class="right" style="height: 24px; line-height: 1px;">{{data.lIFNR_TX}}</p>
+                </li>
+                <li>
+                    <p class="left">규격</p>
+                    <p class="right">{{data.MaterialDetail.zSTD}}</p>
+                </li>
+                <li>
+                    <p class="left">부가세</p>
+                    <p class="right">{{data.MaterialDetail.tAKLV_TX}}</p>
+                </li>
+                <li>
+                    <p class="left">이동 평균가</p>
+                    <p class="right">{{data.vERPR | number}} 원</p>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>

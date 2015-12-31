@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.Server>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_Layout.cshtml";
+    int columnCnt = 0;
+}
+
+
+    <div class="btn-group">
+        <button class="btn">All</button>
+        <button class="btn">File Server</button>
+        <button class="btn">None File Server</button>
+    </div>
+    <a href="@Url.Action("Create")" class="btn" ><i class="icon-plus"></i> Create</a>
+
+@foreach( Server server in Model)
+{
+    @Html.Raw(columnCnt == 0 ? "<div class=\"row-fluid\">" : "");
+
+    <div class="span2 alert @(server.IsStorageServer?"alert-warning":"alert-info") " data-id="@server.Id">
+        <img src="@Url.Content("~/Content/public/bootstrap/images/glyphicons_160_imac.png")" alt="server" />
+        @if ( server.IsStorageServer )
+        {
+        <img src="@Url.Content("~/Content/public/bootstrap/images/glyphicons_463_server.png")" alt="server" /> 
+        }
+        @server.Name
+        <dl>
+            <dt>IP</dt>
+            <dd>@server.IPAddress</dd>
+        </dl>
+        <div class="btn-group">
+            <a href="@Url.Action("Edit", "BaaSServer", new { id = server.Id })" class="btn btn-small" title="Edit" ><i class='icon-edit'></i></a>
+            <a href="@Url.Action("Details", "BaaSServer", new { id = server.Id })" class="btn btn-small" title="Detail" ><i class='icon-info-sign'></i></a>
+            <a href="@Url.Action("Delete", "BaaSServer", new { id = server.Id })" class="btn btn-small" title="Delete"><i class='icon-trash'></i></a>
+            <!--<button class="btn btn-info btn-small serverinfo"></button>-->
+        </div>
+    </div>
+    
+    if (columnCnt == 5)
+      {
+          columnCnt = 0;
+          @Html.Raw("</div>");
+      }
+      else
+      {
+          columnCnt++;
+      }
+}
+
+@Html.Raw( columnCnt < 5 ?"</div>":"")
+
+@section Scripts
+{
+    @Html.Partial("_Details");
+}
+

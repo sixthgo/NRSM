@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Formular.Data;
+using Domain = Eland.NRSM.Core.Domain;
+using NHibernate.Transform;
+
+namespace Eland.NRSM.Template.Dao
+{
+    public interface IFavoriteDao : IGenericDao<Domain.Favorite>
+    {
+        List<Domain.Favorite> GetAll(string loginId);
+    }
+
+    public class FavoriteDao : HibernateGenericDao<Domain.Favorite>, IFavoriteDao
+    {
+        public List<Domain.Favorite> GetAll(string loginId)
+        {
+            var result = Session.GetNamedQuery("NRSM_FavoriteMenu_R01")
+                .SetParameter("LoginId", loginId)
+                .SetResultTransformer(Transformers.AliasToBean(typeof(Domain.Favorite)))
+                .List<Domain.Favorite>();
+
+            return result as List<Domain.Favorite>;
+        }
+    }
+}

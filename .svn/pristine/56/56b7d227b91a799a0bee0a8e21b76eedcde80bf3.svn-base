@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <object type="Eland.NRSM.Ap.Controllers.HomeController , Eland.NRSM.Ap" singleton="false">
+    <!--<property name="templateService" ref="TemplateService" />-->
+  </object>
+
+  <object name="FavoriteService" type="Eland.NRSM.Template.Services.FavoriteService, Eland.NRSM.Template"></object>
+
+  <object name="PlantService" type="Eland.NRSM.Template.Services.PlantService, Eland.NRSM.Template"></object>
+
+  <object name="CEOReportService" type="Eland.NRSM.Template.Services.CEOReportService, Eland.NRSM.Template"></object>
+  
+  <object name="QueryDailySalePredictionInService" type="Eland.NRSM.Template.Services.QueryDailySalePredictionInService, Eland.NRSM.Template"></object>
+
+  <object name="ManageManualOrderInService" type="Eland.NRSM.Template.Services.ManageManualOrderInService, Eland.NRSM.Template"></object>
+
+  <object name="ManageRealInventoryInService" type="Eland.NRSM.Template.Services.ManageRealInventoryInService, Eland.NRSM.Template"></object>
+
+  <object name="ManageSalePriceSendInService" type="Eland.NRSM.Template.Services.ManageSalePriceSendInService, Eland.NRSM.Template"></object>
+
+  <object name="EmailSendService" type="Eland.NRSM.Template.Services.EmailSendService, Eland.NRSM.Template"></object>
+
+  <object name="CUService" type="Eland.NRSM.Template.Services.CUService, Eland.NRSM.Template"></object>
+  
+  <object name="EIMSInformationService" type="Eland.NRSM.Template.Services.EIMSInformationService, Eland.NRSM.Template"></object>
+
+  <object name="ManageStockInspectionCreateInService" type="Eland.NRSM.Template.Services.ManageStockInspectionCreateInService, Eland.NRSM.Template"></object>
+
+  <object name="ManageScPoPalletItemInService" type="Eland.NRSM.Template.Services.ManageScPoPalletItemInService, Eland.NRSM.Template"></object>
+
+  <object name="ManageDailyGrInService" type="Eland.NRSM.Template.Services.ManageDailyGrInService, Eland.NRSM.Template"></object>
+
+  <object name="StoreFloorService" type="Eland.NRSM.Template.Services.StoreFloorService, Eland.NRSM.Template"></object>
+
+  <object name="FloorPlanService" type="Eland.NRSM.Template.Services.FloorPlanService, Eland.NRSM.Template"></object>
+
+  <object name="FloorPlanCompareService" type="Eland.NRSM.Template.Services.FloorPlanCompareService, Eland.NRSM.Template"></object>
+
+  <object name="FloorAreaService" type="Eland.NRSM.Template.Services.FloorAreaService, Eland.NRSM.Template"></object>
+
+  <object name="SpaceProfitService" type="Eland.NRSM.Template.Services.SpaceProfitService, Eland.NRSM.Template"></object>
+
+  <object name="StoreDetailService" type="Eland.NRSM.Template.Services.StoreDetailService, Eland.NRSM.Template"></object>
+
+  <object name="FloorHistoryRecordService" type="Eland.NRSM.Template.Services.FloorHistoryRecordService, Eland.NRSM.Template"></object>
+  
+  <object name="FloorHistoryRecordDetailService" type="Eland.NRSM.Template.Services.FloorHistoryRecordDetailService, Eland.NRSM.Template"></object>
+
+  <object name="QueryMaterialPriceInfoService" type="Eland.NRSM.Template.Services.QueryMaterialPriceInfoService, Eland.NRSM.Template"></object>
+
+  <object name="MaterialSaveLabelService" type="Eland.NRSM.Template.Services.MaterialSaveLabelService, Eland.NRSM.Template"></object>
+
+  <object name="EventSalesService" type="Eland.NRSM.Template.Services.EventSalesService, Eland.NRSM.Template"></object>
+
+  <object name="AccumulateSalesService" type="Eland.NRSM.Template.Services.AccumulateSalesService, Eland.NRSM.Template"></object>
+
+  <object name="AdminService" type="Eland.NRSM.Template.Services.AdminService, Eland.NRSM.Template"></object>
+
+  <object name="POGFirstCategoryService" type="Eland.NRSM.Template.Services.POGFirstCategoryService, Eland.NRSM.Template"></object>
+
+  <object name="POGThirdCategoryService" type="Eland.NRSM.Template.Services.POGThirdCategoryService, Eland.NRSM.Template"></object>
+
+  <object name="POGColumnService" type="Eland.NRSM.Template.Services.POGColumnService, Eland.NRSM.Template"></object>
+
+  <object name="POGGoodsService" type="Eland.NRSM.Template.Services.POGGoodsService, Eland.NRSM.Template"></object>
+
+  <object name="QueryPreSameDateService" type="Eland.NRSM.Template.Services.QueryPreSameDateService, Eland.NRSM.Template"></object>
+
+</objects>

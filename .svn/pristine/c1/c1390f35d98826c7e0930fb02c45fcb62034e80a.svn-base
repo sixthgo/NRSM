@@ -1,0 +1,17 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="floorPlanSalesHandle">
+        <div id="container" class="red">
+            <ul class="select left">
+                <li class="drawing" style="height:50px" ng-click="OpenFloorPlanSalesPopup()"><span>{{headerText}}</span>{{subText}}</li>
+            </ul>
+            <!--<ion-scroll zooming-="true" direction="xy" ng-style="{'width': windowSize.width, 'height':viewSize.height}">
+                <div id="mainCanvas" compile="combineTextHtml" ng-style="{'height':viewSize.height}"></div>
+            </ion-scroll>-->
+            <ion-scroll zooming-="true" direction="xy" ng-attr-style="{{GetStyleWidthHeight()}}">
+                <div id="mainCanvas" compile="combineTextHtml" ng-attr-style="{{GetStyleWidthHeight(true)}}"></div>
+            </ion-scroll>
+            <div compile="showGuideHtml"></div>
+        </div>
+    </ion-content>
+
+</ion-view>

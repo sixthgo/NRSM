@@ -1,0 +1,28 @@
+﻿cortrollerModule.controller('FloorplanRecordSearchCtrl', function ($scope, $state, $stateParams) {
+
+    $scope.base.viewId = 'NRSM011';
+    $scope.base.SetView($scope.base.viewId);
+    $scope.base.snapshot = null;    // status save to Favorite 
+    ////$scope.base.stateId = $state.current.name;
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('FloorplanRecordSearchCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+        }
+
+        // [scheduled] move to root controller 
+        $scope.SetLocalWord();
+    }
+
+    // [scheduled] move to root controller 
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'Floorplan Record';
+        $scope.test = $scope.word.testSentence;
+    }
+
+    $scope.Init();
+});

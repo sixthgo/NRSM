@@ -1,0 +1,109 @@
+﻿controllerModule.controller('BarcodeSendCtrl', function ($scope,
+                                                         $stateParams,
+                                                         $ionicListDelegate,
+                                                         SendBarcodeEmailService,
+                                                         $q,
+                                                         PopupService, $ionicLoading) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM016';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is ‘inline'
+
+    //$scope.base.barCode016 = null;
+    
+    $scope.Init = function () {
+
+        //var item;
+        //for (var i = 0; i < 20; i++) {
+        //    item = {'seq': i, 'code': '123456789'};
+        //    $scope.base.barCodeList.push(item);
+        //
+        //}
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+
+
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+
+
+    }
+
+    $scope.InitData = function () {
+
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'BarcodeSendCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.Init();
+    }
+
+    $scope.SaveSalePriceSend = function (){
+        var list = $scope.base.barCodeList;
+        var barCodelist = new Array();
+
+        if (list != null && list != undefined && list.length != 0) {
+
+            for (var item in list) {
+                barCodelist.push(list[item].code);
+            }
+
+            if ($scope.data.subject != undefined && $scope.data.subject.length > 30) {
+                PopupService.OpenPopupAlert('메일 내용이 30자 이상 초과할 수 없습니다.');
+                return;
+            }
+
+            $ionicLoading.show({
+                noBackdrop: true
+            });
+
+            SendBarcodeEmailService.sendBarCodeEmail({
+                barcode: barCodelist.toString(),
+                strSubject: $scope.data.subject == undefined? "": $scope.data.subject,
+                mLinkUserId: $scope.user.loginId
+            },function(data){
+                PopupService.OpenPopupAlert('Message', data.returnMessage, $scope.CleanBarCode(data));
+            }, function (error) {
+                //PopupService.OpenPopupAlert('Message', error);
+                $ionicLoading.hide();
+            });
+        }
+    }
+
+    $scope.CleanBarCode = function (data) {
+        if (data.flag == "SUCCESS"){
+            $scope.base.barCodeList = null;
+            $scope.data.subject = null;
+        }
+        $ionicLoading.hide();
+    }
+});

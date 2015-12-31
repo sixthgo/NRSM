@@ -1,0 +1,74 @@
+﻿cortrollerModule.controller('EIMSInformationCtrl', function ($scope, $stateParams,PopupService) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM008';
+    $scope.base.SetMenu($scope.base.menuId);
+
+
+    $scope.data = {};
+
+    $scope.data.shop = "강남점 (8206)";
+    $scope.data.something = "444555";
+    $scope.data.choose = "강남점";
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('EIMSInformationCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        $scope.clientSideList = [
+            { text: "강남점", value: "강남점" },
+            { text: "나점", value: "나점" },
+            { text: "다점", value: "다점" },
+            { text: "라점", value: "라점" },
+            { text: "마점", value: "마점" },
+            { text: "바점", value: "바점" },
+            { text: "사점", value: "사점" },
+            { text: "아점", value: "아점" },
+            { text: "123", value: "123" },
+            { text: "321", value: "321" },
+            { text: "456", value: "654" }
+        ];
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'EIMSInformationCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.showShopPop = function() {
+        var url = 'templates/shopPopup.html';
+        PopupService
+            .InitPopup(url, $scope, $scope.CallbackConfirm, $scope.CallbackCancel)
+            .then(function (modal) {
+                modal.show();
+                //$scope.openModal();
+            });
+
+    }
+
+    $scope.CallbackConfirm = function () {
+        $scope.data.shop = $scope.data.choose;
+    }
+
+    $scope.CallbackCancel = function () {
+        $scope.debug.Log('$scope.CallbackCancel()');
+    }
+
+    $scope.changeCheckStatu = function () {
+        //alert($("input:checked ~ .radio-icon").size());
+        $("input:checked ~ .radio-icon").css("visibility", "visible")
+        $("input:not(:checked) ~ .radio-icon").css("visibility", "hidden")
+    }
+});

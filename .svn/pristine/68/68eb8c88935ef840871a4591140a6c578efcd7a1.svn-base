@@ -1,0 +1,12 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('FloorplanHistoryService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/floorplan?werks=:werks&floor=:floor&fromDate=:fromDate&toDate=:toDate', {
+        werks: '@werks',
+        floor: '@floor',
+        fromDate: '@fromDate',
+        toDate: '@toDate'
+    });
+})

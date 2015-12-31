@@ -1,0 +1,20 @@
+﻿
+var CreateOrModifyBoard = function () {
+    var scope = angular.element($('#wrapper')).scope();
+    alert('barcode');
+    scope.$apply(function () {
+        // scope.CreateOrChangeBoard();
+    });
+}
+
+cortrollerModule.controller('HomeCtrl', function ($scope, $stateParams) {
+
+    $scope.base.menuId = 'NRSMM00';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.Init = function () {
+
+    }
+
+    $scope.Init();
+});

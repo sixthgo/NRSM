@@ -1,0 +1,47 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer" delegate-handle="POGManagementHandle" has-bouncing="false" scroll="false">
+        <div id="container" class="orange">
+            <span style="display:none" favorite-key="{{favoriteKeyB}}" favorite="POGPopup.selectedFirstCategory.pcCode"></span>
+            <span style="display:none" favorite-key="{{favoriteKeyC}}" favorite="POGPopup.selectedThirdCategory.pcCode"></span>
+            <span style="display:none" favorite-key="{{favoriteKeyD}}" favorite="POGPopup.selectedColumn.pcCode"></span>
+
+            <ul id="headlineA" class="select single">
+                <li class="p40" ng-click="OpenStorePopup()" favorite-key="{{favoriteKeyA}}" favorite="storePopup.selectedStore.plantCode"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="p60" ng-click="OpenPOGPopup()"><span>{{GetSelectedItemName(true)}}</span></li>
+            </ul>
+
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table id="tableHeader">
+                            <tr>
+                                <th class="width50">열 / 단</th>
+                                <th class="width40">순번</th>
+                                <th class="maxWidth8em">상품코드</th>
+                                <th class="maxWidth8em">상품명</th>
+                                <th class="width50">진열수</th>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollA_POGManagement" delegate-handle="POGManagementHandle" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <tr ng-repeat="row in tblData">
+                                    <td class="width50" ng-if="row.zcol != ''">{{row.zcol}} / {{row.zrow}}</td>
+                                    <td class="width50" ng-if="row.zcol == ''"></td>
+                                    <td class="width40">{{row.zseq}}</td>
+                                    <td class="maxWidth8em">{{row.matnr}}</td>
+                                    <td class="maxWidth8em">{{row.maktx}}</td>
+                                    <td class="width50">{{row.horiz | number}}</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

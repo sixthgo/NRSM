@@ -1,0 +1,112 @@
+﻿<div ng-controller="FloorPlanAccrueSalesPopupCtrl">
+    <div class="list">
+        <div>
+            지점 / 층
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        지점
+                    </div>
+                    <select ng-model="popup.selectedRequest.storeNfloor"
+                            ng-options="c.sectionName for c in storeNfloors"
+                            ng-change="SelectStoreAction()">
+                        <option value="">점 선택</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        층
+                    </div>
+                    <select ng-model="popup.selectedRequest.floor"
+                            ng-options="d.name for d in popup.selectedRequest.storeNfloor.floors"
+                            ng-change="SelectFloorAction()">
+                        <option value="">층 선택</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            면적
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="areaTypeRadioGroup" ng-model="popup.area" value="G" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">공용포함면적<br />(영업면적)</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="areaTypeRadioGroup" ng-model="popup.area" value="N" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">순수매장면적<br />(전용면적)</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+
+
+        <div>
+            기준 월
+        </div>
+        <div class="row">
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[0]" ng-class="{'disableMonth': popup.disabledMonth[0]==true}" ng-model="popup.month" value="1">1월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[1]" ng-class="{'disableMonth': popup.disabledMonth[1]==true}" ng-model="popup.month" value="2">2월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[2]" ng-class="{'disableMonth': popup.disabledMonth[2]==true}" ng-model="popup.month" value="3">3월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[3]" ng-class="{'disableMonth': popup.disabledMonth[3]==true}" ng-model="popup.month" value="4">4월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[4]" ng-class="{'disableMonth': popup.disabledMonth[4]==true}" ng-model="popup.month" value="5">5월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[5]" ng-class="{'disableMonth': popup.disabledMonth[5]==true}" ng-model="popup.month" value="6">6월</ion-radio></div>
+        </div>
+        <div class="row">
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[6]" ng-class="{'disableMonth': popup.disabledMonth[6]==true}" ng-model="popup.month" value="7">7월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[7]" ng-class="{'disableMonth': popup.disabledMonth[7]==true}" ng-model="popup.month" value="8">8월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[8]" ng-class="{'disableMonth': popup.disabledMonth[8]==true}" ng-model="popup.month" value="9">9월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[9]" ng-class="{'disableMonth': popup.disabledMonth[9]==true}" ng-model="popup.month" value="10">10월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[10]" ng-class="{'disableMonth': popup.disabledMonth[10]==true}" ng-model="popup.month" value="11">11월</ion-radio></div>
+            <div class="col"><ion-radio ng-disabled="popup.disabledMonth[11]" ng-class="{'disableMonth': popup.disabledMonth[11]==true}" ng-model="popup.month" value="12">12월</ion-radio></div>
+        </div>
+
+
+        <div>
+            기준 데이터
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="salesTypeRadioGroup" ng-model="popup.standard" value="09" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">매출(성장율)</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="salesTypeRadioGroup" ng-model="popup.standard" value="08" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">목표달성율</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="salesTypeRadioGroup" ng-model="popup.standard" value="10" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">일평당매출(성장율)</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+            <div class="col">
+                <label class="item item-radio">
+                    <input type="radio" name="salesTypeRadioGroup" ng-model="popup.standard" value="07" />
+                    <div class="item-content" style="padding-left:5px;padding-right:5px">매출총이익율</div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+            </div>
+        </div>
+
+    </div>
+</div>

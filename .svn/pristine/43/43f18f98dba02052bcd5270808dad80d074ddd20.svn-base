@@ -1,0 +1,760 @@
+﻿controllerModule.controller('NowSalesStockInwerksCtrl', function ($scope, $state, $stateParams, $q, $ionicLoading, $ionicPopup, $timeout, $ionicScrollDelegate, $ionicPosition, $window, $sessionStorage, $cordovaDatePicker,
+    PopupService, UtilService, SaleAmountAndStockService, PlantService, CUService) {
+
+    $scope.base.categoryId = 'sales';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM005'; // updated
+    $scope.base.SetMenu($scope.base.menuId);
+ 
+    $scope.favorite.support = true; // support favorite feature in this view
+    $scope.favoriteKeyA = "KeyA";
+    $scope.favoriteKeyB = "KeyB";
+    $scope.favoriteKeyC = "KeyC";
+
+    $scope.search = {};
+    $scope.search.subType = 1;
+    $scope.search.type = '111';
+
+    //
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.cuPopup = {};
+    $scope.cuPopup.selectedCu = { cuCode: '-1', cuName: '모든CU' };
+    $scope.cuPopup.selectedCuTemp = null;
+    $scope.cuPopup.selectedPc = { pcCode: '-1', pcName: '모든PC' };
+    $scope.cuPopup.selectedPcTemp = null;
+
+    $scope.headerDate = '';
+    $scope.headerDate2 = '';
+
+    $scope.data = {};
+    $scope.result = {};
+
+    $scope.sort = {};
+    $scope.sort.column = 'name';
+    $scope.sort.isDescending = false;
+
+    $scope.requireScrollHeight = true;
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showIPadCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is 'inline'
+
+    $scope.isReload = false;
+
+    $scope.nowSalesStockInwerks = {};
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('LoginId=' + $scope.user.loginId);
+        $scope.debug.Log('NowSalesStockInwerksCtrl.Init();');
+        $scope.currentWidth = $window.innerWidth;
+        if ($scope.currentWidth > $scope.widthFlag)
+            $scope.standardViewSize = 'B';
+
+        var isIPad = ionic.Platform.isIPad();
+        //isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+            $scope.style.showCalendarButton = 'none';
+            $scope.style.showIPadCalendarButton = 'inline';
+        }
+        else {
+            $scope.style.showCalendarButton = 'inline';
+            $scope.style.showIPadCalendarButton = 'none';
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        $scope.InitVariable();
+
+        var today = new Date();
+        today.setDate(today.getDate());
+
+        $scope.headerDate = UtilService.FormatDate(today);
+        $scope.headerDate2 = UtilService.FormatDayDate(today);
+
+        var defer = $q.defer();
+
+        defer.promise
+                .then($scope.base.GetUserMenu)
+                .then($scope.base.HasMenu)
+                .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        //NO REMOVE !!
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+
+        SetDefaultCalendarDate($scope.headerDate);
+
+        //
+        $scope.InitData();
+
+        //$scope.base.swiper();
+
+        var isIPad = ionic.Platform.isIPad();
+        //isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+            $scope.base.SetCalendarCallbackForIPad($scope.datePickerCallbackForIPad);
+        }
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.SetLocalWord = function () {
+        ////$scope.word.title = '현시각 매출 및 재고조회';
+    }
+
+    $scope.InitVariable = function () {
+        $scope.nowSalesStockInwerks.gubun = '';
+        $scope.nowSalesStockInwerks.zfloor = '';
+        $scope.nowSalesStockInwerks.matnr = '';
+        $scope.nowSalesStockInwerks.wstaw = '';
+    }
+
+    $scope.InitData = function () {
+        if ($scope.favorite.support == true && $scope.favorite.selected != null) {
+            $scope.SetControlsByFavorite();
+        }
+        else {
+            $scope.SetSearchType();
+            $scope.GetData();
+        }
+    }
+
+    $scope.sorting = function (sortColumn) {
+        $scope.sort.isDescending = ($scope.sort.column == sortColumn) ? !$scope.sort.isDescending : false;
+        $scope.sort.column = sortColumn;
+    }
+
+    $scope.SetFavoriteA = function (favoriteA) {
+        var defer = $q.defer();
+
+        PlantService.query({
+            loginId: $scope.user.loginId
+        },
+        function (data) {
+            $scope.data.stores = data;
+            for (var i = 0; i < $scope.data.stores.length; i++) {
+                if (favoriteA == $scope.data.stores[i].plantCode) {
+                    $scope.storePopup.selectedStoreTemp = $scope.data.stores[i];
+                    $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+                    break;
+                }
+            }
+            defer.resolve(data);
+        },
+        function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.SetFavoriteB = function (favoriteB) {
+
+        var defer = $q.defer();
+
+        CUService.query({
+            loginId: $scope.user.loginId,
+            type: 'cu',
+            cuCode: ''
+        },
+        function (data) {
+            $scope.data.cues = data;
+            for (var i = 0; i < $scope.data.cues.length; i++) {
+                if (favoriteB == $scope.data.cues[i].cuCode) {
+                    $scope.cuPopup.selectedCuTemp = $scope.data.cues[i];
+                    $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                    break;
+                }
+            }
+            defer.resolve(data);
+        },
+        function (error) {
+            $scope.debug.Log(error);
+            defer.reject(error);
+        });
+
+        return defer.promise;
+    }
+
+    $scope.SetControlsByFavorite = function () {
+
+        // add code each view
+        var favoriteA = $scope.base.GetFavoriteValue($scope.favoriteKeyA); //
+        var favoriteB = $scope.base.GetFavoriteValue($scope.favoriteKeyB); //
+        var favoriteC = $scope.base.GetFavoriteValue($scope.favoriteKeyC); //
+
+        $q.all({
+            A: $scope.SetFavoriteA(favoriteA).catch($scope.CatchException),
+            B: $scope.SetFavoriteB(favoriteB).catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+
+                // favoriteC
+                CUService.query({
+                    loginId: '',
+                    type: 'pc',
+                    cuCode: $scope.cuPopup.selectedCu.cuCode
+                }, function (data) {
+                    $scope.data.pcs = data;
+
+                    for (var i = 0; i < $scope.data.pcs.length; i++) {
+                        if (favoriteC == $scope.data.pcs[i].pcCode) {
+                            $scope.cuPopup.selectedPcTemp = $scope.data.pcs[i];
+                            $scope.cuPopup.selectedPc = angular.copy($scope.cuPopup.selectedPcTemp);
+                            break;
+                        }
+                    }
+
+                    $scope.SetSearchType();
+                    $scope.GetData();
+                });
+            },
+            function (error) {
+                $scope.debug.Log('$q error');
+            }
+        );
+
+        // mandatory function call, clear current favorite data
+        ////$scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.CheckSingleView = function () {
+        var isSingleView = false;
+
+        if ($scope.cuPopup.selectedCu.cuCode != 'F' && $scope.cuPopup.selectedCu.cuCode != 'G')
+            isSingleView = true;
+
+        return isSingleView;
+    }
+
+    $scope.GetData = function () {
+
+        $scope.SetGubun();
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        $q.all({
+            A: $scope.GetDataTypeA().catch($scope.CatchException),
+            B: $scope.GetDataTypeB().catch($scope.CatchException),
+            C: $scope.GetDataTypeC().catch($scope.CatchException)
+        })
+        .then(
+            function (results) {
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.ClearList();
+                
+                //saleAmountAndStockCuList      //saleAmountAndStockFloorList   //saleAmountAndStockPcList
+                //saleAmountAndStockStockList   //saleAmountAndStockTimeList    //saleAmountAndStockWerksList
+                if (results.A.retCd == 'E') {
+                    PopupService.OpenPopupAlert('', results.A.reMsg);
+                }
+                else if (results.B != null && results.B.retCd == 'E') {
+                    PopupService.OpenPopupAlert('', results.B.reMsg);
+                }
+                else if (results.C != null && results.C.retCd == 'E') {
+                    PopupService.OpenPopupAlert('', results.C.reMsg);
+                }
+
+                if ( results.A.retCd == 'EMPTY' ) {
+                    PopupService.OpenPopupAlert('', '조회된 데이터가 없습니다.');
+                }
+                else if( results.B != null && results.B.retCd == 'EMPTY' ) {
+                    PopupService.OpenPopupAlert('', '조회된 데이터가 없습니다.');
+                }
+                else if( results.C != null && results.C.retCd == 'EMPTY' ) {
+                    PopupService.OpenPopupAlert('', '조회된 데이터가 없습니다.');
+                }
+
+                if ($scope.search.type == '111') {
+                    $scope.result.ListAA = results.A.saleAmountAndStockWerksList;
+                    $scope.result.ListAB = results.B.saleAmountAndStockCuList;
+                    $scope.result.ListAC = null;
+                }
+                else if ($scope.search.type == '011') {
+                    $scope.result.ListAA = results.A.saleAmountAndStockCuList;
+                    $scope.result.ListAB = results.B.saleAmountAndStockTimeList;
+                    $scope.result.ListAC = results.C.saleAmountAndStockFloorList;
+                }
+                else if ($scope.search.type == '001') {
+                    $scope.result.ListAA = results.A.saleAmountAndStockPcList;
+                    $scope.result.ListAB = null;
+                    $scope.result.ListAC = null;
+                }
+                else if ($scope.search.type == '000') {
+                    if ($scope.CheckSingleView()) {
+                        $scope.result.ListBA = results.A.saleAmountAndStockStockList;
+                        $scope.result.ListBB = null;
+                    }
+                    else {
+                        $scope.result.ListBA = results.A.saleAmountAndStockStockList;
+                        // BA - grouping
+                        $scope.result.ListBB = results.B.saleAmountAndStockStockList;
+                    }
+                }
+                else if ($scope.search.type == '101') {
+                    $scope.result.ListAA = results.A.saleAmountAndStockCuList;
+                    $scope.result.ListAB = results.B.saleAmountAndStockPcList;
+                    $scope.result.ListAC = null;
+                }
+                else if ($scope.search.type == '100') {
+                    $scope.result.ListAA = results.A.saleAmountAndStockPcList;
+                    $scope.result.ListAB = null;
+                    $scope.result.ListAC = null;
+                }
+
+                if ($scope.isReload == false)
+                    $timeout(SetSwiper, 1000);
+            }
+            , function (error) {
+
+                // hide loading image
+                $ionicLoading.hide();
+
+                $scope.debug.Log('$q error');
+            }
+        );
+    }
+
+    $scope.SetGubun = function () {
+
+        $scope.nowSalesStockInwerks.gubun = new Array();
+
+        if ($scope.search.type == '111') {            
+            $scope.nowSalesStockInwerks.gubun.push('1');
+            $scope.nowSalesStockInwerks.gubun.push('7');
+        }
+        else if ($scope.search.type == '011') {
+            $scope.nowSalesStockInwerks.gubun.push('7');
+            $scope.nowSalesStockInwerks.gubun.push('3');
+            $scope.nowSalesStockInwerks.gubun.push('2');
+        }
+        else if ($scope.search.type == '001') {
+            $scope.nowSalesStockInwerks.gubun.push('8');
+        }
+        else if ($scope.search.type == '000') {            
+            if ($scope.CheckSingleView()) {
+                $scope.nowSalesStockInwerks.gubun.push('9');
+            }
+            else {
+                $scope.nowSalesStockInwerks.gubun.push('9');
+                $scope.nowSalesStockInwerks.gubun.push('10'); // added type 10
+            }
+        }
+        else if ($scope.search.type == '101') {
+            $scope.nowSalesStockInwerks.gubun.push('7');
+            $scope.nowSalesStockInwerks.gubun.push('8');
+        }
+        else if ($scope.search.type == '100') {
+            $scope.nowSalesStockInwerks.gubun.push('8');
+        }
+    }
+
+    $scope.ClearList = function () {
+        $scope.result.ListAA = null;
+        $scope.result.ListAB = null;
+        $scope.result.ListAC = null;
+
+        $scope.result.ListBA = null;
+        $scope.result.ListBB = null;
+    }
+
+    $scope.GetDataTypeA = function () {
+        var defer = $q.defer();
+        var partition = $scope.nowSalesStockInwerks.gubun[0];
+
+        SaleAmountAndStockService.get(
+            {
+                gubun: partition,
+                werks: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                floor: $scope.nowSalesStockInwerks.zfloor,
+                cu: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                pu: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                matnr: $scope.nowSalesStockInwerks.matnr,
+                wstaw: $scope.nowSalesStockInwerks.wstaw,
+                pernr: $scope.user.empNo,
+                date: $scope.headerDate.replace(/-/gi, '')
+            },
+            function (data) {
+                $scope.debug.Log('GetDataTypeA.query().success');
+                defer.resolve(data);
+            },
+            function (error) {
+                $scope.debug.Log(error);
+                defer.reject(error);
+            }
+        );
+
+        return defer.promise;
+    }
+
+    $scope.GetDataTypeB = function () {
+        var defer = $q.defer();
+
+        var partition = null;
+        if ($scope.nowSalesStockInwerks.gubun.length >= 1)
+            partition = $scope.nowSalesStockInwerks.gubun[1];
+
+        if (partition != null) {
+            SaleAmountAndStockService.get(
+                {
+                    gubun: partition,
+                    werks: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                    floor: $scope.nowSalesStockInwerks.zfloor,
+                    cu: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                    pu: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                    matnr: $scope.nowSalesStockInwerks.matnr,
+                    wstaw: $scope.nowSalesStockInwerks.wstaw,
+                    pernr: $scope.user.empNo,
+                    date: $scope.headerDate.replace(/-/gi, '')
+                },
+                function (data) {
+                    $scope.debug.Log('GetDataTypeB.query().success');
+                    defer.resolve(data);
+                },
+                function (error) {
+                    $scope.debug.Log(error);
+                    defer.reject(error);
+                }
+            );
+        }
+        else {            
+            defer.resolve(null);
+        }
+
+        return defer.promise;
+    }
+
+    $scope.GetDataTypeC = function () {
+        var defer = $q.defer();
+        var partition = null;
+
+        if ($scope.nowSalesStockInwerks.gubun.length >= 2)
+            partition = $scope.nowSalesStockInwerks.gubun[2];
+
+        if (partition != null) {
+            SaleAmountAndStockService.get(
+                {
+                    gubun: partition,
+                    werks: $scope.storePopup.selectedStore.plantCode == '-1' ? '' : $scope.storePopup.selectedStore.plantCode,
+                    floor: $scope.nowSalesStockInwerks.zfloor,
+                    cu: $scope.cuPopup.selectedCu.cuCode == '-1' ? '' : $scope.cuPopup.selectedCu.cuCode,
+                    pu: $scope.cuPopup.selectedPc.pcCode == '-1' ? '' : $scope.cuPopup.selectedPc.pcCode,
+                    matnr: $scope.nowSalesStockInwerks.matnr,
+                    wstaw: $scope.nowSalesStockInwerks.wstaw,
+                    pernr: $scope.user.empNo,
+                    date: $scope.headerDate.replace(/-/gi, '')
+                },
+                function (data) {
+                    $scope.debug.Log('GetDataTypeC.query().success');
+                    defer.resolve(data);
+                },
+                function (error) {
+                    $scope.debug.Log(error);
+                    defer.reject(error);
+                }
+            );
+        }
+        else {
+            defer.resolve(null);
+        }
+
+        return defer.promise;
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.SetSearchType = function () {
+        var store = '0';
+        var cu = '0';
+        var pc = '0';
+
+        if ($scope.storePopup.selectedStore.plantCode == '-1')
+            store = '1';
+
+        if ($scope.cuPopup.selectedCu.cuCode == '-1')
+            cu = '1';
+
+        if ($scope.cuPopup.selectedPc.pcCode == '-1')
+            pc = '1';
+
+        var result = store + cu + pc;
+        $scope.search.type = result;
+    }
+
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'storePopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+
+                $scope.SetSearchType();
+                $scope.GetData();
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+
+            $timeout(SetSwiper, 1000);
+        });
+    }
+
+    $scope.OpenCuPopup = function () {
+        var name = ($scope.cuPopup.selectedCu == null) ? '' : $scope.cuPopup.selectedCu.cuName;
+        name += ($scope.cuPopup.selectedPc == null) ? '' : " / " + $scope.cuPopup.selectedPc.pcName;
+
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/cuPopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            cssClass: 'cuPcPopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                onTap: function (e) {
+
+                    if ($scope.cuPopup.selectedCuTemp != null
+                        && $scope.cuPopup.selectedPcTemp != null) {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }]
+        }).then(function (result) {
+
+            if (result == true) {
+                $scope.cuPopup.selectedCu = angular.copy($scope.cuPopup.selectedCuTemp);
+                $scope.cuPopup.selectedPc = angular.copy($scope.cuPopup.selectedPcTemp);
+
+                $scope.SetSearchType();
+                $scope.GetData();
+            }
+            else {
+                $scope.cuPopup.selectedCuTemp = angular.copy($scope.cuPopup.selectedCu);
+                $scope.cuPopup.selectedPcTemp = angular.copy($scope.cuPopup.selectedPc);
+            }
+
+            $timeout(SetSwiper, 1000); // $scope.base.swiper();
+
+        });
+    }
+
+    $scope.base.GetDate = function () {
+        $scope.OpenDatePick();
+    }
+
+    $scope.OpenDatePick = function () {
+
+        var initDate = $scope.tempSelectedDate == null ? new Date() : $scope.tempSelectedDate;
+        
+        var options = {
+            date: initDate,
+            mode: 'date', // or 'time'
+            minDate: new Date() - 10 * 365 * 24 * 60 * 60 * 1000,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#F2F3F4',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var calButton = angular.element(document.querySelector('#btnA'));
+        var offset = $ionicPosition.offset(calButton); // offset    
+        var isIPad = ionic.Platform.isIPad();
+        //isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+        }
+        else {
+            $cordovaDatePicker.show(options).then(function (date) {
+                var selectedDate;
+                if (date == undefined || date == null)
+                    selectedDate = new Date();
+                else {
+                    selectedDate = new Date(date);
+                    $scope.headerDate = UtilService.FormatDate(selectedDate);
+                    $scope.headerDate2 = UtilService.FormatDayDate(selectedDate);
+                    
+                    $scope.tempSelectedDate = selectedDate;
+                    $scope.GetData();
+                }
+            });
+        }
+    }
+
+    $scope.datePickerCallbackForIPad = function (val) {
+
+        if (typeof (val) === 'undefined') {
+        }
+        else {
+            $scope.headerDate = UtilService.FormatDate(val);
+            $scope.headerDate2 = UtilService.FormatDayDate(val);
+
+            SetDefaultCalendarDate($scope.headerDate);
+
+            $scope.GetData();
+        }
+    }
+
+    $scope.SetDataHeight = function () {
+
+        var subHeadlineId = 'headline1';
+        var dateId = 'date1';
+        var tableId = 'table1';
+
+        if ($scope.search.type == '111') {
+            subHeadlineId = 'headline1';
+            dateId = 'date1';
+            tableId = 'table1';
+        }
+        else if ($scope.search.type == '011') {
+            subHeadlineId = 'headline2';
+            dateId = 'date2';
+            tableId = 'table2';
+        }
+        else if ($scope.search.type == '001') {
+            subHeadlineId = 'headline3';
+            dateId = 'date3';
+            tableId = 'table3';
+        }
+        else if ($scope.search.type == '000') {
+            if ($scope.CheckSingleView()) {
+                subHeadlineId = 'headline41';
+                tableId = 'table41';
+            }
+            else {
+                subHeadlineId = 'headline42';
+                tableId = 'table42';
+            }
+
+            dateId = 'date4';
+        }
+        else if ($scope.search.type == '101') {
+            subHeadlineId = 'headline5';
+            dateId = 'date5';
+            tableId = 'table5';
+        }
+        else if ($scope.search.type == '100') {
+            subHeadlineId = 'headline6';
+            dateId = 'date6';
+            tableId = 'table6';
+        }
+
+        var totalHeight = $window.innerHeight;
+
+        var headerBarHeight = 45;
+
+        var headlineAHeight = $ionicPosition.offset(angular.element(document.querySelector('#headline'))).height;
+        var headlineBHeight = $ionicPosition.offset(angular.element(document.querySelector('#' + subHeadlineId))).height;
+        var dateHeight = $ionicPosition.offset(angular.element(document.querySelector('#' + dateId))).height;
+        var tableHeaderHeight = $ionicPosition.offset(angular.element(document.querySelector('#' + tableId))).height;
+
+        var footerHeight = 51;//angular.element(document.querySelector('#footer'))[0].offsetHeight;
+
+        var dataHeight = totalHeight - headerBarHeight - (headlineAHeight + headlineBHeight + dateHeight + tableHeaderHeight) - footerHeight;
+
+        var isAndroid = ionic.Platform.isAndroid();
+        var isIPad = ionic.Platform.isIPad();
+        var isIOS = ionic.Platform.isIOS();
+
+        var interpolateHeight = 0;
+        if (isAndroid)
+            interpolateHeight = -10; // for android
+        if (isIPad || isIOS)
+            interpolateHeight = -20; // for iOS
+
+        dataHeight += interpolateHeight;
+
+        if (isAndroid) {
+            if ($sessionStorage.androidVersion < 19) {
+                ////dataHeight = dataHeight - 88;
+            }
+        }
+
+        $scope.scrollHeight = parseInt(dataHeight) + 'px';
+        //$scope.TestHeight = parseInt(totalHeight - (headerBarHeight + headlineAHeight)) + 'px';
+
+        $scope.debug.Log('$scope.scrollHeight=' + $scope.scrollHeight);
+    }
+
+
+    var SetSwiper = function () {
+        //$scope.debug.Log('in  $scope.SetSwipe()');
+        $scope.base.swiper();
+
+        if ($scope.requireScrollHeight == true) {            
+            $scope.SetDataHeight();
+            $scope.requireScrollHeight = false;
+        }
+        $scope.isReload = false;
+        
+        var scrolls = $ionicScrollDelegate.$getByHandle()._instances;
+        for (var i = 0; i < scrolls.length; i++) {
+            scrolls[i].scrollTop(true);
+        }
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.debug.Log('NowSalesStockInwerksCtrl.base.Reload()');
+
+        $scope.isReload = true;
+
+        $scope.GetData();
+    }
+});

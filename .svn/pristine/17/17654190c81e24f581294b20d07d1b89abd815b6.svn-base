@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <object id="TemplateDao" type="Eland.NRSM.Template.Dao.TemplateDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+  <object id="FavoriteDao" type="Eland.NRSM.Template.Dao.FavoriteDao, Eland.NRSM.Template" parent="AbstractDao"></object>
+</objects>

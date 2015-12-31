@@ -1,0 +1,81 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer" delegate-handle="my-handle">
+        <div id="container" class="green">
+
+            <ul class="select single">
+                <li class="p40" ng-click="OpenStorePopup()"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="p60" ng-click="OpenPOGPopup()"><span>조미료 / 1 열</span></li>
+            </ul>
+
+            <div id="table">
+                <table>
+                    <tr>
+                        <th>열/단</th>
+                        <th>순번</th>
+                        <th>상품코드</th>
+                        <th>상품명</th>
+                        <th>진열수</th>
+                    </tr>
+                    <tr>
+                        <td>1/6</td>
+                        <td>1</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>3</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>4</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>5</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>1/3</td>
+                        <td>1</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>3</td>
+                        <td>8801007189970</td>
+                        <td>다시다 몇품 골드<br />남해산멸치 96g</td>
+                        <td>2</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

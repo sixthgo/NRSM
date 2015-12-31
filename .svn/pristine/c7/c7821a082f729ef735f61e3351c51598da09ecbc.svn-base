@@ -1,0 +1,91 @@
+﻿<ion-view view-title="{{word.productInfo}}">
+    <ion-content class="has-footer">
+        <ion-list>
+            <ion-item class="eland-item item-button-right">
+                지점 코드
+                <input type="number"
+                       ng-model="data.shopCode"
+                       class="eland-badge"
+                       required
+                       onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                        >
+            </ion-item>
+            <ion-item class="eland-item item-button-right">
+                상품 코드
+                <input id="barCode" type="number"
+                       ng-model="base.barCode006"
+                       class="eland-badge"
+                       onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                        >
+            </ion-item>
+            <ion-item class="eland-item">
+                <a class="button button-outline ion-search button-eland-balanced button-boder"
+                   ng-click="SearchProductInform()">&nbsp;&nbsp;조회</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right">
+                D_ 다다기 오이(ex) 국내산
+                <a class="button-radius" ng-style="data.saleTypeClass">{{data.saleType}}</a>
+            </ion-item>
+        </ion-list>
+        <ion-list class="sub-list">
+            <ion-item class="eland-item item-button-right eland-font-color-green" style="border-top: none;">
+                상품 가격
+                <a class="eland-badge">999,999</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right eland-font-color-green">
+                매출 1
+                <a class="eland-badge">999,999</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right eland-font-color-green">
+                현재고 1
+                <a class="eland-badge">999,999</a>
+            </ion-item>
+        </ion-list>
+        <ion-list class="sub-list" style="margin-left: 6%;">
+            <ion-item class="eland-item item-button-right eland-font-color-green" style="border-top: none;">
+                포스 가격
+                <a class="eland-badge">999,999</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right eland-font-color-green">
+                매출 2
+                <a class="eland-badge">999,999</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right eland-font-color-green">
+                현재고 2
+                <a class="eland-badge">999,999</a>
+            </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item class="eland-item item-button-right eland-font-color-green" style="border-top: none;">
+                입고 예정일 / 수량
+                <p class="eland-badge" style="color: black; font-size: 15px;">2015년 6월 8일 / 80 개</p>
+            </ion-item>
+            <ion-item class="eland-item item-button-right eland-font-color-green">
+                물류 센터 보관 유무
+                <p class="eland-badge" style="color: black; font-size: 15px;">보관중 / 1,000 개</p>
+            </ion-item>
+        </ion-list>
+        <div class="row list goTobutton">
+            <div class="col col-33">
+                <a href="#">재고 실사</a>
+            </div>
+            <div class="col col-33">
+                <a href="#">수동 발주</a>
+            </div>
+            <div class="col col-33">
+                <a href="#">POG 정보조회</a>
+            </div>
+        </div>
+        <div class="row list goTobutton">
+            <div class="col col-33">
+                <a href="#">전점 조회</a>
+            </div>
+            <div class="col col-33">
+                <a href="#">라벨 저장</a>
+            </div>
+            <div class="col col-33">
+                <a ui-sref="app.common.productDetail">상세 보기</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

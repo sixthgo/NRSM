@@ -1,0 +1,192 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"applicationPreferences\"><param name=\"ios-package\" value=\"AGApplicationPreferences\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"DatePicker\"><param name=\"ios-package\" value=\"DatePicker\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"ios-package\" value=\"SQLitePlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ActionSheet\"><param name=\"ios-package\" value=\"ActionSheet\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Toast\"><param name=\"ios-package\" value=\"Toast\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"MDM\"><param name=\"ios-package\" value=\"FFMDMPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"ios-package\" value=\"CDVFileTransfer\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "framework": {
+                "parents": {
+                    "libiconv.dylib": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ],
+                    "AVFoundation.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ],
+                    "AssetsLibrary.framework": [
+                        {
+                            "xml": false,
+                            "count": 3
+                        }
+                    ],
+                    "CoreVideo.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ],
+                    "QuartzCore.framework": [
+                        {
+                            "xml": false,
+                            "count": 2
+                        }
+                    ],
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": false,
+                            "count": 2
+                        }
+                    ],
+                    "CoreImage.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ],
+                    "AudioToolbox.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        },
+                        {
+                            "xml": true,
+                            "count": 1
+                        }
+                    ],
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": true,
+                            "count": 1
+                        }
+                    ],
+                    "MobileCoreServices.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.appgiraffe.plugins.applicationPreferences": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "com.phonegap.plugins.barcodescanner": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-datepicker": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "nl.x-services.plugins.actionsheet": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "nl.x-services.plugins.toast": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "org.apache.cordova.file": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        },
+        "org.apache.cordova.file-transfer": {
+            "PACKAGE_NAME": "com.eland.ios.nrsm"
+        }
+    },
+    "dependent_plugins": {}
+}

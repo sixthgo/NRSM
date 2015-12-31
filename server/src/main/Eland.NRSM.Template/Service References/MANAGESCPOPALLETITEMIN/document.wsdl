@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://eland.co.kr/KRERP/MOB" xmlns:n2="http://eland.co.kr/KRERP/SD" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:n1="http://sap.com/xi/SAPGlobal/Global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" targetNamespace="http://eland.co.kr/KRERP/MOB" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsp:UsingPolicy wsdl:required="true" />
+  <wsp:Policy wsu:Id="BN_ZMANAGESCPOPALLETITEMIN_BINDING">
+    <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing" />
+    <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/" wsp:Optional="true" />
+    <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility">
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sp:HttpBasicAuthentication />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sapsp:HTTPSSO2 />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="IF_ManageScPoPalletItemIn">
+    <sapsession:Session xmlns:sapsession="http://www.sap.com/webas/630/soap/features/session/">
+      <sapsession:enableSession>false</sapsession:enableSession>
+    </sapsession:Session>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" />
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_ScPalletItemDpQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_ScPalletItemGrQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_ScPoItemDpQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_ScPoItemGrQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema xmlns:xi2="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/MOB" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns="http://eland.co.kr/KRERP/MOB" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://eland.co.kr/KRERP/MOB">
+      <xsd:simpleType name="ARKTX">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BOXQTY">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="BUDAT">
+        <xsd:restriction base="xsd:date">
+          <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EBELN">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EBELP">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="5" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="Flag">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LFIMG">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LFIMGC">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LFIMGD">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LIFNR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LOEVM">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MATNR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MEINS">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MENGE">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="13" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="NAME1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="35" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="NETPR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="NETWR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="15" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PALET">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="POSNR">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="6" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ReturnMessage">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="255" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="ScPalletItemDpQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="PALET" type="xi0:PALET" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="BUDAT" type="xi0:BUDAT" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPalletItemDpResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ScPalletItemList" type="xi0:ScPalletItemList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPalletItemGrQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="PALET" type="xi0:PALET" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="BUDAT" type="xi0:BUDAT" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ScPalletItemList" type="xi0:ScPalletItemList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPalletItemGrResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPalletItemList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="VBELN" type="xi0:VBELN" />
+          <xsd:element minOccurs="0" name="POSNR" type="xi0:POSNR" />
+          <xsd:element minOccurs="0" name="MATNR" type="xi0:MATNR" />
+          <xsd:element minOccurs="0" name="ARKTX" type="xi0:ARKTX" />
+          <xsd:element minOccurs="0" name="UMREZ" type="xi0:UMREZ" />
+          <xsd:element minOccurs="0" name="BOXQTY" type="xi0:BOXQTY" />
+          <xsd:element minOccurs="0" name="LFIMG" type="xi0:LFIMG" />
+          <xsd:element minOccurs="0" name="VRKME" type="xi0:VRKME" />
+          <xsd:element minOccurs="0" name="LFIMGC" type="xi0:LFIMGC" />
+          <xsd:element minOccurs="0" name="LFIMGD" type="xi0:LFIMGD" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPoItemDpQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EBELN" type="xi0:EBELN" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPoItemDpResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ScPoItemList" type="xi0:ScPoItemList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPoItemGrQuery_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EBELN" type="xi0:EBELN" />
+          <xsd:element minOccurs="0" name="WERKS" type="xi0:WERKS" />
+          <xsd:element minOccurs="0" name="BUDAT" type="xi0:BUDAT" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ScPoItemList" type="xi0:ScPoItemList" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPoItemGrResponse_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Flag" type="xi0:Flag" />
+          <xsd:element minOccurs="0" name="ReturnMessage" type="xi0:ReturnMessage" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScPoItemList">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="EBELP" type="xi0:EBELP" />
+          <xsd:element minOccurs="0" name="LIFNR" type="xi0:LIFNR" />
+          <xsd:element minOccurs="0" name="NAME1" type="xi0:NAME1" />
+          <xsd:element minOccurs="0" name="MATNR" type="xi0:MATNR" />
+          <xsd:element minOccurs="0" name="TXZ01" type="xi0:TXZ01" />
+          <xsd:element minOccurs="0" name="MENGE" type="xi0:MENGE" />
+          <xsd:element minOccurs="0" name="MEINS" type="xi0:MEINS" />
+          <xsd:element minOccurs="0" name="NETPR" type="xi0:NETPR" />
+          <xsd:element minOccurs="0" name="NETWR" type="xi0:NETWR" />
+          <xsd:element minOccurs="0" name="UMREZ" type="xi0:UMREZ" />
+          <xsd:element minOccurs="0" name="LOEVM" type="xi0:LOEVM" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="TXZ01">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="UMREZ">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="5" />
+          <xsd:fractionDigits value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="VBELN">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="VRKME">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="WERKS">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="ScPalletItemDpQuery_sync" type="xi0:ScPalletItemDpQuery_sync" />
+      <xsd:element name="ScPalletItemDpResponse_sync" type="xi0:ScPalletItemDpResponse_sync" />
+      <xsd:element name="ScPalletItemGrQuery_sync" type="xi0:ScPalletItemGrQuery_sync" />
+      <xsd:element name="ScPalletItemGrResponse_sync" type="xi0:ScPalletItemGrResponse_sync" />
+      <xsd:element name="ScPoItemDpQuery_sync" type="xi0:ScPoItemDpQuery_sync" />
+      <xsd:element name="ScPoItemDpResponse_syn" type="xi0:ScPoItemDpResponse_sync" />
+      <xsd:element name="ScPoItemGrQuery_sync" type="xi0:ScPoItemGrQuery_sync" />
+      <xsd:element name="ScPoItemGrResponse_sync" type="xi0:ScPoItemGrResponse_sync" />
+    </xsd:schema>
+    <xsd:schema xmlns:xi2="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/MOB" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns="http://sap.com/xi/SAPGlobal/Global" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://sap.com/xi/SAPGlobal/Global">
+      <xsd:import namespace="http://eland.co.kr/KRERP/SD" />
+      <xsd:element name="StandardMessageFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="standard" type="xi2:ExchangeFaultData" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:xi2="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/MOB" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns="http://eland.co.kr/KRERP/SD" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://eland.co.kr/KRERP/SD">
+      <xsd:complexType name="ExchangeFaultData">
+        <xsd:sequence>
+          <xsd:element name="faultText" type="xsd:string" />
+          <xsd:element minOccurs="0" name="faultUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="faultDetail" type="xi2:ExchangeLogData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ExchangeLogData">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="severity" type="xsd:string" />
+          <xsd:element name="text" type="xsd:string" />
+          <xsd:element minOccurs="0" name="url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ScPalletItemGrQuery_sync">
+    <wsdl:part name="ScPalletItemGrQuery_sync" element="tns:ScPalletItemGrQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="ScPalletItemGrResponse_sync">
+    <wsdl:part name="ScPalletItemGrResponse_sync" element="tns:ScPalletItemGrResponse_sync" />
+  </wsdl:message>
+  <wsdl:message name="StandardMessageFault">
+    <wsdl:part name="StandardMessageFault" element="n1:StandardMessageFault" />
+  </wsdl:message>
+  <wsdl:message name="ScPoItemDpQuery_sync">
+    <wsdl:part name="ScPoItemDpQuery_sync" element="tns:ScPoItemDpQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="ScPoItemDpResponse_syn">
+    <wsdl:part name="ScPoItemDpResponse_syn" element="tns:ScPoItemDpResponse_syn" />
+  </wsdl:message>
+  <wsdl:message name="ScPalletItemDpQuery_sync">
+    <wsdl:part name="ScPalletItemDpQuery_sync" element="tns:ScPalletItemDpQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="ScPalletItemDpResponse_sync">
+    <wsdl:part name="ScPalletItemDpResponse_sync" element="tns:ScPalletItemDpResponse_sync" />
+  </wsdl:message>
+  <wsdl:message name="ScPoItemGrQuery_sync">
+    <wsdl:part name="ScPoItemGrQuery_sync" element="tns:ScPoItemGrQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="ScPoItemGrResponse_sync">
+    <wsdl:part name="ScPoItemGrResponse_sync" element="tns:ScPoItemGrResponse_sync" />
+  </wsdl:message>
+  <wsdl:portType name="ManageScPoPalletItemIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#IF_ManageScPoPalletItemIn" />
+    </wsp:Policy>
+    <wsdl:operation name="ScPalletItemGrQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_ScPalletItemGrQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:ScPalletItemGrQuery_sync" />
+      <wsdl:output message="tns:ScPalletItemGrResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ScPoItemDpQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_ScPoItemDpQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:ScPoItemDpQuery_sync" />
+      <wsdl:output message="tns:ScPoItemDpResponse_syn" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ScPalletItemDpQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_ScPalletItemDpQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:ScPalletItemDpQuery_sync" />
+      <wsdl:output message="tns:ScPalletItemDpResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ScPoItemGrQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_ScPoItemGrQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:ScPoItemGrQuery_sync" />
+      <wsdl:output message="tns:ScPoItemGrResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZMANAGESCPOPALLETITEMIN_BINDING" type="tns:ManageScPoPalletItemIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN_ZMANAGESCPOPALLETITEMIN_BINDING" />
+    </wsp:Policy>
+    <wsa:EndpointReference xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+      <wsa:ReferenceParameters />
+    </wsa:EndpointReference>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ScPalletItemGrQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ScPoItemDpQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ScPalletItemDpQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ScPoItemGrQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZMANAGESCPOPALLETITEMIN">
+    <wsdl:port name="ZMANAGESCPOPALLETITEMIN_BINDING" binding="tns:ZMANAGESCPOPALLETITEMIN_BINDING">
+      <soap:address location="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagescpopalletitemin/100/zmanagescpopalletitemin/zmanagescpopalletitemin_binding" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

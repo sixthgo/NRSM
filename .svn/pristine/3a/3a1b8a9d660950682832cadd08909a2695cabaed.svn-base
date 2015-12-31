@@ -1,0 +1,135 @@
+﻿controllerModule.controller('InventoryCountingCtrl', function ($scope,
+                                                               $stateParams,
+                                                               $state,$q,
+                                                               $timeout,
+                                                               $ionicLoading,
+                                                               InventoryCountingService,
+                                                               PopupService,UtilService) {
+
+    $scope.base.categoryId = 'sc';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM020';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is ‘inline'
+    
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+        defer.resolve();
+    }
+
+    $scope.$watch("base.barCode", function () {
+        if ($scope.base.barCode != null && $scope.base.barCode.toString().length > 0) {
+            $scope.AutoSearch();
+        }
+    });
+
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        $scope.InitData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'InventoryCountingCtrl';
+    }
+
+    $scope.InitData=function(){
+        var currentTime=new Date();
+        $scope.data.DZLDAT = $scope.nowDate = UtilService.FormatDate(currentTime);
+        $scope.data.ERFNM ="CSO";
+
+        var werks = $scope.user.plantCode;
+
+        if (!UtilService.IsNullOrEmpty(werks)) {
+            $scope.data.WERKS = werks;
+        }
+        else {
+            $scope.data.WERKS = null;
+        }
+
+        if (werks != "8000" && werks != "1") {
+            $scope.data.WERKSClass = true;//{ReadOnly: true};
+        }
+        else {
+            $scope.data.WERKSClass =false;// {ReadOnly: false};
+
+        }
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.Init();
+    }
+
+    $scope.inventorySearch=function(){
+
+        if($scope.base.barCode==null||$scope.base.barCode==""){
+
+            PopupService.OpenPopupAlert("입력값이 올바른지 다시 확인해 주세요.");
+            return;
+        }
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        InventoryCountingService.query({
+            MATNR:$scope.base.barCode,
+            WERKS:$scope.user.plantCode
+        },function(data){
+
+            $ionicLoading.hide();
+            $scope.data.returnMessage = data.returnMessage;
+
+        },function(error){
+            $scope.data.returnMessage="";
+            $ionicLoading.hide();
+        });
+    }
+
+    $scope.AutoSearch = function () {
+        if($scope.base.barCode.toString().length == 13 ){
+            $scope.inventorySearch();
+        }
+    }
+
+    $scope.inventorySave=function(){
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+        var param={
+            "DZLDAT":$scope.data.DZLDAT,
+            "WERKS":$scope.user.plantCode,
+            "MATNR":$scope.base.barCode,
+            "FIXID":$scope.data.FIXID,
+            "ERFNM":$scope.data.ERFNM,
+            "DISQTY": UtilService.IsUndefinedOrNull($scope.data.DISQTY)? "0" : $scope.data.DISQTY
+        };
+        InventoryCountingService.save(param,function(data){
+            $ionicLoading.hide();
+            if(data.flag=="S"){
+                    PopupService.OpenPopupAlert("저장되었습니다.");
+            }else {
+                    PopupService.OpenPopupAlert(data.returnMessage);
+            }
+        },function(error){
+            $ionicLoading.hide();
+        });
+    }
+});

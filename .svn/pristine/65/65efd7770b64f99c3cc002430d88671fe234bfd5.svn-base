@@ -1,0 +1,110 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer productInforClass">
+        <div id="container" class="green"  ng-style="{'height':documentHeight}">
+            <form id="productInformationForm">
+                <ul class="list">
+                    <li>
+                        <p class="left">지점코드</p>
+                        <p class="right"><input type="tel" ng-model="user.plantCode" maxlength="6"
+                                                onkeypress='return event.charCode >= 48 && event.charCode <= 57'/></p>
+                    </li>
+                    <li>
+                        <p class="left">상품코드</p>
+                        <p class="right"><input type="text" ng-model="base.barCode" ng-change="AutoSearchManualOrderInfo()" placeholder="입력" /></p>
+                    </li>
+                </ul>
+                <p class="btn_border btn_search btn_color" ng-click="SearchProductInform()">
+                    <a><img src="img/nrsm/icon_search_green.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <ul class="list border_top" id="productInfList">
+                <li ng-show="data.isSow">
+                    <p class="left">{{data.ProductInformation.mAKTX}}</p>
+                    <p class="right"><span class="box" ng-class="data.boxClass">{{data.tips}}</span></p>
+                </li>
+                <li class="half mr_6p">
+                    <p class="left color">상품 가격</p>
+                    <p class="right">{{data.price | number}}</p>
+                </li>
+                <li class="half">
+                    <p class="left color">포스 가격</p>
+                    <p class="right">{{data.ProductInformation.sTPRC | number}}</p>
+                </li>
+                <li class="half mr_6p">
+                    <p class="left color">매출 1</p>
+                    <p class="right">{{data.ProductInformation.tOTAL | number}}</p>
+                </li>
+                <li class="half">
+                    <p class="left color">매출 2</p>
+                    <p class="right">{{data.ProductInformation.tOQTY | number}}</p>
+                </li>
+                <li class="half mr_6p">
+                    <p class="left color">지점재고</p>
+                    <p class="right">{{data.ProductInformation.lABST | number}}</p>
+                </li>
+                <li class="half">
+                    <p class="left color">물류재고</p>
+                    <p class="right">{{data.ProductInformation.nOCTL | number}}</p>
+                </li>
+                <li>
+                    <p class="left color">입고 예정일 / 수량</p>
+                    <p class="right"></p>
+                </li>
+                <li>
+                    <p class="left color">물류 센터 보관 유무</p>
+                    <p class="right"></p>
+                </li>
+            </ul>
+
+            <ul class="box_btn_list" id="productInfBox">
+                <li ng-show="data.IsInventoryCounting"><a ng-click="GoInventoryCounting()">재고 실사</a></li>
+                <li ng-show="data.IsManualOrder"><a ng-click="GoManualOrder()">수동 발주</a></li>
+                <li ng-show="data.IsPOGManagement"><a ng-click="GoPOGManagement()">POG 정보조회</a></li>
+                <li><a ng-click="Search()">전점 조회</a></li>
+                <li><a ng-click="SaveMaterialLabel()">라벨 저장</a></li>
+                <li><a ng-click="GoDetail()">상세 보기</a></li>
+            </ul>
+
+            <div id="table" class="swiper-container" ng-show="data.isGridShow">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table id="noSort" class="productInfTableHeader">
+                            <tr style="border-top: 1px solid #ddd;">
+                                <th width="25%" on-hold="ShowPopover($event, '지점')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">지점</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">지점</span>
+                                </th>
+                                <th width="25%" on-hold="ShowPopover($event, '지점명')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">지점명</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">지점명</span>
+                                </th>
+                                <th width="25%" on-hold="ShowPopover($event, 'POS 가격')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">POS 가격</span>
+                                    <span class="th70" ng-if="standardViewSize != 'S'">POS 가격</span>
+                                </th>
+                                <th width="25%" on-hold="ShowPopover($event, '재고')">
+                                    <span class="th35" ng-if="standardViewSize == 'S'">재고</span>
+                                    <span class="th50" ng-if="standardViewSize != 'S'">재고</span>
+                                </th>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" style="height:300px;" class="scrollheightCass">
+                            <table>
+                                <tr ng-repeat="item in data.allList">
+                                    <td width="25%">{{item.wERKS}}</td>
+                                    <td width="25%" style="white-space: normal; vertical-align:middle">{{item.mATNR1}}</td>
+                                    <td width="25%">{{item.sTPRC | number}}</td>
+                                    <td width="25%">{{item.lABST | number}}</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

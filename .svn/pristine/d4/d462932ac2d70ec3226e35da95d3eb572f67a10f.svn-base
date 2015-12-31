@@ -1,0 +1,101 @@
+﻿//var getBarcodebySwipe = function (barcode) {
+//     var scope = angular.element($('#home')).scope();
+//    // alert(barcode);
+//     scope.$apply(function (barcode) {
+//         scope.GetBarCode(barcode);
+//     });
+//}
+
+cortrollerModule.controller('HomeCtrl', function ($scope, $stateParams, MenuApiService, PopupService) {
+
+    $scope.base.menuId = $scope.setting.homeMenuId;
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.menu = {};
+    $scope.menu.sections = [];
+
+    $scope.Init = function () {
+        $scope.debug.Log('base.menuId=' + $scope.base.menuId);
+        ////$scope.GetAllMenu();
+    }
+
+    $scope.CallbackTest = function () {
+        $scope.debug.Log('$scope.CallbackTest()');
+    }
+
+    $scope.CallbackConfirm = function () {
+        $scope.debug.Log('$scope.CallbackConfirm()');
+    }
+
+    $scope.CallbackCancel = function () {
+        $scope.debug.Log('$scope.CallbackCancel()');
+    }
+
+    $scope.TestModal = function (type) {
+        var url = 'templates/common/test.html';
+        if (type == 'B')
+            url = 'templates/common/testB.html';
+
+        PopupService
+                .InitPopup(url, $scope, $scope.CallbackConfirm, $scope.CallbackCancel)
+                .then(function (modal) {
+                    modal.show();
+                });
+
+    }
+
+    $scope.GetAllMenu = function () {
+
+        MenuApiService.get({
+            appId: $scope.system.appId,
+            loginID: $scope.user.loginId,
+            currentMenuVersion: $scope.system.currentMenuVersion,
+            locale: $scope.system.locale
+        }, function (data) {
+            angular.copy(data.data.sections, $scope.menu.sections);
+
+        }, function (error) {
+            $scope.debug.Log(error);
+        });
+    }
+
+    $scope.GoView = function (state, favoriteId) {
+
+        if ($scope.HasMenu(state) == true) {
+            $scope.favorite.id = favoriteId;
+            $state.go('app.common.floorplanRecordSearch');
+        }
+        else {
+            // have no authenticate
+            //debugger
+            PopupService.OpenPopupAlert('Warning', state + 'Have not permission', $scope.CallbackTest);
+            ////PopupService.OpenPopupConfirm('Warning', state + 'Have not permission.', $scope.CallbackConfirm, $scope.CallbackCancel);
+            var url = 'templates/common/test.html';
+            ////PopupService.OpenPopup(url, $scope);
+            //PopupService
+            //    .InitPopup(url, $scope)
+            //    .then(function (modal) {
+            //        modal.show();
+            //    });
+        }
+    }
+
+    $scope.HasMenu = function (state) {
+
+        var hasMenu = false;
+
+        for (var i = 0; i < $scope.menu.sections.length; i++) {
+            for (var j = 0; j < $scope.menu.sections[i].menus.length; j++) {
+                if ($scope.menu.sections[i].menus[j].url == state) {
+                    hasMenu = true;
+                    break;
+                }
+            }
+        }
+
+        return hasMenu;
+    }
+
+    $scope.Init();
+
+});

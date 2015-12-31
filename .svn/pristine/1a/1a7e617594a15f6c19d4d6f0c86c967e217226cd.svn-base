@@ -1,0 +1,28 @@
+﻿cortrollerModule.controller('InventoryCountingCtrl', function ($scope, $stateParams) {
+
+    $scope.base.categoryId = 'sc';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM020';
+    $scope.base.SetMenu($scope.base.menuId);
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('InventoryCountingCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'InventoryCountingCtrl';
+    }
+
+    $scope.Init();
+});

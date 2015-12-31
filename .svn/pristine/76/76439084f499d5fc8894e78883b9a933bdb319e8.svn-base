@@ -1,0 +1,16 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('CEOReportService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/CEOReport?gubun=:gubun&group=:group', {
+            gubun: '@gubun',
+            group:'@group'
+    },
+    {
+        'query': { method: 'GET', isArray: true },
+        'save': {method: 'POST'}
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

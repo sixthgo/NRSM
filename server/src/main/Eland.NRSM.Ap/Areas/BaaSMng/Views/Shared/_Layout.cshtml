@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/public/bootstrap/bundle")
+        @RenderSection("HeadCss", required: false)
+    </head>
+    <body>
+        <div class="wrapper">    
+             <header>
+                @Html.Partial("./_Header")
+                @RenderSection("HeadHtml", required: false)
+            </header>
+            <div class="body-wrapper container">
+                <div id="content" class="content">
+                    <div class="proper-content">
+                    @RenderBody()
+                    </div> <!-- proper-content -->
+                    <div class="push"></div>
+                </div>
+            </div> <!-- container -->
+            <footer>
+                @Html.Partial("./_FooterPartial")
+            </footer>
+        </div> <!-- wrapper -->
+        @Scripts.Render("~/bundles/public")
+        @RenderSection("Scripts", required: false)
+    </body>
+</html>

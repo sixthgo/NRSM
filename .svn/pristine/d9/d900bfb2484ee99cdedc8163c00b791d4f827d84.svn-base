@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+  <object id="ValuesController" type="Eland.NRSM.Web.Controllers.ValuesController,Eland.NRSM.Web" singleton="false">
+    <property name="TemplateService" ref="TemplateService" />
+  </object>
+
+  <object name="MenuApiController" type="Eland.NRSM.Web.Controllers.MenuApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="MembershipService" ref="MembershipService" />
+    <property name="MessageSource" ref="MessageSource"/>
+  </object>
+
+  <object name="FavoriteController" type="Eland.NRSM.Web.Controllers.FavoriteController,Eland.NRSM.Web"  singleton="false">
+    <property name="FavoriteService" ref="FavoriteService" />
+  </object>
+
+  <object name="PlantController" type="Eland.NRSM.Web.Controllers.PlantController,Eland.NRSM.Web"  singleton="false">
+    <property name="PlantService" ref="PlantService" />
+    <property name="MembershipService" ref="MembershipService" />
+  </object>
+
+  <object name="CEOReportController" type="Eland.NRSM.Web.Controllers.CEOReportController,Eland.NRSM.Web"  singleton="false">
+    <property name="CEOReportService" ref="CEOReportService" />
+  </object>
+
+  <object name="QuerySaleApiController" type="Eland.NRSM.Web.Controllers.QuerySaleApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="QueryDailySalePredictionInService" ref="QueryDailySalePredictionInService" />
+  </object>
+
+  <object name="ManageManualOrderAipController" type="Eland.NRSM.Web.Controllers.ManageManualOrderAipController,Eland.NRSM.Web"  singleton="false">
+    <property name="ManageManualOrderInService" ref="ManageManualOrderInService" />
+  </object>
+
+  <object name="ManageRealInventoryApiController" type="Eland.NRSM.Web.Controllers.ManageRealInventoryApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="ManageRealInventoryInService" ref="ManageRealInventoryInService" />
+  </object>
+  
+  <object name="CUController" type="Eland.NRSM.Web.Controllers.CUController,Eland.NRSM.Web"  singleton="false">
+    <property name="CUService" ref="CUService" />
+    <property name="MembershipService" ref="MembershipService" />
+  </object>
+
+  <object name="ManageSalePriceSendApiController" type="Eland.NRSM.Web.Controllers.ManageSalePriceSendApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="ManageSalePriceSendInService" ref="ManageSalePriceSendInService" />
+  </object>
+
+  <object name="SendBarCodeEmailApiController" type="Eland.NRSM.Web.Controllers.SendBarCodeEmailApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="EmailSendService" ref="EmailSendService" />
+  </object>
+
+  <object name="EIMSInformationApiController" type="Eland.NRSM.Web.Controllers.EIMSInformationApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="EIMSInformationService" ref="EIMSInformationService" />
+  </object>
+
+  <object name="ManageStockInspectionCreateApiController" type="Eland.NRSM.Web.Controllers.ManageStockInspectionCreateApiController,Eland.NRSM.Web"  singleton="false">
+    <property name="ManageStockInspectionCreateInService" ref="ManageStockInspectionCreateInService" />
+  </object>
+  
+  
+  <object id="MessageSource" type="Spring.Context.Support.ResourceSetMessageSource, Spring.Core">
+    <property name="ResourceManagers">
+      <list>
+        <value>Eland.NRSM.Core.NRSMResource, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+  
+</objects>

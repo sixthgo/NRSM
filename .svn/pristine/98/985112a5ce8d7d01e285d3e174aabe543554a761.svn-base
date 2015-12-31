@@ -1,0 +1,23 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('SaleAmountAndStockService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/SaleAmountAndStock', {
+        gubun: '@gubun',
+        werks: '@werks',
+        floor: '@floor',
+        cu: '@cu',
+        pu: '@pu',
+
+        matnr: '@matnr',
+        wstaw: '@wstaw',
+        pernr: '@pernr',
+        date: '@date'
+    },
+    {
+        'get': { method: 'GET' }
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

@@ -1,0 +1,96 @@
+//
+//  FFShellPlugin.m
+//  FormularLib
+//
+//  Created by 인식 조 on 12. 11. 14..
+//  Copyright (c) 2012년 장재휴. All rights reserved.
+//
+
+#import "FFShellPlugin.h"
+#import "FFURLHelper.h"
+#import "NSBundle+Extension.h"
+@implementation FFShellPlugin
+
+
+#pragma mark
+- (id)init
+{
+    if (self = [super init]) {
+    }
+    return self;
+}
+
+- (void) launch_app:(CDVInvokedUrlCommand*)command
+{
+    NSString* callbackId = command.callbackId;
+    
+    CDVPluginResult* pluginResult = nil;
+    NSString* javaScript = nil;
+    id params = nil;
+    NSArray* arguments = command.arguments;
+    
+    NSError *error;
+//    if(arguments.count > 0)
+//        params = [NSJSONSerialization JSONObjectWithData:[[arguments objectAtIndex:0]dataUsingEncoding:NSUTF8StringEncoding]
+//                                                 options:NSJSONReadingMutableLeaves
+//                                                   error:&error];
+    NSString *mdmUrl = @"mobilekeeper://";
+    NSString *identifier = [[arguments objectAtIndex:0] valueForKey:@"packageName"];
+    NSString *mobilekeeperUrlString = [NSString stringWithFormat:@"%@%@", mdmUrl, identifier];
+    
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:identifier]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:mdmUrl]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mobilekeeperUrlString]];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+//        javaScript = [pluginResult toSuccessCallbackString:callbackId];
+    }
+    else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"This app is not installed"];
+//        javaScript = [pluginResult toErrorCallbackString:callbackId];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+//    [self writeJavascript:javaScript];
+}
+
+- (void) getUserInfo:(CDVInvokedUrlCommand*)command
+{
+    NSString* callbackId = command.callbackId;
+    
+    CDVPluginResult* pluginResult = nil;
+    NSString* javaScript = nil;
+    id params = nil;
+    NSString *requestUserInfo = [[NSString alloc]init];
+    NSString *returnValue = [[NSString alloc]init];
+    NSArray* arguments = command.arguments;
+    
+    NSError *error;
+    params = [NSJSONSerialization JSONObjectWithData:[[arguments objectAtIndex:0]dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:&error];
+    requestUserInfo = [params valueForKey:@"requestUserInfo"];
+    
+    if([requestUserInfo isEqualToString:@"id"])
+    {
+        returnValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"GBFW_USER_ID"];
+    }
+    else if([requestUserInfo isEqualToString:@"name"]){
+        returnValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"GBFW_USER_NAME"];
+    }
+    else if([requestUserInfo isEqualToString:@"email"]){
+        returnValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"GBFW_USER_EMAIL"];
+    }
+    else if([requestUserInfo isEqualToString:@"isManager"]){
+        returnValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"GBFW_USER_ISMANAGER"];
+    }
+    else if([requestUserInfo isEqualToString:@"loginId"]){
+        returnValue = [[NSUserDefaults standardUserDefaults]valueForKey:@"GBFW_USER_LOGINID"];
+    }
+    
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:returnValue];
+    javaScript = [pluginResult toSuccessCallbackString:callbackId];
+    [self writeJavascript:javaScript];
+}
+
+
+@end

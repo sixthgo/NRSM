@@ -1,0 +1,51 @@
+﻿<ion-view view-title="{{word.realStockControl}}">
+    <ion-content class="has-footer">
+        <ion-list>
+            <ion-item class="eland-item item-button-right">
+                점포 코드
+                <input type="number"
+                       ng-model="data.shopCode"
+                       class="eland-badge"
+                       required
+                       onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                       placeholder="입력"
+                        >
+            </ion-item>
+            <ion-item class="eland-item item-button-right">
+                상품 코드
+                <input id="barCode" type="number"
+                       ng-model="base.barCode006"
+                       class="eland-badge"
+                       onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                       placeholder="입력"
+                        >
+            </ion-item>
+            <ion-item class="realstock-padding">
+                <a class="button button-outline ion-search button-eland-light button-boder"
+                   ng-click="SearchProductInform()">&nbsp;&nbsp;조회</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right" style="border-top: none;">
+                상품 정보
+                <a class="realstock-button-radius">{{data.salePriceInfor}}</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right">
+                현재고
+                <a class="realstock-button-radius">{{data.nowStock}}</a>
+            </ion-item>
+            <ion-item class="eland-item item-button-right">
+                실재고
+                <input id="realStock" type="number"
+                       ng-model="data.realStock"
+                       class="eland-badge"
+                       onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                       placeholder="입력"
+                        >
+            </ion-item>
+            <ion-item class="realstock-padding" style="border-bottom: none;">
+                <a class="button button-outline ion-android-done button-eland-balanced button-boder"
+                   ng-click="SearchProductInform()">&nbsp;&nbsp;실재고 조정</a>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,9 @@
+﻿<ion-nav-bar class="{{setting.header.class}}">
+    <ion-nav-back-button class="button-clear">
+        <i class="icon ion-ios-arrow-left"></i>Back
+    </ion-nav-back-button>
+    <ion-nav-buttons side="right" ng-show="base.menuId != 'NRSMM00'" ng-class="hide">
+        <button class="button button-icon ion-calendar" ng-hide="base.menuId == 'NRSMM00' || base.viewId != 'NRSM011'"></button>
+        <button class="button button-icon ion-refresh" ng-hide="base.menuId == 'NRSMM00'" ng-click="Reload()"></button>
+    </ion-nav-buttons>
+</ion-nav-bar>

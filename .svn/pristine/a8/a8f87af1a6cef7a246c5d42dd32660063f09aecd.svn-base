@@ -1,0 +1,36 @@
+﻿
+var words = {
+    'en': {
+        common: 'Common',
+        manager: 'Manager',
+        title: 'Title',
+        task: 'Task',
+        hyper: 'Hyper'
+    },
+    'ko': {
+        common: '공통',
+        manager: '관리자',
+        title: '제목',
+        task: '작업',
+        hyper: '하이퍼'
+    },
+    'cn': {
+        common: 'CN.Common',
+        manager: 'CN.Manager',
+        title: 'CN.Title',
+        task: 'CN.TASK',
+        hyper: 'CN.Hyper'
+    }
+}
+
+var variableWords = {
+    'en': {
+        testSentence: 'Thank you {{name}}'
+    },
+    'ko': {        
+        testSentence: '{{name}} 님 감사합니다'
+    },
+    'cn': {        
+        testSentence: 'CN.Thank you {{name}}'
+    }
+}

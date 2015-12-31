@@ -1,0 +1,107 @@
+﻿<div class="row">
+    <div class="newLayer">
+        <div class="header">
+            <p>조건 선택</p>
+        </div>
+        <div class="body">
+            <div class="double">
+                <p class="left" style="width: 100%">기준 데이터</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col col50">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesStandardRadioGroup" ng-model="popup.standard" value="pda" />
+            <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:125px">행사장판매기준</div>
+            <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+        </label>
+    </div>
+    <div class="col col50">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesStandardTypeRadioGroup" ng-model="popup.standard" value="key" />
+            <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:125px">행사Key판매기준</div>
+            <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+        </label>
+    </div>
+</div>
+<div class="row">
+    <div class="newLayer">
+        <div class="body">
+            <div class="double">
+                <p class="left" style="width: 100%">조회종류</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesTypeRadioGroup" ng-model="popup.type" value="brand" />
+            <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:75px">브랜드별</div>
+            <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+        </label>
+    </div>
+    <div class="col">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesTypeRadioGroup" ng-model="popup.type" value="event" />
+            <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:75px">{{eventBtnText}}</div>
+            <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+        </label>
+    </div>
+    <div class="col">
+        <label class="item item-radio">
+            <input type="radio" name="eventSalesTypeRadioGroup" ng-model="popup.type" value="time" />
+            <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:5px;width:75px">시간대별</div>
+            <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;"></i>
+        </label>
+    </div>
+</div>
+<div class="row" ng-hide="popup.type == 'event' || popup.type == 'time'">
+    <div class="newLayer">
+        <div class="body">
+            <div class="double">
+                <p class="left" style="width: 100%">CU / PC</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" ng-hide="popup.type == 'event' || popup.type == 'time'">
+    <ion-content onscroll="false" style="width:98%">
+        <div>
+            <div class="row">
+                <div class="col col50">
+                    <ion-scroll direction="y" style="height: 180px; margin-top:245px;margin-left:10px">
+                        <div class="list">
+                            <ion-radio ng-repeat="cu in data.cues"
+                                       ng-value="cu"
+                                       ng-change="OnCuChange(cu)"
+                                       ng-model="cuPopup.selectedCuTemp"
+                                       name="cuRadio">
+                                {{ cu.cuName }}
+                            </ion-radio>
+                        </div>
+                    </ion-scroll>
+                </div>
+                <div class="col col50">
+                    <ion-scroll direction="y" class="popup-scroll" style="height: 180px; margin-top:245px;">
+                        <div class="list">
+                            <ion-radio ng-repeat="pc in data.pcs"
+                                       ng-value="pc"
+                                       ng-change="OnPcChange(pc)"
+                                       ng-model="cuPopup.selectedPcTemp"
+                                       name="pcRadio">
+                                {{ pc.pcName }}
+                            </ion-radio>
+                        </div>
+                    </ion-scroll>
+                </div>
+            </div>
+
+        </div>
+    </ion-content>
+</div>

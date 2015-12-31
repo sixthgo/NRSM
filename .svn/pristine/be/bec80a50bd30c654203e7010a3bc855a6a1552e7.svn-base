@@ -1,0 +1,39 @@
+﻿<ion-view view-title="{{word.title}}">
+    <ion-content class="has-footer">
+        <h1>profitToPlan</h1>
+
+        <div class="list">
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Plant
+                </div>
+                <select ng-model="data.plantId" favorite="data.plantId" favorite-key="Plant">
+                    <option value="8202">Blue</option>
+                    <option value="8204">Green</option>
+                    <option value="8206">Red</option>
+                </select>
+            </label>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    PC
+                </div>
+                <select ng-model="data.PC" favorite="data.PC" favorite-key="PC">
+                    <option value="AAA">AAA</option>
+                    <option value="ABA">ABA</option>
+                    <option value="ABB">ABB</option>
+                    <option value="ABC">ABC</option>
+                </select>
+            </label>
+
+        </div>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
+
+
+
+
+    </ion-content>
+
+</ion-view>

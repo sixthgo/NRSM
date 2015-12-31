@@ -1,0 +1,454 @@
+﻿controllerModule.controller('SalesProjectionsCtrl', function ($scope,
+                                                              $stateParams,
+                                                              $ionicScrollDelegate,
+                                                              $q,
+                                                              QueryDailySalePredictionInNewService,
+                                                              $ionicLoading,
+                                                              $cordovaDatePicker,
+                                                              $state,
+                                                              PopupService,
+                                                              $ionicPopup,
+                                                              UtilService, $timeout,
+                                                              $ionicPosition, $window) {
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM009';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.data.tempDate1 = null;
+    $scope.data.tempDate2 = null;
+
+    $scope.dmchk = {};
+    $scope.dmchk.selectedDmchk = '0';
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is 'inline'
+
+    $scope.requireScrollHeight = true;
+
+    $scope.widthFlag = 320;
+    $scope.currentWidth;
+    $scope.standardViewSize = 'S'; // Small or Big
+    
+    $scope.Init = function () {
+
+        $scope.currentWidth = $window.innerWidth;
+        if ($scope.currentWidth > $scope.widthFlag)
+            $scope.standardViewSize = 'B';
+
+        //console.log($window.innerWidth);
+
+        var isIPad = ionic.Platform.isIPad();
+        //isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+            $scope.showCalendarButton = 'none';
+            $scope.showIPadCalendarButton = 'inline';
+        }
+        else {
+            $scope.showCalendarButton = 'inline';
+            $scope.showIPadCalendarButton = 'none';
+        }
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+
+        var isIPad = ionic.Platform.isIPad();
+        //isIPad = true; // [TEST]
+
+        if (isIPad == true) {
+            $scope.base.SetCalendarCallbackForIPad($scope.datePickerCallbackForIPad);
+        }
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+        //$scope.data.plantCode = $scope.storePopup.selectedStore.plantCode;
+        var date = new Date();
+        var minDate = new Date();
+        minDate.setTime(minDate.valueOf() - 364 * 24 * 60 * 60 * 1000);
+
+        $scope.nowDate = UtilService.FormatDate(date);
+        $scope.oldDate = UtilService.FormatDate(minDate);
+
+        //$scope.nowDate = "2015-06-06";   //test
+        //$scope.oldDate = "2015-06-04";
+
+        $scope.data.dmchk = $scope.dmchk.selectedDmchk;
+
+        $scope.data.clientSideList = [{
+            code: "0",
+            value:'평일'
+        },{
+            code: "1",
+            value:'DM'
+        }];
+
+        $scope.data.realSelected = "평일";
+        $scope.data.selected = "평일";
+
+        $scope.SearchSaleProjection();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'SalesProjectionsCtrl';
+    }
+
+    $scope.SearchSaleProjection = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        QueryDailySalePredictionInNewService.query({
+            day1: $scope.nowDate,
+            day2: $scope.oldDate,
+            dmchk: $scope.data.dmchk,
+            sabun: $scope.user.empNo,
+            werks: $scope.storePopup.selectedStore.plantCode == "-1" ? "" : $scope.storePopup.selectedStore.plantCode
+        }, function(data){
+
+            if(!UtilService.IsUndefinedOrNull(data) && data.length > 0) {
+
+                if (data[0].flag == "E" && !UtilService.IsNullOrEmpty(data[0].returnMessage)) {
+                    PopupService.OpenPopupAlert(data[0].returnMessage);
+
+                    $scope.data.dailySalePreditionFloor = null;
+                    $scope.data.dailySalePreditionTime = null;
+                }
+                else {
+                    $scope.data.dailySalePreditionFloor = data[0].dailySalePreditionFloor;
+                    $scope.data.dailySalePreditionTime = data[0].dailySalePreditionTime;
+
+                    $timeout(SetSwiper, 500);
+                }
+            }
+            $ionicLoading.hide();
+        }, function(error){
+            $ionicLoading.hide();
+        });
+    }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+        $scope.Init();
+    }
+
+    $scope.OpenStorePopup = function () {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+        // new!! 
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            ////title: '지점 선택',
+            ////subTitle: '현재 선택한 지점 ' + name,
+            ////cssClass: 'storePopup',
+            cssClass: 'storePopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive', // new!!
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+                $scope.SearchSaleProjection();
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+            //$timeout(SetSwiper, 1000);
+        });
+    }
+
+    $scope.OpenSaleType = function () {
+        var url = 'templates/shopPopup.html';
+        PopupService
+            .InitPopup(url, $scope, $scope.CallbackConfirm, $scope.CallbackCancel)
+            .then(function (modal) {
+                modal.show();
+                //$scope.openModal();
+            });
+    }
+
+    $scope.CallbackConfirm = function () {
+        if($scope.data.selected=="DM"){
+            $scope.data.dmchk = "1";
+            $scope.data.realSelected = "DM";
+        }
+        else{
+            $scope.data.dmchk = "0";
+            $scope.data.realSelected = "평일";
+        }
+
+        $scope.SearchSaleProjection();
+    }
+
+    $scope.CallbackCancel = function () {
+        $scope.debug.Log('$scope.CallbackCancel()');
+    }
+
+    $scope.changeCheckStatu = function () {
+        //alert($("input:checked ~ .radio-icon").size());
+        $("input:checked ~ .radio-icon").css("visibility", "visible")
+        $("input:not(:checked) ~ .radio-icon").css("visibility", "hidden")
+    }
+
+    $scope.OpenDatePick1 = function () {
+
+        var initDate = $scope.data.tempDate1 == null? new Date(): $scope.data.tempDate1;
+
+        var options = {
+            date: initDate,
+            mode: 'date', // or 'time'
+            minDate: new Date() -  10 * 365 * 24 * 60 * 60 * 1000,
+            //allowOldDates: true,
+            //allowFutureDates: true,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#ddd',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var isIPad = ionic.Platform.isIPad();
+        if (isIPad == true) {
+        }
+        else {
+            $cordovaDatePicker.show(options).then(function (date) {
+                var selectedDate;
+
+                if (date == undefined || date == null) {
+                    selectedDate = new Date();
+                }
+                else {
+                    selectedDate = new Date(date);
+                }
+                $scope.nowDate = UtilService.FormatDate(selectedDate);
+                $scope.data.tempDate1 = selectedDate;
+
+                $scope.SearchSaleProjection();
+
+            });
+        }
+    }
+
+    $scope.OpenDatePick2 = function () {
+
+        var initDate = $scope.data.tempDate2 == null? new Date(): $scope.data.tempDate2;
+
+        var options = {
+            date: initDate,
+            mode: 'date', // or 'time'
+            minDate: new Date() -  10 * 365 * 24 * 60 * 60 * 1000,
+            //allowOldDates: true,
+            //allowFutureDates: true,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#ddd',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        var isIPad = ionic.Platform.isIPad();
+        if (isIPad == true) {
+        }
+        else {
+            $cordovaDatePicker.show(options).then(function (date) {
+                var selectedDate;
+
+                if (date == undefined || date == null) {
+                    selectedDate = new Date();
+                }
+                else {
+                    selectedDate = new Date(date);
+                }
+
+                $scope.oldDate = UtilService.FormatDate(selectedDate);
+                $scope.data.tempDate2 = selectedDate;
+
+                $scope.SearchSaleProjection();
+            });
+        }
+    }
+
+    var SetSwiper = function () {
+
+        $scope.base.swiper();
+
+        //var interpolateHeight = 140; // default for iOS
+        //var isAndroid = ionic.Platform.isAndroid();
+        //if (isAndroid)
+        //    interpolateHeight = 118; // for androidVersion
+        //
+        //if ($scope.requireScrollHeight == true) {
+        //    var obj = angular.element('#scrollA');
+        //    var position = $ionicPosition.position(obj);
+        //
+        //    $scope.newHeightA = position.height - position.top - interpolateHeight;
+        //
+        //    obj = angular.element('#scrollB');
+        //    position = $ionicPosition.position(obj);
+        //    $scope.newHeightB = position.height - position.top - interpolateHeight;
+        //
+        //    //$scope.SetDataHeight();
+        //
+        //    $scope.requireScrollHeight = false;
+        //}
+    }
+
+    $scope.SetDataHeight = function () {
+        var totalHeight = $window.innerHeight;
+
+        var headerBarHeight = 45;
+        var headlineAHeight = $ionicPosition.offset(angular.element(document.querySelector('#headlineA'))).height;
+        var dateHeight = $ionicPosition.offset(angular.element(document.querySelector('#date'))).height;
+        var tableHeaderHeight = $ionicPosition.offset(angular.element(document.querySelector('#tableHeader'))).height;
+
+        var footerHeight = $ionicPosition.offset(angular.element(document.querySelector('#footer'))).height;
+
+        var dataHeight = totalHeight - headerBarHeight - (headlineAHeight + dateHeight + tableHeaderHeight) - footerHeight;
+
+        var isAndroid = ionic.Platform.isAndroid();
+        var isIPad = ionic.Platform.isIPad();
+        var isIOS = ionic.Platform.isIOS();
+
+        //alert(dataHeight);
+
+        isIOS = true;
+
+        var interpolateHeight = 0;
+        if (isAndroid)
+            interpolateHeight = 10; // for android
+        if (isIPad || isIOS)
+            interpolateHeight = -175; // for iOS
+
+        dataHeight += interpolateHeight;
+
+        //alert(dataHeight);
+
+        if (isAndroid) {
+            if ($sessionStorage.androidVersion < 19) {
+                ////dataHeight = dataHeight - 88;
+            }
+        }
+
+        $scope.scrollHeight = dataHeight;
+    }
+
+    $scope.base.ClickIPadCalendar = function (type) {
+        var current = new Date();
+        if (type == '1') {
+            $scope.data.currentMode = '1';
+            current = $scope.nowDate;
+        }
+        else {
+            $scope.data.currentMode = '2';
+            current = $scope.oldDate;
+        }
+
+        $scope.base.SetDateLocalCaledar(current);
+    }
+
+
+    $scope.datePickerCallbackForIPad = function (val) {
+
+        if (typeof (val) === 'undefined') {
+        }
+        else {
+            if ($scope.data.currentMode == '1') {
+                $scope.nowDate = UtilService.FormatDate(val);
+                SetDefaultCalendarDate($scope.nowDate);
+            }
+            else {
+                $scope.oldDate = UtilService.FormatDate(val);
+                SetDefaultCalendarDate($scope.oldDate);
+            }
+            //SetDefaultCalendarDate($scope.nowDate);
+            $scope.SearchSaleProjection();
+        }
+    }
+
+    //$scope.setActive = function (activeWhere) {
+    //    //$scope.data.isActive = activeWhere;
+    //
+    //    var header = document.getElementsByTagName('body')[0];
+    //    var handle = $ionicScrollDelegate.$getByHandle('saleScroll');
+    //
+    //    if (activeWhere == "leftA") {
+    //        handle.scrollTo(0, 0, true);
+    //    }
+    //    else {
+    //        handle.scrollTo(header.clientWidth, 0, true);
+    //    }
+    //
+    //    handle.resize();
+    //}
+    //
+    //$scope.scrolling = function () {
+    //
+    //    var header = document.getElementsByTagName('body')[0];
+    //    var handler = $ionicScrollDelegate.$getByHandle('saleScroll');
+    //
+    //    var position = handler.getScrollPosition();
+    //
+    //    //console.log('left:' + position.left);
+    //    //console.log('header:' + header.clientWidth/2);
+    //
+    //    if(position.left > (header.clientWidth/2)) {
+    //        $scope.data.isActive = 'leftB';
+    //    }
+    //    else {
+    //        $scope.data.isActive = 'leftA';
+    //    }
+    //
+    //    handler.freezeScroll(false);
+    //    $scope.$apply();
+    //}
+
+});

@@ -1,0 +1,58 @@
+<ion-view view-title="Home">
+    <ion-content>
+        <h2>STATIC AREA (TEST)</h2>
+        <h3>{{word.common}}</h3>
+        <div>
+            <a ui-sref="app.common.floorplanSalesSearch">GO Floorplan Sales</a>
+        </div>
+        <div>
+            <a ui-sref="app.common.floorplanRecordSearch">GO Floorplan Record</a>
+        </div>
+        <h3>{{word.manager}}</h3>
+        <div>
+            <a ui-sref="app.managerReport.reportStore">GO reportStore</a>
+        </div>
+        <div>
+            <a ui-sref="app.managerReport.reportCu">GO reportCu</a>
+        </div>
+        <h3>{{word.hyper}}</h3>
+        <div>
+            <a ui-sref="app.hyper.sample">GO sample</a>
+        </div>
+
+        <h3>{{word.product}}</h3>
+        <div>
+            <a ui-sref="app.common.productInformation">GO Product Information</a>
+        </div>
+        <div>
+            <a ui-sref="app.common.productDetail">GO Product Detail</a>
+        </div>
+
+        <h2>IonicModal (TEST)</h2>
+        <button ng-click="TestModal('A')">IonicModal A</button>
+        <button ng-click="TestModal('B')">IonicModal B</button>
+
+        <!--<h1>FAVORITE AREA (TEST)</h1>
+        <div>
+            <a ng-click="GoView('app.common.floorplanRecordSearch', '101')">GO Floorplan Record</a>
+        </div>
+
+        <div>
+            <a ng-click="GoView('app.common.floorplanSalesSearch', '102')">GO Floorplan Sales</a>
+        </div>
+
+        <h1>MENU AREA (from DB)</h1>
+        <div ng-repeat="section in menu.sections">
+            <h2>{{section.name}}</h2>
+            <div ng-repeat="menu in section.menus">
+                <a class="button icon ion-document-text {{menu.icon}}" ng-click="base.GoView('{{menu.url}}')"></a>{{menu.name}}
+            </div>
+        </div>-->
+
+
+            <h2>{{word.eimsInformation}}</h2>
+            <div>
+                <a ui-sref="app.common.EIMSInformation">GO EIMS</a>
+            </div>
+    </ion-content>
+</ion-view>

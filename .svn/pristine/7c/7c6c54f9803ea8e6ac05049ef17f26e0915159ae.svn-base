@@ -1,0 +1,15 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('OrderProposalPostService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/OrderProposal?werks=:werks&buDat=:buDat', {
+        werks: '@werks',
+        buDat: '@buDat'
+    },
+    {
+        'save': { method: 'POST'}
+    });
+})
+
+//.constant('webServerUrl', 'http://web.nrsm.com')

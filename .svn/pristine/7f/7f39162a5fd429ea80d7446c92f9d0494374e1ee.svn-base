@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <!--<object id="TemplateServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web" singleton="true">
+    <property name="TargetName" value="TemplateService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported UsersMemberShipsWS web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.ITemplateService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>-->
+
+  <object id="FavoriteServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="FavoriteService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported FavoriteServiceWS web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.IFavoriteService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+
+  <object id="PlantServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="PlantService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported PlantServiceWS web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.IPlantService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+
+
+  <object id="CEOReportServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="CEOReportService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported CEOReportServiceWS web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.ICEOReportService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+
+  <object id="QueryDailySalePredictionInServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="QueryDailySalePredictionInService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported QueryDailySalePredictionInService web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.IQueryDailySalePredictionInService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+
+  <object id="ManageManualOrderInServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="ManageManualOrderInService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported ManageManualOrderInService web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.IManageManualOrderInService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+
+
+  <object id="ManageRealInventoryInServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="ManageRealInventoryInService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported ManageRealInventoryInService web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.IManageRealInventoryInService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+
+  <object id="CUServiceWS" type="Spring.Web.Services.WebServiceExporter, Spring.Web">
+    <property name="TargetName" value="CUService"/>
+    <property name="Namespace" value="http://Eland.WebFWTemplate/services"/>
+    <property name="Description" value="My exported CUServiceWS web service"/>
+    <property name="Interfaces">
+      <list>
+        <value>Eland.NRSM.Core.Services.ICUService, Eland.NRSM.Core</value>
+      </list>
+    </property>
+  </object>
+  
+</objects>

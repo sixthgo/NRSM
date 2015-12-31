@@ -1,0 +1,55 @@
+#include <string.h>
+#include "config.h"
+
+#include "rsa.h"
+
+#if defined(POLARSSL_PKCS1_V21)
+#include "md.h"
+#endif
+
+#include <stdlib.h>
+#include <stdio.h>
+
+char msrToChar( char *ch,int val)
+{
+	char ret =0;
+	switch ( val ) {
+	    	case 0xB:  						break;	    		
+    		case 0xD:	*ch = '=';   ret=1;		break;
+    		case 0xF:    	*ch='\0';    ret=1;		break;
+    		case 0xE:	    		
+        	case 0xA:
+    		case 0xC:						break;
+    		default :		*ch = val+'0'; ret=1;	break;
+	}
+
+	return ret;
+
+}
+
+
+
+int RsaDecryptTrack2(unsigned char *ciphertext, char *track2)
+{
+	unsigned char decrypted[RSA_PT_LEN];
+	// char track2str[RSA_PT_LEN*2];
+	int idx=0;
+	int i;
+
+	// for ( i = 0 ;  i < 128 ; i++ ) 	LOGE("ciphertext[%d]%x", i, pData[i]);
+
+	rsa_decrypt( ciphertext, decrypted );
+
+	// for ( i = 0 ;  i < 24 ; i++ ) 	LOGE("decrypted[%d]%x", i, decrypted[i]);
+
+
+	for ( i = 1 ; i < RSA_PT_LEN ; i++ ) {
+		if( msrToChar(&track2[idx], (decrypted[i]>>4)&0x0F) ) idx++;
+		if( msrToChar(&track2[idx], (decrypted[i])&0x0F)) idx++;		
+	}
+
+	track2[idx] = '\0';
+
+	
+    return idx;
+}

@@ -1,0 +1,900 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1CB7604B-1801-4D57-89B8-2A78DDC74A80}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Eland.NRSM.Template</RootNamespace>
+    <AssemblyName>Eland.NRSM.Template</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\main\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\main\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Formular.BaaS.Core">
+      <HintPath>..\..\..\lib\baas\Formular.BaaS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Formular.Core">
+      <HintPath>..\..\..\lib\baas\Formular.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Formular.Data">
+      <HintPath>..\..\..\lib\baas\Formular.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\lib\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\..\..\lib\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data">
+      <HintPath>..\..\..\lib\Spring.Data.1.3.2\lib\net40\Spring.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Data.NHibernate32">
+      <HintPath>..\..\..\lib\Spring.Data.NHibernate32.1.3.2\lib\net40\Spring.Data.NHibernate32.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dao\AdminDao.cs" />
+    <Compile Include="Dao\CEOReportDao.cs" />
+    <Compile Include="Dao\CUDao.cs" />
+    <Compile Include="Dao\FavoriteDao.cs" />
+    <Compile Include="Dao\EIMSInformationDao.cs" />
+    <Compile Include="Dao\PlantDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dao\TemplateDao.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\MailWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGEDAILYGRIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGEMANUALORDERIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGEREALINVENTORYIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGESALEPRICESENDIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGESAVEMATERIALLABEL\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGESCPOPALLETITEMIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\QUERYDAILYSALEPREDICTIONIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZMANAGEFLOORCODEIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZMANAGESPACEPROFITIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYEVENTREVENUEIN_V1100\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYFLOORREVENUEIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYHISTORYIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYMATERIALPRICEINFO\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYMONTHRESULTIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYREVENUEIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYSALESRESULTIN_V1000\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYSTOREDETAILINFOIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ZQUERYUSERAUTHIN\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Services\AccumulateSalesService.cs" />
+    <Compile Include="Services\AdminService.cs" />
+    <Compile Include="Services\CEOReportService.cs" />
+    <Compile Include="Services\CUService.cs" />
+    <Compile Include="Services\EventSalesService.cs" />
+    <Compile Include="Services\FavoriteService.cs" />
+    <Compile Include="Services\EIMSInformationService.cs" />
+    <Compile Include="Services\FloorHistoryRecordDetailService.cs" />
+    <Compile Include="Services\FloorHistoryRecordService.cs" />
+    <Compile Include="Services\ManageDailyGrInService.cs" />
+    <Compile Include="Services\FloorAreaService.cs" />
+    <Compile Include="Services\FloorPlanCompareService.cs" />
+    <Compile Include="Services\FloorPlanService.cs" />
+    <Compile Include="Services\ManageManualOrderInService.cs" />
+    <Compile Include="Services\ManageRealInventoryInService.cs" />
+    <Compile Include="Services\ManageSalePriceSendInService.cs" />
+    <Compile Include="Services\EmailSendService.cs" />
+    <Compile Include="Services\ManageScPoPalletItemInService.cs" />
+    <Compile Include="Services\ManageStockInspectionCreateInService.cs" />
+    <Compile Include="Services\MaterialSaveLabelService.cs" />
+    <Compile Include="Services\PlantService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\QueryDailySalePredictionInService.cs" />
+    <Compile Include="Services\QueryMaterialPriceInfoService.cs" />
+    <Compile Include="Services\SpaceProfitService.cs" />
+    <Compile Include="Services\StoreDetailService.cs" />
+    <Compile Include="Services\StoreFloorService.cs" />
+    <Compile Include="Services\TemplateService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Eland.NRSM.Core\Eland.NRSM.Core.csproj">
+      <Project>{78e4023e-a000-4730-bfd8-575fbb3ea4bf}</Project>
+      <Name>Eland.NRSM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\SqlMap.Template.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetEmployeeDetailInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetEmployeeSearchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailFolderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailSearchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailTotalCountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailViewFileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailViewImgResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailViewMoveResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailViewResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetMailViewSaveFileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetRecentReceiversResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.GetTotalUnreadCountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.SendMailResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.SetMailChangeFlagResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.SetMailDeleteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.SetMailFolderEmptyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.SetMailMoveResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\Eland.NRSM.Template.MailWebService.SetMail_UnReadResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MailWebService\ws_mail.wsdl" />
+    <None Include="Service References\MANAGEDAILYGRIN\document.wsdl" />
+    <None Include="Service References\MANAGEDAILYGRIN\Eland.NRSM.Template.MANAGEDAILYGRIN.DailyGr100QueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEDAILYGRIN\Eland.NRSM.Template.MANAGEDAILYGRIN.DailyGr100Response_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEDAILYGRIN\Eland.NRSM.Template.MANAGEDAILYGRIN.DailyGr250QueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEDAILYGRIN\Eland.NRSM.Template.MANAGEDAILYGRIN.DailyGr250Response_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEMANUALORDERIN\document.wsdl" />
+    <None Include="Service References\MANAGEMANUALORDERIN\Eland.NRSM.Template.MANAGEMANUALORDERIN.ManualOrderMatInfoQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEMANUALORDERIN\Eland.NRSM.Template.MANAGEMANUALORDERIN.ManualOrderMatInfoResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEMANUALORDERIN\Eland.NRSM.Template.MANAGEMANUALORDERIN.SaveManualOrderQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEMANUALORDERIN\Eland.NRSM.Template.MANAGEMANUALORDERIN.SaveManualOrderResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEREALINVENTORYIN\document.wsdl" />
+    <None Include="Service References\MANAGEREALINVENTORYIN\Eland.NRSM.Template.MANAGEREALINVENTORYIN.RealInventoryQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGEREALINVENTORYIN\Eland.NRSM.Template.MANAGEREALINVENTORYIN.RealInventoryResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESALEPRICESENDIN\document.wsdl" />
+    <None Include="Service References\MANAGESALEPRICESENDIN\Eland.NRSM.Template.MANAGESALEPRICESENDIN.SalePriceSendQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESALEPRICESENDIN\Eland.NRSM.Template.MANAGESALEPRICESENDIN.SalePriceSendResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESAVEMATERIALLABEL\document.wsdl" />
+    <None Include="Service References\MANAGESAVEMATERIALLABEL\Eland.NRSM.Template.MANAGESAVEMATERIALLABEL.SaveMaterialLabelQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESAVEMATERIALLABEL\Eland.NRSM.Template.MANAGESAVEMATERIALLABEL.SaveMaterialLabelResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\document.wsdl" />
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPalletItemDpQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPalletItemDpResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPalletItemGrQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPalletItemGrResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPoItemDpQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPoItemDpResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPoItemGrQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Eland.NRSM.Template.MANAGESCPOPALLETITEMIN.ScPoItemGrResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\document.wsdl" />
+    <None Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\Eland.NRSM.Template.MANAGESTOCKINSPECTIONCREATEIN.StockInspectionCreateQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\Eland.NRSM.Template.MANAGESTOCKINSPECTIONCREATEIN.StockInspectionCreateResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\QUERYDAILYSALEPREDICTIONIN\document.wsdl" />
+    <None Include="Service References\QUERYDAILYSALEPREDICTIONIN\Eland.NRSM.Template.QUERYDAILYSALEPREDICTIONIN.DailySalePredictionQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\QUERYDAILYSALEPREDICTIONIN\Eland.NRSM.Template.QUERYDAILYSALEPREDICTIONIN.DailySalePredictionResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\document.wsdl" />
+    <None Include="Service References\ZMANAGEFLOORCODEIN\Eland.NRSM.Template.ZMANAGEFLOORCODEIN.FloorCodeByIDConfirmationCheckResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\Eland.NRSM.Template.ZMANAGEFLOORCODEIN.FloorCodeByIDConfirmationResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\Eland.NRSM.Template.ZMANAGEFLOORCODEIN.FloorCodeSizeByIDQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\Eland.NRSM.Template.ZMANAGEFLOORCODEIN.FloorCodeSizeByIDResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\document.wsdl" />
+    <None Include="Service References\ZMANAGESPACEPROFITIN\Eland.NRSM.Template.ZMANAGESPACEPROFITIN.SpaceProfitByCurrentIDQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\Eland.NRSM.Template.ZMANAGESPACEPROFITIN.SpaceProfitByCurrentIDResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYEVENTREVENUEIN_V1100\document.wsdl" />
+    <None Include="Service References\ZQUERYEVENTREVENUEIN_V1100\Eland.NRSM.Template.ZQUERYEVENTREVENUEIN_V1100.EventRevenueByCurrentAmountElementsQueryResponse_In_V1100Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYEVENTREVENUEIN_V1100\Eland.NRSM.Template.ZQUERYEVENTREVENUEIN_V1100.EventRevenueByCurrentAmountResponseMessage_sync_V1100.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYFLOORREVENUEIN\document.wsdl" />
+    <None Include="Service References\ZQUERYFLOORREVENUEIN\Eland.NRSM.Template.ZQUERYFLOORREVENUEIN.FloorRevenueByResultElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYFLOORREVENUEIN\Eland.NRSM.Template.ZQUERYFLOORREVENUEIN.FloorRevenueByResultElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYHISTORYIN\document.wsdl" />
+    <None Include="Service References\ZQUERYHISTORYIN\Eland.NRSM.Template.ZQUERYHISTORYIN.HistoryByStoreComparisonElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYHISTORYIN\Eland.NRSM.Template.ZQUERYHISTORYIN.HistoryByStoreComparisonElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\document.wsdl" />
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialInformationQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialInformationResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialPriceInfoAllQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialPriceInfoQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialPriceInfoResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialVendorInfoQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Eland.NRSM.Template.ZQUERYMATERIALPRICEINFO.MaterialVendorInfoResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMONTHRESULTIN\document.wsdl" />
+    <None Include="Service References\ZQUERYMONTHRESULTIN\Eland.NRSM.Template.ZQUERYMONTHRESULTIN.MonthResultByAccumulateElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYMONTHRESULTIN\Eland.NRSM.Template.ZQUERYMONTHRESULTIN.MonthResultByAccumulateElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\document.wsdl" />
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.FloorsSumList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByCurrentIfElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByCurrentIfElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByCurrentPosElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByCurrentTimeElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByExceptionCodeElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByFloorsSumElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByPeriodSum1ElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByPeriodSum1ElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByPeriodSum2ElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByPeriodSum2ElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByPeriodSum3ElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByPeriodSum3ElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueBySpecificTimeElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByStoreSumElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueByStoreSumElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYREVENUEIN\Eland.NRSM.Template.ZQUERYREVENUEIN.RevenueSpecificList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSALESRESULTIN_V1000\document.wsdl" />
+    <None Include="Service References\ZQUERYSALESRESULTIN_V1000\Eland.NRSM.Template.ZQUERYSALESRESULTIN_V1000.SalesResultByResultInfoElementsQueryResponse_In_V1000Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSALESRESULTIN_V1000\Eland.NRSM.Template.ZQUERYSALESRESULTIN_V1000.SalesResultByResultInfoResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\document.wsdl" />
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\Eland.NRSM.Template.ZQUERYSTOREDETAILINFOIN.StoreDetailInfoByList2ElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\Eland.NRSM.Template.ZQUERYSTOREDETAILINFOIN.StoreDetailInfoByList2ResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\Eland.NRSM.Template.ZQUERYSTOREDETAILINFOIN.StoreDetailInfoByListElementsQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\Eland.NRSM.Template.ZQUERYSTOREDETAILINFOIN.StoreDetailInfoByListResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\document.wsdl" />
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\Eland.NRSM.Template.ZQUERYSTOREFLOORCODEIN_V1000.StoreFloorCodeByListElementsQueryResponse_In_V1000Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\Eland.NRSM.Template.ZQUERYSTOREFLOORCODEIN_V1000.StoreFloorCodeByListResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYUSERAUTHIN\document.wsdl" />
+    <None Include="Service References\ZQUERYUSERAUTHIN\Eland.NRSM.Template.ZQUERYUSERAUTHIN.UserAuthQueryResponse_InResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ZQUERYUSERAUTHIN\Eland.NRSM.Template.ZQUERYUSERAUTHIN.UserAuthResponse_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\MailWebService\" />
+    <WCFMetadataStorage Include="Service References\MANAGEDAILYGRIN\" />
+    <WCFMetadataStorage Include="Service References\MANAGEMANUALORDERIN\" />
+    <WCFMetadataStorage Include="Service References\MANAGEREALINVENTORYIN\" />
+    <WCFMetadataStorage Include="Service References\MANAGESALEPRICESENDIN\" />
+    <WCFMetadataStorage Include="Service References\MANAGESAVEMATERIALLABEL\" />
+    <WCFMetadataStorage Include="Service References\MANAGESCPOPALLETITEMIN\" />
+    <WCFMetadataStorage Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\" />
+    <WCFMetadataStorage Include="Service References\QUERYDAILYSALEPREDICTIONIN\" />
+    <WCFMetadataStorage Include="Service References\ZMANAGEFLOORCODEIN\" />
+    <WCFMetadataStorage Include="Service References\ZMANAGESPACEPROFITIN\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYEVENTREVENUEIN_V1100\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYFLOORREVENUEIN\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYHISTORYIN\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYMATERIALPRICEINFO\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYMONTHRESULTIN\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYREVENUEIN\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYSALESRESULTIN_V1000\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYSTOREDETAILINFOIN\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\" />
+    <WCFMetadataStorage Include="Service References\ZQUERYUSERAUTHIN\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYMATERIALPRICEINFO\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYUSERAUTHIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYUSERAUTHIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYUSERAUTHIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEREALINVENTORYIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEREALINVENTORYIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEREALINVENTORYIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEMANUALORDERIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEMANUALORDERIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEMANUALORDERIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\QUERYDAILYSALEPREDICTIONIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\QUERYDAILYSALEPREDICTIONIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\QUERYDAILYSALEPREDICTIONIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESALEPRICESENDIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESALEPRICESENDIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESALEPRICESENDIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MailWebService\ws_mail.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MailWebService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MailWebService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MailWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESTOCKINSPECTIONCREATEIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYHISTORYIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYHISTORYIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYHISTORYIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYREVENUEIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYREVENUEIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYREVENUEIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREFLOORCODEIN_V1000\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYHISTORYIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYHISTORYIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYHISTORYIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGEFLOORCODEIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYREVENUEIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYREVENUEIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYREVENUEIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZMANAGESPACEPROFITIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSTOREDETAILINFOIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESCPOPALLETITEMIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEDAILYGRIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEDAILYGRIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGEDAILYGRIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYFLOORREVENUEIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYFLOORREVENUEIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYFLOORREVENUEIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYMONTHRESULTIN\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYMONTHRESULTIN\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYMONTHRESULTIN\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESAVEMATERIALLABEL\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESAVEMATERIALLABEL\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\MANAGESAVEMATERIALLABEL\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYEVENTREVENUEIN_V1100\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYEVENTREVENUEIN_V1100\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYEVENTREVENUEIN_V1100\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSALESRESULTIN_V1000\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSALESRESULTIN_V1000\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ZQUERYSALESRESULTIN_V1000\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetFileName)" "$(TargetDir).."</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

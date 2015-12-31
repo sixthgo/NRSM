@@ -1,0 +1,72 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer" delegate-handle="POGManagementHandle" has-bouncing="false" scroll="false">
+        <div id="container" class="orange">
+            <span style="display:none" favorite-key="{{favoriteKeyB}}" favorite="POGPopup.selectedFirstCategory.pcCode"></span>
+            <span style="display:none" favorite-key="{{favoriteKeyC}}" favorite="POGPopup.selectedThirdCategory.pcCode"></span>
+            <span style="display:none" favorite-key="{{favoriteKeyD}}" favorite="POGPopup.selectedColumn.pcCode"></span>
+
+            <ul id="headlineA" class="select single">
+                <li class="p40" ng-click="OpenStorePopup()" favorite-key="{{favoriteKeyA}}" favorite="storePopup.selectedStore.plantCode"><span>{{storePopup.selectedStore.plantName}}</span></li>
+                <li class="p60" ng-click="OpenPOGPopup()"><span>{{GetSelectedItemName(true)}}</span></li>
+            </ul>
+
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table id="tableHeader">
+                            <!--<tr>
+                                <th class="width50" on-hold="ShowPopover($event, '열 / 단')">열 / 단</th>
+                                <th class="width40" on-hold="ShowPopover($event, '순번')">순번</th>
+                                <th class="maxWidth8em" on-hold="ShowPopover($event, '상품코드')">상품코드</th>
+                                <th class="maxWidth8em" on-hold="ShowPopover($event, '상품명')">상품명</th>
+                                <th class="width50" on-hold="ShowPopover($event, '진열수')">진열수</th>
+                            </tr>-->
+                            <tr>
+                                <th class="width15P" on-hold="ShowPopover($event, '열 / 단')">
+                                    <div>열 / 단</div>
+                                </th>
+                                <th class="width10P" on-hold="ShowPopover($event, '순번')">
+                                    <div class="th35" style="margin: auto;">순번</div>
+                                </th>
+                                <th class="width30P" on-hold="ShowPopover($event, '상품코드')" style="padding-left:0px; padding-right:0px; text-align:center;">
+                                    <div>상품코드</div>
+                                </th>
+                                <th class="width30P" on-hold="ShowPopover($event, '상품명')" style="padding-left:0px; padding-right:0px; text-align:center;">
+                                    <div>상품명</div>
+                                </th>
+                                <th class="width10P" on-hold="ShowPopover($event, '진열수')" style="padding-left:0px; padding-right:0px;">
+                                    <div class="th35" style="margin: auto;">진열수</div>
+                                </th>
+                            </tr>
+                        </table>
+                        <ion-scroll direction="y" id="scrollA_POGManagement" delegate-handle="POGManagementHandle" ng-style="{'height':scrollHeight}">
+                            <table>
+                                <!--<tr ng-repeat="row in tblData">
+                                    <td class="width50" ng-if="row.zcol != ''">{{row.zcol}} / {{row.zrow}}</td>
+                                    <td class="width50" ng-if="row.zcol == ''"></td>
+                                    <td class="width40">{{row.zseq}}</td>
+                                    <td class="maxWidth8em">{{row.matnr}}</td>
+                                    <td class="maxWidth8em">{{row.maktx}}</td>
+                                    <td class="width50">{{row.horiz | number}}</td>
+                                </tr>-->
+                                <tr ng-repeat="row in tblData">
+                                    <td class="width15P" ng-if="row.zcol != ''" style="padding-left:0px; padding-right:0px;">{{row.zcol}}/{{row.zrow}}</td>
+                                    <td class="width15P" ng-if="row.zcol == ''" style="padding-left:0px; padding-right:0px;"></td>
+                                    <td class="width10P" style="padding-left:0px; padding-right:0px;">{{row.zseq}}</td>
+                                    <td class="width30P" style="padding-left:0px; padding-right:0px; word-break:break-all;">{{row.matnr}}</td>
+                                    <td class="width30P maxWidth8em" style="word-break:break-all;">{{row.maktx}}</td>
+                                    <td class="width10P">{{row.horiz | number}}</td>
+                                </tr>
+                            </table>
+                        </ion-scroll>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,10 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('FloorAreaService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/floorarea?werks=:werks&floor=:floor', {
+        werks: '@werks',
+        floor: '@floor'
+    });
+})

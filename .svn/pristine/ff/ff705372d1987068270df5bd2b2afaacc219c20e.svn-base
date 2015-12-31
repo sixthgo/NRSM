@@ -1,0 +1,20 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+.factory('AccumulateSalesService', function ($resource, webServerUrl) {
+    return $resource(webServerUrl + '/api/accumulatesales?gubun=:gubun&' +
+        'plantCode=:plantCode&yearMonth=:yearMonth&categoryUnit=:categoryUnit&' +
+        'purchaseGroup=:purchaseGroup&brandCode=:brandCode&personNumber=:personNumber', {
+        gubun: '@gubun',
+        plantCode: '@plantCode',
+        yearMonth: '@yearMonth',
+        categoryUnit: '@categoryUnit',
+        purchaseGroup: '@purchaseGroup',
+        brandCode: '@brandCode',
+        personNumber: '@personNumber'
+        //id: '@id'
+    }, {
+        'query': { isArray: false }
+    })
+})

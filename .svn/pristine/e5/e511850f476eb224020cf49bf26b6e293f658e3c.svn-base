@@ -1,0 +1,276 @@
+﻿controllerModule.controller('EIMSInformationCtrl', function ($scope,
+                                                             $stateParams,
+                                                             $q,
+                                                             $state,
+                                                             $ionicLoading,
+                                                             PopupService,
+                                                             EIMSInformationService,
+                                                             $ionicPopup,
+                                                             PlantService, $timeout,$ionicPosition,
+                                                             $cordovaDatePicker, UtilService) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM008';
+    $scope.base.SetMenu($scope.base.menuId);
+
+
+    $scope.data = {};
+
+    $scope.storePopup = {};
+    $scope.storePopup.selectedStore = { plantCode: '-1', plantName: '전지점' };
+    $scope.storePopup.selectedStoreTemp = null;
+
+    $scope.favorite.support = true; // support favorite feature in this view
+    $scope.favoriteKeyA = "PlantA";
+
+    $scope.style.showCalendarButton = 'none'; // default valus is 'none'
+    $scope.style.showReloadButton = 'inline'; // default value is 'inline'
+
+    $scope.requireScrollHeight = true;
+    $scope.isRload = false;
+
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+        defer.resolve();
+
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        $scope.InitData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'EIMSInformationCtrl';
+    }
+
+    $scope.InitData = function () {
+
+        $scope.data.date = UtilService.FormatDate(new Date());
+
+        //$scope.data.date = "2015-07-27";  //test
+
+        // if exists favorite key, set each value by key
+        if ($scope.favorite.support == true && $scope.favorite.selected != null)
+            $scope.SetControlsByFavorite();
+
+        $q.all({
+            execA: $scope.GetEIMSInformationtList()
+        })
+        .then(
+        function (results) {
+            $scope.debug.Log('InitData()');
+        }
+        , function (error) {
+            $scope.debug.Log('$q error');
+        });
+    }
+
+    $scope.GetEIMSInformationtList=function(){
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        var defer = $q.defer();
+          EIMSInformationService.query({
+              PLANT:$scope.storePopup.selectedStore.plantCode == "-1"?"": $scope.storePopup.selectedStore.plantCode,
+              BUDAT:$scope.data.date.replace(/-/g,"")
+          }, function (data) {
+
+              $scope.EIMSInformationList = data;
+
+              //for(var i= 0; i < 30; i++) {
+              //
+              //    var item = {};
+              //
+              //    if (i < 4) {
+              //        item = {type: data[i].type,
+              //            thisYear: data[i].thisYear,
+              //            previousYear: data[i].previousYear,
+              //            growthRate: data[i].growthRate,
+              //            pPreviousYear: data[i].pPreviousYear,ppPreviousYear: data[i].ppPreviousYear};
+              //    }
+              //    else {
+              //        item = {type: data[0].type,
+              //            thisYear: data[0].thisYear,
+              //            previousYear: data[0].previousYear,
+              //            growthRate: data[0].growthRate,
+              //            pPreviousYear: data[0].pPreviousYear,ppPreviousYear: data[0].ppPreviousYear};
+              //    }
+              //
+              //
+              //
+              //    $scope.EIMSInformationList.push(item);
+              //}
+
+              if (!$scope.isRload){
+                  $timeout(SetSwiper, 500);
+              }
+
+              $ionicLoading.hide();
+              defer.resolve();
+          }, function (error) {
+              //$scope.EIMSInformationList = null;
+              $ionicLoading.hide();
+              defer.reject(error);
+        });
+
+        return defer.promise;
+  }
+
+    $scope.Init();
+
+    $scope.base.Reload = function () {
+
+        $scope.isRload = true;
+        $scope.EIMSInformationList = null;
+
+        $scope.Init();
+    }
+
+    $scope.SetControlsByFavorite = function () {
+
+        // add code each view
+        ////$scope.data.plantId = $scope.base.GetFavoriteValue($scope.favoriteKeyA); // PlantA
+        ////$scope.data.PC = $scope.base.GetFavoriteValue($scope.favoriteKeyB); // PCA
+        var favoriteA = $scope.base.GetFavoriteValue($scope.favoriteKeyA); // PlantA
+
+        PlantService.query({
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $ionicLoading.hide();
+            //$scope.debug.Log('GetStore.get().success');
+            $scope.data.stores = data;
+
+            for (var i = 0; i < $scope.data.stores.length; i++) {
+                if (favoriteA == $scope.data.stores[i].plantCode) {
+                    $scope.storePopup.selectedStoreTemp = $scope.data.stores[i];
+                    $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+                    break;
+                }
+            }
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+        });
+
+        // mandatory function call, clear current favorite data
+        $scope.base.ClearCurrentFavorite();
+    }
+
+    $scope.showShopPop = function() {
+        var name = ($scope.storePopup.selectedStore == null) ? '' : $scope.storePopup.selectedStore.plantName;
+        // new!!
+        $scope.param = {};
+        $scope.param.subTitle = name;
+
+        var url = 'templates/storePopup.html';
+        $ionicPopup.show({
+            templateUrl: url,
+            ////title: '지점 선택',
+            ////subTitle: '현재 선택한 지점 ' + name,
+            ////cssClass: 'storePopup',
+            cssClass: 'storePopupNew', // new!!
+            scope: $scope,
+            buttons: [{
+                text: '취소',
+                onTap: function (e) {
+                    return false;
+                }
+            }, {
+                text: '확인',
+                ////type: 'button-positive', // new!!
+                onTap: function (e) {
+                    return true;
+                }
+            }]
+        }).then(function (result) {
+            if (result == true) {
+                $scope.storePopup.selectedStore = angular.copy($scope.storePopup.selectedStoreTemp);
+                $scope.GetEIMSInformationtList();
+            }
+            else {
+                $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+            }
+        });
+
+    }
+
+    $scope.OpenDatePick = function () {
+        var options = {
+            date: new Date(),
+            mode: 'date', // or 'time'
+            minDate: new Date() -  10 * 365 * 24 * 60 * 60 * 1000,
+            //allowOldDates: true,
+            //allowFutureDates: true,
+            doneButtonLabel: 'DONE',
+            doneButtonColor: '#ddd',
+            cancelButtonLabel: 'CANCEL',
+            cancelButtonColor: '#000000'
+        };
+
+        $cordovaDatePicker.show(options).then(function(date){
+
+            var selectedDate;
+
+            if (date == undefined || date == null) {
+                selectedDate = new Date();
+            }
+            else {
+                selectedDate = new Date(date);
+            }
+
+            $scope.data.date = UtilService.FormatDate(selectedDate);
+
+            $scope.GetEIMSInformationtList();
+        });
+    }
+
+    $scope.CallbackConfirm = function () {
+    }
+
+    $scope.CallbackCancel = function () {
+    }
+
+    $scope.changeCheckStatu = function () {
+        //alert($("input:checked ~ .radio-icon").size());
+        $("input:checked ~ .radio-icon").css("visibility", "visible")
+        $("input:not(:checked) ~ .radio-icon").css("visibility", "hidden")
+    }
+
+    var SetSwiper = function () {
+        $scope.base.swiper();
+
+        var interpolateHeight = 32; // default for iOS
+        var isAndroid = ionic.Platform.isAndroid();
+        if (isAndroid)
+            interpolateHeight = 10; // for android
+
+        if ($scope.requireScrollHeight == true) {
+            var obj = angular.element('#scrollA');
+            var position = $ionicPosition.position(obj);
+
+            console.log(position.height);
+
+            $scope.newHeightA = position.height - interpolateHeight;
+
+            $scope.requireScrollHeight = false;
+        }
+    }
+});

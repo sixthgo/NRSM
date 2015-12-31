@@ -1,0 +1,55 @@
+﻿controllerModule.controller('POGPopupCtrl', function ($scope, $state, $stateParams, $q, $timeout, $ionicLoading, PlantService, UtilService) {
+
+    $scope.data = {};
+    $scope.data.stores = [];
+
+    $scope.Init = function () {
+        $scope.SetLocalWord();
+        $scope.debug.Log('POGPopupCtrl.Init()');
+        $scope.GetCategory();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.storePop = {};
+        //$scope.word.storePop.title = '지점 선택';
+        // $scope.word.test = $scope.word.testSentence;
+    }
+
+    $scope.OnChange = function (item) {
+        //$scope.storePopup.selectedStoreTemp = angular.copy(item);
+        //$scope.storePopup.selectedStoreTemp = item;
+    }
+
+    $scope.GetCategory = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        ////PlantService.query({
+        ////    loginId: $scope.user.loginId
+        ////}, function (data) {
+        ////    $ionicLoading.hide();
+        ////    $scope.debug.Log('GetStore.get().success');
+            
+        ////    $scope.data.stores = data;
+
+        ////    if ($scope.storePopup.selectedStore != null) {
+        ////        $scope.storePopup.selectedStoreTemp = angular.copy($scope.storePopup.selectedStore);
+        ////        for (var i = 0; i < $scope.data.stores.length; i++) {
+        ////            if ($scope.storePopup.selectedStoreTemp.plantCode == $scope.data.stores[i].plantCode) {
+        ////                $scope.storePopup.selectedStoreTemp = $scope.data.stores[i];
+        ////                return;
+        ////            }
+        ////        }
+        ////    }
+
+        ////}, function (error) {
+        ////    $ionicLoading.hide();
+        ////    $scope.debug.Log(error);
+                        
+        ////});
+    }
+
+    $scope.Init();
+});

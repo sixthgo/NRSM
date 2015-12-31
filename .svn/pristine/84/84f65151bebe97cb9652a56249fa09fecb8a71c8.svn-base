@@ -1,0 +1,49 @@
+﻿'use strict';
+
+angular.module('starter.services')
+
+    .factory('PopupService', ['$ionicPopup', 'ngDialog', '$ionicModal', function ($ionicPopup, ngDialog, $ionicModal) {
+        
+        return {
+
+            OpenPopupAlert: function (title, template, callback) {
+
+                var alert = $ionicPopup.alert({
+                    title: title,
+                    template: template
+                });
+
+                alert.then(function (result) {
+                    if (angular.isFunction(callback) == true)
+                        callback();
+                });
+            },
+
+            OpenPopupConfirm: function (title, template, callbackConfirm, callbackCancel) {
+                var confirm = $ionicPopup.confirm({
+                    title: title,
+                    template: template
+                });
+
+                confirm.then(function (result) {
+                    if (result) { // OK
+                        if (angular.isFunction(callbackConfirm) == true) {
+                            callbackConfirm();
+                        }
+                    }
+                    else {
+                        if (angular.isFunction(callbackCancel) == true) {
+                            callbackCancel();
+                        }
+                    }
+                });
+            },
+
+            OpenPopup: function (templateUrl, scope) {
+                ngDialog.open({
+                    template: templateUrl,
+                    scope: scope
+                });
+            }
+        }
+    }])

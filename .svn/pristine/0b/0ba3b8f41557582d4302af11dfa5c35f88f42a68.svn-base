@@ -1,0 +1,71 @@
+﻿cortrollerModule.controller('ProductInformationCtrl', function ($scope, $stateParams, PopupService) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM006';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+
+    $scope.Init = function () {
+
+        $scope.debug.Log('ProductInformationCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        // set local word
+        $scope.SetLocalWord();
+
+        $scope.base.barCode006 = null;
+
+        $scope.data.shopCode = null;
+        $scope.data.saleType = "";
+        $scope.data.flag = 0;
+
+        switch ($scope.data.flag) {
+            case 0:
+                $scope.data.saleTypeClass = { background: 'blue'};
+                console.log($scope.word.normalPrice);
+                $scope.data.saleType = $scope.word.normalPrice;
+                break;
+            case 1:
+                $scope.data.saleTypeClass = { background: '#158f54'};
+                $scope.data.saleType = $scope.word.activiting;
+                break;
+            case 2:
+                $scope.data.saleTypeClass = { background: 'red'};
+                $scope.data.saleType = $scope.word.terminalt;
+                break;
+            default :
+                $scope.data.saleTypeClass = { background: 'blue'};
+                $scope.data.saleType = $scope.word.normalPrice;
+                break;
+        }
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'ProductInformationCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.SearchProductInform = function() {
+        var barCode = $scope.base.barCode006;
+        var shopCode =  $scope.data.shopCode;
+
+        if(shopCode == null || shopCode.length == 0) {
+            PopupService.OpenPopupAlert("分店Code不能为空.");
+            return;
+        }
+
+        if(barCode == null || barCode.length == 0) {
+            PopupService.OpenPopupAlert("商品Code不能为空.");
+            return;
+        }
+    }
+});

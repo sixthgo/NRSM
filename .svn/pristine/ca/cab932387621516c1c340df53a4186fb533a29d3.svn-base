@@ -1,0 +1,150 @@
+﻿cortrollerModule.controller('RealStockControlCtrl', function ($scope, $stateParams, ManageRealInventoryInService, PopupService, $ionicLoading, $q) {
+
+    $scope.base.categoryId = 'hyper';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM015';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        var defer = $q.defer();
+
+        defer.promise
+            .then($scope.base.GetUserMenu)
+            .then($scope.base.HasMenu)
+            .then($scope.PostProcessing);
+
+        defer.resolve();
+
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+
+        $scope.debug.Log('RealStockControlCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+    }
+
+    $scope.PostProcessing = function (isAuthenticate) {
+
+        if (isAuthenticate == false) {
+            PopupService.OpenPopupAlert('Warning', 'No have permission', $scope.GoHome);
+            return;
+        }
+        // set local word
+        $scope.SetLocalWord();
+        //
+        $scope.InitData();
+    }
+
+    $scope.GoHome = function () {
+        ////$ionicHistory.clearCache();
+        $state.go('app.home');
+    }
+
+    $scope.CatchException = function (error) {
+        // optional hide loading image
+        $ionicLoading.hide();
+        $scope.debug.Log('CatchException');
+    }
+
+    $scope.InitData = function () {
+        $scope.data.plantCode = 8206;
+        $scope.base.barCode015 = 8809249375038;
+        $scope.data.salePriceInfor = "";
+        $scope.data.nowStock = 0;
+        $scope.data.realStock = 0;
+        //$scope.data.mode = "R";
+        $scope.data.uname = "MOBILEUSER";
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'RealStockControlCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.SearchRealStock = function () {
+        var barCode = $scope.base.barCode015;
+        var plantCode =  $scope.data.plantCode;
+
+        if(plantCode == null || plantCode.length == 0) {
+            PopupService.OpenPopupAlert("Plant Code不能为空.");
+            return;
+        }
+
+        if(barCode == null || barCode.length == 0) {
+            PopupService.OpenPopupAlert("商品Code不能为空.");
+            return;
+        }
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        ManageRealInventoryInService.searchRealStockInfo({
+            lbst: $scope.data.nowStock,
+            matrn: $scope.base.barCode015,
+            mode: "R",
+            rlabst: $scope.data.realStock,
+            uname: $scope.data.uname,
+            werks: $scope.data.plantCode
+        }, function (data){
+            $scope.debug.Log('GetUserFavorite.query().success');
+
+            $scope.data.nowStock = data.labst;
+            $scope.data.barCode015 = data.matnr;
+            $scope.data.realStock = data.rlabst;
+            $scope.data.plantCode = data.werks;
+            $scope.data.salePriceInfor = data.maktx;
+
+            $ionicLoading.hide();
+        }, function (error){
+            $ionicLoading.hide();
+        });
+    }
+
+    $scope.AutoSearchRealStock = function () {
+        if($scope.base.barCode015 != null && $scope.base.barCode015.length >=12 ){
+            $scope.SearchRealStock();
+        }
+    }
+
+    $scope.UpdateRealStock = function () {
+        ManageRealInventoryInService.updateRealStock({
+            lbst: $scope.data.nowStock,
+            matrn: $scope.base.barCode015,
+            mode: "U",
+            rlabst: $scope.data.realStock,
+            uname: $scope.data.uname,
+            werks: $scope.data.plantCode
+        }, function (data){
+            $scope.debug.Log('GetUserFavorite.query().success');
+
+            if(data.flag == "S") {
+                PopupService.OpenPopupAlert("Update Success.");
+            }
+
+            //$scope.data.nowStock = data.labst;
+            //$scope.data.barCode015 = data.matnr;
+            //$scope.data.realStock = data.rlabst;
+            //$scope.data.plantCode = data.werks;
+            //$scope.data.salePriceInfor = data.maktx;
+
+            $ionicLoading.hide();
+        }, function (error){
+            $ionicLoading.hide();
+        });
+    }
+});

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://eland.co.kr/KRERP/SD" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:n1="http://sap.com/xi/SAPGlobal/Global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" targetNamespace="http://eland.co.kr/KRERP/SD" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <sidl:sidl xmlns:sidl="http://www.sap.com/2007/03/sidl" />
+  </wsdl:documentation>
+  <wsp:UsingPolicy wsdl:required="true" />
+  <wsp:Policy wsu:Id="BN_ZMANAGESPACEPROFITIN_BINDING">
+    <wsaw:UsingAddressing xmlns:wsaw="http://schemas.xmlsoap.org/ws/2004/08/addressing" />
+    <saptrnbnd:OptimizedXMLTransfer uri="http://xml.sap.com/2006/11/esi/esp/binxml" xmlns:saptrnbnd="http://www.sap.com/webas/710/soap/features/transportbinding/" wsp:Optional="true" />
+    <sapattahnd:Enabled xmlns:sapattahnd="http://www.sap.com/710/features/attachment/">false</sapattahnd:Enabled>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility">
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sp:HttpBasicAuthentication />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+      <wsp:All>
+        <sp:TransportBinding>
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy>
+                    <sapsp:HTTPSSO2 />
+                  </wsp:Policy>
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="IF_ManageSpaceProfitIn">
+    <sapsession:Session xmlns:sapsession="http://www.sap.com/webas/630/soap/features/session/">
+      <sapsession:enableSession>false</sapsession:enableSession>
+    </sapsession:Session>
+    <wsp:ExactlyOne xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:sapsp="http://www.sap.com/webas/630/soap/features/security/policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" />
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="OP_SpaceProfitByCurrentIDQueryResponse_In">
+    <sapcomhnd:enableCommit xmlns:sapcomhnd="http://www.sap.com/NW05/soap/features/commit/">false</sapcomhnd:enableCommit>
+    <sapblock:enableBlocking xmlns:sapblock="http://www.sap.com/NW05/soap/features/blocking/">true</sapblock:enableBlocking>
+    <saptrhnw05:required xmlns:saptrhnw05="http://www.sap.com/NW05/soap/features/transaction/">no</saptrhnw05:required>
+    <saprmnw05:enableWSRM xmlns:saprmnw05="http://www.sap.com/NW05/soap/features/wsrm/">false</saprmnw05:enableWSRM>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema xmlns="http://eland.co.kr/KRERP/SD" xmlns:xi0="http://eland.co.kr/KRERP/SD" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://eland.co.kr/KRERP/SD">
+      <xsd:simpleType name="Area">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="6" />
+          <xsd:fractionDigits value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="ExchangeFaultData">
+        <xsd:sequence>
+          <xsd:element name="faultText" type="xsd:string" />
+          <xsd:element minOccurs="0" name="faultUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="faultDetail" type="xi0:ExchangeLogData" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ExchangeLogData">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="severity" type="xsd:string" />
+          <xsd:element name="text" type="xsd:string" />
+          <xsd:element minOccurs="0" name="url" type="xsd:string" />
+          <xsd:element minOccurs="0" name="id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="Gubun">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LayoutCode">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PlantCode2">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RESULT">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="1" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ResultMessage">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Text</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="220" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SpaceProfit">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="EN">
+            <ccts:RepresentationTerm>Numeric</ccts:RepresentationTerm>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+          <xsd:totalDigits value="18" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="SpaceProfitByCurrentIDQueryMessage_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="PlantCode" type="xi0:PlantCode2" />
+          <xsd:element minOccurs="0" name="LayoutCode" type="xi0:LayoutCode" />
+          <xsd:element minOccurs="0" name="Gubun" type="xi0:Gubun" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SpaceProfitByCurrentIDResponseMessage_sync">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Result" type="xi0:RESULT" />
+          <xsd:element minOccurs="0" name="ResultMessage" type="xi0:ResultMessage" />
+          <xsd:element minOccurs="0" name="Area" type="xi0:Area" />
+          <xsd:element minOccurs="0" name="SpaceProfit" type="xi0:SpaceProfit" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="SpaceProfitByCurrentIDQuery_sync" type="xi0:SpaceProfitByCurrentIDQueryMessage_sync" />
+      <xsd:element name="SpaceProfitByCurrentIDResponse_sync" type="xi0:SpaceProfitByCurrentIDResponseMessage_sync" />
+    </xsd:schema>
+    <xsd:schema xmlns="http://sap.com/xi/SAPGlobal/Global" xmlns:xi0="http://eland.co.kr/KRERP/SD" xmlns:xi1="http://sap.com/xi/SAPGlobal/Global" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3.0" targetNamespace="http://sap.com/xi/SAPGlobal/Global">
+      <xsd:import namespace="http://eland.co.kr/KRERP/SD" />
+      <xsd:element name="StandardMessageFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="standard" type="xi0:ExchangeFaultData" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SpaceProfitByCurrentIDQuery_sync">
+    <wsdl:part name="SpaceProfitByCurrentIDQuery_sync" element="tns:SpaceProfitByCurrentIDQuery_sync" />
+  </wsdl:message>
+  <wsdl:message name="SpaceProfitByCurrentIDResponse_sync">
+    <wsdl:part name="SpaceProfitByCurrentIDResponse_sync" element="tns:SpaceProfitByCurrentIDResponse_sync" />
+  </wsdl:message>
+  <wsdl:message name="StandardMessageFault">
+    <wsdl:part name="StandardMessageFault" element="n1:StandardMessageFault" />
+  </wsdl:message>
+  <wsdl:portType name="ManageSpaceProfitIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#IF_ManageSpaceProfitIn" />
+    </wsp:Policy>
+    <wsdl:operation name="SpaceProfitByCurrentIDQueryResponse_In">
+      <wsp:Policy>
+        <wsp:PolicyReference URI="#OP_SpaceProfitByCurrentIDQueryResponse_In" />
+      </wsp:Policy>
+      <wsdl:input message="tns:SpaceProfitByCurrentIDQuery_sync" />
+      <wsdl:output message="tns:SpaceProfitByCurrentIDResponse_sync" />
+      <wsdl:fault name="StandardMessageFault" message="tns:StandardMessageFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZMANAGESPACEPROFITIN_BINDING" type="tns:ManageSpaceProfitIn">
+    <wsp:Policy>
+      <wsp:PolicyReference URI="#BN_ZMANAGESPACEPROFITIN_BINDING" />
+    </wsp:Policy>
+    <wsa:EndpointReference xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+      <wsa:ReferenceParameters />
+    </wsa:EndpointReference>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SpaceProfitByCurrentIDQueryResponse_In">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="StandardMessageFault">
+        <soap:fault use="literal" name="StandardMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZMANAGESPACEPROFITIN">
+    <wsdl:port name="ZMANAGESPACEPROFITIN_BINDING" binding="tns:ZMANAGESPACEPROFITIN_BINDING">
+      <soap:address location="http://FASERPDB11.home.e-kmall.com:8004/sap/bc/srt/xip/sap/zmanagespaceprofitin/100/zmanagespaceprofitin/zmanagespaceprofitin_binding" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

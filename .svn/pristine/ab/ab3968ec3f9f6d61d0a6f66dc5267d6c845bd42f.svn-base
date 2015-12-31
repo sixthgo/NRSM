@@ -1,0 +1,69 @@
+﻿cortrollerModule.controller('SalesProjectionsCtrl', function ($scope, $stateParams, $ionicScrollDelegate) {
+
+    $scope.base.categoryId = 'common';
+    $scope.base.SetCategory($scope.base.categoryId);
+
+    $scope.base.menuId = 'NRSM009';
+    $scope.base.SetMenu($scope.base.menuId);
+
+    $scope.data = {};
+    
+    $scope.Init = function () {
+
+        $scope.debug.Log('SalesProjectionsCtrl.Init();');
+
+        if ($scope.base.HasAuthentication() == false) {
+            // [ing] alert message and move home
+            $state.go('app.home');
+            return;
+        }
+
+        $scope.data.isActive = 'leftA';
+
+        // set local word
+        $scope.SetLocalWord();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.title = 'SalesProjectionsCtrl';
+    }
+
+    $scope.Init();
+
+    $scope.setActive = function (activeWhere) {
+        //$scope.data.isActive = activeWhere;
+
+        var header = document.getElementsByTagName('body')[0];
+        var handle = $ionicScrollDelegate.$getByHandle('saleScroll');
+
+        if (activeWhere == "leftA") {
+            handle.scrollTo(0, 0, true);
+        }
+        else {
+            handle.scrollTo(header.clientWidth, 0, true);
+        }
+
+        handle.resize();
+    }
+
+    $scope.scrolling = function () {
+
+        var header = document.getElementsByTagName('body')[0];
+        var handler = $ionicScrollDelegate.$getByHandle('saleScroll');
+
+        var position = handler.getScrollPosition();
+
+        //console.log('left:' + position.left);
+        //console.log('header:' + header.clientWidth/2);
+
+        if(position.left > (header.clientWidth/2)) {
+            $scope.data.isActive = 'leftB';
+        }
+        else {
+            $scope.data.isActive = 'leftA';
+        }
+
+        handler.freezeScroll(false);
+        $scope.$apply();
+    }
+});

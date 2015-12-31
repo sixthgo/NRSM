@@ -1,0 +1,37 @@
+<ion-view view-title="Home">
+    <ion-content>
+            <h2>{{word.common}}</h2>
+            <div>
+                <a ui-sref="app.common.floorplanSalesSearch">GO Floorplan Sales</a>
+            </div>
+            <div>
+                <a ui-sref="app.common.floorplanRecordSearch">GO Floorplan Record</a>
+            </div>
+
+            <h2>{{word.manager}}</h2>
+            <div>
+                <a ui-sref="app.managerReport.reportStore">GO reportStore</a>
+            </div>
+            <div>
+                <a ui-sref="app.managerReport.reportCu">GO reportCu</a>
+            </div>
+
+            <h2>{{word.hyper}}</h2>
+            <div>
+                <a ui-sref="app.hyper.sample">GO sample</a>
+            </div>
+
+            <h2>{{word.product}}</h2>
+            <div>
+                <a ui-sref="app.product.productInformation">GO Product Information</a>
+            </div>
+            <div>
+                <a ui-sref="app.product.productDetail">GO Product Detail</a>
+            </div>
+            <div>
+                <button class="button button-dark" ng-click="showPopup()">
+                    show
+                </button>
+            </div>
+    </ion-content>
+</ion-view>

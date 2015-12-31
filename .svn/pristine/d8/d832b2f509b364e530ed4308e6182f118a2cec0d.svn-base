@@ -1,0 +1,121 @@
+﻿<ion-view view-title="{{word.saleProjections}}">
+    <ion-content class="has-footer">
+        <div id="container" class="green">
+            <ul class="select">
+                <li class="store"><span>지점선택</span></li>
+                <li><span>예측유형</span></li>
+                <li><span>조회일자</span></li>
+                <li><span>비교일자</span></li>
+            </ul>
+
+            <form class="mt_12">
+                <p class="btn_border btn_search btn_color">
+                    <a href="#none"><img src="img/nrsm/icon_search_green.png" alt="조회" />&nbsp;&nbsp;조회</a>
+                </p>
+            </form>
+
+            <ul class="tab bdt swiper-pagination swiper-pagination-clickable">
+            <li class="swiper-pagination-bullet swiper-pagination-bullet-active">시간대 실적</li>
+            <li class="swiper-pagination-bullet">마감실적 예상</li>
+            </ul>
+
+            <div id="table" class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th width="19%">구분</th>
+                                <th width="28%">조회일 누적 매출</th>
+                                <th width="28%">비교일 누적 실적</th>
+                                <th width="25%">성장율</th>
+                            </tr>
+                            <tr class="highlight">
+                                <td>합계</td>
+                                <td>100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td><span class="red">-100%</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <table>
+                            <tr>
+                                <th width="19%">구분</th>
+                                <th width="28%">조회일 누적 매출</th>
+                                <th width="28%">비교일 누적 실적</th>
+                                <th width="25%">성장율</th>
+                            </tr>
+                            <tr class="highlight">
+                                <td>합계</td>
+                                <td>100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td><span class="red">-100%</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="highlight">100</td>
+                                <td>100</td>
+                                <td>100%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

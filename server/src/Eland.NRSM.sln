@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eland.NRSM.Web", "main\Eland.NRSM.Web\Eland.NRSM.Web.csproj", "{65DD43BD-A110-4806-AF77-4FE4A4D876D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Web", "3. Web", "{6E323A47-390B-4DE1-A893-AAC0DDD9A763}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{D0C8926D-BD49-4C7B-B6E2-7D6BF16D49FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Service", "2. Service", "{99A00893-34D4-4373-AFE2-E69CDEEF3611}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eland.NRSM.Core", "main\Eland.NRSM.Core\Eland.NRSM.Core.csproj", "{78E4023E-A000-4730-BFD8-575FBB3EA4BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eland.NRSM.Template", "main\Eland.NRSM.Template\Eland.NRSM.Template.csproj", "{1CB7604B-1801-4D57-89B8-2A78DDC74A80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eland.NRSM.Ap", "main\Eland.NRSM.Ap\Eland.NRSM.Ap.csproj", "{BC3E1FDC-C59C-4D31-BD45-96EABC7B0F5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65DD43BD-A110-4806-AF77-4FE4A4D876D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65DD43BD-A110-4806-AF77-4FE4A4D876D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65DD43BD-A110-4806-AF77-4FE4A4D876D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65DD43BD-A110-4806-AF77-4FE4A4D876D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E4023E-A000-4730-BFD8-575FBB3EA4BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E4023E-A000-4730-BFD8-575FBB3EA4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E4023E-A000-4730-BFD8-575FBB3EA4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E4023E-A000-4730-BFD8-575FBB3EA4BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CB7604B-1801-4D57-89B8-2A78DDC74A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CB7604B-1801-4D57-89B8-2A78DDC74A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CB7604B-1801-4D57-89B8-2A78DDC74A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CB7604B-1801-4D57-89B8-2A78DDC74A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC3E1FDC-C59C-4D31-BD45-96EABC7B0F5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC3E1FDC-C59C-4D31-BD45-96EABC7B0F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC3E1FDC-C59C-4D31-BD45-96EABC7B0F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC3E1FDC-C59C-4D31-BD45-96EABC7B0F5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65DD43BD-A110-4806-AF77-4FE4A4D876D3} = {6E323A47-390B-4DE1-A893-AAC0DDD9A763}
+		{78E4023E-A000-4730-BFD8-575FBB3EA4BF} = {D0C8926D-BD49-4C7B-B6E2-7D6BF16D49FD}
+		{1CB7604B-1801-4D57-89B8-2A78DDC74A80} = {99A00893-34D4-4373-AFE2-E69CDEEF3611}
+		{BC3E1FDC-C59C-4D31-BD45-96EABC7B0F5D} = {6E323A47-390B-4DE1-A893-AAC0DDD9A763}
+	EndGlobalSection
+EndGlobal

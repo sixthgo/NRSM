@@ -1,0 +1,89 @@
+﻿
+controllerModule.controller('FloorPlanSalesPopupCtrl', function ($scope, $stateParams, $ionicLoading, StoreFloorService) {
+    $scope.storeNfloors = [];
+    
+    $scope.Init = function () {
+        $scope.SetLocalWord();
+        $scope.debug.Log('FloorPlanSalesPopupCtrl.Init();');
+
+        $scope.GetSearchConditions();
+    }
+
+    $scope.SetLocalWord = function () {
+        //$scope.word.title = 'FloorPlanSalesPopupCtrl';
+    }
+
+    $scope.GetSearchConditions = function () {
+
+        var werks = null;
+        var floor = null;
+
+        if ($scope.popup.werks.sectionCode == null)
+            werks = "-";
+        else
+            werks = $scope.popup.werks.sectionCode;
+
+        if ($scope.popup.floor.code == null)
+            floor = "-";
+        else
+            floor = $scope.popup.floor.code;
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        StoreFloorService.query({
+            menu: '도면기준 매출조회',
+            werks: werks,
+            floor: floor,
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.storeNfloors = data;
+
+            if ($scope.popup.selectedRequest.storeNfloor != null) {
+                for (var i = 0; i < $scope.storeNfloors.length; i++) {
+                    if ($scope.popup.selectedRequest.storeNfloor.sectionCode == $scope.storeNfloors[i].sectionCode) {
+                        ////$scope.popup.selectedRequest.storeNfloor = angular.copy($scope.storeNfloors[i]);
+                        $scope.popup.selectedRequest.storeNfloor = $scope.storeNfloors[i];
+
+                        for (var j = 0; j < $scope.popup.selectedRequest.storeNfloor.floors.length; j++) {
+                            if ($scope.popup.selectedRequest.floor.code == $scope.popup.selectedRequest.storeNfloor.floors[j].code) {
+                                $scope.popup.selectedRequest.floor = $scope.popup.selectedRequest.storeNfloor.floors[j];
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }, function (error) {
+            $ionicLoading.hide();
+            console.log(error);
+        });
+    };
+
+    $scope.Init();
+
+    $scope.SelectStoreAction = function () {
+        console.log('SelectStoreAction()');
+        
+        if ($scope.popup.selectedRequest.storeNfloor) {
+            ////$scope.popup.werks = $scope.popup.selectedRequest.storeNfloor.sectionCode;
+            $scope.popup.werks.sectionCode = $scope.popup.selectedRequest.storeNfloor.sectionCode;
+            $scope.popup.werks.sectionName = $scope.popup.selectedRequest.storeNfloor.sectionName;
+            //$scope.popup.selectedRequest.floor = null;
+        }
+        else {
+            ////$scope.popup.selectedRequest.storeNfloor = null;
+            //$scope.popup.selectedRequest.floor = null;
+        }
+    };
+
+    $scope.SelectFloorAction = function () {
+
+        if ($scope.popup.selectedRequest.floor) {
+            ////$scope.popup.floor = $scope.popup.selectedRequest.floor.code;
+            $scope.popup.floor.code = $scope.popup.selectedRequest.floor.code;
+            $scope.popup.floor.name = $scope.popup.selectedRequest.floor.name;
+        }
+    };
+});

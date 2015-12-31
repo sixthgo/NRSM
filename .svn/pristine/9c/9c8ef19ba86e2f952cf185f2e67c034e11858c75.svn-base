@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+
+ 
+    <system.serviceModel>
+        <bindings>
+            <customBinding>
+                <binding name="ZQUERYMATERIALPRICEINFO_BINDING">
+                    <textMessageEncoding messageVersion="Soap11" />
+                    <httpsTransport authenticationScheme="Basic" />
+                </binding>
+                <binding name="ZQUERYUSERAUTHIN_BINDING">
+                    <textMessageEncoding messageVersion="Soap11" />
+                    <httpsTransport authenticationScheme="Basic" />
+                </binding>
+                <binding name="ZMANAGEREALINVENTORYIN_BINDING">
+                    <textMessageEncoding messageVersion="Soap11" />
+                    <httpsTransport authenticationScheme="Basic" />
+                </binding>
+                <binding name="ZMANAGEMANUALORDERIN_BINDING">
+                    <textMessageEncoding messageVersion="Soap11" />
+                    <httpsTransport authenticationScheme="Basic" />
+                </binding>
+                <binding name="ZQUERYDAILYSALEPREDICTIONIN_BINDING">
+                    <textMessageEncoding messageVersion="Soap11" />
+                    <httpsTransport authenticationScheme="Basic" />
+                </binding>
+            </customBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerymaterialpriceinfo/100/zquerymaterialpriceinfo/zquerymaterialpriceinfo_binding"
+                binding="customBinding" bindingConfiguration="ZQUERYMATERIALPRICEINFO_BINDING"
+                contract="ZQUERYMATERIALPRICEINFO.QueryMaterialPriceInfo"
+                name="ZQUERYMATERIALPRICEINFO_BINDING" />
+            <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zqueryuserauthin/100/zqueryuserauthin/zqueryuserauthin_binding"
+                binding="customBinding" bindingConfiguration="ZQUERYUSERAUTHIN_BINDING"
+                contract="ZQUERYUSERAUTHIN.QueryUserAuthIn" name="ZQUERYUSERAUTHIN_BINDING" />
+            <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagerealinventoryin/100/zmanagerealinventoryin/zmanagerealinventoryin_binding"
+                binding="customBinding" bindingConfiguration="ZMANAGEREALINVENTORYIN_BINDING"
+                contract="MANAGEREALINVENTORYIN.ManageRealInventoryIn" name="ZMANAGEREALINVENTORYIN_BINDING" />
+            <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zmanagemanualorderin/100/zmanagemanualorderin/zmanagemanualorderin_binding"
+                binding="customBinding" bindingConfiguration="ZMANAGEMANUALORDERIN_BINDING"
+                contract="MANAGEMANUALORDERIN.ManageManualOrderIn" name="ZMANAGEMANUALORDERIN_BINDING" />
+            <endpoint address="http://KRSRQASDB01.home.e-kmall.com:8000/sap/bc/srt/xip/sap/zquerydailysalepredictionin/100/zquerydailysalepredictionin/zquerydailysalepredictionin_binding"
+                binding="customBinding" bindingConfiguration="ZQUERYDAILYSALEPREDICTIONIN_BINDING"
+                contract="QUERYDAILYSALEPREDICTIONIN.QueryDailySalePredictionIn"
+                name="ZQUERYDAILYSALEPREDICTIONIN_BINDING" />
+        </client>
+    </system.serviceModel>
+</configuration>

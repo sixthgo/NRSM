@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.OperationInProgram>
+<table id="ProgramTable" class="table table-bordered zebra-striped dataTable table-hover table-condensed">
+            <thead>
+                <tr role="row">
+                    @if (!ViewData.ContainsKey("AppDivision")){
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 106px;">Application Name</th>
+                    }
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 106px;">Program Code</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 106px;">Program Name</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 20px;">Used</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 30px;"></th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 30px;">Role</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 30px;">Operation</th>
+                    <th class="header" role="columnheader" tabindex="0" aria-controls="ProgramTable" rowspan="1" colspan="1" style="width: 40px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null)
+                {
+                    <tr><td colspan="4"><p>데이터가 없습니다.</p></td></tr>
+                }
+                else
+                {
+                    foreach (Formular.BaaS.Domain.OperationInProgram oPitem in Model)
+                    {
+                        Program item = oPitem.ProgramInfo;
+                    <tr>
+                        @if (!ViewData.ContainsKey("AppDivision")){
+                        <td>@Html.DisplayFor(program => item.AppDivision.Name)</td>
+                        }
+                        <td>@Html.DisplayFor(program => item.Code)</td>
+                        <td>@Html.DisplayFor(program => item.Name)</td>
+                        <td>@Html.DisplayFor(program => item.IsUsed)</td>
+                        <td>@(item.HasMobileProgram() ? "Mobile" : "") @(item.HasWebProgram() ? "Web" : "")  @(item.HasWinProgram() ? "Win" : "")</td>
+                        <td><a href="@Url.Action("Details", "BaaSProgram", new { id=item.Id , view="tab4" })" class="btn btn-small btn-block"><i class='icon-filter'></i> @item.Roles.Count()</a></td>
+                        <td><a href="@Url.Action("Details", "BaaSProgram", new { id=item.Id , view="tab5" })" class="btn btn-small btn-block"><i class='icon-tasks'></i> @item.Operations.Count()</a></td>
+                        <td><div class="btn-group"> @* btn-primary  btn-info  btn-danger*@
+                            <a href="@Url.Action("Edit", "BaaSProgram", new { id = item.Id })" class="btn btn-small" title="Edit" ><i class='icon-edit'></i></a>
+                        <a href="@Url.Action("Details", "BaaSProgram", new { id = item.Id })" class="btn btn-small" title="Detail" ><i class='icon-info-sign'></i></a>
+                        <a href="@Url.Action("Delete", "BaaSProgram", new { id = item.Id })" class="btn btn-small" title="Delete"><i class='icon-trash'></i></a>
+                        </div></td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>

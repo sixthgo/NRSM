@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Formular.BaaS.Domain.Operation>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+@section HeadCss
+{
+    @Styles.Render("~/Content/plugins/dataTables/bundle")
+}
+@section SideContent
+{
+    <div class="row-fluid">
+        <div class="span12" >
+            <blockquote>
+              <p>Operation</p>
+              <small>Operation list</small>
+            </blockquote>
+            <p>
+            <a href="@Url.Action("Create")" class="btn btn-small" ><i class="icon-plus"></i> Create</a>
+            </p>
+            @using(Html.BeginForm()) {
+                @Html.DropDownList("id",
+                           new SelectList(ViewBag.AppDivisions,
+                                             "id",
+                                             "Name"
+                                            ),
+                           "-- Select State --", new { @class="btn-block" })
+                <button type="submit" class="btn btn-small pull-right" ><i class="icon-search"></i> Search</button>
+            
+            }
+            @if ( ViewBag.AppDidiviso != null ) {
+                @Html.Partial("../BaaSApplication/_LeftInfo", ViewBag.AppDivision as AppDivision )
+            }
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/plugins/dataTables/bundle")
+    <script type="text/javascript" language="javascript">
+        $(function () {
+           
+        });
+    </script>
+}
+
+<div class="row-fluid">
+    <div class="span12" >
+        @Html.Partial("../BaaSOperation/_Table" , Model )
+    </div>
+</div>

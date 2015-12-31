@@ -1,0 +1,126 @@
+﻿<ion-view>
+    <ion-nav-title>
+        {{word.title}}
+    </ion-nav-title>
+    <ion-content class="has-footer">
+        <div id="container" class="orange">
+            <ul id="headlineA" class="list">
+                <li>
+                    <p class="left">구매조직</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.ekOrg" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">구매그룹</p>
+                    <p class="right">
+                        <div class="list" style="margin-bottom: 0px; margin-right: 0px;">
+                            <label class="orderProposalItem item-input item-select">
+                                <div class="input-label" style="width:50%;">&nbsp;</div>
+                                <select 
+                                        ng-model="orderProposal.selectedPurchaseGroup" ng-change="OnChange()"
+                                        ng-options="option.purgName for option in orderProposal.purchaseGroups track by option.purgCode">
+                                </select>
+                            </label>
+                         </div>              
+                    </p>
+                </li>
+                <li>
+                    <p class="left">지점</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" maxlength="6" ng-model="orderProposal.werks" />
+                    </p>
+                </li>
+                <li>
+                    <p class="left">Scan일자</p>
+                    <p class="right">                        
+                        <span class="date" ng-hide="!orderProposal.showIPadCalendarButton">
+                            <ionic-datepicker id="iPadCalendar" input-obj="base.datepickerObject" ng-click="base.ClickIPadCalendar()">
+                                <span>{{orderProposal.buDat}}</span>
+                            </ionic-datepicker>
+                        </span>
+                        <span ng-click="OpenDatePick()" ng-hide="!orderProposal.showCalendarButton">{{orderProposal.buDat}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p class="left">사원 번호</p>
+                    <p class="right">
+                        <input type="text" placeholder="입력" ng-model="orderProposal.userCode" />
+                    </p>
+                </li>
+            </ul>
+            <div id="headlineB" class="row">
+                <div class="col col50 btn_border btn_search btn_gray" ng-click="Search()" style="margin-right: 5px;">
+                    <a>조회</a>
+                </div>
+                <div class="col col50 btn_border btn_search btn_color" ng-click="Save()" style="margin-right: 5px;">
+                    <a>저장</a>
+                </div>                
+            </div>
+            <!--구매처명    
+                상품코드    상품명     
+                    발주수량    입수      납품예정일   구매단가    재고수량-->            
+            <!-- (조합)   
+                matnr   maktx
+                menge   umrez   lfdat   netpr   labst
+                -->
+            <div id="orderProposalTableHeader" class="list subTableHeader" ng-style="{'width': currentWidth}" style="margin-bottom: 0px;">
+                <div class="row">
+                    <div class="col" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '구매처명')">구매처명</div>                
+                </div>
+                <div class="row">
+                    <div class="col col-40" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '상품코드')">상품코드</div>
+                    <div class="col col-60" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '상품명')">상품명</div>
+                </div>
+                <div class="row">
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '발주수량')">발주수량</div>
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '입수')">입수</div>
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '납품예정일')">납품예정일</div>
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '구매단가')">구매단가</div>
+                    <div class="col col-20" style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;" on-hold="ShowPopover($event, '재고수량')">재고수량</div>
+                </div>
+            </div>
+
+            <!--<ion-scroll direction="y" id="scrollA_orderProposal" ng-style="{'height':scrollHeight, 'width': currentWidth}">-->
+                <ion-list can-swipe="true" delegate-handle="orderProposalList">
+                    <ion-item class="orderProposalItem" ng-repeat="item in orderProposal.result track by $index" style="width: 100%; padding-left: 0px; padding-right:0px;">
+                        <div class="row">
+                            <span class="col col-80" style="padding-left: 0px;">
+                                <!--<label class="orderProposalItem item-input item-select" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="input-label" style="width:0px; padding-left: 0px; padding-right: 0px;">&nbsp;</div>
+                                    <select ng-init="item.selectedMatnr = item.selectedMatnr || item.matnrlist[0]"
+                                            ng-model="item.selectedMatnr"
+                                            ng-options="o.lifnR_N for o in item.matnrlist track by o.lifnr"
+                                            style="padding-right: 0px"
+                                            ng-change="OnChange(item)"></select>
+                                </label>-->
+                                <label class="orderProposalItem item-input item-select" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="input-label" style="width:0px; padding-left: 0px; padding-right: 0px;">&nbsp;</div>
+                                    <select ng-init="OnInitItem(item)"
+                                            ng-model="item.selectedMatnr"
+                                            ng-options="o.lifnR_N for o in item.matnrlist track by o.lifnr"
+                                            style="padding-right: 0px"
+                                            ng-change="OnChange(item)"></select>
+                                </label>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col col-40" style="vertical-align:middle; white-space:normal;">{{item.matnr}}</span>
+                            <span class="col col-60" style="vertical-align:middle; white-space:normal;">{{item.maktx}}</span>
+                        </div>
+                        <div class="row">
+                            <!--<span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.menge}}</span>-->
+                            <span class="col col-20"><input type="text" ng-model="item.menge" /></span>
+                            <span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.umrez}}</span>
+                            <span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.lfdat | date:'MMdd'}}</span>
+                            <span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.netpr}}</span>
+                            <span class="col col-20" style="vertical-align:middle; white-space:normal;">{{item.labst}}</span>
+                        </div>
+
+                        <ion-option-button class="button-assertive" ng-click="RemoveItem(item)">DELETE</ion-option-button>
+                    </ion-item>
+                </ion-list>
+            <!--</ion-scroll>-->
+        </div>
+    </ion-content>
+</ion-view>

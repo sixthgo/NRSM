@@ -1,0 +1,51 @@
+﻿@model Formular.BaaS.Domain.Server
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/BaaSMng/Views/Shared/_2ColLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Server</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IPAddress)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IPAddress)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StoragePath)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StoragePath)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsStorageServer)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsStorageServer)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreateDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,226 @@
+﻿controllerModule.controller('POGPopupCtrl', function ($scope, $state, $stateParams, $q, $timeout, $ionicLoading, $sce, $ionicScrollDelegate, PlantService, UtilService, POGService) {
+
+    $scope.POGPopupData = {};
+    $scope.POGPopupData.firstCategories = [];
+    $scope.POGPopupData.thirdCategories = [];
+    $scope.POGPopupData.columns = [];
+
+    $scope.firstCategoryHtml = '';
+
+    $scope.Init = function () {
+        $scope.debug.Log('POGPopupCtrl.Init()');
+
+        $scope.SetLocalWord();
+
+        $scope.InitData();
+    }
+
+    $scope.SetLocalWord = function () {
+        $scope.word.POGPop = {};
+    }
+
+    $scope.InitData = function () {
+        console.log('$scope.InitData()');
+
+        $scope.debug.Log('$scope.POGPopup.selectedFirstCategoryTemp=' + $scope.POGPopup.selectedFirstCategoryTemp);
+        $scope.debug.Log('$scope.POGPopup.selectedThirdCategoryTemp=' + $scope.POGPopup.selectedThirdCategoryTemp);
+        $scope.debug.Log('$scope.POGPopup.selectedColumnTemp=' + $scope.POGPopup.selectedColumnTemp);
+
+        $scope.GetFirstCategory();
+    }
+
+    $scope.GetFirstCategory = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        POGService.query({
+            plantCode: $scope.storePopup.selectedStore.plantCode
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.debug.Log('GetFirstCategory.get().success');
+
+            $scope.ClearPOGPopupData();
+
+            $scope.POGPopupData.firstCategories = data;
+            $scope.GetFirstCategoryHtml();
+
+            if ($scope.POGPopup.selectedFirstCategoryTemp != ''
+                    && $scope.POGPopup.selectedThirdCategoryTemp != ''
+                    && $scope.POGPopup.selectedColumnTemp != '') {
+                $scope.GetThirdCategory();
+            }
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+
+        });
+    }
+
+    $scope.TrimLeftUnderbar = function (val) {
+        var idx = -1;
+        var result = val;
+
+        idx = val.indexOf('_');
+        if (idx > -1) {
+            result = val.substring(idx + 1);
+        }
+
+        return result;
+    }
+
+    $scope.GetFirstCategoryHtml = function () {
+        $scope.debug.Log('GetFirstCategoryHtml() :: START');
+
+        var items = $scope.POGPopupData.firstCategories;
+
+        if (items == null)
+            return;
+        if (items.length == 0)
+            return;
+
+        var temp = '';
+
+        //var test = '01_공산식품'; //var test = '01_공산_식품';  //var idx = test.indexOf('_');
+        //if (idx > -1) test = test.substring(idx + 1);
+        var idx = -1;
+        var underbarTrimedText = '';
+
+        for (var i = 0; i < items.length; i++) {
+            ////idx = -1;
+            ////underbarTrimedText = items[i].fircg;
+            ////idx = underbarTrimedText.indexOf('_');
+            ////if (idx > -1) underbarTrimedText = underbarTrimedText.substring(idx + 1);
+            underbarTrimedText = '';
+            underbarTrimedText = $scope.TrimLeftUnderbar(items[i].fircg);
+
+            if (i % 3 == 0) {
+                temp += '<div class="row">';
+            }
+
+            temp += '    <div class="col">';
+            temp += '       <label class="item item-radio" ng-click="OnFirstCategoryChange()">'; //   on-hold="ShowPopover($event, \'' + underbarTrimedText + '\')"
+            temp += '           <input type="radio" name="POGPopupRadioGroup" ng-model="POGPopup.selectedFirstCategoryTemp" value="' + items[i].fircg + '" />';
+            temp += '           <div class="item-content" style="height:40px;padding-top:10px;padding-left:5px;padding-right:2px;width:85%">' + underbarTrimedText + '</div>';
+            temp += '           <i class="radio-icon ion-checkmark" style="height:40px;padding-top:0px;padding-right:2px;"></i>';
+            temp += '        </label>';
+            temp += '    </div>';
+
+            if (i == items.length - 1) {
+                temp += '</div>';
+            }
+            else if ((i + 1) % 3 == 0 && i > 0) {
+                temp += '</div>';
+            }
+        }
+        //$scope.debug.Log('GetFirstCategoryHtml() :: ' + temp);
+        
+        ////return temp;
+        $scope.firstCategoryHtml = $sce.trustAsHtml(temp);
+    }
+
+    ////$scope.$watch("POGPopup.selectedFirstCategoryTemp", function () {
+    ////    $scope.debug.Log('WATCH :: POGPopup.selectedFirstCategoryTemp');
+
+    ////    if ($scope.POGPopup.selectedFirstCategoryTemp != '')
+    ////        $scope.GetThirdCategory();
+    ////});
+
+    $scope.OnFirstCategoryChange = function () {
+        $scope.GetThirdCategory();
+    }
+
+    $scope.GetThirdCategory = function () {
+
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        POGService.query({
+            plantCode: $scope.storePopup.selectedStore.plantCode
+            , firstCategory: $scope.POGPopup.selectedFirstCategoryTemp
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.debug.Log('GetThirdCategory.get().success');
+
+            $scope.POGPopupData.columns = [];
+            $scope.POGPopupData.thirdCategories = angular.copy(data);
+
+            if( $scope.POGPopup.selectedThirdCategoryTemp != '') {
+                $scope.GetColumn();
+            }
+
+            $timeout(SetThirdCategoryScroll, 500);
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+
+        });
+    }
+
+    $scope.OnThirdCategoryChange = function () {
+
+        $scope.POGPopup.selectedColumnTemp = '';
+        $scope.GetColumn();
+
+        $scope.POGPopup.thirdCategoryScrollTopTemp = $ionicScrollDelegate.$getByHandle('scroll_thirdCategory').getScrollPosition().top;
+    }
+
+    $scope.GetColumn = function () {
+        $ionicLoading.show({
+            noBackdrop: true
+        });
+
+        POGService.query({
+            plantCode: $scope.storePopup.selectedStore.plantCode
+            , firstCategory: $scope.POGPopup.selectedFirstCategoryTemp
+            , thirdCategory: $scope.POGPopup.selectedThirdCategoryTemp
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.debug.Log('GetColumn.get().success');
+
+            $scope.POGPopupData.columns = data;
+
+            $timeout(SetColumnScroll, 500);
+
+        }, function (error) {
+            $ionicLoading.hide();
+            $scope.debug.Log(error);
+
+        });
+    }
+
+    $scope.OnColumnChange = function () {
+        $scope.POGPopup.columnScrollTopTemp = $ionicScrollDelegate.$getByHandle('scroll_column').getScrollPosition().top;
+    }
+
+    $scope.ClearPOGPopupData = function () {
+        $scope.POGPopupData.thirdCategories = [];
+        $scope.POGPopupData.columns = [];
+    }
+
+    var SetThirdCategoryScroll = function () {
+        if ($scope.POGPopup.selectedThirdCategoryTemp == '')
+            $ionicScrollDelegate.$getByHandle('scroll_thirdCategory').scrollTop(true);
+        else {
+            if ($scope.thirdCategoryScrollTop != 0) {
+                $ionicScrollDelegate.$getByHandle('scroll_thirdCategory').scrollTo(0, $scope.POGPopup.thirdCategoryScrollTop, true);
+            }
+        }
+    }
+
+    var SetColumnScroll = function () {
+        if ($scope.POGPopup.selectedColumnTemp == '')
+            $ionicScrollDelegate.$getByHandle('scroll_column').scrollTop(true);
+        else {
+            if ($scope.columnScrollPosition != 0) {
+                $ionicScrollDelegate.$getByHandle('scroll_column').scrollTo(0, $scope.POGPopup.columnScrollTop, true);
+            }
+        }
+    }
+
+    $scope.Init();
+});

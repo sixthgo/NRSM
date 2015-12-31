@@ -1,0 +1,190 @@
+﻿
+controllerModule.controller('FloorPlanAccrueSalesPopupCtrl', function ($scope, $stateParams, $ionicLoading, StoreFloorService) {
+
+    $scope.storeNfloors = [];
+
+    $scope.Init = function () {
+        $scope.SetLocalWord();
+        $scope.debug.Log('FloorPlanSalesPopupCtrl.Init();');
+
+        $scope.GetSearchConditions();
+
+        angular.copy($scope.data, $scope.copied);
+
+        $scope.date = {};
+        var date = new Date();
+        $scope.date.nowYear = date.getFullYear();
+        $scope.date.nowMonth = date.getMonth() + 1;
+        $scope.date.nowDay = date.getDate();
+
+        $scope.SetDisabledMonth([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], false);
+        $scope.InitMonthButton();
+
+    }
+
+    $scope.SetDisabledMonth = function (arr, val) {
+
+        for (var i = 0; i < arr.length; i++) {
+            $scope.popup.disabledMonth[arr[i]] = val;
+        }
+    }
+
+    $scope.InitMonthButton = function () {
+        if ($scope.date.nowMonth == 1) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 2) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 3) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([2, 3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 4) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([3, 4, 5, 6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([4, 5, 6, 7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 5) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([4, 5, 6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([5, 6, 7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 6) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([5, 6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([6, 7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 7) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([6, 7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([7, 8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 8) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([7, 8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([8, 9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 9) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([8, 9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([9, 10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 10) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([9, 10, 11], true);
+            else
+                $scope.SetDisabledMonth([10, 11], true);
+        }
+        else if ($scope.date.nowMonth == 11) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([10, 11], true);
+            else
+                $scope.SetDisabledMonth([11], true);
+        }
+        else if ($scope.date.nowMonth == 12) {
+            if ($scope.date.nowDay == 1)
+                $scope.SetDisabledMonth([11], true);
+        }
+    }
+
+
+    $scope.SetLocalWord = function () {
+        //$scope.word.title = 'FloorPlanSalesPopupCtrl';
+    }
+
+    $scope.GetSearchConditions = function () {
+
+        var werks = null;
+        var floor = null;
+
+        if ($scope.popup.werks.sectionCode == null)
+            werks = "-";
+        else
+            werks = $scope.popup.werks.sectionCode;
+
+        if ($scope.popup.floor.code == null)
+            floor = "-";
+        else
+            floor = $scope.popup.floor.code;
+
+        $ionicLoading.show({ noBackdrop: true });
+
+        StoreFloorService.query({
+            menu: '도면기준 실적조회',
+            werks: werks,
+            floor: floor,
+            loginId: $scope.user.loginId
+        }, function (data) {
+            $ionicLoading.hide();
+            $scope.storeNfloors = data;
+
+            if ($scope.popup.selectedRequest.storeNfloor != null) {
+                for (var i = 0; i < $scope.storeNfloors.length; i++) {
+                    if ($scope.popup.selectedRequest.storeNfloor.sectionCode == $scope.storeNfloors[i].sectionCode) {
+                        $scope.popup.selectedRequest.storeNfloor = $scope.storeNfloors[i];
+
+                        for (var j = 0; j < $scope.popup.selectedRequest.storeNfloor.floors.length; j++) {
+                            if ($scope.popup.selectedRequest.floor.code == $scope.popup.selectedRequest.storeNfloor.floors[j].code) {
+                                $scope.popup.selectedRequest.floor = $scope.popup.selectedRequest.storeNfloor.floors[j];
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }, function (error) {
+            $ionicLoading.hide();
+            console.log(error);
+        });
+    };
+
+    $scope.Init();
+
+    $scope.SelectStoreAction = function () {
+        console.log('SelectStoreAction()');
+
+        if ($scope.popup.selectedRequest.storeNfloor) {
+            $scope.popup.werks.sectionCode = $scope.popup.selectedRequest.storeNfloor.sectionCode;
+            $scope.popup.werks.sectionName = $scope.popup.selectedRequest.storeNfloor.sectionName;
+        }
+    };
+
+    $scope.SelectFloorAction = function () {
+
+        if ($scope.popup.selectedRequest.floor) {
+            $scope.popup.floor.code = $scope.popup.selectedRequest.floor.code;
+            $scope.popup.floor.name = $scope.popup.selectedRequest.floor.name;
+        }
+    };
+
+    $scope.changeCheckStatuAreaTypeRadioGroup = function () {
+        $("input[name='areaTypeRadioGroup']:checked ~ .radio-icon").css("visibility", "visible")
+        $("input[name='areaTypeRadioGroup']:not(:checked) ~ .radio-icon").css("visibility", "hidden")
+    }
+
+    $scope.changeCheckStatuSalesMonthRadioGroup = function () {
+        $("input[name='salesMonthRadioGroup']:checked ~ .radio-icon").css("visibility", "visible")
+        $("input[name='salesMonthRadioGroup']:not(:checked) ~ .radio-icon").css("visibility", "hidden")
+    }
+
+    $scope.changeCheckStatuSalesTypeRadioGroup = function () {
+        $("input[name='salesTypeRadioGroup']:checked ~ .radio-icon").css("visibility", "visible")
+        $("input[name='salesTypeRadioGroup']:not(:checked) ~ .radio-icon").css("visibility", "hidden")
+    }
+});

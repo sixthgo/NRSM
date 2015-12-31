@@ -1,0 +1,58 @@
+﻿<div ng-controller="CuPopupCtrl">
+    <!--<h3>현재선택한 지점</h3>-->
+    <ion-content onscroll="false">
+        <div class="row">
+            <div class="col col50">
+                <ion-scroll direction="y" class="popup-scroll">
+                    <!--<ul class="list">
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+            <li class="item">AAAAAAAAAAAa</li>
+        </ul>-->
+                    <div class="list">
+                        <ion-radio ng-repeat="item in data.stores"
+                                   ng-value="item.plantName"
+                                   ng-change="OnChange(item)"
+                                   ng-model="popup.selectedStoreTemp.plantCode">
+                            {{ item.plantName }}
+                        </ion-radio>
+                    </div>
+                </ion-scroll>
+            </div>
+            <div class="col col50">
+                <ion-scroll direction="y" class="popup-scroll">
+                    <div class="list">
+                        <ion-radio ng-repeat="item in data.stores"
+                                   ng-value="item.plantName"
+                                   ng-change="OnChange(item)"
+                                   ng-model="popup.selectedStoreTemp.plantCode">
+                            {{ item.plantName }}
+                        </ion-radio>
+                        <!--<ion-list>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+                <ion-item>bbbbbbbbbbbb</ion-item>
+
+            </ion-list>-->
+                    </div>
+                </ion-scroll>
+            </div>
+        </div>
+    </ion-content>
+</div>
